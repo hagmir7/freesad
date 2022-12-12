@@ -1,0 +1,25 @@
+{% load i18n %}
+<div class="mt-3 mx-xl-6 mx-lg-6">
+<footer class=" pt-0 mx-xl-1 mx-lg-1 mx-md-1 d-flex w-100 justify-content-center">
+    <div class=" align-items-center justify-content-lg-between w-100">
+      <div class="w-100">
+        <div class="copyright text-center  text-lg-right  text-muted h3 sans">
+          &copy; 2021 Agmir Hassan
+        </div>
+      </div>
+      <div class=" w-100 ">
+        <ul class="d-flex justify-content-center ">
+          <li class="nav-item ">
+            <a href="{% url 'help' %}" class="nav-link lang " target="_blank">{% trans 'Help' %}</a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'about' %}" class="nav-link lang" target="_blank">{% trans 'About us' %}</a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'job' %}" class="nav-link lang" target="_blank">{% trans 'FreeWsad Jobs' %}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+</div>

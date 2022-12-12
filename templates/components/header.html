@@ -1,0 +1,47 @@
+{% load static %}<nav class="navbar navbar-expand-lg border-bottom mb-2 nav bg-white p-1">
+    <div class="container-fluid">
+      {% if not title %}<h1 class="d-none">Freedaz - The best platform for education</h1>{% endif %}
+      <a class="text-muted logo-text" href="/"><img src="{% static 'img/freedaz-1.png' %}" alt="freedaz" width="100px" height="auto"></a>
+      <a href="/menu" class="navbar-toggler fs-1"> &#x2261; </a>
+      <div class="collapse navbar-collapse mx-4" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link text-muted fs-6"  href="/books">Books</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-muted fs-6"  href="/lable/python">Python</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-muted fs-6"  href="/lable/JavaScript">JavaScript</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-muted fs-6"  href="/lable/PHP">PHP</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-muted fs-6"  href="/lable/HTML">HTML</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-muted fs-6"  href="/lable/CSS">CSS</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-muted fs-6"  href="/lable/Django">Django</a>
+          </li>
+          {% if user.is_superuser %}
+          <li class="nav-item">
+            <a class="nav-link text-muted fs-6" href="/post/create">Create post</a>
+          </li>
+          {% endif %}
+        </ul>
+        <form class="d-flex" action="{% url 'search' %}" method="POST">
+          {% csrf_token %}
+
+          <div class="bg-white border rounded-pill d-flex me-2">
+            <input type="text" class="form-control border-0 rounded-pill ps-3" name="search" type="search" placeholder="Search">
+            <button class="btn btn-warning my-1 me-1 btn-sm rounded-pill">
+             Search
+            </button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </nav>

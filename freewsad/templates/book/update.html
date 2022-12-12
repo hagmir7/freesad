@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6 card shadow-sm">
+            <h1 class="h4 my-3">Upate Book</h1>
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert  m-0 alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            <form method="POST" enctype="multipart/form-data" class="mb-3">
+                {% csrf_token %}
+
+                <input type="text" class="form-control form-control-sm mt-3" value="{{form.name.value}}" placeholder="Name..." name="name" maxlength="50" required id="id_name">
+                <input type="text" class="form-control form-control-sm mt-3" value="{{form.author.value}}" placeholder="Author..." name="author" maxlength="50" id="id_author">
+                <select name="category" required class="form-select mt-2 form-select-sm" id="id_category">
+                    <option value="" selected>---- Select Category -----</option>
+                    {% for item in category %}
+                    {% if item.id == form.category.value %}
+                    <option value="{{item.id}}" selected>{{item.name}}</option>
+                    {% else %}
+                    <option value="{{item.id}}" >{{item.name}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <select class="form-control mt-3" name="language" required id="id_language">
+                    <option value="" selected>-- Select language --</option>
+                    {% for lang in language %}
+                    <option value="{{lang.id}}">{{lang.name}}</option>
+                    {% endfor %}
+                </select>
+                <input type="number" placeholder="Page number..." value="{{form.pages.value}}" class="form-control form-control-sm mt-2" name="pages" id="id_pages">
+                <select name="book_type" id="id_book_type" class='form-select mt-2 form-select-sm'>
+                    <option value="">--- Select Book Type ---</option>
+                    {% for key , value in file_type.items %}
+                    {% if key == form.book_type.value %}
+                    <option value="{{key}}" selected>{{value}}</option>
+                    {% else %}
+                    <option value="{{key}}">{{value}}</option>
+                    {% endif %}
+                    {% endfor %}
+                </select>
+                <label for="id_file" class="mt-2">File</label><br>
+                <span>Current file <a href="{{form.file.value.url}}" target="_blank">{{form.image.value.url|truncatechars:40}}</a></span>
+                <input type="file" class="form-control form-control-sm" name="file" id="id_file">
+                <label for="id_image" class="mt-2">Book Image</label><br>
+                <span>Current image <a href="{{form.image.value.url}}" target="_blank">{{form.image.value.url|truncatechars:40}}</a></span>
+                <input type="file" class="form-control form-control-sm" name="image" accept="image/*" id="id_image">
+                <textarea class="form-control form-control-sm my-2" placeholder="Description..." name="description" cols="40" rows="5" maxlength="300" id="id_description">{{form.description.value}}</textarea>
+                <textarea class="form-control form-control-sm mt-2" placeholder="Body..." name="body" cols="40" rows="5" id="id_body" hidden="true">{{form.body.value}}</textarea>
+                <div class="summernote-div" cols="40" rows="10" width="100%" height="480">
+                    <iframe id="id_body_iframe" src="/summernote/editor/id_body/" frameborder="0" width="100%"
+                        height="480"></iframe>
+                </div>
+                <input type="text" placeholder="Link..." value="{{form.link.value}}" class="form-control form-control-sm mt-3" name="link" maxlength="5000" id="id_link">
+                <input type="text" placeholder="Tags.." value="{{form.tags.value}}" class="form-control form-control-sm mt-3" name="tags" maxlength="500" id="id_tags">
+                <button class="mt-2 btn btn-success w-100">Create Book</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

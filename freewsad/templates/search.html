@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container pt-5">
+    {% if q %}
+    <h1>Posts containing "{{ q }}"
+        {% if c %}
+        In category "{{ c }}"
+        {% endif %}
+    </h1>
+    <p>
+        {% with results.count as total_results %}
+        Found {{ total_results }} result{{ total_results|pluralize }}
+        {% endwith %}
+    </p>
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row">
+                {% for post in results %}
+                <div class="col-md-4">
+                    <a href="{% url 'post' post.slug %}">
+                        <div class="img-content">
+                            {% if post.image %}
+                            <img class="card-img-top m-0 p-0 border rounded lazy" data-srcset="{{post.image.url}}" width="100%" height="auto" style="object-fit: contain;" alt="{{post.title}}"
+                             src="{% static 'img/loading.png' %}">
+                            {% elif post.imageURL and post.imageURL != "None" %}
+                            <img class="card-img-top m-0 p-0 border rounded lazy " data-srcset="{{post.imageURL}}" width="100%" height="auto" style="object-fit: contain;" alt="{{post.title}}" src="{% static 'img/loading.png' %}">
+                            {% else %}
+                            <div class="embed-responsive border rounded d-flex align-items-center" style="height: 200px;">
+                                <div class="h3 text-black text-center m-auto">{{ post.title }}</div>
+                            </div>
+                            {% endif %}
+                        </div> 
+                    </a>
+                </div>
+                {% empty %}
+                <p>There are no results for your query.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <p><a href="{% url 'blog:post_search' %}" class="btn btn-primary" role="button" aria-disabled="true">New
+            Search</a>
+    </p>
+    {% else %}
+    <h1>Search for posts</h1>
+    <form method="get">
+        {{ form.as_p }}
+        <input class="btn btn-primary my-1" type="submit" value="Search">
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

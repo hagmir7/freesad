@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="pb-5 px-3 w-100 m-auto ">
+            <div class="my-3">
+                <div class="text-center">
+                    <img src="{% static 'svg/check.svg'%}" alt="Success" width="60px">
+                </div>
+                <h2 class="text-success mt-2 text-center" > {% trans 'The operation succeeded, the password was reset' %}</h2>
+                <p class="mb-3 text-center">{% trans 'Your password has been successfully changed. Log in now.' %}</p>
+               <div class="text-center">
+                {% if user.is_authenticated %}
+                <a class="btn-success btn text-white" href="{% url 'logout' %}">{% trans 'Log out' %}</a>
+                {% else %}
+                <a class="btn-primary btn" href="{% url 'login' %}">{% trans 'Log in' %}</a>
+                <a class="btn-success btn" href="{% url 'register' %}"> {% trans 'Register' %}</a>
+                {% endif %}
+               </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

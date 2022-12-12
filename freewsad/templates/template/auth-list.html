@@ -1,0 +1,66 @@
+{% extends "dash.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="d-flex justify-content-center card p-0">
+            <div class="p-2 px-3 d-flex justify-content-between">
+                <span>Templates (<strong>{{count}}</strong>)</span>
+                <span><a href="/template/create">+ New Template</a></span>
+                <span><a href="/category/create/template">+ New Category</a></span>
+            </div>
+            <table class="table p-3 mt-2">
+                {% if count > 0%}
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Created</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                {% endif %}
+                <tbody>
+                    {% for template in templates %}
+                    <tr>
+                        <th scope="row">{{template.id}}</th>
+                        <td>{{template.title|truncatechars:40}}</td>
+                        <td>{{template.category.name}}</td>
+                        <td>{{template.price}}</td>
+                        <td>{{template.date|date:"D d M Y"}}</td>
+                        <td>
+                            <a class="btn btn-sm btn-success" href="/template/update/{{template.id}}">Update</a>
+                            <a class="btn btn-sm btn-danger" href="/template/delete/{{template.id}}" onclick="return confirm('Are you sur you wnat to delete template')">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tfoot >
+                       <div class="h3 py-5 my-5 text-center">
+                        OOPS! No Template
+                       </div>
+                    </tfoot>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <nav aria-label="Page navigation example ">
+                <ul class="pagination d-flex justify-content-center">
+                    <li class="page-item ">
+                        {% if templates.has_previous %}
+                        <a href="?page={{ templates.previous_page_number }}"
+                            class="page-link rounded-pill px-5 h3 py-0">&#x2190;</a>
+                        {% endif %}
+                    </li>
+                    <li class="page-item p-0">
+                        {% if templates.has_next %}
+                        <a href="?page={{ templates.next_page_number }}"
+                            class="page-link rounded-pill px-5 h3 py-0">&#x2192;</a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock %}

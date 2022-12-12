@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+{% block style %}
+{% endblock %}
+{% block content %}
+<main class="container">
+      <!-- books -->
+      <div class="row">
+            {% for book in books %}
+            <div class="col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2 mt-2">
+                <div class="card shadow-sm overflow-hidden">
+                  <a href="/book/{{book.id}}"><img class="book-image fill" src="{{book.image.url}}" alt="{{book.name}}" width="100%" ></a>
+                </div>
+              </div>
+            {% empty %}
+            <div class="py-5 text-center">No Books</div>
+            {% endfor %}
+            <div aria-label="Page navigation example" class="mt-3">
+                <ul class="pagination d-flex justify-content-center">
+                    <li class="page-item ">
+                        {% if books.has_previous %}
+                        <a href="?page={{ books.previous_page_number }}" class="border rounded-pill py-1 px-5 h5 mx-3">&#x2190;</a>
+                        {% endif %}
+                    </li>
+                    <li class="page-item"> 
+                        {% if books.has_next %}
+                        <a href="?page={{ books.next_page_number }}" class="border rounded-pill py-1 px-5 h5 mx-3">&#x2192;</a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+      </div>
+</main>
+{% endblock %}

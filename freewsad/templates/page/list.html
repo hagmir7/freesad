@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-10 card mt-3">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Created</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for page in pages %}
+                  <tr>
+                    <th scope="row">{{page.id}}</th>
+                    <td><a href="/page/{{page.slug}}">{{page.title}}</a></td>
+                    <td>{{page.created}}</td>
+                    <td class="d-flex">
+                        <a class="btn mx-1 btn-sm btn-danger" href="/page/delete/{{page.id}}" onclick="return alert('Are you sur you want to delete')">Delete</a>
+                        <a class="btn mx-1 btn-sm btn-success" href="/page/update/{{page.id}}">Update</a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

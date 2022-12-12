@@ -1,0 +1,117 @@
+{% extends "base.html" %}{% load static %}
+
+{% block content %}
+<div style="height: auto !important;">
+    <div class="container-lg" style="height: auto !important;">
+        <div class="row" style="height: auto !important;">
+            <div class="col-12 col-md-7 col-lg-8 col-xl-8 mb-3 m-0" style="height: auto !important;">
+                <article class="blog-post" style="height: auto !important;">
+                    {% comment %}
+                    <div class="d-flex justify-content-center mb-3">
+                        <div class="card overflow-hidden w-100">
+                            <img src="{{post.image.url}}" class="w-100" alt="{{post.title}}" />
+                        </div>
+                    </div>
+                    {% endcomment %}
+                    <h1 dir="auto" class="blog-post-title h4 mt-2">{{post.title}}</h1>
+                    <p dir="auto" class="text-left h6 text-muted">At {{post.created|date:'M d, Y '}}</p>
+                    <!-- - H:i -->
+                    <div class="my-3">{{post.body|safe}}</div>
+                    {% if user.is_superuser %}
+                    <div>
+                        <a href="/post/update/{{post.id}}" class='btn btn-sm me-3 btn-outline-info'>Update</a>
+                        <a href="/post/delete/{{post.id}}"
+                            onclick="return confirm('Are you sur you want to delete Post')"
+                            class='btn btn-sm btn-outline-danger'>Delete</a>
+                    </div>
+                    <div class="d-flex justify-content-between mt-3">
+                        <a class="btn-warning btn" href="/p/{{next_post.next.slug}}">&laquo; Previous </a>
+                        <a class="btn-warning btn" href="/p/{{previous_post.pre.slug}}"> Next &raquo;</a>
+                    </div>
+                    {% endif %}
+                </article>
+            </div>
+            <div class="col-12 col-md-5 col-lg-4 col-xl-4 position-relative" style="height: auto !important;">
+                <div class="position-sticky" style="top: 10px; height: auto !important;">
+                    <div class="mb-2 rounded overflow-hidden shadow-sm">
+                        <a href="https://railway.app?referralCode=e4zbYM" target="_blank">
+                            <img src="{% static 'img/railway.png' %}" width="100%" height="auto" alt="Free Hosting" title="Railway Free hosting">
+                        </a>
+                    </div>
+                    <div class="p-2 mt-3 bg-light card shadow-sm border"><span class="fst-italic h4 p-1">Copyrights</span>
+                        <div>We respect the property rights of others, and are always careful not to infringe on their rights, so
+                            authors and publishing houses have the right to demand that an article or book download link be removed from
+                            the site. If you find an article or book of yours and do not agree to the posting of a download link, or you
+                            have a suggestion or complaint, write to us through the <a href="/contact" target="_blank">Contact Us
+                            </a>, or by e-mail at: <a href="mailto:supprot@freewsad.com" target="_blank">supprot@freewsad.com.</a>
+                        </div>
+                        <a href="/page/copyrights-sxrmt">Read More</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            {% for post in posts %}
+            <div class="col-12 col-md-6 col-lg-4 mb-3">
+                <a href="{% url 'post' post.slug %}">
+                    <div class="img-content">
+                     {% if post.image %}
+                     <img class="card-img-top m-0 p-0 border rounded lazy" width="100%" height="auto" style="object-fit: contain;" alt="{{post.title}}"
+                         src="{{post.image.url}}">
+                     {% elif post.imageURL and post.imageURL != "None" %}
+                     <img class="card-img-top m-0 p-0 border rounded lazy " data-srcset="{{post.imageURL}}" width="100%" height="auto" style="object-fit: contain;" alt="{{post.title}}" src="{% static 'img/loading.png' %}">
+                     {% else %}
+                     <div class="embed-responsive border rounded d-flex align-items-center" style="height: 200px;">
+                         <div class="h3 text-black text-center m-auto">{{ post.title }}</div>
+                     </div>
+                     {% endif %}
+                    </div>
+                 </a>
+                <div class="card-body m-0 p-0 mt-2">
+                    <a class=" " href="{% url 'post' post.slug %}">
+                        <div class="card-title h5 my-0 py-0 text-black">{{post.title}}</div>
+                    </a>
+                    <p class="card-text">
+                        <small class="text-muted">
+                            <span class="mr-2 h6">{{post.created|date:'M d, Y - H:i'}}</span>
+                        </small>
+                    </p>
+                </div>
+            </div>
+            {% empty %}
+            <div class="h3 py-5 my-5 text-center">
+                OOPS! No Post ({{title}})
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script>
+    var card = document.querySelectorAll('.embed-responsive');
+    var colors = [
+        'linear-gradient(180deg,#f44881,#ec454f)',
+        'linear-gradient(0deg,#f19a1a,#ffc73c)',
+        'linear-gradient(180deg,#21c8f6,#637bff)',
+        'linear-gradient(180deg,#6edcc4,#1aab8b)',
+        'linear-gradient(0deg,#8b60ed,#b372bd)',
+        'linear-gradient(180deg,#21c8f6,#637bff)',
+        'linear-gradient(0deg,#f19a1a,#ffc73c)',
+        'linear-gradient(180deg,#6edcc4,#1aab8b)',
+        'linear-gradient(180deg,#f44881,#ec454f)',
+        'linear-gradient(180deg,#f44881,#ec454f)',
+        'linear-gradient(0deg,#f19a1a,#ffc73c)',
+        'linear-gradient(180deg,#21c8f6,#637bff)',
+        'linear-gradient(180deg,#6edcc4,#1aab8b)',
+        'linear-gradient(0deg,#8b60ed,#b372bd)',
+
+    ];
+
+    for (var i = 0; i < card.length; i++) {
+        card[i].style.background = colors[i]
+
+    }
+
+
+</script>
+{% endblock %}

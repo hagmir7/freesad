@@ -1,0 +1,116 @@
+{% load static%}{% load i18n %}
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>{% if title %} {{title|slice:'60'}} {% else %} Freedaz - The best platform for education {% endif %}</title>
+  <!--  Social Tags-->
+  <meta name="keywords" content="{{tags}} freedaz, news, books, programing,python, javascript, c##, djanog, html,css">
+  <meta name="description" content="{% if description %}{{description|slice:'158'}}{% else %}{% trans 'You can enjoy Books and Bopics, Courses you love and download the original content, and share it all with your friends, and the whole world on freedaz.' %} {% endif %}">
+  <!-- Schema.org markup for Google+ -->
+  <meta itemprop="name" content="{% if title %} {{title|slice:'60'}} {% else %} {% trans 'Freedaz - The best website for Education.' %} {% endif %}">
+  <meta itemprop="description" content="{% if description %}{{description|slice:'158'}}{% else %}{% trans 'You can enjoy Books and Bopics, Courses you love and download the original content, and share it all with your friends, and the whole world on freedaz.' %} {% endif %}">
+  <meta itemprop="image" content="{% if image %}{{image.url}}{% else %}{% static 'img/freedaz.webp' %}{% endif %}">
+  <meta property="og:image" content="{% if image %}{{image.url}}{% else %}{% static 'img/freedaz.webp' %}{% endif %}" />
+  <!-- Twitter Card data -->
+  <meta name="twitter:site" content="@freedaz">
+  <meta name="twitter:title" content="{% if title %} {{title|slice:'60'}} {% else %} {% trans 'Freedaz - The best website for Education' %} {% endif %}">
+  <meta name="twitter:description" content="{% if description %}{{description|slice:'158'}}{% else %}{% trans 'You can enjoy Books and Bopics, Courses you love and download the original content, and share it all with your friends, and the whole world on freedaz.' %} {% endif %}">
+  <meta name="twitter:creator" content="@freedaz">
+  <meta name="twitter:image" content="{% if image %}{{image.url}}{% else %}{% static 'img/freedaz.webp' %}{% endif %}">
+  <!-- Open Graph data -->
+  <meta property="og:title" content="{% if title %} {{title|slice:'60'}} {% else %} {% trans 'Freedaz - The best website for Education' %} {% endif %}" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://www.freedaz.com{{ request.path }}" />
+  <meta property="og:image"
+    content="{% if image %}{{image.url}}{% else %}{% static 'img/freedaz.webp' %}{% endif %}" />
+  <meta property="og:description"
+    content="{% if description %}{{description|slice:'158'}}{% else %}{% trans 'You can enjoy Books and Bopics, Courses you love and download the original content, and share it all with your friends, and the whole world on freedaz.' %} {% endif %}" />
+  <meta property="og:site_name" content="freedaz" />
+  <meta name="author" content="www.freedaz.com">
+  <link rel='canonical' href='{{ request.path }}' />
+  <!-- theme -->
+  <meta name="theme-color" content="#ff914dfc" />
+  <!-- Favicon -->
+  <link rel="icon" href="{% static 'img/icon.png' %}" type="image/png">
+  {% block style %}{% endblock %}
+  <!-- Bootstrap CSS and Style -->
+  {% if LANGUAGE_CODE == 'ar' %}
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  {% else %}
+  <!-- CSS only -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+  {% endif %}
+  <!-- Google search console freedaz -->
+  <meta name="google-site-verification" content="bqCihIwpLM99nwLxh9mZZYTY7x0rbeXPgbjwM98i_bw" />
+  <!-- Goolge adsense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6043226569102012" crossorigin="anonymous"></script>
+</head>
+<style>
+  
+  u-release img , iframe, .u-pullSides1 img{
+    width: 100%!important;
+    height: 300px;
+  }
+  jodit{
+    width: 100%!important;
+    height: auto!important;
+  }
+
+  iframe{
+    width: 100%!important;
+    height: auto!important;
+  }
+
+  .u-pullSides1 img{width: 100%!important;height: auto!important;}
+.wp-caption,.wp-caption img,p img{width:100%!important}.cover,.img-content img{object-fit:cover!important}.fill{object-fit:fill}figure img,figure video{width:100%!important;height:100%!important}a{text-decoration:none;color:#ff914d}a:hover{color:#dc5d0f}.btn-warning{background-color:#ff914d!important;color:#fff!important;border:0!important}body{font-family:source sans pro,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,helvetica neue,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol}.book-image{height:260px}.form-group,button{margin:0!important}.icon-png{font-size:27px}.card,.trns{background:0 0}.bg-colors{background:linear-gradient(180deg,rgba(255,255,255,.01),#fff 85%),radial-gradient(ellipse at top left,rgba(13,110,253,.5),transparent 50%),radial-gradient(ellipse at top right,rgba(255,228,132,.5),transparent 50%),radial-gradient(ellipse at center right,rgba(112.520718,44.062154,249.437846,.5),transparent 50%),radial-gradient(ellipse at center left,rgba(214,51,132,.5),transparent 50%)}.code,pre{background-color:#002b36;border-radius:.375rem;color:#839496;font-family:Consolas,Courier New,monospace;font-size:13px;font-weight:500;max-height:500px;overflow:auto;padding:.5rem!important;white-space:pre}.toolbar,printing .line .content{border:none!important}iframe.note-fullscreen{position:fixed;top:0;left:0;width:100vw!important;height:100vh!important;z-index:4000}nav{box-shadow:-1px 1px 2px #ded5d5a8!important}.img-content{height:220px;width:100%}code{font-size:1em!important}.comments{font-style:italic;color:grey}p img{height:auto!important}.code-gutter,.code-output-container{display:none!important}.img-content img{height:100%;width:100%}table{width:100%}.line.highlighted.alt1,.line.highlighted.alt2{background-color:#373831!important}.line.highlighted.number{color:#38566f!important}.toolbar a,table caption{color:#d1edff!important}collapsed .toolbar,collapsed .toolbar a{color:#428bdd!important}.gutter{color:#afafaf!important}.gutter .line{border-right:3px solid #435a5f!important}.gutter .line.highlighted{background-color:#435a5f!important;color:#272822!important}collapsed{overflow:visible!important}collapsed .toolbar{background:#000!important;border:1px solid #435a5f!important}collapsed .toolbar a:hover{color:#1dc116!important}.toolbar{color:#d1edff!important;background:#435a5f!important}.toolbar a:hover{color:#8aa6c1!important}.plain,.plain a,.preprocessor{color:#f8f8f2!important}.string,.string a{color:#e6db74!important}.keyword{color:#f92672!important}.color3,.color3 a,.variable{color:#ffaa3e!important}.value{color:#ae81ff!important}.color1,.color1 a,.functions{color:#66d9ef!important}.constants{color:#e0e8ff!important}.script{font-weight:700!important;color:#b43d3d!important;background-color:none!important}.color2,.color2 a{color:#fff!important}
+</style>
+
+<script>
+  var settings_id_body = { "disableResizeEditor": false, "width": "100%", "height": 480, "lang": "en-US", "toolbar": [["style", ["style"]], ["font", ["bold", "italic", "underline", "superscript", "subscript", "strikethrough", "clear"]], ["fontname", ["fontname"]], ["fontsize", ["fontsize"]], ["color", ["color"]], ["para", ["ul", "ol", "paragraph"]], ["height", ["height"]], ["table", ["table"]], ["insert", ["link", "picture", "video", "hr"]], ["view", ["fullscreen", "codeview"]], ["help", ["help"]]], "url": { "language": "/static/summernote/lang/summernote-en-US.min.js", "upload_attachment": "/summernote/upload_attachment/" } };
+</script>
+
+<script>
+  function lazyLoader(value){
+    document.addEventListener("DOMContentLoaded", function () {
+    var lazyImages = [].slice.call(document.querySelectorAll(value));
+    if ("IntersectionObserver" in window) {
+      let lazyImageObserver = new IntersectionObserver(function (entries, observer) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            let lazyImage = entry.target;
+            if (lazyImage.hasAttribute('data-srcset')) {
+               lazyImage.src = lazyImage.getAttribute('data-srcset');
+                lazyImage.srcset = lazyImage.getAttribute('data-srcset');
+            }else{
+              lazyImage.src = lazyImage.dataset.src;
+               lazyImage.srcset = lazyImage.dataset.srcset;
+            }
+            lazyImage.classList.remove("lazy");
+            lazyImageObserver.unobserve(lazyImage);
+          }
+        });
+      });
+
+      lazyImages.forEach(function (lazyImage) {
+        lazyImageObserver.observe(lazyImage);
+      });
+    } else {
+      // Possibly fall back to event handlers here
+    }
+  });
+  }
+
+  lazyLoader("img.lazy")
+  
+
+</script>
+
+<body class="bg-light">
+  {% include "components/header.html" %}
+  {% block content %}{% endblock %}
+  {% include "components/footer.html" %}
+</body>
+</html>

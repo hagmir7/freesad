@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6 card shadow-sm">
+            <h1 class="h4 my-3">Create Template</h1>
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert  m-0 alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            <form method="POST" enctype="multipart/form-data" class="my-3">
+                {% csrf_token %}
+                <p>
+                    <input type="text" placeholder="Title..." class="form-control form-control-sm mt-2" name="title" maxlength="300" required id="id_title">
+                    <input type="number" placeholder="Price..." class="form-control form-control-sm mt-2" name="price" step="any" required id="id_price">
+                    <input type="text" name="demo" maxlength="1000" class="form-control form-control-sm mt-2" placeholder="Demo link..." required id="id_demo">
+                    <select name="category" required class="form-select form-select-sm mt-3" id="id_category">
+                        <option value="" selected>--- Select category---</option>
+                        {% for item in category %}
+                        <option value="{{item.id}}">{{item.name}}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="text" placeholder="Tags..." class="form-control form-control-sm mt-2" name="tags" maxlength="166" id="id_tags">
+                    <label for="id_tols">Tols:</label>
+                    <select name="tols" class="form-select" id="id_tols" multiple>
+                        {% for tol in tols %}
+                        <option value="{{tol.id}}">{{tol.name}}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="images">Images:</label>
+                    <input type="file" id="images" name="images" class="form-control form-control-sm mt-2" multiple required accept="image/*">
+                    <label for="id_file">File:</label>
+                    <input type="file" name="file" id="id_file" class="form-control form-control-sm mt-2" required>
+                    <label for="id_body">Body:</label>
+                    <textarea class="form-control" name="body" cols="40" rows="10" id="id_body"
+                    hidden="true"></textarea>
+                <div class="summernote-div" cols="40" rows="10" width="100%" height="480">
+                    <iframe id="id_body_iframe" src="/summernote/editor/id_body/" frameborder="0" width="100%"
+                        height="480"></iframe>
+                </div>
+                    <button class="mt-3 w-100 btn btn-success">Create Template</button>
+        </div>
+    </div>
+    {% endblock %}

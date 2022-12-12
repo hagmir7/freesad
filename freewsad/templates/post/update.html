@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-6 card shadow-sm">
+            <h1 class="h4 my-3">Update post</h1>
+            <form method="POST" enctype="multipart/form-data" class="my-3">
+                {% csrf_token %}
+                <input value="{{form.title.value}}" class="form-control mt-3" type="text" placeholder="Title"
+                    name="title" maxlength="300" id="id_title">
+                {% if form.image.value %}
+                <p class="mt-2">Current image : <a href="{{form.image.value.url}}">{{form.image.value.url|truncatechars:40}}</a></p>
+                {% endif %}
+                <input class="form-control mt-3" type="file" name="image" accept="image/*" id="id_image">
+                <select class="form-control mt-3" name="category" id="id_category">
+                    <option value="" selected>-- Select category --</option>
+                    {% for item in category %}
+                    <option value="{{item.id}}" {% if item.id == form.category.value %} selected {% endif %}>{{item.name}}
+                    </option>
+                    {% endfor %}
+                </select>
+                <select class="form-control mt-3" name="language" required id="id_language">
+                    <option value="" selected>-- Select language --</option>
+                    {% for lang in language %}
+                    <option value="{{lang.id}}">{{lang.name}}</option>
+                    {% endfor %}
+                </select>
+                <input class="form-control mt-3" value="{{form.tags.value}}" placeholder="Tags" type="text" name="tags"
+                    maxlength="1000" id="id_tags">
+                <select class="form-control mt-3" name="list" id="id_list">
+                    <option value="" selected>-- Select post list --</option>
+                    {% for item in lists %}
+                    <option value="{{item.id}}" {% if item.id == form.list.value %} selected {% endif %}>{{item.name}}
+                    </option>
+                    {% endfor %}
+                </select>
+                <div class="mt-3">
+                    <input class="form-check-input" type="checkbox" name="is_public" id="id_is_public" 
+                    {% if form.is_public.value %} checked {% endif %}>
+                    <label for="is_public">Make post public</label>
+                </div>
+                <textarea class="form-control my-3" name="description" cols="40" rows="6" placeholder="Description"
+                    d="id_description">{{form.description.value}}</textarea>
+                <textarea class="form-control" name="body" cols="40" rows="10" id="id_body" hidden="true">{{form.body.value}}
+                </textarea>
+                </style>
+                <div class="summernote-div" cols="40" rows="10" width="100%" height="480">
+                    <iframe id="id_body_iframe" src="/summernote/editor/id_body/" frameborder="0" width="100%"
+                        height="480">
+                    </iframe>
+                </div>
+
+                <button class="btn btn-success w-100 mt-4">Create</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
