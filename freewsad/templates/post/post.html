@@ -25,8 +25,10 @@
                             class='btn btn-sm btn-outline-danger'>Delete</a>
                     </div>
                     <div class="d-flex justify-content-between mt-3">
-                        <a class="btn-warning btn" href="/p/{{next_post.next.slug}}">&laquo; Previous </a>
-                        <a class="btn-warning btn" href="/p/{{previous_post.pre.slug}}"> Next &raquo;</a>
+                        {% if post.next %}
+                        <a class="btn-warning btn" href="/p/{{post.next.slug}}">&laquo; Previous </a>
+                        {% endif %}
+                        <a class="btn-warning btn" href="/p/{{post.pre.slug}}"> Next &raquo;</a>
                     </div>
                     {% endif %}
                 </article>
@@ -56,16 +58,16 @@
             <div class="col-12 col-md-6 col-lg-4 mb-3">
                 <a href="{% url 'post' post.slug %}">
                     <div class="img-content">
-                     {% if post.image %}
-                     <img class="card-img-top m-0 p-0 border rounded lazy" width="100%" height="auto" style="object-fit: contain;" alt="{{post.title}}"
-                         src="{{post.image.url}}">
-                     {% elif post.imageURL and post.imageURL != "None" %}
-                     <img class="card-img-top m-0 p-0 border rounded lazy " data-srcset="{{post.imageURL}}" width="100%" height="auto" style="object-fit: contain;" alt="{{post.title}}" src="{% static 'img/loading.png' %}">
-                     {% else %}
-                     <div class="embed-responsive border rounded d-flex align-items-center" style="height: 200px;">
-                         <div class="h3 text-black text-center m-auto">{{ post.title }}</div>
-                     </div>
-                     {% endif %}
+                        {% if post.image %}
+                        <img class="card-img-top m-0 p-0 border rounded lazy" data-srcset="{{post.image.url}}" width="100%" height="auto" style="object-fit: contain;" alt="{{post.title}}"
+                         src="{% static 'img/loading.png' %}">
+                        {% elif post.imageURL and post.imageURL != "None" %}
+                        <img class="card-img-top m-0 p-0 border rounded lazy " data-srcset="{{post.imageURL}}" width="100%" height="auto" style="object-fit: contain;" alt="{{post.title}}" src="{% static 'img/loading.png' %}">
+                        {% else %}
+                        <div class="embed-responsive border rounded d-flex align-items-center" style="height: 200px;">
+                            <div class="h3 text-black text-center m-auto">{{ post.title }}</div>
+                        </div>
+                        {% endif %}
                     </div>
                  </a>
                 <div class="card-body m-0 p-0 mt-2">

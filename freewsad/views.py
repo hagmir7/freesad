@@ -6,6 +6,7 @@ from agmir.settings import LANGUAGE_CODE
 from . forms import *
 from django.http import HttpResponse
 from django.views import View
+import random
 
 
 class AdsView(View):
@@ -15,7 +16,7 @@ class AdsView(View):
 
 
 def index(request):
-    list = Post.objects.filter(language=1, is_public=True).order_by('-created')
+    list = Post.objects.filter(language=1, is_public=True).order_by('?')
     paginator = Paginator(list, 14) 
     page_number = request.GET.get('page')
     post = paginator.get_page(page_number)
