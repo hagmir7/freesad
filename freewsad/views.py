@@ -16,7 +16,7 @@ class AdsView(View):
 
 
 def index(request):
-    list = Post.objects.filter(language=1, is_public=True).order_by('?')
+    list = Post.objects.filter(language=1, is_public=True).order_by('-date')
     paginator = Paginator(list, 14) 
     page_number = request.GET.get('page')
     post = paginator.get_page(page_number)
