@@ -39,8 +39,8 @@ def home(request):
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny, ))
 def books(request):
-    books = Book.objects.filter(
-        language__code=request.LANGUAGE_CODE).order_by('-date')
+    # books = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-date')
+    books = Book.objects.all().order_by('-date')
     paginator = Paginator(books, 24)
     page_number = request.GET.get('page')
     posts = paginator.get_page(page_number)
