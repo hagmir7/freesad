@@ -63,6 +63,9 @@ urlpatterns = [
     path('clear/token', clearTokns),
     # path('lang', languagUpdate),
 
+    path('files', files),
+    path('file/delete/<int:id>', deleteFiles),
+
     # Scraping
     path('dev',dev),
     path('geeksforgeeks', geeksforgeeks),

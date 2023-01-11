@@ -175,7 +175,7 @@ fieldset .fieldBox {
     top: 0;
     left: auto;
     right: 10px;
-    background: url(../img/calendar-icons.svg) 0 -30px no-repeat;
+    background: url("../img/calendar-icons.39b290681a8b.svg") 0 -30px no-repeat;
 }
 
 .calendarbox .calendarnav-previous:focus,
@@ -187,7 +187,7 @@ fieldset .fieldBox {
     top: 0;
     right: auto;
     left: 10px;
-    background: url(../img/calendar-icons.svg) 0 0 no-repeat;
+    background: url("../img/calendar-icons.39b290681a8b.svg") 0 0 no-repeat;
 }
 
 .calendarbox .calendarnav-next:focus,
