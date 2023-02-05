@@ -164,6 +164,12 @@ class BookCategory(models.Model):
     def __str__(self):
         return self.name
 
+import PyPDF2
+
+
+
+
+
 
 class Book(models.Model):
     name = models.CharField(max_length=80, verbose_name='BOOK ')
@@ -198,7 +204,6 @@ class Book(models.Model):
     
     def addView(self, *args, **kwargs):
         self.views = self.views + 1
-        print("Hello World")
         super(Book, self).save(*args, **kwargs)
 
 
@@ -211,8 +216,9 @@ class Book(models.Model):
 
     
     def getType(self, *args, **kwargs):
-        print(self.file.url.split('.')[-1].upper())
-        return self.file.url.split('.')[-1].upper()
+        return self.file.url.split('.')[-1].split('?')[0].upper()
+
+
             
     def save(self, *args, **kwargs):
         random = get_random_string(length=5).upper()

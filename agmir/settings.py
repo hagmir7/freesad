@@ -229,6 +229,8 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 
+
+
 # Productin variables
 if os.getcwd() == '/app':
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
