@@ -91,7 +91,8 @@ class PostUploadImage(APIView):
 @api_view(['GET', 'POST'])
 @permission_classes((permissions.AllowAny,))
 def bookDetail(request, id):
-    book = Book.objects.get(id=id)
+    book = get_object_or_404(Book, id=id)
+    book.addView()
     data = {
         "name": book.name,
         "pages": book.pages,
@@ -102,8 +103,19 @@ def bookDetail(request, id):
         "file": book.file.url,
         "language": book.language.name,
         'file_type': book.book_type,
-        'author': book.author
+        'author': book.author,
+        'size': book.size,
+        'sulg': book.slug
     }
+    return Response(data)
+
+@api_view(['GET'])
+@permission_classes((permissions.AllowAny,))
+def book(request, slug):
+    book = get_object_or_404(Book, slug=slug)
+    serializer = BookSerializer(book, many=False)
+    data = serializer.data
+    data.update(language=book.language.name, category = book.category.name)
     return Response(data)
 
 

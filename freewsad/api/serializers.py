@@ -5,13 +5,25 @@ from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
 
-
-
-
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
-        fields = ('id','name','pages', 'image','description','tags','date','pages','file','language', 'book_type', 'list', 'author', 'category')
+        fields = ('id',
+                  'name',
+                  'pages',
+                  'image',
+                  'description',
+                  'tags',
+                  'date',
+                  'pages',
+                  'file',
+                  'language',
+                  'book_type',
+                  'list',
+                  'author',
+                  'category',
+                  'slug',
+                  "size" )
 
 
 # Post Serializer

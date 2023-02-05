@@ -60,7 +60,8 @@ urlpatterns = [
 
     path('book/create', createBook),
     path('book/update/<int:id>', updateBook),
-    path('books', books)
+    path('books', books),
+    path('book/<str:slug>', book)
 
 
 

@@ -205,6 +205,7 @@ def books(request):
 
 def bookDetail(request, id=id):
     book = get_object_or_404(Book , id=id)
+    book.addView()
     context = {
         'title' : book.name,
         'description' : book.description,

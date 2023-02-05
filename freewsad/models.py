@@ -173,26 +173,57 @@ class Book(models.Model):
     category = models.ForeignKey(BookCategory, on_delete=models.CASCADE, null=True)
     language = models.ForeignKey(Language, on_delete=models.CASCADE ,blank=True, null=True)
     pages = models.IntegerField(verbose_name='Page Number ',  null=True, blank=True)
-    book_type = models.CharField(max_length=30, verbose_name='Book Type ', default="PDF")
+    size = models.CharField(verbose_name="Size", null=True, blank=True, max_length=100)
+
+    book_type = models.CharField(max_length=30, verbose_name='Book Type ', null=True, blank=True)
     image = models.ImageField(upload_to='books_Image/', verbose_name='Image ')
-    link = models.CharField(max_length=5000, verbose_name='Link', blank=True, null=True)
     description = models.TextField(null=True, blank=True, verbose_name='Description ' , max_length=300)
-    body = models.TextField(verbose_name='Read Book', null=True, blank=True)
+    body = models.TextField(verbose_name='Body', null=True, blank=True)
     save_book = models.ManyToManyField(User, related_name='book_save')
     like = models.ManyToManyField(User, related_name='book_like')
     tags = models.CharField(max_length=500, null=True, blank=True)
     date = models.DateTimeField(auto_now=True)
-    views = models.ManyToManyField(IpModel, related_name='book_viws', blank=True)
+    views = models.IntegerField(default=0, null=True, blank=True)
     file = models.FileField(upload_to='books/', blank=True, verbose_name='File')
     is_public = models.BooleanField(default=True)
     slug = models.SlugField(blank=True, null=True)
 
-    def get_absolute_url(self):
+    def get_absolute_url(self, *args, **kwargs):
         return f'/{self.language.code}/book/{self.id}'
 
 
     def __str__(self):
         return self.name
+
+    
+    def addView(self, *args, **kwargs):
+        self.views = self.views + 1
+        print("Hello World")
+        super(Book, self).save(*args, **kwargs)
+
+
+
+    def getSize(self, *args, **kwargs):
+        if round(self.file.size * 1e-6, 3) >= 1:
+            return str(round(self.file.size * 1e-6, 2)) + ' MB'
+        else:
+            return str(round(self.file.size * 0.001, 2)) + ' KB'
+
+    
+    def getType(self, *args, **kwargs):
+        print(self.file.url.split('.')[-1].upper())
+        return self.file.url.split('.')[-1].upper()
+            
+    def save(self, *args, **kwargs):
+        random = get_random_string(length=5).upper()
+        if not self.id:
+            self.slug = slugify(self.name +"-"+ str(random))[0:30]
+        self.size = self.getSize()
+        self.book_type = self.getType()
+
+        super(Book, self).save(*args, **kwargs)
+
+
 
 
 class CommentBook(models.Model):
