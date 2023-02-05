@@ -23,6 +23,8 @@ DEBUG = str(os.environ.get('DEBUG')) == "1"
 ALLOWED_HOSTS = ['*']
 
 
+
+RAILWAY_TOKEN=str(os.environ.get("RAILWAY_TOKEN"))
 # Application definition
 
 INSTALLED_APPS = [
