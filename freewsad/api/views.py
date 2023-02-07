@@ -693,7 +693,7 @@ def search(request):
 @permission_classes((permissions.AllowAny, ))
 def searchBook(request):
     query = request.GET.get('q')
-    book = Book.objects.filter(name__icontains=query)
+    book = Book.objects.filter(name__icontains=query).order_by('-views')[0:10]
     serializer = BookSerializer(book, many=True)
     return Response(serializer.data)
 
