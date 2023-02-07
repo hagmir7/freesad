@@ -689,3 +689,13 @@ def search(request):
         return Response(serializer.data)
 
 
+@api_view(['POST', 'GET'])
+@permission_classes((permissions.AllowAny, ))
+def searchBook(request):
+    query = request.GET.get('q')
+    book = Book.objects.filter(name__icontains=query)
+    serializer = BookSerializer(book, many=True)
+    return Response(serializer.data)
+
+
+
