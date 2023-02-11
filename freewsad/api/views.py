@@ -541,12 +541,19 @@ def bookCategory(request, id):
 
 
 
-@api_view(['GET', ])
-@permission_classes((permissions.AllowAny,))
+
+
+
+
+@api_view(['GET'])
+@permission_classes((permissions.AllowAny, ))
 def bookListCategory(request, category):
-    language = Book.objects.filter(language__code=request.LANGUAGE_CODE, category__name=category)
-    serializer = BookSerializer(language, many=True)
-    return Response(serializer.data)
+    books = Book.objects.filter(language__code=request.LANGUAGE_CODE, category__name=category)
+    paginator = Paginator(books, 24)
+    page_number = request.GET.get('page')
+    book = paginator.get_page(page_number)
+    serializer = BookSerializer(book, many=True)
+    return Response({'data': serializer.data, 'has_next': book.has_next()})
 
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'],)
