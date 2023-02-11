@@ -548,7 +548,7 @@ def bookCategory(request, id):
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny, ))
 def bookListCategory(request, category):
-    books = Book.objects.filter(category__name=category)
+    books = Book.objects.filter(category__name=category.capitalize())
     paginator = Paginator(books, 24)
     page_number = request.GET.get('page')
     book = paginator.get_page(page_number)
