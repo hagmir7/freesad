@@ -540,6 +540,15 @@ def bookCategory(request, id):
     return Response(serializer.data)
 
 
+
+@api_view(['GET', ])
+@permission_classes((permissions.AllowAny,))
+def bookListCategory(request, category):
+    language = Book.objects.filter(language__code=request.LANGUAGE_CODE, category__name=category)
+    serializer = BookSerializer(language, many=True)
+    return Response(serializer.data)
+
+
 @api_view(['GET', 'POST', 'PUT', 'DELETE'],)
 @permission_classes((permissions.AllowAny,))
 def bookListCrud(request, id):
