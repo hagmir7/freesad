@@ -105,7 +105,8 @@ def bookDetail(request, id):
         'file_type': book.book_type,
         'author': book.author,
         'size': book.size,
-        'sulg': book.slug
+        'sulg': book.slug,
+        'category': book.category.name
     }
     return Response(data)
 
