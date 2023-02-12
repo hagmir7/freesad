@@ -722,7 +722,7 @@ def trafiq(request):
     profile = get_object_or_404(Profile, slug=ref)
     profile.trafiq = profile.trafiq + 1
     profile.save()
-    return Response({'message': 'View add...'})
+    return Response({'message': profile.slug})
 
 
 
