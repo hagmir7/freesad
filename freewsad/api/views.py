@@ -715,4 +715,16 @@ def searchBook(request):
     return Response(serializer.data)
 
 
+@api_view(['POST', 'GET'])
+@permission_classes((permissions.AllowAny, ))
+def trafiq(request):
+    ref = request.GET.get('ref')
+    profile = get_object_or_404(Profile, slug=ref)
+    profile.trafiq = profile.trafiq + 1
+    profile.save()
+    return Response({'message': 'View add...'})
+
+
+
+
 

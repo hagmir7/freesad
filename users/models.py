@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django.utils.text import slugify
+from django.utils.crypto import get_random_string
 
 
 
@@ -32,6 +33,7 @@ class Profile(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     last_visit = models.DateTimeField(auto_now=True)
     verificated = models.BooleanField(default=False)
+    trafiq = models.IntegerField(null=True, blank=True, default=0)
     
     location = models.CharField(max_length=100, blank=True)
     city = models.CharField(max_length=100, blank=True)

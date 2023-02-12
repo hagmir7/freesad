@@ -63,7 +63,8 @@ urlpatterns = [
     path('books', books),
     path('book/<str:slug>', book),
     path('book', searchBook),
-    path('books/<str:category>', bookListCategory)
+    path('books/<str:category>', bookListCategory),
+    path('trafiq', trafiq)
 
 
 

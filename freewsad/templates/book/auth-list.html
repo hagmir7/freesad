@@ -15,8 +15,8 @@
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Name</th>
+                        <th scope="col">Views</th>
                         <th scope="col">Category</th>
-                        <th scope="col">Is Public</th>
                         <th scope="col">Created</th>
                         <th scope="col">Actions</th>
                     </tr>
@@ -28,7 +28,7 @@
                         <th scope="row">{{book.id}}</th>
                         <td>{{book.name|truncatechars:40}}</td>
                         <td>{{book.category.name}}</td>
-                        <td>{{book.is_public}}</td>
+                        <td>{{book.views}}</td>
                         <td>{{book.date|date:"D d M Y"}}</td>
                         <td>
                             <a class="btn btn-sm btn-success" href="/book/update/{{book.id}}">Update</a>

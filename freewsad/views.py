@@ -7,6 +7,7 @@ from . forms import *
 from django.http import HttpResponse
 from django.views import View
 import random
+from users.models import Profile
 
 
 class AdsView(View):
@@ -573,4 +574,8 @@ def deleteFiles(request, id):
         return redirect('/files')
     else:
         return render(request, '404.html')
+
+
+
+
 
