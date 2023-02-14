@@ -23,6 +23,7 @@ class BookSerializer(serializers.ModelSerializer):
                   'author',
                   'category',
                   'slug',
+                  'views',
                   "size" )
 
 
