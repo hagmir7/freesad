@@ -107,7 +107,7 @@ def bookDetail(request, id):
         'size': book.size,
         'sulg': book.slug,
         'category': book.category.name,
-        'category': book.views
+        'views': book.views
     }
     return Response(data)
 
