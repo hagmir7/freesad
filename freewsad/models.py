@@ -188,7 +188,7 @@ class Book(models.Model):
     save_book = models.ManyToManyField(User, related_name='book_save')
     like = models.ManyToManyField(User, related_name='book_like')
     tags = models.CharField(max_length=500, null=True, blank=True)
-    date = models.DateTimeField(auto_now=True)
+    date = models.DateTimeField(auto_now_add=True)
     views = models.IntegerField(default=0, null=True, blank=True)
     file = models.FileField(upload_to='books/', blank=True, verbose_name='File')
     is_public = models.BooleanField(default=True)
