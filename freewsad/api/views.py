@@ -115,6 +115,7 @@ def bookDetail(request, id):
 @permission_classes((permissions.AllowAny,))
 def book(request, slug):
     book = get_object_or_404(Book, slug=slug)
+    book.addView()
     serializer = BookSerializer(book, many=False)
     data = serializer.data
     data.update(language=book.language.name, category = book.category.name)
