@@ -363,46 +363,6 @@ class Page(models.Model):
 
 
 
-# from math import round
-
-class File(models.Model):
-    name = models.CharField("Name", max_length=150, null=True, blank=True)
-    file = models.FileField(upload_to="Files")
-    slug = models.SlugField("Slug", null=True, blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    created = models.DateTimeField("Date",auto_now_add=True)
-
-    def save(self, *args, **kwargs):
-        random = get_random_string(length=5).upper()
-        if not self.name:
-            self.name = self.file.url.split('.')[0].split('/')[-1].replace("%20", ' ').replace("%40", ' ')
-        self.slug = slugify(self.name +"-"+ str(random))
-        super(File, self).save(*args, **kwargs)
-
-    def size(self, *args, **kwargs):
-        if round(self.file.size * 1e-6, 3) >= 1:
-            return str(round(self.file.size * 1e-6, 2)) + ' MB'
-        else:
-            return str(round(self.file.size * 0.001, 2)) + ' KB'
-
-    
-    def view(self):
-        files = ["JPEG", "PNG", "SVG", "JPG", "GIF", "TIFF", "WEBP", "PDF", "TXT", "JSON", "HTML", "CSS" ]
-        if self.type() in files:
-            return True
-        else:
-            return False
-
-
-    class Meta:
-        verbose_name = "File"
-        verbose_name_plural = "Files"
-
-    def type(self):
-        return self.file.url.split('.')[-1].upper()
-
-    def __str__(self):
-        return self.name
 
 
  

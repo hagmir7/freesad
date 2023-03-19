@@ -63,7 +63,6 @@ admin.site.register(TemplatesCategory)
 admin.site.register(TemplateTols)
 admin.site.register(TemplateType)
 
-admin.site.register(File)
 
 # Page
 @admin.register(Page)
