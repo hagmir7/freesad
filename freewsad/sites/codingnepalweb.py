@@ -77,7 +77,7 @@ def getItem(url):
 
 
 def codingnepalweb(request):
-    for page in range(10, 1, -1):
+    for page in range(2, 0, -1):
         url = f"https://www.codingnepalweb.com/page/{page}/"
         html = requests.get(url)
         soup = BeautifulSoup(html.content, "html.parser")
