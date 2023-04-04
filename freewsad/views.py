@@ -233,15 +233,18 @@ def bookList(request):
 def createBook(request):
     if request.user.is_superuser:
         category = BookCategory.objects.all()
-        form = FormCreateBook()
+        form = BookForm()
         language = Language.objects.all()
         if request.method == "POST":
-            form = FormCreateBook(request.POST, files=request.FILES)
+            form = BookForm(request.POST, files=request.FILES)
             if form.is_valid():
                 obj = form.save(commit=False)
                 obj.user = request.user
                 obj.save()
-                messages.success(request, 'Book created successfully...')
+                messages.success(request, 'Book created successfully.')
+                return redirect('create_book')
+            else:
+                messages.warning(request, 'Fail to create a Book.')
                 return redirect('create_book')
         context = {
             'form': form,
@@ -260,10 +263,10 @@ def updateBook(request, id):
     book = Book.objects.get(id=id)
     if request.user.is_superuser and request.user == book.user:
         category = BookCategory.objects.all()
-        form = FormCreateBook(instance=book)
+        form = BookForm(instance=book)
         language = Language.objects.all()
         if request.method == "POST":
-            form = FormCreateBook(request.POST, instance=book, files=request.FILES)
+            form = BookForm(request.POST, instance=book, files=request.FILES)
             if form.is_valid():
                 form.save()
                 messages.success(request, 'Book updated successfully...')

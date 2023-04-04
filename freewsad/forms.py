@@ -10,12 +10,11 @@ class CreatePostForm(forms.ModelForm):
 
 
 
-class FormCreateBook(forms.ModelForm):
-    body = forms.CharField(widget=SummernoteWidget()) 
+class BookForm(forms.ModelForm):
     file = forms.FileField()
     class Meta:
         model = Book
-        fields = ('name', 'author', 'category', 'language', 'pages', 'file', 'image', 'description', 'body', 'tags')
+        fields = ('name', 'author', 'category', 'language', 'pages', 'file', 'image', 'description')
 
 
 
