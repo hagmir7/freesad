@@ -233,7 +233,7 @@ CORS_ALLOWED_ORIGINS = [
 
 
 # Productin variables
-if not os.getcwd() == '/app':
+if os.getcwd() == '/app':
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = True
 
