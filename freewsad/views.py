@@ -557,9 +557,11 @@ def languagUpdate(request):
 # Export view
 def export_post(request):
     post = PostResource()
-    queryset = Post.objects.filter(language__code=request.LANGUAGE_CODE)
+    list = Post.objects.all()
+    paginator = Paginator(list, 100) 
+    page_number = request.GET.get('page')
+    queryset = paginator.get_page(page_number)
     dataset = post.export(queryset)
-
     # Choose the desired export format (e.g., xlsx, csv)
     response = HttpResponse(dataset.xlsx, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename="exported_data.xlsx"'
