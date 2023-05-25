@@ -68,7 +68,11 @@ urlpatterns = [
     path('dev',dev),
     path('geeksforgeeks', geeksforgeeks),
     path('cloud', cloud),
-    path('codingnepalweb', codingnepalweb)
+    path('codingnepalweb', codingnepalweb),
+
+
+    # emport Export 
+    path('posts/export', export_post)
 
 
 

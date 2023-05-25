@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.views import View
 import random
 from users.models import Profile
+from .export import PostResource
 
 
 class AdsView(View):
@@ -550,6 +551,20 @@ def languagUpdate(request):
     PostCategory.objects.create(id=2, name='Programmation')
     PostCategory.objects.create(id=3, name='برمجة')
     return redirect('/')
+
+
+
+# Export view
+def export_post(request):
+    post = PostResource()
+    queryset = Post.objects.filter(language__code=request.LANGUAGE_CODE)
+    dataset = post.export(queryset)
+
+    # Choose the desired export format (e.g., xlsx, csv)
+    response = HttpResponse(dataset.xlsx, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="exported_data.xlsx"'
+
+    return response
 
 
 

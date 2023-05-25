@@ -140,6 +140,33 @@ class BookListView(View):
         return JsonResponse({'data': mylist}, safe=True)
 
 
+
+class NewBooks(View):
+    def get(self, *args, **kwargs):
+        upper = kwargs.get('num_books')
+        lower = upper
+        book = list(Book.objects.filter( language__code=self.request.LANGUAGE_CODE).order_by('date'))[0: lower]
+        mylist = list()
+        for item in book:
+            item = {
+                'image': item.image.url,
+                'slug': item.id,
+                'name': item.name
+            }
+            mylist.append(item)
+        return JsonResponse({'data': mylist}, safe=True)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def bookByCategory(request):
+    user = request.user
+    profile = user.profile_set.all()
+    serializer = PostSerializer(profile, many=True)
+    return Response(serializer.data)
+
+
+
 # Post List View
 class PostListView(View):
     def get(self, *args, **kwargs):
