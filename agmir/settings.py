@@ -19,6 +19,8 @@ SECRET_KEY = '1f7=3i&8q!fm(bogwsrtokh6hj&-op(0rodrmzmnx$yd5#wnu0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = str(os.environ.get('DEBUG')) == "1"
 
+CPANEL = str(os.environ.get('CPANEL')) == '1'
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -265,6 +267,35 @@ if os.getcwd() == '/app':
             'PORT': os.environ.get('DB_PORT'),
         }
     }
+
+
+
+
+
+
+
+
+
+
+if CPANEL:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SECURE_SSL_REDIRECT = True
+
+    DEBUG_PROPAGATE_EXCEPTIONS = str(os.environ.get('DEBUG_PROPAGATE_EXCEPTIONS')) == '1'
+    # AWS
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+    AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+    AWS_S3_ENDPOINT_URL = os.environ.get('AWS_S3_ENDPOINT_URL')
+    AWS_S3_CUSTOM_DOMAIN = os.environ.get('AWS_S3_CUSTOM_DOMAIN')
+
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
+    AWS_DEFAULT_ACL = 'public-read'
+    AWS_LOCATION = 'public'
 
 
 # Djanog Reast Framwork
