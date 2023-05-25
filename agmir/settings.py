@@ -24,9 +24,6 @@ CPANEL = str(os.environ.get('CPANEL')) == '1'
 
 ALLOWED_HOSTS = ['*']
 
-
-
-RAILWAY_TOKEN=str(os.environ.get("RAILWAY_TOKEN"))
 # Application definition
 
 INSTALLED_APPS = [
@@ -267,12 +264,6 @@ if os.getcwd() == '/app':
             'PORT': os.environ.get('DB_PORT'),
         }
     }
-
-
-
-
-
-
 
 
 
