@@ -93,9 +93,10 @@ def createPost(request):
     }
     return render(request, 'post/create.html', context)
 
+
+
+@login_required
 def updatePost(request, id):
-    if not request.user.is_superuser:
-        return redirect('home')
     post = Post.objects.get(id=id)
     form = CreatePostForm(instance=post)
     playList = PostList.objects.filter(user=request.user)
@@ -104,7 +105,7 @@ def updatePost(request, id):
     if request.method == "POST":
         form = CreatePostForm(request.POST, files=request.FILES, instance=post)
         if form.is_valid():
-            if post.user == request.user:
+            if post.user == request.user or request.user.is_superuser:
                 form.save()
                 messages.success(request, 'The post updated successfully.')
                 return redirect('home')
@@ -155,6 +156,20 @@ def postCategoryList(request):
         return render(request, 'post/category/auth-list.html', context)
     else:
         return redirect('home')
+    
+
+def category(request, category):
+    list = Post.objects.filter(category__name=category).order_by('-created')
+    paginator = Paginator(list, 24)
+    page_number = request.GET.get('page')
+    posts = paginator.get_page(page_number)
+
+    context = {
+        'posts': posts,
+        'title' : "All Categories"
+        }
+    return render(request, 'index.html', context)
+
 
 
     

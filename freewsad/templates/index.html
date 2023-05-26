@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% load static %}
 
 {% block content %}
-{% if not 'posts' in request.path %}
+{% if 4 == request.path|length %}
   {% include 'components/hero.html' %}
 {% endif %}
 
