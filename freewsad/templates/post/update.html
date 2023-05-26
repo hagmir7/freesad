@@ -40,7 +40,7 @@
                             {% endfor %}
                         </select>
  
-                        <input class="form-control mt-3" value="{{ form.description.value}}" placeholder="Tags" type="text" name="tags" maxlength="1000" id="id_tags">
+                        <input class="form-control mt-3" value="{{ form.tags.value}}" placeholder="Tags" type="text" name="tags" maxlength="1000" id="id_tags">
                         <select class="form-control mt-3" name="list" id="id_list">
                             <option value='' selected>-- Select post list --</option>
                             {% for item in lists %}
