@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.sitemaps',
-    'users',
     'robots',
     "corsheaders",
     'freewsad',
@@ -43,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'import_export',
+    'users',
 ]
 
 
@@ -98,6 +98,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 
 SSL_DISABLE = True
@@ -215,6 +216,23 @@ if CPANEL:
     SECURE_SSL_REDIRECT = True
 
     DEBUG_PROPAGATE_EXCEPTIONS = str(os.environ.get('DEBUG_PROPAGATE_EXCEPTIONS')) == '1'
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'agha6919_freesad',
+            'USER': 'agha6919_freesad_admin',
+            'PASSWORD': 'Guigou.1998@',
+            'HOST': 'localhost',  # Typically 'localhost' or '127.0.0.1'
+            'PORT': '3306',  # Typically '3306'
+            'OPTIONS': {
+                'sql_mode': 'STRICT_TRANS_TABLES',
+                'charset': 'utf8mb4',
+                'use_unicode': True,
+            },
+        }
+    }
+
 
 
 # Djanog Reast Framwork

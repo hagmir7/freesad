@@ -43,7 +43,7 @@ def login_view(request):
 
     
     context = {'form': form,'alert':alert, 'title': _("Log in")}
-    return render(request, "registrations/login.html", context)
+    return render(request, "registration/login.html", context)
 
 # Welcom Message   
 def email_message(obj, body, to):
