@@ -100,6 +100,11 @@ class Post(models.Model):
 
     def pre(self):
         return self.get_previous_by_created()
+    
+
+    def __str__(self):
+        return str(self.title)
+    
 
 
 
@@ -112,12 +117,12 @@ class PostComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_comment')
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_comment')
     body = models.TextField(max_length=400)
-    like = models.ManyToManyField(User, related_name='like_comment')
-    date = models.DateTimeField(auto_now=True,)
-    updat = models.DateTimeField(auto_now_add=True)
+    likes = models.ManyToManyField(User, related_name='like_comment',blank=True)
+    created = models.DateTimeField(auto_now=True,)
+    updated = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-date']
+        ordering = ['-created']
     
     def __str__(self):
         return f"{self.user} Comment at {self.post.user.username}'s Post"
@@ -164,7 +169,6 @@ class BookCategory(models.Model):
     def __str__(self):
         return self.name
 
-import PyPDF2
 
 
 
@@ -228,7 +232,6 @@ class Book(models.Model):
         self.book_type = self.getType()
 
         super(Book, self).save(*args, **kwargs)
-
 
 
 

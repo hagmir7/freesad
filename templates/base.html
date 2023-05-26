@@ -1,112 +1,319 @@
-{% load static%}{% load i18n %}
-<!doctype html>
-<html lang="en">
+
+
+{% load static %} {% load i18n %}
+<!DOCTYPE html>
+<html class="ltr" lang='en' dir="ltr">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>{% if title %} {{title|slice:'60'}} {% else %} Freedaz - The best platform for education {% endif %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>{% if title %} {{title|slice:'60'}} {% else %} Freesad - Professional Education Platform. {% endif %}</title>
   <!--  Social Tags-->
-  <meta name="keywords" content="{{tags}} freedaz, news, books, programing,python, javascript, c##, djanog, html,css">
-  <meta name="description" content="{% if description %}{{description|slice:'158'}}{% else %}{% trans 'You can enjoy Books and Bopics, Courses you love and download the original content, and share it all with your friends, and the whole world on freedaz.' %} {% endif %}">
+  <meta name="keywords" content="{{tags}}, books, course, articles, news, programing,python, javascript, c##, djanog, html,css, learn, education">
+  <meta name="description" content="{% if description %}{{description|slice:'158'}}{% else %}{% trans 'You can enjoy Books and Bopics, Courses you love and download the original content, and share it all with your friends, and the whole world on freesad.' %} {% endif %}">
   <!-- Schema.org markup for Google+ -->
-  <meta itemprop="name" content="{% if title %} {{title|slice:'60'}} {% else %} {% trans 'Freedaz - The best website for Education.' %} {% endif %}">
-  <meta itemprop="description" content="{% if description %}{{description|slice:'158'}}{% else %}{% trans 'You can enjoy Books and Bopics, Courses you love and download the original content, and share it all with your friends, and the whole world on freedaz.' %} {% endif %}">
-  <meta itemprop="image" content="{% if image %}{{image.url}}{% else %}{% static 'img/freedaz.webp' %}{% endif %}">
-  <meta property="og:image" content="{% if image %}{{image.url}}{% else %}{% static 'img/freedaz.webp' %}{% endif %}" />
+  <meta itemprop="name" content="{% if title %} {{title|slice:'60'}} {% else %} {% trans 'freesad - The best website for Education.' %} {% endif %}">
+  <meta itemprop="description" content="{% if description %}{{description|slice:'158'}}{% else %}{% trans 'You can enjoy Books and Bopics, Courses you love and download the original content, and share it all with your friends, and the whole world on freesad.' %} {% endif %}">
+  <meta itemprop="image" content="{% if image %}{{image.url}}{% else %}{% static 'img/freesad.svg' %}{% endif %}">
+  <meta property="og:image" content="{% if image %}{{image.url}}{% else %}{% static 'img/freesad.svg' %}{% endif %}" />
   <!-- Twitter Card data -->
-  <meta name="twitter:site" content="@freedaz">
-  <meta name="twitter:title" content="{% if title %} {{title|slice:'60'}} {% else %} {% trans 'Freedaz - The best website for Education' %} {% endif %}">
-  <meta name="twitter:description" content="{% if description %}{{description|slice:'158'}}{% else %}{% trans 'You can enjoy Books and Bopics, Courses you love and download the original content, and share it all with your friends, and the whole world on freedaz.' %} {% endif %}">
-  <meta name="twitter:creator" content="@freedaz">
-  <meta name="twitter:image" content="{% if image %}{{image.url}}{% else %}{% static 'img/freedaz.webp' %}{% endif %}">
+  <meta name="twitter:site" content="@freesad">
+  <meta name="twitter:title" content="{% if title %} {{title|slice:'60'}} {% else %} {% trans 'freesad - The best website for Education' %} {% endif %}">
+  <meta name="twitter:description" content="{% if description %}{{description|slice:'158'}}{% else %}{% trans 'You can enjoy Books and Bopics, Courses you love and download the original content, and share it all with your friends, and the whole world on freesad.' %} {% endif %}">
+  <meta name="twitter:creator" content="@freesad">
+  <meta name="twitter:image" content="{% if image %}{{image.url}}{% else %}{% static 'img/freesad.svg' %}{% endif %}">
   <!-- Open Graph data -->
-  <meta property="og:title" content="{% if title %} {{title|slice:'60'}} {% else %} {% trans 'Freedaz - The best website for Education' %} {% endif %}" />
+  <meta property="og:title" content="{% if title %} {{title|slice:'60'}} {% else %} {% trans 'freesad - The best website for Education' %} {% endif %}" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://www.freedaz.com{{ request.path }}" />
-  <meta property="og:image"
-    content="{% if image %}{{image.url}}{% else %}{% static 'img/freedaz.webp' %}{% endif %}" />
+  <meta property="og:url" content="https://www.freesad.com{{ request.path }}" />
+  <meta property="og:image" content="{% if image %}{{image.url}}{% else %}{% static 'img/freesad.svg' %}{% endif %}" />
   <meta property="og:description"
-    content="{% if description %}{{description|slice:'158'}}{% else %}{% trans 'You can enjoy Books and Bopics, Courses you love and download the original content, and share it all with your friends, and the whole world on freedaz.' %} {% endif %}" />
-  <meta property="og:site_name" content="freedaz" />
-  <meta name="author" content="www.freedaz.com">
-  <link rel='canonical' href='{{ request.path }}' />
+    content="{% if description %}{{description|slice:'158'}}{% else %}{% trans 'You can enjoy Books and Bopics, Courses you love and download the original content, and share it all with your friends, and the whole world on freesad.' %} {% endif %}" />
+  <meta property="og:site_name" content="freesad" />
+  <meta name="author" content="www.freesad.com">
+  <link rel="canonical" href="{{ request.path }}" />
+  <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/png">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% if image %}{{image.url}}{% else %}{% static 'img/freesad.svg' %}{% endif %}">
+  <link rel="apple-touch-icon-precomposed" sizes="180x180" href="{% if image %}{{image.url}}{% else %}{% static 'img/freesad.svg' %}{% endif %}">
   <!-- theme -->
-  <meta name="theme-color" content="#ff914dfc" />
-  <!-- Favicon -->
-  <link rel="icon" href="{% static 'img/icon.png' %}" type="image/png">
-  {% block style %}{% endblock %}
-  <!-- Bootstrap CSS and Style -->
-  {% if LANGUAGE_CODE == 'ar' %}
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
-  {% else %}
-  <!-- CSS only -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">  <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-  {% endif %}
-  <!-- Google search console freedaz -->
-  <meta name="google-site-verification" content="bqCihIwpLM99nwLxh9mZZYTY7x0rbeXPgbjwM98i_bw" />
-  <!-- Goolge adsense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6043226569102012" crossorigin="anonymous"></script>
+  <meta name="theme-color" content="#6c6cfe" />
+
+
+ 
+  <title>Freebify - Blogger Template</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
+  <!-- Theme Style CSS -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet" />
 </head>
+
 <style>
-  
-  u-release img, .u-pullSides1 img{
-    width: 100%!important;
-    height: 300px;
-  }
-  jodit{
-    width: 100%!important;
-    height: auto!important;
-  }
-
-
-  .u-pullSides1 img{width: 100%!important;height: auto!important;}
-.wp-caption,.wp-caption img,p img{width:100%!important}.cover,.img-content img{object-fit:cover!important}.fill{object-fit:fill}figure img,figure video{width:100%!important;height:100%!important}a{text-decoration:none;color:#ff914d}a:hover{color:#dc5d0f}.btn-warning{background-color:#ff914d!important;color:#fff!important;border:0!important}body{font-family:source sans pro,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,helvetica neue,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol}.book-image{height:260px}.form-group,button{margin:0!important}.icon-png{font-size:27px}.card,.trns{background:0 0}.bg-colors{background:linear-gradient(180deg,rgba(255,255,255,.01),#fff 85%),radial-gradient(ellipse at top left,rgba(13,110,253,.5),transparent 50%),radial-gradient(ellipse at top right,rgba(255,228,132,.5),transparent 50%),radial-gradient(ellipse at center right,rgba(112.520718,44.062154,249.437846,.5),transparent 50%),radial-gradient(ellipse at center left,rgba(214,51,132,.5),transparent 50%)}.code,pre{background-color:#002b36;border-radius:.375rem;color:#839496;font-family:Consolas,Courier New,monospace;font-size:13px;font-weight:500;max-height:500px;overflow:auto;padding:.5rem!important;white-space:nowrap}.toolbar,printing .line .content{border:none!important}iframe.note-fullscreen{position:fixed;top:0;left:0;width:100vw!important;height:100vh!important;z-index:4000}nav{box-shadow:-1px 1px 2px #ded5d5a8!important}.img-content{height:220px;width:100%}code{font-size:1em!important}.comments{font-style:italic;color:grey}p img{height:auto!important}.code-gutter,.code-output-container{display:none!important}.img-content img{height:100%;width:100%}table{width:100%}.line.highlighted.alt1,.line.highlighted.alt2{background-color:#373831!important}.line.highlighted.number{color:#38566f!important}.toolbar a,table caption{color:#d1edff!important}collapsed .toolbar,collapsed .toolbar a{color:#428bdd!important}.gutter{color:#afafaf!important}.gutter .line{border-right:3px solid #435a5f!important}.gutter .line.highlighted{background-color:#435a5f!important;color:#272822!important}collapsed{overflow:visible!important}collapsed .toolbar{background:#000!important;border:1px solid #435a5f!important}collapsed .toolbar a:hover{color:#1dc116!important}.toolbar{color:#d1edff!important;background:#435a5f!important}.toolbar a:hover{color:#8aa6c1!important}.plain,.plain a,.preprocessor{color:#f8f8f2!important}.string,.string a{color:#e6db74!important}.keyword{color:#f92672!important}.color3,.color3 a,.variable{color:#ffaa3e!important}.value{color:#ae81ff!important}.color1,.color1 a,.functions{color:#66d9ef!important}.constants{color:#e0e8ff!important}.script{font-weight:700!important;color:#b43d3d!important;background-color:none!important}.color2,.color2 a{color:#fff!important}
+  .main-logo {
+  box-sizing: initial; 
+}
 </style>
 
-<script>
-  var settings_id_body = { "disableResizeEditor": false, "width": "100%", "height": 480, "lang": "en-US", "toolbar": [["style", ["style"]], ["font", ["bold", "italic", "underline", "superscript", "subscript", "strikethrough", "clear"]], ["fontname", ["fontname"]], ["fontsize", ["fontsize"]], ["color", ["color"]], ["para", ["ul", "ol", "paragraph"]], ["height", ["height"]], ["table", ["table"]], ["insert", ["link", "picture", "video", "hr"]], ["view", ["fullscreen", "codeview"]], ["help", ["help"]]], "url": { "language": "/static/summernote/lang/summernote-en-US.min.js", "upload_attachment": "/summernote/upload_attachment/" } };
-</script>
+<body class="is-home is-multiple">
+  <!-- Theme Options -->
+  <div id="theme-options" style="display:none">
+    <div class="ify-panel section" id="ify-panel" name="Theme Options">
+      <div class="widget HTML" data-version="2" id="HTML150">
+      </div>
+    </div>
+  </div>
+  <!-- Outer Wrapper -->
+  <div id="outer-wrapper">
+    <!-- Header Wrapper -->
+    <header id="freebify-preview-header-wrapper">
+      <div class="headerify-wrap">
+        <div class="headerify">
+          <div class="headerify-inner">
+            <div class="container row-x1">
+              <div class="headerify-items">
+                <div class="main-logo-wrap">
+                  <div class="main-logo section" id="main-logo" name="Header Logo">
+                    <div class="widget Header" data-version="2" id="Header1">
+                      <div class="logo-content">
+                        <a class="logo-img" href="/">
+                          <img alt="Freesad - Technology Feturs" height="auto" width="auto"
+                            src="{% static 'img/logo.svg' %}" />
+                            {% if request.path|length == 4  %}
+                            <h1 id="h1-tag">Freesad - Technology Feturs</h1>
+                            {% endif %}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <nav class="main-menu-wrap">
+                  <div class="freebify-preview-main-menu section" id="freebify-preview-main-menu" name="Main Menu">
+                    <div class="widget LinkList show-menu" data-version="2" id="LinkList152">
+                      <ul id="freebify-preview-main-menu-nav" role="menubar">
+                        <li><a href="/" role="menuitem">Home</a></li>
 
-<script>
-  function lazyLoader(value){
+
+                        <li class="has-sub">
+                          <a href="#" role="menuitem">Categories</a>
+                          <ul class="sub-menu m-sub">
+                            {% for category in categories  %}
+                              <li><a href="/category/{{ category.name }}" role="menuitem">{{ category.name}} </a></li>
+                            {% endfor %}
+                          </ul>
+                        </li>
+
+                        <li><a href="{% url 'post.list' %}" role="menuitem">Posts</a></li>
+                        <!-- <li><a href="/post" role="menuitem">Play List</a></li> -->
+                        <li><a href="/page/about-us-4gtsf" role="menuitem">About Us</a></li>
+                        <li><a href="/contact" role="menuitem">Contact Us</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </nav>
+                <div class="main-toggle-wrap">
+                  <a class="main-toggle-style search-toggle show" href="javascript:;"></a>
+                  <a class="main-toggle-style search-toggle hide " href="javascript:;"></a>
+                  <a class="main-toggle-style mobile-menu-toggle" onclick="sliderShow()" href="javascript:;"></a>
+                </div>
+                <div id="nav-search-wrap">
+                  <form action="{% url 'search' %}" class="search-form" role="search">
+                    <input autocomplete="off" name="search" class="search-input" placeholder="Search" value="" />
+                    <button class="search-action" type="submit" value=""></button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    
+
+
+    {% block content %}
+
+    {% endblock %}
+
+    
+    <!-- Ads -->
+    <!-- {% include 'components/media.html' %} -->
+    <!-- Footer Wrapper -->
+    <footer id="footer-wrapper">
+      <div class="container row-x1">
+        <div class="footer-widgets-wrap">
+          <div class="footer freebify-preview-widget-ready section" id="footer1" name="Footer 1">
+            <!-- About us -->
+            <div class="widget Text" data-version="2" id="Text1">
+              <div class="widget-title">
+                <h3 class="title">About Us</h3>
+              </div>
+              <div class="widget-content excerpt">
+                Freesad is a Professional Education Platform. Here we will provide you only interesting content, which you will like very much. We're dedicated to providing you the best of Education...
+                 <a href="/page/about-us-4gtsf" target="_blank">more &#8594;</a>
+              </div>
+            </div>
+
+            <!-- Social media -->
+           {% comment %} {% include 'components/media.html' %} {% endcomment %}
+
+          </div>
+
+          <!-- Article footer -->
+          <div class="footer freebify-preview-widget-ready section" id="footer3" name="Footer 3">
+            <div class="widget PopularPosts" data-version="2" id="PopularPosts2">
+              <div class="widget-title">
+                <h3 class="title">Popular Posts</h3>
+              </div>
+              <div class="widget-content">
+
+                {% for post in new_posts %}
+                <article class="popular-post post item-0 mb-2">
+                  <a class="entry-image-wrap is-image" href="{% url 'post' post.slug %}">
+                    <span class="entry-thumb" data-image="{{ post.image.url}}"></span>
+                  </a>
+                  <div class="entry-header">
+                    <h2 class="entry-title">
+                      <a href="{% url 'post' post.slug %}"> {{post.title|truncatechars:70}}</a>
+                    </h2>
+                  </div>
+                </article>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Small footer -->
+      <div class="footerbar">
+        <div class="container row-x1">
+          <div class="footer-copyright" id="footer-copyright">
+            <span class="copyright-text">Copyright © 2023 All rights reserved -
+               <a href="/" title="Freesad">Freesad.com.</a>
+              </span>
+          </div>
+          <div class="footer-menu section" id="footer-menu" name="Footer Menu">
+            <div class="widget LinkList" data-version="2" id="LinkList155">
+              <div class="widget-content">
+                <ul class="link-list">
+                  <li><a href="/">Home</a></li>
+                  <li><a href="/page/about-us-4gtsf">About</a></li>
+                  <li><a href="/contact">Contact Us</a></li>
+                  <li><a href="/page/privacy-policy-xgxps">Privacy Policy</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <div id="slide-menu" class="nav-active">
+    <div class="slide-menu-header">
+      <div class="mobile-search">
+        <form method="GET" action="/" class="search-form" role="search">
+          <input autocomplete="off" class="search-input" name="query" placeholder="Search" value="{{ query }}">
+          <button class="search-action" type="submit" value=""></button>
+        </form>
+      </div>
+      <span class="hide-freebify-preview-mobile-menu" onclick="sliderHide()"></span>
+    </div>
+    <div class="slide-menu-flex">
+      <div class="freebify-preview-mobile-menu" id="freebify-preview-mobile-menu">
+        <ul id="main-mobile-nav" role="menubar">
+          <li><a href="/" role="menuitem">Home</a></li>
+          <li><a href="/posts" role="menuitem">Posts</a></li>
+          <!-- <li><a href="/play-lists" role="menuitem">Play Lists</a></li> -->
+          <li><a href="/page/about-us-4gtsf" role="menuitem">About Us</a></li>
+          <li><a href="/contact" role="menuitem">Contact Page</a></li>
+          <li><a href="/page/privacy-policy-xgxps" role="menuitem">Privacy Policy</a></li>
+        </ul>
+      </div>
+      {% comment %} <div class="mobile-menu-footer">
+        <div class="mobile-navbar-social">
+          <ul class="social-icons social">
+            <li class="facebook-f link-0"><a class="facebook-f" href="# $ Facebook" target="_blank"></a></li>
+            <li class="twitter link-1"><a class="twitter" href="#" target="_blank"></a></li>
+            <li class="youtube link-2"><a class="youtube" href="#" target="_blank"></a></li>
+            <li class="instagram link-3"><a class="instagram" href="#" target="_blank"></a></li>
+            <li class="rss link-4"><a class="rss" href="#" target="_blank"></a></li>
+          </ul>
+        </div>
+        <div class="mobile-navbar-menu">
+          <ul class="link-list">
+            <li><a href="/">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact Us</a></li>
+            <li><a href="?hl=ar">RTL Version</a></li>
+          </ul>
+        </div>
+      </div> 
+      {% endcomment %}
+    </div>
+  </div>
+  <div class="overlay"></div>
+
+{% if not user.is_authenticated %}
+  <!-- Ads Demo
+  <div class="demo-float">
+    <span class="df-hide"><i class="fas fa-times"></i></span>
+    <div class="df-logo"></div>
+    <h3>Templateify</h3>
+    <p class="excerpt">Best Free and Premium Blogger Templates Provider.</p>
+    <a href="https://www.templateify.com/2020/07/freebify-blogger-template.html"
+      title="Freebify - Blogger Template">Download This Template</a>
+  </div>
+  <script type="text/javascript">
+    $(function () { $(".df-hide").on("click", function () { $(".demo-float").fadeOut(170); }); });
+  </script> -->
+{% endif %}
+
+
+
+
+  <script>
+
     document.addEventListener("DOMContentLoaded", function () {
-    var lazyImages = [].slice.call(document.querySelectorAll(value));
-    if ("IntersectionObserver" in window) {
-      let lazyImageObserver = new IntersectionObserver(function (entries, observer) {
+      const lazyElements = document.querySelectorAll(".entry-thumb");
+      
+      const observer = new IntersectionObserver(function (entries, observer) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
-            let lazyImage = entry.target;
-            if (lazyImage.hasAttribute('data-srcset')) {
-               lazyImage.src = lazyImage.getAttribute('data-srcset');
-                lazyImage.srcset = lazyImage.getAttribute('data-srcset');
-            }else{
-              lazyImage.src = lazyImage.dataset.src;
-               lazyImage.srcset = lazyImage.dataset.srcset;
-            }
-            lazyImage.classList.remove("lazy");
-            lazyImageObserver.unobserve(lazyImage);
+            entry.target.style.backgroundImage = "url(" + entry.target.getAttribute("data-image") + ")";
+            entry.target.style.opacity = 1;
+            observer.unobserve(entry.target);
           }
         });
       });
 
-      lazyImages.forEach(function (lazyImage) {
-        lazyImageObserver.observe(lazyImage);
+      lazyElements.forEach(function (element) {
+        observer.observe(element);
       });
-    } else {
-      // Possibly fall back to event handlers here
+    });
+
+
+
+
+    const sliderShow = () =>{
+      document.getElementById('slide-menu').style.visibility = "visible";
+      document.getElementById('slide-menu').style.transform = "translateX(0)";
+      document.getElementById('slide-menu').style.display = "block";
     }
-  });
-  }
 
-  lazyLoader("img.lazy")
-  
+    const sliderHide = () =>{
+      document.getElementById('slide-menu').style.visibility = "hidden";
+      document.getElementById('slide-menu').style.display = "none";
+      document.getElementById('slide-menu').style.transform = "translateX(1)";
+    }
 
-</script>
 
-<body class="bg-light">
-  {% include "components/header.html" %}
-  {% block content %}{% endblock %}
-  {% include "components/footer.html" %}
+
+
+
+
+
+  </script>
+
+
 </body>
+
 </html>

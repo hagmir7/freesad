@@ -18,16 +18,40 @@ class AdsView(View):
 
 
 def index(request):
-    list = Post.objects.filter(language=1, is_public=True).order_by('-created')
+
+    query = request.GET.get('query')
+    if query is not None:
+        title = Post.objects.filter(title__icontains=query)
+        description = Post.objects.filter(description__icontains=query)
+        list = title | description
+    else:
+        list = Post.objects.filter(language=1, is_public=True).order_by('-created')
+
     paginator = Paginator(list, 14) 
     page_number = request.GET.get('page')
     post = paginator.get_page(page_number)
     context = {
-        'posts':post
+        'posts': post,
+        'query' : query if query else ''
     }
     return render(request, 'index.html', context)
 
 
+# Post search
+
+def search(request):
+    if request.method == 'POST':
+        query = request.POST['search']
+        post_title = Post.objects.filter(title__icontains=query)
+        post_desc = Post.objects.filter(description__icontains=query)
+        post_body = Post.objects.filter(body__icontains=query)
+        posts = post_desc | post_title | post_body
+        context = {'posts':posts, 'title':query}
+    else:
+        return redirect('home')
+        context = {}
+    
+    return render(request, 'index.html',context)
 
 
 def post(request, slug):
@@ -493,21 +517,7 @@ def menu(request):
 
 
 
-# Post search
 
-def search(request):
-    if request.method == 'POST':
-        query = request.POST['search']
-        post_title = Post.objects.filter(title__icontains=query)
-        post_desc = Post.objects.filter(description__icontains=query)
-        post_body = Post.objects.filter(body__icontains=query)
-        posts = post_desc | post_title | post_body
-        context = {'posts':posts, 'title':query}
-    else:
-        return redirect('home')
-        context = {}
-    
-    return render(request, 'index.html',context)
 
 
 def contact(request):

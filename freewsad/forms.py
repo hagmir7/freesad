@@ -44,6 +44,7 @@ class OrderTempateForm(forms.ModelForm):
 
 
 class FormCreatePage(forms.ModelForm):
+    body = forms.CharField(widget=SummernoteWidget()) 
     class Meta:
         model = Page
         fields = ('title', 'body')

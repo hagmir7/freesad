@@ -18,6 +18,7 @@ urlpatterns = [
     path('post/update/category/<int:id>', updatePostCategory, name='update_post_category'),
     path('post/delete/category/<int:id>', deletePostCategory, name='delete_post_category'),
     path('post/category/list', postCategoryList,  name="category_post_list"),
+    path('posts', index, name="post.list"),
 
     # Pages
     path('page/create', createPage, name='create_page'),

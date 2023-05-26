@@ -1,0 +1,115 @@
+{% extends "base.html" %} {% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-4 mb-3">
+            <a href="https://railway.app?referralCode=e4zbYM" target="_blank">
+               <div class="img-content">
+                <img class="card-img-top m-0 p-0 border rounded lazy " data-srcset="{% static 'img/railway.png' %}" src="{% static 'img/loading.png' %}" />
+               </div>
+            </a>
+            <div class="card-body m-0 p-0 mt-2">
+                <a href="https://railway.app?referralCode=e4zbYM" target="_blank">
+                    <div class="card-title h5 my-0 py-0 text-black">Get free hosting with Railway now</div>
+                </a>
+                <p class="card-text">
+                    <small class="text-muted">
+                        <span class="mr-2 h6">Ads by <a href="/">freedaz</a></span>
+                    </small>
+                </p>
+            </div>
+        </div>
+        {% for post in posts %}
+        <div class="col-12 col-md-6 col-lg-4 mb-3">
+            <a href="{% url 'post' post.slug %}">
+               <div class="img-content">
+                {% if post.image %}
+                <img class="card-img-top m-0 p-0 border rounded lazy" data-srcset="{{post.image.url}}" width="100%" height="auto" style="object-fit: contain;" alt="{{post.title}}"
+                 src="{% static 'img/loading.png' %}">
+                {% elif post.imageURL and post.imageURL != "None" %}
+                <img class="card-img-top m-0 p-0 border rounded lazy " data-srcset="{{post.imageURL}}" width="100%" height="auto" style="object-fit: contain;" alt="{{post.title}}" src="{% static 'img/loading.png' %}">
+                {% else %}
+                <div class="embed-responsive border rounded d-flex align-items-center" style="height: 200px;">
+                    <div class="h3 text-black text-center m-auto">{{ post.title }}</div>
+                </div>
+                {% endif %}
+               </div>
+            </a>
+            <div class="card-body m-0 p-0 mt-2">
+                <a class=" " href="{% url 'post' post.slug %}">
+                    <div class="card-title h5 my-0 py-0 text-black">{{post.title}}</div>
+                </a>
+                <p class="card-text">
+                    <small class="text-muted">
+                        <span class="mr-2 h6">{{post.created|date:'M d, Y - H:i'}}</span>
+                    </small>
+                </p>
+            </div>
+        </div>
+        {% empty %}
+        <div class="h3 py-5 my-5 text-center">
+            OOPS! No Post ({{title}})
+        </div>
+        {% endfor %}
+        <div aria-label="Page navigation example ">
+            <ul class="pagination d-flex justify-content-center">
+                <li class="page-item ">
+                    {% if posts.has_previous %}
+                    <a href="?page={{ posts.previous_page_number }}"
+                        class="border rounded-pill btn-warning py-1 px-5 h5 mx-3">&#x2190;</a>
+                    {% endif %}
+                </li>
+                <li class="page-item">
+                    {% if posts.has_next %}
+                    <a href="?page={{ posts.next_page_number }}"
+                        class="border rounded-pill btn-warning py-1 px-5 h5 mx-3">&#x2192;</a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    var card = document.querySelectorAll('.embed-responsive');
+    var colors = [
+        'linear-gradient(180deg,#f44881,#ec454f)',
+        'linear-gradient(0deg,#f19a1a,#ffc73c)',
+        'linear-gradient(180deg,#21c8f6,#637bff)',
+        'linear-gradient(180deg,#6edcc4,#1aab8b)',
+        'linear-gradient(0deg,#8b60ed,#b372bd)',
+        'linear-gradient(180deg,#21c8f6,#637bff)',
+        'linear-gradient(0deg,#f19a1a,#ffc73c)',
+        'linear-gradient(180deg,#6edcc4,#1aab8b)',
+        'linear-gradient(180deg,#f44881,#ec454f)',
+        'linear-gradient(180deg,#f44881,#ec454f)',
+        'linear-gradient(0deg,#f19a1a,#ffc73c)',
+        'linear-gradient(180deg,#21c8f6,#637bff)',
+        'linear-gradient(180deg,#6edcc4,#1aab8b)',
+        'linear-gradient(0deg,#8b60ed,#b372bd)',
+        'linear-gradient(180deg,#f44881,#ec454f)',
+        'linear-gradient(0deg,#f19a1a,#ffc73c)',
+        'linear-gradient(180deg,#21c8f6,#637bff)',
+        'linear-gradient(180deg,#6edcc4,#1aab8b)',
+        'linear-gradient(0deg,#8b60ed,#b372bd)',
+        'linear-gradient(180deg,#21c8f6,#637bff)',
+        'linear-gradient(0deg,#f19a1a,#ffc73c)',
+        'linear-gradient(180deg,#6edcc4,#1aab8b)',
+        'linear-gradient(180deg,#f44881,#ec454f)',
+        'linear-gradient(180deg,#f44881,#ec454f)',
+        'linear-gradient(0deg,#f19a1a,#ffc73c)',
+        'linear-gradient(180deg,#21c8f6,#637bff)',
+        'linear-gradient(180deg,#6edcc4,#1aab8b)',
+        'linear-gradient(0deg,#8b60ed,#b372bd)',
+
+    ];
+
+    for (var i = 0; i < card.length; i++) {
+        card[i].style.background = colors[i]
+
+    }
+
+
+</script>
+{% endblock %}
