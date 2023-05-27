@@ -1,20 +1,22 @@
-{% extends "base.html" %}
+{% extends "dash.html" %}
 
 {% block content %}
-<div class="container">
-    <div class="row d-flex justify-content-center">
-        <div class="col-md-6 card shadow-sm my-4">
-            <h1 class="h4 my-3">Update Page</h1>
-            <form method="POST" enctype="multipart/form-data" class="my-3">
-                {% csrf_token %}
-                <label for="title">Title</label>
-                <input class="form-control mb-3" value="{{form.title.value}}" type="text" placeholder="Title" name="title" maxlength="300"
-                    id="id_title">
-                <label for="body">Description</label>
-                {{ form.body }}
-                <button class="btn btn-success w-100 mt-4">Create</button>
-            </form>
+<main class="main" id="main">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-10 card shadow-sm my-4">
+                <h1 class="h4 my-3">Update Page</h1>
+                <form method="POST" enctype="multipart/form-data" class="my-3">
+                    {% csrf_token %}
+                    <label for="title">Title</label>
+                    <input class="form-control mb-3" value="{{form.title.value}}" type="text" placeholder="Title" name="title" maxlength="300"
+                        id="id_title">
+                    <label for="body">Description</label>
+                    {{ form.body }}
+                    <button class="btn btn-success w-100 mt-4">Create</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+</main>
 {% endblock %}

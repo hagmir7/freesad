@@ -1,4 +1,5 @@
 {% extends "dash.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 <main class="main" id="main">
@@ -13,7 +14,7 @@
                 {% endif %}
                 <form method="POST" enctype="multipart/form-data" class="mb-3">
                     {% csrf_token %}
-                    {{form.as_p}}    
+                    {{form|crispy}}    
                     <button class="mt-2 btn btn-success w-100">Create Book</button>
                 </form>
             </div>
