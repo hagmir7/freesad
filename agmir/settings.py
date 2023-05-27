@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'import_export',
     'users',
+    "crispy_forms",
+    "crispy_bootstrap5",
 ]
 
 
@@ -250,6 +252,12 @@ SUMMERNOTE_CONFIG = {
     'width': '100%',
     'height': '400px',
 }  # set the Summernote configuration options
+
+
+# Crispy forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 
 # Simple JWT Settings
