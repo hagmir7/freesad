@@ -33,6 +33,7 @@ urlpatterns = [
     path('summernote/', include('django_summernote.urls')),
     # SEO Tools
     path('robots.txt', include('robots.urls')),
+    
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}),
     path('ads.txt', AdsView.as_view()),
 ]
@@ -45,6 +46,7 @@ urlpatterns += i18n_patterns(
     path('api-auth/', include('rest_framework.urls')),
     path('api/', include('freewsad.api.urls')),
     path('api-all/', include(router.urls)),
+    path('', include('users.urls')),
 
 
 

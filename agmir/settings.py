@@ -183,7 +183,7 @@ SUMMERNOTE_CONFIG = {
     }
 }
 
-SUMMERNOTE_THEME = 'bs4'
+SUMMERNOTE_THEME = 'bs5'
 
 
 # Authentecation tols

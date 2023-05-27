@@ -6,9 +6,7 @@
         <div class="row">
             <div class="d-flex justify-content-center card p-0 shadow-sm">
                 <div class="p-2 px-3 d-flex justify-content-between">
-                    <span>Posts (<strong>{{count}}</strong>)</span>
-                    <span><a href="/post/create">+ New Post</a></span>
-                    <span><a href="/post/create/category">+ New Category</a></span>
+                    <span>Posts (<strong>{{contacts.count}}</strong>)</span>
                 </div>
                 <table class="table p-3 mt-2">
                     <thead>
@@ -22,11 +20,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for post in posts %}
+                        {% for contact in contacts %}
                         <tr>
-                            <th scope="row">{{post.id}}</th>
-                            <td><a href="/p/{{post.slug}}">{{post.title|truncatechars:40}}</a></td>
-                            <td>{{post.category.name}}</td>
+                            <th scope="row">{{contact.id}}</th>
+                            <td><a href="/contact/{{contact.id}}">{{contact.full_name|truncatechars:40}}</a></td>
+                            <td>{{post.email}}</td>
                             <td>{{post.is_public}}</td>
                             <td>{{post.created|date:"D d M Y"}}</td>
                             <td>

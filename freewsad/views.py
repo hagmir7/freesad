@@ -122,7 +122,7 @@ def updatePost(request, id):
     }
     return render(request, 'post/update.html', context)
 
-
+@login_required
 def deletePost(request, id):
     post = get_object_or_404(Post, id=id)
     if post.user == request.user:
@@ -132,7 +132,7 @@ def deletePost(request, id):
     else:
         return redirect('posts_list')
 
-
+@login_required
 def postList(request):
     if request.user.is_superuser:
         list = Post.objects.all().order_by('-created')
@@ -144,7 +144,7 @@ def postList(request):
         return render(request, 'post/auth-list.html', context)
     else:
         return redirect('home')
-
+@login_required
 def postCategoryList(request):
     if request.user.is_superuser:
         list = PostCategory.objects.all().order_by('-id')
@@ -157,7 +157,7 @@ def postCategoryList(request):
     else:
         return redirect('home')
     
-
+# Category list
 def category(request, category):
     list = Post.objects.filter(category__name=category).order_by('-created')
     paginator = Paginator(list, 24)
@@ -170,9 +170,7 @@ def category(request, category):
         }
     return render(request, 'index.html', context)
 
-
-
-    
+@login_required    
 def createPostCategory(request):
     if request.user.is_superuser:
         form = FromPostCategory()
@@ -188,7 +186,7 @@ def createPostCategory(request):
         }
         return render(request, 'post/category/create.html', context)
 
-
+@login_required
 def updatePostCategory(request, id):
    if request.user.is_superuser:
         category = PostCategory.objects.get(id=id)
@@ -205,7 +203,7 @@ def updatePostCategory(request, id):
         }
         return render(request, 'post/category/update.html', context)
 
-
+@login_required
 def deletePostCategory(request, id):
     category = PostCategory.objects.get(id=id)
     if request.user.is_superuser:
@@ -243,9 +241,10 @@ def books(request):
     page_number = request.GET.get('page')
     books = paginator.get_page(page_number)
     count = Book.objects.all().count()
-    context = {'books': books, 'count': count, 'title': "Books - Freedaz"}
+    context = {'books': books, 'count': count, 'title': "Books - Freesad"}
     return render(request, 'book/list.html', context)
 
+@login_required
 def bookDetail(request, id=id):
     book = get_object_or_404(Book , id=id)
     book.addView()
@@ -257,7 +256,7 @@ def bookDetail(request, id=id):
     }
     return render(request, 'book/book.html', context)
 
-
+@login_required
 def bookList(request):
     if request.user.is_superuser:
         list = Book.objects.all().order_by('-date')
@@ -271,7 +270,7 @@ def bookList(request):
         return redirect('home')
 
 
-
+@login_required
 def createBook(request):
     if request.user.is_superuser:
         category = BookCategory.objects.all()
@@ -300,7 +299,7 @@ def createBook(request):
     return render(request, 'book/create.html', context)
 
 
-
+@login_required
 def updateBook(request, id):
     book = Book.objects.get(id=id)
     if request.user.is_superuser and request.user == book.user:
@@ -325,7 +324,7 @@ def updateBook(request, id):
     return render(request, 'book/update.html', context)
 
 
-
+@login_required
 def deleteBook(request, id):
     book = get_object_or_404(Book, id=id)
     if book.user == request.user:
@@ -525,11 +524,11 @@ def deletePage(request, id):
 
 def lable(request, lable):
     posts = Post.objects.filter(tags__icontains=lable, is_public=True, language__code=request.LANGUAGE_CODE)
-    context = {"posts": posts, 'title': f"{lable} - Freedaz"}
+    context = {"posts": posts, 'title': f"{lable} - Freesad"}
     return render(request, 'lable.html', context)
 
 def menu(request):
-    context = {'title': 'Menu - Freedaz'}
+    context = {'title': 'Menu - Freesad'}
     return render(request, 'menu.html', context)
 
 
@@ -545,11 +544,21 @@ def contact(request):
             form.save()
             messages.success(request, 'The message has been sent successfully')
             return redirect('contact')
-    context = {'form':form,'title':'Freedaz - Contace'}
+    context = {'form':form,'title':'Freesad - Contace'}
     return render(request, 'contact/contact.html', context)
 
 
 
+def contactList(request):
+    list = Contact.objects.all().order_by('created')
+    paginator = Paginator(list, 20)
+    page_number = request.GET.get('page')
+    contacts = paginator.get_page(page_number)
+    context = {'contacts':contacts,'title':'Freesad - Contaces list'}
+    return render(request, 'contact/list.html', context)
+
+
+@login_required
 def dashboard(request):
     return render(request, 'dashboard/index.html')
 

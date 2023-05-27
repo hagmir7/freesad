@@ -92,7 +92,7 @@ class Post(models.Model):
         elif self.title == None:
             self.slug = slugify(get_random_string(length=40).upper())
         else:
-            self.slug = slugify(str(self.title) +"-"+ str(random))
+            self.slug = slugify(str(self.title)[0:10] +"-"+ str(random))
         super(Post, self).save(*args, **kwargs)
     
     def next(self):

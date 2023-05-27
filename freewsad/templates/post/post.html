@@ -15,15 +15,12 @@
                     {% endif %}
                     <h1 dir="auto" class="blog-post-title h4 mt-2">{{post.title}}</h1>
                     <p dir="auto" class="text-left h6 text-muted">
-                        <strong><a href="">{{ post.category.name }}</a></strong> -
+                        <strong><a href="{% url 'category' post.category.name %}">{{ post.category.name }}</a></strong> -
                         {{post.created|date:'M d, Y '}}
                     </p>
                     <!-- - H:i -->
                     <div class="my-3">{{post.body|safe}}</div>
                 </article>
-
-
-
                 {% comment %} <section class="comments threaded mt-3"  id="comments">
                     <div class="title-wrap comments-title">
                         <div class="comment-title h5">({{ post.post_comment.count }}) Comments</div>
@@ -70,14 +67,11 @@
                     <a href="javascript:;" id="show-comment-form">Post a Comment</a>
             
                 </section> {% endcomment %}
-
-
                 {% if user.is_superuser %}
                 <!-- <div class="py-3">
                     <a href="/post/update/{{post.id}}" class="btn btn-sm me-3 btn-outline-info">Update</a>
                     <a href="/post/delete/{{post.id}}" onclick="return confirm('Are you sur you want to delete Post')" class="btn btn-sm btn-outline-danger">Delete</a>
                 </div> -->
-    
                 {% endif %}
 
                 <div class="post-nav">
