@@ -164,12 +164,10 @@ def category(request, category):
     paginator = Paginator(list, 24)
     page_number = request.GET.get('page')
     posts = paginator.get_page(page_number)
-    category = PostCategory.objects.get(name=category)
 
     context = {
         'posts': posts,
         'title' : category,
-        'category': category.name
     }
     return render(request, 'index.html', context)
 
