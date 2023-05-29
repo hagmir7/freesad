@@ -170,21 +170,22 @@ def category(request, category):
         }
     return render(request, 'index.html', context)
 
-@login_required    
+
+@login_required
 def createPostCategory(request):
-    if request.user.is_superuser:
-        form = FromPostCategory()
-        if request.method == 'POST':
-            form = FromPostCategory(request.POST)
-            if form.is_valid():
-                form.save()
-                messages.success(request, 'Category created successfully...')
-                return redirect('category_post_list')
-        context = {
-            'form': form,
-            'title': 'Create category'
-        }
-        return render(request, 'post/category/create.html', context)
+    form = FromPostCategory()
+    if request.method == 'POST':
+        form = FromPostCategory(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Category created successfully...')
+            return redirect('post.category.create')
+    context = {
+        'form': form,
+        'title': 'Create category'
+    }
+    return render(request, 'post/category/create.html', context)
+        
 
 @login_required
 def updatePostCategory(request, id):

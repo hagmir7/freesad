@@ -31,7 +31,7 @@
     content="{% if description %}{{description|slice:'158'}}{% else %}{% trans 'You can enjoy Books and Bopics, Courses you love and download the original content, and share it all with your friends, and the whole world on freesad.' %} {% endif %}" />
   <meta property="og:site_name" content="freesad" />
   <meta name="author" content="www.freesad.com">
-  <link rel="canonical" href="{{ request.path }}" />
+  <link rel="canonical" href="{{ request.build_absolute_uri }}" />
   <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/png">
   <link rel="apple-touch-icon" sizes="180x180" href="{% if image %}{{image.url}}{% else %}{% static 'img/freesad.svg' %}{% endif %}">
   <link rel="apple-touch-icon-precomposed" sizes="180x180" href="{% if image %}{{image.url}}{% else %}{% static 'img/freesad.svg' %}{% endif %}">
@@ -78,7 +78,7 @@
                           <img alt="Freesad is a Professional Education Platform." height="auto" width="auto"
                             src="{% static 'img/logo.svg' %}" />
                             {% if request.path|length == 4  %}
-                            <h1 id="h1-tag">Freesad is a Professional Education Platform.</h1>
+                            <h1 id="h1-tag">Freesad - Professional Education Platform, Web Development,</h1>
                             {% endif %}
                         </a>
                       </div>
