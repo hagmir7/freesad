@@ -1373,7 +1373,7 @@ html[data-theme=dark] .entry-image-wrap:hover {
     float: left;
     left: 0;
     top: 58px;
-    width: 180px;
+    width: 200px;
     background-color: var(--submenu-bg);
     z-index: 99999;
     padding: 0;

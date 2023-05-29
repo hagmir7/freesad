@@ -159,6 +159,7 @@ def postCategoryList(request):
     
 # Category list
 def category(request, category):
+
     list = Post.objects.filter(category__name=category).order_by('-created')
     paginator = Paginator(list, 24)
     page_number = request.GET.get('page')
@@ -166,8 +167,9 @@ def category(request, category):
 
     context = {
         'posts': posts,
-        'title' : "All Categories"
-        }
+        'title' : category,
+        'category': True
+    }
     return render(request, 'index.html', context)
 
 
