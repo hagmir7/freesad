@@ -1,0 +1,7 @@
+deployment:
+  tasks:
+    - name: Collect static files
+      command: python manage.py collectstatic --noinput
+      cwd: /home/agha6919/freesad
+      environment:
+        DJANGO_SETTINGS_MODULE: agmir.settings
