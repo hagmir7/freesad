@@ -5,3 +5,9 @@ deployment:
       cwd: /home/agha6919/freesad
       environment:
         DJANGO_SETTINGS_MODULE: agmir.settings
+
+    - name: Create Ne file
+      command: touch index.html
+      cwd: /home/agha6919/freesad
+      environment:
+        DJANGO_SETTINGS_MODULE: agmir.settings
