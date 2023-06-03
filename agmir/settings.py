@@ -197,16 +197,10 @@ WHITENOISE_MANIFEST_STRICT = False
 
 # Cors allow origins API
 
-
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000', 
-    "http://127.0.0.1:9000",
-    "https://freewsad.com",
-    "https://www.freewsad.com",
-    "https://stodio.freewsad.com",
-    "https://public.freewsad.com",
+    'http://localhost:3000',
+    'https://www.freewsad.com',
 ]
-
 
 
 
