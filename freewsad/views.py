@@ -545,7 +545,7 @@ def export_post(request):
 # --------------------- Post Play List  ----------------------
 
 @login_required
-def postList(request):
+def postPlayList(request):
     query = request.GET.get('query')
     if query:
         list = Post.objects.filter(title__icontains=query)
