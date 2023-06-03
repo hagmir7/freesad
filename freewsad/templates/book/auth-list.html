@@ -9,9 +9,12 @@
                     <span>Books (<strong>{{count}}</strong>)</span>
                     <span><a href="/book/create">+ New Book</a></span>
                     <span><a href="/book/create/category">+ New Category</a></span>
+                    <form method="GET">
+                        <input type="search" value="{{ query }}" placeholder="Title, Id, Description..." name="query" class="form-control form-control-sm">
+                    </form>
                 </div>
                 <table class="table p-3 mt-2">
-                    {% if count > 0%}
+                    {% if books %}
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -27,7 +30,9 @@
                         {% for book in books %}
                         <tr>
                             <th scope="row">{{book.id}}</th>
-                            <td>{{book.name|truncatechars:40}}</td>
+                            <td>
+                                <a href="/book/{{ book.slug }}">{{book.name|truncatechars:40}}</a>
+                            </td>
                             <td>{{book.category.name}}</td>
                             <td>{{book.views}}</td>
                             <td>{{book.date|date:"D d M Y"}}</td>

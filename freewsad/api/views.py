@@ -5,7 +5,7 @@ from django.views.generic import View
 from rest_framework.parsers import MultiPartParser, FormParser
 from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404, render
-from freewsad.models import Post, Book, PostCategory, Subscribe, Template, PostList, BookCategory, BookList
+from freewsad.models import Post, Book, PostCategory, Subscribe, PostList, BookCategory, BookList
 from rest_framework.views import APIView
 from .serializers import *
 from rest_framework import permissions
@@ -465,7 +465,6 @@ def dashboardTools(request):
     return Response({
         'books': Book.objects.all().count(),
         'posts': Post.objects.all().count(),
-        'templates': Template.objects.all().count(),
         'products': 0
     })
 

@@ -33,7 +33,6 @@ urlpatterns = [
     path('summernote/', include('django_summernote.urls')),
     # SEO Tools
     path('robots.txt', include('robots.urls')),
-    
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}),
     path('ads.txt', AdsView.as_view()),
 ]

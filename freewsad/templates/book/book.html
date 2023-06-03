@@ -1,14 +1,16 @@
 {% extends 'base.html' %}{% load static %}{% load i18n %}{% block content %}
 <div class="container">
-  <div class="row">
+  <div class="row py-5">
     <div class="col-md-8 mb-3">
       <article class="blog-post">
         <h1 class="blog-post-title h3 lang">{{book.name}}</h1>
         <p>{{book.description}}</p>
         <hr>
         <div class="d-flex justify-content-center mb-3">
-          <div class="card shadow-sm overflow-hidden col-12 col-md-6 col-lg-6 col-xl-6 p-0">
+          <div class="card shadow-sm overflow-hidden col-8 col-md-6 col-lg-5 col-xl-4 p-0">
+            {% if book.image.url %}
             <img class="book-detail-image" src="{{book.image.url}}" height="auto" width="auto" alt="{{book.name}}">
+            {% endif %}
           </div>
         </div>
         <h2 class="h5">{% trans "About book" %}</h2>
@@ -22,18 +24,28 @@
               <th scope="row">{% trans 'Publisher' %}</th>
               <td>{{book.user.first_name}} {{book.user.last_name}}</td>
             </tr>
-            <tr>
-              <th scope="row">{% trans 'File type' %}</th>
-              <td>{{book.type_file}}</td>
-            </tr>
-            <tr>
-              <th scope="row">{% trans 'Language' %}</th>
-              <td>{{book.language}}</td>
-            </tr>
-            <tr>
-              <th scope="row">{% trans 'Pages' %}</th>
-              <td>{{book.pages}}</td>
-            </tr>
+            {% if book.book_type %}
+              <tr>
+                <th scope="row">{% trans 'File type' %}</th>
+                <td>{{book.book_type}}</td>
+              </tr>
+            {% endif %}
+              <tr>
+                <th scope="row">{% trans 'Language' %}</th>
+                <td>{{book.language}}</td>
+              </tr>
+            {% if book.pages %}
+              <tr>
+                <th scope="row">{% trans 'Pages' %}</th>
+                <td>{{book.pages}}</td>
+              </tr>
+            {% endif %}
+            {% if book.size %}
+              <tr>
+                <th scope="row">{% trans 'Size' %}</th>
+                <td>{{book.size}}</td>
+              </tr>
+            {% endif %}
           </tbody>
         </table>
         <h2 class="h5">{% trans 'Download Book' %}</h2>
@@ -45,10 +57,24 @@
         </div>
 
       </article>
+
+      <div class="post-nav mb-3">
+        {% if book.pre %}
+        <a class="post-nav-newer-link" href="/book/{{book.pre.slug}}">
+            Previous Book
+        </a>
+        {% endif %}
+
+        {% if book.next %}
+        <a class="post-nav-older-link" href="/book/{{book.next.slug}}">
+            Next Book
+        </a>
+        {% endif %}
+    </div>
       {% if user == book.user %}
       <nav class="blog-pagination mt-3" aria-label="Pagination">
-        <a class="btn btn-outline-danger m-2" href="book/delete/{{book.id}}" onclick="return confirm('Are you sur you wante to delete Book')">{% trans "Delete" %}</a>
-        <a class="btn btn-outline-secondary m-2" href="{% url 'update_book' book.id %}">{% trans "Update" %}</a>
+        <a class="btn btn-outline-danger btn-sm m-2" href="book/delete/{{book.id}}" onclick="return confirm('Are you sur you wante to delete Book')">{% trans "Delete" %}</a>
+        <a class="btn btn-outline-success btn-sm m-2" href="{% url 'update_book' book.id %}">{% trans "Update" %}</a>
       </nav>
       {% endif %}
     </div>
@@ -61,8 +87,8 @@
                     of a download link for a book from the site. If you find a book that belongs to you and do
                     not agree to the publication of the download link for the book, or you have a suggestion or
                     complaint, write to us through the Contact Us page, or by email at : <a
-                        href="mailto:support@freewsad.com">support@freewsad.com</a></p><a href="/page/about-us-yqelk">Read
-                    More</a>
+                        href="mailto:support@freesad.com">support@freesad.com</a></p>
+                        <a href="/page/copyrights-sxrmt">Read More</a>
             </div>
         </div>
     </div>

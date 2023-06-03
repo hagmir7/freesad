@@ -95,7 +95,7 @@
                           <a href="#" role="menuitem">Categories</a>
                           <ul class="sub-menu m-sub">
                             {% for category in categories  %}
-                              <li><a href="/category/{{ category.name }}" role="menuitem">{{ category.name}} </a></li>
+                              <li><a href="/category/{{ category.slug }}" role="menuitem">{{ category.name}} </a></li>
                             {% endfor %}
                           </ul>
                         </li>
@@ -167,7 +167,9 @@
                 {% for post in new_posts %}
                 <article class="popular-post post item-0 mb-2">
                   <a class="entry-image-wrap is-image" href="{% url 'post' post.slug %}">
+                    {% if post.image %}
                     <span class="entry-thumb" data-image="{{ post.image.url}}"></span>
+                    {% endif %}
                   </a>
                   <div class="entry-header">
                     <h2 class="entry-title">

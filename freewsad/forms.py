@@ -14,14 +14,8 @@ class BookForm(forms.ModelForm):
     file = forms.FileField()
     class Meta:
         model = Book
-        fields = ('name', 'author', 'category', 'language', 'pages', 'file', 'image', 'description')
+        fields = ('name', 'author', 'category', 'tags', 'language', 'file', 'image', 'description')
 
-
-
-class CreateTemplateImage(forms.ModelForm):
-    class Meta:
-        model = TemplateImages
-        fields = ('__all__')
 
 
 class CreateContact(forms.ModelForm):
@@ -33,15 +27,6 @@ class SubscribeForm(forms.ModelForm):
     class Meta:
         model = Subscribe
         fields = ('email', )
-
-
-
-class OrderTempateForm(forms.ModelForm):
-    class Meta:
-        model = TemplateOrder
-        fields = ('email', 'country', 'first_name', 'last_name')
-
-
 
 class FormCreatePage(forms.ModelForm):
     body = forms.CharField(widget=SummernoteWidget()) 
@@ -59,11 +44,6 @@ class FormBookCategory(forms.ModelForm):
     class Meta:
         model = BookCategory
         fields = ('name', 'language')
-
-class FormCreateTemplate(forms.ModelForm):
-    class Meta:
-        model = Template
-        fields = ('title', 'price', 'demo', 'category', 'tags', 'body', 'tols','body', 'file' )
 
 
 class PostSearchForm(forms.Form):

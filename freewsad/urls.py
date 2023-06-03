@@ -40,11 +40,11 @@ urlpatterns = [
     path('dashboard', dashboard, name='dashboard'),  
 
     # Books
+    path('book/create', createBook, name='create_book'),
     path('book/list', bookList, name='books_list'),
-    path('book/<int:id>', bookDetail, name="book_detail"),
+    path('book/<str:slug>', bookDetail, name="book_detail"),
     path('books', books, name='books'),
     path('book/delete/<int:id>', deleteBook, name='book_delete'),
-    path('book/create', createBook, name='create_book'),
     path('book/update/<int:id>', updateBook , name='update_book'),
 
     path('book/create/category', createBookCategory, name='create_book_category'),
@@ -52,12 +52,6 @@ urlpatterns = [
     path('book/delete/category/<int:id>', deleteBookCategory, name='delete_book_category'),
     path('book/category/list', bookCategoryList,  name="category_book_list"),
 
-    # Template 
-    path('templates/list', templeteList, name='templates_list'),
-    path('template/delete/<int:id>', deleteTemplate, name='template_delete'),
-    path('templates', templates, name='templates'),
-    path('template/create', createTemplate, name='create_template'),
-    path('templates/<slug:slug>', template, name='template'),
 
     path('convet', convet),
     path('clear/history', clearHistory),

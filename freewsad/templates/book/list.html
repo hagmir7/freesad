@@ -10,7 +10,7 @@
             {% for book in books %}
             <div class="col-6 col-sm-6 col-md-3 col-lg-2 col-xl-2 mt-2">
                 <div class="card shadow-sm overflow-hidden">
-                  <a href="/book/{{book.id}}"><img class="book-image fill" src="{{book.image.url}}" alt="{{book.name}}" width="100%" ></a>
+                  <a href="/book/{{book.slug}}"><img class="book-image fill" src="{{book.image.url}}" alt="{{book.name}}" width="100%" ></a>
                 </div>
               </div>
             {% empty %}

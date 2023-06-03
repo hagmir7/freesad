@@ -10,6 +10,7 @@ from django.views import View
 import random
 from users.models import Profile
 from .export import PostResource
+from django.http import HttpResponseBadRequest
 
 
 class AdsView(View):
@@ -135,12 +136,19 @@ def deletePost(request, id):
 @login_required
 def postList(request):
     if request.user.is_superuser:
-        list = Post.objects.all().order_by('-created')
+        query = request.GET.get('query')
+        if query:
+            title = Post.objects.filter(title__icontains=query).order_by('created')
+            id = Post.objects.filter(id__icontains=query).order_by('created')
+            description = Post.objects.filter(description__icontains=query).order_by('created')
+            list = title | id | description
+        else:
+            list = Post.objects.all().order_by('-created')
         paginator = Paginator(list, 50) 
         page_number = request.GET.get('page')
         posts = paginator.get_page(page_number)
         count = Post.objects.all().count()
-        context = {'posts': posts, 'count': count}
+        context = {'posts': posts, 'count': count, 'query': query if query else '' }
         return render(request, 'post/auth-list.html', context)
     else:
         return redirect('home')
@@ -160,7 +168,7 @@ def postCategoryList(request):
 # Category list
 def category(request, category):
 
-    list = Post.objects.filter(category__name=category).order_by('-created')
+    list = Post.objects.filter(category__slug=category).order_by('-created')
     paginator = Paginator(list, 24)
     page_number = request.GET.get('page')
     posts = paginator.get_page(page_number)
@@ -247,8 +255,8 @@ def books(request):
     return render(request, 'book/list.html', context)
 
 @login_required
-def bookDetail(request, id=id):
-    book = get_object_or_404(Book , id=id)
+def bookDetail(request, slug):
+    book = get_object_or_404(Book , slug=slug)
     book.addView()
     context = {
         'title' : book.name,
@@ -261,12 +269,19 @@ def bookDetail(request, id=id):
 @login_required
 def bookList(request):
     if request.user.is_superuser:
-        list = Book.objects.all().order_by('-date')
+        query = request.GET.get('query')
+        if query:
+            name = Book.objects.filter(name__icontains=query)
+            id = Book.objects.filter(id__icontains=query)
+            description = Book.objects.filter(description__icontains=query)
+            list = name | id | description
+        else:
+            list = Book.objects.all()
         paginator = Paginator(list, 50) 
         page_number = request.GET.get('page')
         books = paginator.get_page(page_number)
         count = Book.objects.all().count()
-        context = {'books': books, 'count': count}
+        context = {'books': books, 'count': count, 'query': query if query else ''}
         return render(request, 'book/auth-list.html', context)
     else:
         return redirect('home')
@@ -274,11 +289,14 @@ def bookList(request):
 
 @login_required
 def createBook(request):
-    if request.user.is_superuser:
-        category = BookCategory.objects.all()
-        form = BookForm()
-        language = Language.objects.all()
-        if request.method == "POST":
+    form = BookForm()
+    if request.method == 'POST' and request.FILES.get('file'):
+        file = request.FILES['file']
+        allowed_extensions = ['.txt', '.pdf', '.epub']
+        file_extension = os.path.splitext(file.name)[1]
+        if file_extension.lower() not in allowed_extensions:
+            return HttpResponseBadRequest("Invalid file type. Only .txt, .pdf and epub files are allowed.")
+        else:
             form = BookForm(request.POST, files=request.FILES)
             if form.is_valid():
                 obj = form.save(commit=False)
@@ -289,15 +307,11 @@ def createBook(request):
             else:
                 messages.warning(request, 'Fail to create a Book.')
                 return redirect('create_book')
-        context = {
-            'form': form,
-            'title': 'Create Book',
-            'category': category,
-            'language': language,
-            'file_type': type_book
-        }
-    else:
-        return redirect('home')
+
+    context = {
+        'form': form,
+        'title': 'Create Book',
+    }
     return render(request, 'book/create.html', context)
 
 
@@ -305,9 +319,7 @@ def createBook(request):
 def updateBook(request, id):
     book = Book.objects.get(id=id)
     if request.user.is_superuser and request.user == book.user:
-        category = BookCategory.objects.all()
         form = BookForm(instance=book)
-        language = Language.objects.all()
         if request.method == "POST":
             form = BookForm(request.POST, instance=book, files=request.FILES)
             if form.is_valid():
@@ -317,9 +329,6 @@ def updateBook(request, id):
         context = {
             'form': form,
             'title': 'Create Book',
-            'category': category,
-            'file_type': type_book,
-            'language': language
         }
     else:
         return redirect('home')
@@ -395,85 +404,8 @@ def deleteBookCategory(request, id):
         return redirect('home')
 
 
-# ------------------------ Template Views ----------------------
-
-def templeteList(request):
-    if request.user.is_superuser:
-        list = Template.objects.all().order_by('-date')
-        paginator = Paginator(list, 50) 
-        page_number = request.GET.get('page')
-        templates = paginator.get_page(page_number)
-        count = Template.objects.all().count()
-        context = {'templates': templates, 'count': count}
-        return render(request, 'template/auth-list.html', context)
-    else:
-        return redirect('home')
 
 
-
-
-
-
-def deleteTemplate(request, id):
-    template = get_object_or_404(Template, id=id)
-    if template.user == request.user:
-        template.delete()
-        messages.success(request, "Template deleted successfull.")
-        return redirect('templates_list')
-    else:
-        return redirect('templates_list')
-
-
-def templates(request):
-    list = Template.objects.all().order_by('-date')
-    paginator = Paginator(list, 10) 
-    page_number = request.GET.get('page')
-    templates = paginator.get_page(page_number)
-    count = Template.objects.all().count()
-    context = {'templates': templates, 'count': count}
-    context = {
-        'templates': templates,
-        'title': 'Templates'
-    }
-    return render(request, 'template/list.html', context)
-
-
-def template(request, slug):
-    template = Template.objects.get(slug=slug)
-    context = {
-        'template': template,
-        'title': template.title,
-        'description': template.body[0:150],
-    }
-    return render(request, 'template/template.html', context)
-
-def createTemplate(request):
-    if request.user.is_superuser:
-        form = FormCreateTemplate()
-        if request.method == 'POST':
-            form = FormCreateTemplate(request.POST)
-            images = []
-            if form.is_valid():
-                files = request.FILES.getlist('images')
-                for file in files:
-                    create_template = TemplateImages.objects.create(images=file)
-                    images.append(create_template) 
-                obj = form.save(commit=False)
-                obj.user = request.user
-                obj.save()
-                for item in images:
-                    obj.image.add(item)
-                messages.success(request, 'Tempate created successfully...')
-                return redirect('templates_list')
-        context = {
-            'form': form,
-            'title': 'Create Template',
-            'category': TemplatesCategory.objects.all(),
-            'tols': TemplateTols.objects.all()
-        }
-        return render(request, 'template/create.html', context)
-    else:
-        return redirect('home')
 
 
 # ------------------------ Page Views ----------------------
@@ -608,6 +540,34 @@ def export_post(request):
 
 
 
+
+
+# --------------------- Post Play List  ----------------------
+
+@login_required
+def postList(request):
+    query = request.GET.get('query')
+    if query:
+        list = Post.objects.filter(title__icontains=query)
+    else:
+        list = Post.objects.all()
+    paginator = Paginator(list, 20)
+    page_number = request.GET.get('page')
+    playList = paginator.get_page(page_number)
+
+    context = {
+        'title' : 'Post play lists',
+        'lists' : playList
+    }
+    return render(request, 'list/auth-list.html', context)
+
+
+@login_required
+def deletePostPlayList(request, id):
+    list = get_object_or_404(PostList, id=id)
+    list.delete()
+    messages.success(request, "Play list deleted successfully.")
+    return redirect('/post/play-lists/list')
 
 
 

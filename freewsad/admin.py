@@ -31,12 +31,6 @@ class SubscribeIMportExport(ImportExportModelAdmin):
     pass
 
 
-@admin.register(Template)
-class TemplateIMportExport(ImportExportModelAdmin):
-    pass
-
-
-
 
 
 
@@ -54,14 +48,6 @@ admin.site.register(CommentBook)
 admin.site.register(Contact)
 admin.site.register(IpModel)
 
-
-# Tempate 
-admin.site.register(TemplateImages)
-admin.site.register(TemplateLanguage)
-admin.site.register(TemplateOrder)
-admin.site.register(TemplatesCategory)
-admin.site.register(TemplateTols)
-admin.site.register(TemplateType)
 
 
 # Page
