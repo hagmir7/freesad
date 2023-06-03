@@ -54,7 +54,6 @@ SITE_ID = 1
 # Mid
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'freewsad.middleware.CorsMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
