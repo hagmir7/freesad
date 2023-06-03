@@ -46,10 +46,6 @@ urlpatterns += i18n_patterns(
     path('api/', include('freewsad.api.urls')),
     path('api-all/', include(router.urls)),
     path('', include('users.urls')),
-
-
-
-
 )
 
 
