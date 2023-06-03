@@ -5,6 +5,6 @@ class CorsMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
         response["Access-Control-Allow-Origin"] = "https://www.freewsad.com"  # Replace with your desired origin
-        response["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
-        response["Access-Control-Allow-Headers"] = "Content-Type"
+        response["Access-Control-Allow-Methods"] = "GET, POST"
+        response["Access-Control-Allow-Headers"] = "https://www.freewsad.com" 
         return response
