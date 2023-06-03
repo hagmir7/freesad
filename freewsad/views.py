@@ -539,6 +539,14 @@ def export_post(request):
     return response
 
 
+def addBooksSlug(request):
+    books = Book.objects.all()
+    for book in books:
+        book.views = book.views + 1
+        book.save()
+    return redirect('/')
+
+
 
 
 

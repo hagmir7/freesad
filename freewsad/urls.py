@@ -67,7 +67,10 @@ urlpatterns = [
 
 
     # emport Export 
-    path('posts/export', export_post)
+    path('posts/export', export_post),
+
+
+    path('add-books-slug', addBooksSlug)
 
 
 
