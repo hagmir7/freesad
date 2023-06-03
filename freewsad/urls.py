@@ -70,7 +70,8 @@ urlpatterns = [
     path('posts/export', export_post),
 
 
-    path('add-books-slug', addBooksSlug)
+    path('add-books-slug', addBooksSlug),
+    path('book-file-exists', bookFileExists),
 
 
 

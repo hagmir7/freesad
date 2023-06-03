@@ -547,6 +547,21 @@ def addBooksSlug(request):
     return redirect('/')
 
 
+import os
+from django.conf import settings
+
+
+def bookFileExists(request):
+    books = Book.objects.all()
+    for book in books:
+        file_path = os.path.join(settings.MEDIA_ROOT, str(book.file))
+        if os.path.exists(file_path):
+            pass
+        else:
+            print(f"File does not exist for book: {book.id}")
+    return redirect('/')
+
+
 
 
 
