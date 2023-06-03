@@ -265,12 +265,12 @@ class Book(models.Model):
 
             
     def save(self, *args, **kwargs):
-        
+
         random = get_random_string(length=5).upper()
         if not self.id:
-            self.slug = slugify(self.name +"-"+ str(random))[0:30]
+            self.slug = slugify(self.name[0:20] +"-"+ str(random))
         elif not self.slug:
-            self.slug = slugify(self.name +"-"+ str(random))[0:30]
+            self.slug = slugify(self.name[0:20] +"-"+ str(random))
         self.size = self.getSize()
 
         if self.file:
