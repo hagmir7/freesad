@@ -29,7 +29,7 @@ def index(request):
     else:
         list = Post.objects.filter(language=1, is_public=True).order_by('-created')
 
-    paginator = Paginator(list, 14) 
+    paginator = Paginator(list, 16) 
     page_number = request.GET.get('page')
     post = paginator.get_page(page_number)
     context = {
