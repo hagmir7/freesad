@@ -6,7 +6,7 @@
 
 
 .code, pre {
-    background-color: #002b36;
+    background-color: #002b36!important;
     border-radius: 0.375rem;
     color: #839496;
     font-family: Consolas,Courier New,monospace;
