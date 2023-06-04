@@ -188,6 +188,15 @@ SUMMERNOTE_CONFIG = {
 SUMMERNOTE_THEME = 'bs5'
 
 
+
+# Robots.txt
+ROBOTS_CACHE_TIMEOUT = 60 * 60 * 24  # Cache the robots.txt file for 24 hours
+ROBOTS_USE_SCHEME_IN_HOST = False 
+ROBOTS_TXT = """
+User-agent: *
+Disallow: /
+"""
+
 # Authentecation tols
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
@@ -205,6 +214,7 @@ CORS_ALLOWED_ORIGINS = [
     'https://www.freewsad.com',
     'https://freewsad.com',
 ]
+
 
 
 

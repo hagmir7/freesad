@@ -39,7 +39,6 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('freewsad.urls')),
     path('api-auth/', include('rest_framework.urls')),
