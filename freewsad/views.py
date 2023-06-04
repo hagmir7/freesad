@@ -98,7 +98,7 @@ def createPost(request):
 
 @login_required
 def updatePost(request, id):
-    post = Post.objects.get(id=id)
+    post = get_object_or_404(Post, id=id)
     form = CreatePostForm(instance=post)
     playList = PostList.objects.filter(user=request.user)
     category = PostCategory.objects.all()
@@ -199,7 +199,7 @@ def createPostCategory(request):
 @login_required
 def updatePostCategory(request, id):
    if request.user.is_superuser:
-        category = PostCategory.objects.get(id=id)
+        category = get_object_or_404(PostCategory, id=id)
         form = FromPostCategory(instance=category)
         if request.method == 'POST':
             form = FromPostCategory(request.POST, instance=category)
@@ -215,7 +215,7 @@ def updatePostCategory(request, id):
 
 @login_required
 def deletePostCategory(request, id):
-    category = PostCategory.objects.get(id=id)
+    category = get_object_or_404(PostCategory, id=id)
     if request.user.is_superuser:
         if category.delete():
             messages.success(request, 'Category deleted successfully...')
@@ -317,7 +317,7 @@ def createBook(request):
 
 @login_required
 def updateBook(request, id):
-    book = Book.objects.get(id=id)
+    book = get_object_or_404(Book, id=id)
     if request.user.is_superuser and request.user == book.user:
         form = BookForm(instance=book)
         if request.method == "POST":
@@ -376,7 +376,7 @@ def createBookCategory(request):
 
 def updateBookCategory(request, id):
    if request.user.is_superuser:
-        category = BookCategory.objects.get(id=id)
+        category = get_object_or_404(BookCategory, id=id)
         form = FormBookCategory(instance=category)
         if request.method == 'POST':
             form = FormBookCategory(request.POST, instance=category)
@@ -392,7 +392,7 @@ def updateBookCategory(request, id):
 
 
 def deleteBookCategory(request, id):
-    category = BookCategory.objects.get(id=id)
+    category = get_object_or_404(BookCategory, id=id)
     if request.user.is_superuser:
         if category.delete():
             messages.success(request, 'Category deleted successfully...')
@@ -431,7 +431,7 @@ def createPage(request):
 
 
 def updatePage(request, id):
-    page = Page.objects.get(id=id)
+    page = get_object_or_404(Page, id=id)
     form = FormCreatePage(instance=page)
     if request.method == 'POST' and request.user.is_superuser:
         form = FormCreatePage(request.POST, instance=page)
@@ -442,7 +442,7 @@ def updatePage(request, id):
     return render(request, 'page/update.html', context)
 
 def deletePage(request, id):
-    page = Page.objects.get(id=id)
+    page = get_object_or_404(Page, id=id)
     if request.user.is_superuser:
         operation = page.delete()
         if operation:

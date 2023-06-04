@@ -189,7 +189,7 @@ class PostListView(View):
 
 
 def postDetail(request, slug):
-    post = Post.objects.get(slug=slug)
+    post = get_object_or_404(Post, slug=slug)
     item = {
         'title': post.title,
         'image': post.image.url if post.image else False,
