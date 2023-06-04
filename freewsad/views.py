@@ -33,7 +33,8 @@ def index(request):
     post = paginator.get_page(page_number)
     context = {
         'posts': post,
-        'query' : query if query else ''
+        'query' : query if query else '',
+        'title':  'Freesad - Articles' if 'posts' in request.path else None
     }
     return render(request, 'index.html', context)
 
@@ -159,14 +160,14 @@ def postCategoryList(request):
         page_number = request.GET.get('page')
         category = paginator.get_page(page_number)
         count = PostCategory.objects.all().count()
-        context = {'category': category, 'count': count}
+        context = {'category': category, 'count': count }
         return render(request, 'post/category/auth-list.html', context)
     else:
         return redirect('home')
     
 # Category list
 def category(request, category):
-
+    current_category = get_object_or_404(PostCategory, slug=category)
     list = Post.objects.filter(category__slug=category).order_by('-created')
     paginator = Paginator(list, 24)
     page_number = request.GET.get('page')
@@ -174,7 +175,7 @@ def category(request, category):
 
     context = {
         'posts': posts,
-        'title' : category,
+        'title' : current_category.name,
     }
     return render(request, 'index.html', context)
 
