@@ -214,6 +214,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'https://www.freewsad.com',
     'https://freewsad.com',
+    'http://index.freesad.com'
 ]
 
 

@@ -15,8 +15,7 @@ from django.http import HttpResponseBadRequest
 
 class AdsView(View):
     def get(self, request, *args, **kwargs):
-        line  =  "google.com, pub-6043226569102012, DIRECT, f08c47fec0942fa00"
-        return HttpResponse(line)
+        return render(request, 'ads.txt')
 
 
 def index(request):
