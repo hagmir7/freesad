@@ -15,22 +15,28 @@
   <meta itemprop="description" content="{% if description %}{{description|slice:'158'}}{% else %}{% trans 'You can enjoy Books and Bopics, Courses you love and download the original content, and share it all with your friends, and the whole world on freesad.' %} {% endif %}">
   <meta itemprop="image" content="{% if image %}{{image.url}}{% else %}{% static 'img/freesad.svg' %}{% endif %}">
   <!-- Twitter Card data -->
-  <meta name="twitter:site" content="@freesad">
+  <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="{% if title %} {{title|slice:'60'}} {% else %} {% trans 'Freesad - Professional Education Platform' %} {% endif %}">
   <meta name="twitter:description" content="{% if description %}{{description|slice:'158'}}{% else %}{% trans 'You can enjoy Books and Bopics, Courses you love and download the original content, and share it all with your friends, and the whole world on freesad.' %} {% endif %}">
   <meta name="twitter:creator" content="@freesad">
+  <meta name="twitter:site" content="@freesad">
   <meta name="twitter:image" content="{% if image %}{{image.url}}{% else %}{% static 'img/freesad.svg' %}{% endif %}">
   <!-- Open Graph data -->
   <meta property="og:title" content="{% if title %} {{title|slice:'60'}} {% else %} {% trans 'Freesad - Professional Education Platform' %} {% endif %}" />
-  <meta property="og:type" content="article" />
+  <meta property="og:type" content="webiste" />
   <meta property="og:url" content="https://www.freesad.com{{ request.path }}" />
   <meta property="og:image" content="{% if image %}{{image.url}}{% else %}{% static 'img/freesad.svg' %}{% endif %}" />
   <meta property="og:description" content="{% if description %}{{description|slice:'158'}}{% else %}{% trans 'You can enjoy Books and Bopics, Courses you love and download the original content, and share it all with your friends, and the whole world on freesad.' %} {% endif %}" />
-  <meta property="og:site_name" content="freesad" />
+  <meta property="og:local" content="en" />
+
   <meta name="author" content="www.freesad.com">
   <meta name="robots" content="index,follow">
   <link rel="canonical" href="{{ request.build_absolute_uri }}" />
   <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/png">
+
+  <link rel="alternate" href="https://freesad.com/en/" hreflang="en-us">
+  <link rel="alternate" href="https://freesad.com/ar/" hreflang="ar">
+
   <link rel="apple-touch-icon" sizes="180x180" href="{% if image %}{{image.url}}{% else %}{% static 'img/freesad.svg' %}{% endif %}">
   <link rel="apple-touch-icon-precomposed" sizes="180x180" href="{% if image %}{{image.url}}{% else %}{% static 'img/freesad.svg' %}{% endif %}">
   <!-- theme -->
