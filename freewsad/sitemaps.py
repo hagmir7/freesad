@@ -3,6 +3,7 @@ from django.urls import reverse
 from .models import Book, Language, Post
 from users.models import Profile
 import math
+from django.conf import settings
 
 class StaticViewSitemap(Sitemap):
 
@@ -15,7 +16,7 @@ class StaticViewSitemap(Sitemap):
 
 class PostsSitemap(Sitemap):
 
-    limit = 800  # Number of items per page
+    limit = 1000  # Number of items per page
 
     def items(self):
         langauge = Language.objects.get(id=1)
@@ -25,6 +26,10 @@ class PostsSitemap(Sitemap):
         # Override the get_urls method to return URLs for a specific page
         self.page = page
         return super().get_urls(page, site, protocol)
+    
+    def lastmod(self, obj):
+        # Logic to determine the last modification date for each URL
+        return obj.created
 
     def _get_pagination_urls(self):
         urls = []
@@ -32,6 +37,7 @@ class PostsSitemap(Sitemap):
         for page in range(1, num_pages + 1):
             urls.extend(self.get_urls(page=page))
         return urls
+    
 
     def get_url_info(self, obj):
         # Override the get_url_info method to include additional info for each URL
@@ -39,7 +45,11 @@ class PostsSitemap(Sitemap):
         info['priority'] = 0.5  # Set the priority for the URL
         return info
     
+    def get_urls(self, page=1, site=None, protocol=None):
+        # Get the default URLs from the parent class
+        urls = super().get_urls(page, site, protocol)
 
+        # Access settings
 
 
 
