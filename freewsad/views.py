@@ -59,14 +59,13 @@ def search(request):
 def post(request, slug):
     post = get_object_or_404(Post, slug=slug)
     list = Post.objects.filter(language=post.language, category=post.category).order_by('-created')[:3]
-
-
     context = {
         'post':post,
         'description': post.description,
         'title': post.title,
         'posts': list,
         'image': post.image,
+        'tags' : post.tags
 
     }
     return render(request, 'post/post.html', context)
@@ -262,7 +261,8 @@ def bookDetail(request, slug):
         'title' : book.name,
         'description' : book.description,
         'image': book.image,
-        'book': book
+        'book': book,
+        'tags': book.tags
     }
     return render(request, 'book/book.html', context)
 
