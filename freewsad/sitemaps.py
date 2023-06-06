@@ -45,11 +45,7 @@ class PostsSitemap(Sitemap):
         info['priority'] = 0.5  # Set the priority for the URL
         return info
     
-    def get_urls(self, page=1, site=None, protocol=None):
-        # Get the default URLs from the parent class
-        urls = super().get_urls(page, site, protocol)
 
-        # Access settings
 
 
 
