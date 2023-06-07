@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
-
+from django.http import HttpResponseRedirect
 from agmir.settings import LANGUAGE_CODE
 from . forms import *
 from django.http import HttpResponse
@@ -55,6 +55,18 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
+
+# @user_passes_test(is_admin)
+# @staff_member_required
+def postStatus(request, id):
+    post = get_object_or_404(Post, id=id)
+    if post.is_public:
+        post.is_public = False
+        post.save()
+    else:
+        post.is_public = True
+        post.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 # Post search
 
