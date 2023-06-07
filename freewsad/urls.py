@@ -38,6 +38,7 @@ urlpatterns = [
 
     # Dashboard
     path('dashboard', dashboard, name='dashboard'),  
+    path('logs/', logs, name='logs'),
 
     # Books
     path('book/create', createBook, name='create_book'),

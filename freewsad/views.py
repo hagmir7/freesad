@@ -11,11 +11,28 @@ import random
 from users.models import Profile
 from .export import PostResource
 from django.http import HttpResponseBadRequest
-
+import os
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import user_passes_test
 
 class AdsView(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'ads.txt')
+    
+
+
+
+def is_admin(user):
+    return user.is_superuser
+
+
+@user_passes_test(is_admin)
+@staff_member_required
+def logs(request):
+    log_file_path = os.path.join('logse/passenger.log')  # Replace with the actual path to the log file
+    with open(log_file_path, 'r') as log_file:
+        log_contents = log_file.read()
+    return render(request, 'logs.html', {'log_contents': log_contents})
 
 
 def index(request):
