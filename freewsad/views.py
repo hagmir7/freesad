@@ -26,7 +26,7 @@ def index(request):
         description = Post.objects.filter(description__icontains=query)
         list = title | description
     else:
-        list = Post.objects.filter(language=1, is_public=True).order_by('-created')
+        list = Post.objects.filter(language=1, is_public=True, ).exclude(category__name="Programming").order_by('-created')
 
     paginator = Paginator(list, 16) 
     page_number = request.GET.get('page')
