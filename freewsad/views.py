@@ -14,6 +14,7 @@ from django.http import HttpResponseBadRequest
 import os
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import user_passes_test
+from bs4 import BeautifulSoup
 
 class AdsView(View):
     def get(self, request, *args, **kwargs):
@@ -43,7 +44,7 @@ def index(request):
         description = Post.objects.filter(description__icontains=query)
         list = title | description
     else:
-        list = Post.objects.filter(language=1, is_public=True, ).exclude(category__name="Programming").order_by('-created')
+        list = Post.objects.filter(language=1, is_public=True, ).order_by('-created')
 
     paginator = Paginator(list, 16) 
     page_number = request.GET.get('page')
@@ -100,7 +101,7 @@ def post(request, slug):
     return render(request, 'post/post.html', context)
 
 
-from bs4 import BeautifulSoup
+
 
 
 
