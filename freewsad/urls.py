@@ -74,6 +74,7 @@ urlpatterns = [
 
     path('add-books-slug', addBooksSlug),
     path('book-file-exists', bookFileExists),
+    path('update-post-body', updateBody),
 
 
 

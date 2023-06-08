@@ -99,6 +99,25 @@ def post(request, slug):
     }
     return render(request, 'post/post.html', context)
 
+
+from bs4 import BeautifulSoup
+
+
+
+def bodyParser(body, title):
+    soup = BeautifulSoup(body, 'html.parser')
+
+    images = soup.find_all('img')
+    for image in images:
+        image['alt'] = title
+        image['height'] = 'auto'
+        image['width'] = '100%'
+        if 'freesad' not in image['src']:
+            image['src'] = 'https://www.freesad.com' + image['src']  # Combine base URL with relative image source
+    return soup.prettify()
+
+
+
 @login_required
 def createPost(request):
     form = CreatePostForm()
@@ -109,6 +128,7 @@ def createPost(request):
         form = CreatePostForm(request.POST, files=request.FILES)
         if form.is_valid():
             obj = form.save(commit=False)
+            obj.body = bodyParser(obj.body, obj.title)
             obj.user = request.user
             obj.save()
             messages.success(request, "Post Creaeted successfully..")
@@ -135,7 +155,9 @@ def updatePost(request, id):
         form = CreatePostForm(request.POST, files=request.FILES, instance=post)
         if form.is_valid():
             if post.user == request.user or request.user.is_superuser:
-                form.save()
+                obj = form.save(commit=False)
+                obj.body = bodyParser(obj.body, obj.title)
+                obj.save()
                 messages.success(request, 'The post updated successfully.')
                 return redirect('home')
             else:
@@ -620,6 +642,15 @@ def deletePostPlayList(request, id):
     list.delete()
     messages.success(request, "Play list deleted successfully.")
     return redirect('/post/play-lists/list')
+
+
+
+def updateBody(request):
+    posts = Post.objects.all()
+    for post in posts:
+        post.body = bodyParser(post.body, post.title)
+        post.save()
+    return redirect('/')
 
 
 
