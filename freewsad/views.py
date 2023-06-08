@@ -115,8 +115,7 @@ def bodyParser(body, title):
         image['width'] = '100%'
         if 'freesad' not in image['src']:
             image['src'] = 'https://www.freesad.com' + image['src']  # Combine base URL with relative image source
-    return soup
-
+    return str(soup)
 
 
 @login_required
