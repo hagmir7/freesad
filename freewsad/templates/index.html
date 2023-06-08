@@ -23,11 +23,10 @@
                 </div>
                 <div class="blog-posts hfeed container index-post-wrap">
                   {% for post in  posts %}
-                  
                   <article class="blog-post hentry index-post post-10 p-sm-0 p-md-1 p-lg-1 p-xl-1">
                     <a class="entry-image-wrap is-image" href="{% url 'post' post.slug %}">
                       {% if post.image %}
-                        <span class="entry-thumb" data-image="{{ post.image.url }}"></span>
+                        <span class="entry-thumb" data-image="{{ post.image.url }}"><span class="d-none">{{post.title}}</span></span>
                       {% endif %}
                     </a>
                     <div class="entry-header">

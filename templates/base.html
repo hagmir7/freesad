@@ -171,7 +171,7 @@
                 <article class="popular-post post item-0 mb-2">
                   <a class="entry-image-wrap is-image" href="{% url 'post' post.slug %}">
                     {% if post.image %}
-                    <span class="entry-thumb" data-image="{{ post.image.url}}"></span>
+                    <span class="entry-thumb" data-image="{{ post.image.url}}"><span class="d-none">{{post.title}}</span></span>
                     {% endif %}
                   </a>
                   <div class="entry-header">
