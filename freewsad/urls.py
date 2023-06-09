@@ -6,6 +6,7 @@ from . sites.geeksforgeeks import geeksforgeeks
 from . sites.cloud import cloud
 from . sites.codingnepalweb import codingnepalweb
 
+
 urlpatterns = [
     path('', index, name='home'),
     # Post

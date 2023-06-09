@@ -6,13 +6,7 @@ from django.conf.urls.static import static
 from freewsad.sitemaps import *
 from django.contrib.sitemaps.views import sitemap
 from rest_framework import routers
-
 from freewsad.views import AdsView
-
-
-
-
-
 
 
 

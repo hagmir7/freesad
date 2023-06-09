@@ -2,7 +2,7 @@
 
 {% load static %} {% load i18n %}
 <!DOCTYPE html>
-<html class="ltr" lang='en' dir="ltr">
+<html class="ltr" lang="en" dir="ltr">
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -90,21 +90,18 @@
                 <nav class="main-menu-wrap">
                   <div class="freebify-preview-main-menu section" id="freebify-preview-main-menu" name="Main Menu">
                     <div class="widget LinkList show-menu" data-version="2" id="LinkList152">
+
                       <ul id="freebify-preview-main-menu-nav" role="menubar">
                         <li><a href="/" role="menuitem">Home</a></li>
-
-
-                        <li class="has-sub">
+                        <li class="has-sub" role="menuitem" aria-haspopup="true" aria-expanded="false">
                           <a href="#" role="menuitem">Categories</a>
-                          <ul class="sub-menu m-sub">
+                          <ul class="sub-menu m-sub" role="menu">
                             {% for category in categories  %}
-                              <li><a href="/category/{{ category.slug }}" role="menuitem">{{ category.name}} </a></li>
-                            {% endfor %}
+                            <li><a href="/category/{{ category.slug }}" role="menuitem">{{ category.name }}</a></li>
+                             {% endfor %}
                           </ul>
                         </li>
-
-                        <li><a href="{% url 'post.list' %}" role="menuitem">Posts</a></li>
-                        <!-- <li><a href="/post" role="menuitem">Play List</a></li> -->
+                        <li><a href="/en/posts" role="menuitem">Posts</a></li>
                         <li><a href="/page/about-us-4gtsf" role="menuitem">About Us</a></li>
                         <li><a href="/contact" role="menuitem">Contact Us</a></li>
                       </ul>
@@ -112,8 +109,6 @@
                   </div>
                 </nav>
                 <div class="main-toggle-wrap">
-                  <!-- <a class="main-toggle-style search-toggle show" href="javascript:;"></a>
-                  <a class="main-toggle-style search-toggle hide " href="javascript:;"></a> -->
                   <a class="main-toggle-style mobile-menu-toggle" onclick="sliderShow()" href="javascript:;"><span class="d-none">Menu</span></a>
                 </div>
                 <div id="nav-search-wrap">
@@ -270,10 +265,6 @@
     $(function () { $(".df-hide").on("click", function () { $(".demo-float").fadeOut(170); }); });
   </script> -->
 {% endif %}
-
-
-
-
   <script>
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -294,9 +285,6 @@
       });
     });
 
-
-
-
     const sliderShow = () =>{
       document.getElementById('slide-menu').style.visibility = "visible";
       document.getElementById('slide-menu').style.transform = "translateX(0)";
@@ -308,16 +296,7 @@
       document.getElementById('slide-menu').style.display = "none";
       document.getElementById('slide-menu').style.transform = "translateX(1)";
     }
-
-
-
-
-
-
-
   </script>
-
-
 </body>
 
 </html>
