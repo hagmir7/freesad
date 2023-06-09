@@ -6,7 +6,10 @@
 .syntaxhighlighter table{
     width: 100%!important;
 }
-
+.published{
+    color: black;
+    font-weight: 900;
+}
 
 
 .code, pre {
@@ -2765,7 +2768,8 @@ h2.hero-title {
 }
 
 .index-post .entry-category {
-    font-size: 12px
+    font-size: 13px;
+    font-weight: bolder;
 }
 
 .index-post .entry-title {
