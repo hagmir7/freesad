@@ -8,12 +8,24 @@ from django.db.models.signals import pre_save, pre_delete,post_save
 from django.dispatch import receiver
 import os
 import uuid
+import fitz
+from ebooklib import epub
+from PIL import Image
+import os
 
 
+
+def is_image(file_path):
+    try:
+        with Image.open(file_path) as img:
+            img.verify()
+        return True
+    except (IOError, SyntaxError):
+        return False
+    
 
 # Generate file name
 def filename(instance, filename):
-    # Generate a unique filename for the image
     ext = filename.split('.')[-1]  # Get the file extension
     new_filename = f'{uuid.uuid4().hex}.{ext}'
     base_path = f"{str(instance._meta.model_name).lower()}s/{ext.upper()}" # Change this to your desired directory
@@ -21,6 +33,7 @@ def filename(instance, filename):
     file = os.path.join(base_path, current_date, new_filename)
     
     return file
+
 
 
 
@@ -206,11 +219,19 @@ class BookList(models.Model):
 class BookCategory(models.Model):
     name = models.CharField(max_length=50)
     language = models.ForeignKey(Language, on_delete=models.CASCADE ,blank=True, null=True)
+    slug = models.SlugField(null=True, blank=True)
+
+    def save(self, *args, **kwargs ):
+        random = get_random_string(length=5).upper()
+        if not self.id:
+            self.slug = slugify(self.name +"-"+ str(random))
+        elif not self.slug:
+            self.slug = slugify(self.name +"-"+ str(random))
+        super(BookCategory, self).save(*args, **kwargs)
+
 
     def __str__(self):
         return self.name
-
-
 
 
 
@@ -267,6 +288,8 @@ class Book(models.Model):
     def save(self, *args, **kwargs):
 
         random = get_random_string(length=5).upper()
+
+        
         if not self.id:
             self.slug = slugify(self.name[0:20] +"-"+ str(random))
         elif not self.slug:
@@ -275,6 +298,7 @@ class Book(models.Model):
 
         if self.file:
             self.book_type = self.file.url.split('.')[-1].upper()
+
         super(Book, self).save(*args, **kwargs)
 
 
@@ -283,6 +307,8 @@ class Book(models.Model):
 
     def pre(self):
         return self.get_previous_by_date()
+    
+
 
 
 
@@ -301,12 +327,41 @@ def delete_old_image(sender, instance, **kwargs, ):
         if existing_instance.file and existing_instance.file != instance.file:
             # Delete the old file file
             existing_instance.file.delete(save=False)
+        
+
+        
 
 @receiver(pre_delete, sender=Book)
 def delete_image_file(sender, instance, **kwargs):
     # Delete the image file when the model instance is deleted
     instance.image.delete(save=False) 
     instance.file.delete(save=False) 
+
+
+def epub_count_pages(epub_path):
+    book = epub.read_epub(epub_path)
+    num_pages = len(book.spine)
+
+    return num_pages
+
+
+@receiver(post_save, sender=Book)
+def update_page_count(sender, instance, **kwargs):
+
+
+    if instance.file and not instance.pages:
+        if instance.book_type == 'PDF':
+            doc = fitz.open(instance.file.path)
+            instance.pages = doc.page_count
+            doc.close()
+            
+        elif instance.book_type == 'EPUB':
+            instance.pages = epub_count_pages(instance.file.path)
+        else:
+            instance.pages = 1
+        instance.save()
+
+
 
 
 class CommentBook(models.Model):

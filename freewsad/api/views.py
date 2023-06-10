@@ -26,28 +26,13 @@ from rest_framework.permissions import IsAuthenticated
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny,))
 def home(request):
-
-    list = Post.objects.filter(
-        language__code=request.LANGUAGE_CODE, is_public=True).order_by('-created')
+    list = Post.objects.filter(language__code=request.LANGUAGE_CODE, is_public=True).order_by('-created')
     paginator = Paginator(list, 6)
     page_number = request.GET.get('page')
     posts = paginator.get_page(page_number)
     serializer = PostSerializer(posts, many=True)
     return Response({'data': serializer.data, 'has_next': posts.has_next()})
 
-
-@api_view(['GET'])
-@permission_classes((permissions.AllowAny, ))
-def books(request):
-    books = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-views')
-    # books = Book.objects.all().order_by('-date')
-    paginator = Paginator(books, 24)
-    page_number = request.GET.get('page')
-    posts = paginator.get_page(page_number)
-    serializer = BookSerializer(posts, many=True)
-    return Response({'data': serializer.data, 'has_next': posts.has_next()})
-
-    return Response()
 
 
 @api_view(['POST'])
@@ -86,125 +71,18 @@ class PostUploadImage(APIView):
             return Response(serializer.errors)
 
 
-# Book Detail
 
-@api_view(['GET', 'POST'])
-@permission_classes((permissions.AllowAny,))
-def bookDetail(request, id):
-    book = get_object_or_404(Book, id=id)
-    book.addView()
-    data = {
-        "name": book.name,
-        "pages": book.pages,
-        "image": book.image.url,
-        "description": book.description,
-        "tags": book.tags,
-        "date": book.date,
-        "file": book.file.url,
-        "language": book.language.name,
-        'file_type': book.book_type,
-        'author': book.author,
-        'size': book.size,
-        'sulg': book.slug,
-        'category': book.category.name,
-        'views': book.views
-    }
-    return Response(data)
+
+
+
+
 
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny,))
-def book(request, slug):
-    book = get_object_or_404(Book, slug=slug)
-    book.addView()
-    serializer = BookSerializer(book, many=False)
-    data = serializer.data
-    data.update(language=book.language.name, category = book.category.name)
-    return Response(data)
-
-
-# Book list View
-class BookListView(View):
-    def get(self, *args, **kwargs):
-        upper = kwargs.get('num_books')
-        lower = upper
-        book = list(Book.objects.filter(
-            language__code=self.request.LANGUAGE_CODE).order_by('-date'))[0: lower]
-        mylist = list()
-        for item in book:
-            item = {
-                'image': item.image.url,
-                'slug': item.id,
-                'name': item.name
-            }
-            mylist.append(item)
-        return JsonResponse({'data': mylist}, safe=True)
-
-
-
-class NewBooks(View):
-    def get(self, *args, **kwargs):
-        upper = kwargs.get('num_books')
-        lower = upper
-        book = list(Book.objects.filter( language__code=self.request.LANGUAGE_CODE).order_by('date'))[0: lower]
-        mylist = list()
-        for item in book:
-            item = {
-                'image': item.image.url,
-                'slug': item.id,
-                'name': item.name
-            }
-            mylist.append(item)
-        return JsonResponse({'data': mylist}, safe=True)
-
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def bookByCategory(request):
-    user = request.user
-    profile = user.profile_set.all()
-    serializer = PostSerializer(profile, many=True)
-    return Response(serializer.data)
-
-
-
-# Post List View
-class PostListView(View):
-    def get(self, *args, **kwargs):
-        upper = kwargs.get('num_posts')
-        lower = upper + 12
-        post = list(Post.objects.filter(language__code=self.request.LANGUAGE_CODE,
-                    is_public=True).order_by('-created'))[0: lower]
-        mylist = list()
-        for item in post:
-            item = {
-                'image': item.image.url if item.image else False,
-                'title': item.title,
-                'id': item.id,
-                'slug': item.slug,
-                'date': item.created.strftime('%d-%m-%Y / %H:%M'),
-                'description': item.description
-            }
-            mylist.append(item)
-        return JsonResponse({'data': mylist}, safe=True)
-
-
 def postDetail(request, slug):
     post = get_object_or_404(Post, slug=slug)
-    item = {
-        'title': post.title,
-        'image': post.image.url if post.image else False,
-        'imageURL': post.imageURL if post.imageURL else False,
-        'body': post.body,
-        'views': post.views.count(),
-        'description': post.description,
-        'id': post.id,
-        'tags': post.tags,
-        'slug': post.slug,
-        'category': post.category.name if post.category != None else False,
-        'date': post.created.strftime('%d-%m-%Y / %H:%M')
-
-    }
-    return JsonResponse(item)
+    serializer = PostSerializer(post)
+    return Response(serializer.data)
 
 # Contact page
 
@@ -560,13 +438,7 @@ def playListPosts(request, id):
     return Response(serializer.data)
 
 
-# Book Category
-@api_view(['GET', ])
-@permission_classes((permissions.AllowAny,))
-def bookCategory(request, id):
-    language = BookCategory.objects.filter(language=id)
-    serializer = BookCategorySerializer(language, many=True)
-    return Response(serializer.data)
+
 
 
 
@@ -584,6 +456,83 @@ def bookListCategory(request, category):
     serializer = BookSerializer(book, many=True)
     return Response({'data': serializer.data, 'has_next': book.has_next()})
 
+
+#----------------------------- Books -----------
+
+
+@api_view(['GET'])
+@permission_classes((permissions.AllowAny, ))
+def booklist(request):
+    book_list = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-views')
+    paginator = Paginator(book_list, 24)
+    page_number = request.GET.get('page')
+    books = paginator.get_page(page_number)
+    serializer = BooksSerializer(books, many=True)
+    return Response({'data': serializer.data, 'has_next': books.has_next()})
+
+# Books By Category
+@api_view(['GET', ])
+@permission_classes((permissions.AllowAny,))
+def bookByCategory(request, slug):
+    books = Book.objects.filter(category__slug=slug)
+    serializer = BooksSerializer(books, many=True)
+    return Response({'data': serializer.data})
+
+# Book Category
+@api_view(['GET', ])
+@permission_classes((permissions.AllowAny,))
+def bookCategory(request, id):
+    language = BookCategory.objects.filter(language=id)
+    serializer = BookCategorySerializer(language, many=True)
+    return Response(serializer.data)
+
+
+class BookView(APIView):
+
+    def get_permissions(self):
+        if self.request.method == 'GET':
+            return [permissions.AllowAny()]
+        else:
+            return [permissions.IsAuthenticated()]
+        
+    def post(self, request):
+        serializer = BookSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
+
+    def delete(self, request, id):
+        book = get_object_or_404(Book, id=id)
+        book.delete()
+        return Response({'message': _("Book deleted successfully.")})
+
+    def get(self, request, slug):
+        book = get_object_or_404(Book, slug=slug)
+        book.addView()
+        serializer = BookSerializer(book)
+        return Response(serializer.data)
+
+    def put(self, request, id):
+        book = get_object_or_404(Book, id=id)
+        serializer = BookSerializer(book, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+
+        return Response(serializer.errors, status=400)
+
+
+
+
+
+
+
+
+        
+    
+
+    
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'],)
 @permission_classes((permissions.AllowAny,))
@@ -621,7 +570,7 @@ def bookListCrud(request, id):
 
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny, ))
-def bookList(request):
+def bookPlayList(request):
     list = BookList.objects.all()
     serializer = BookListSerialiszer(list, many=True)
     return Response(serializer.data)

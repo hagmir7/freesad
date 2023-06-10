@@ -5,27 +5,53 @@ from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
 
-class BookSerializer(serializers.ModelSerializer):
+# post language view
+class LanguageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Language
+        fields =  'name', 'code', 'id'
+    def save(self):
+        lang = Language(
+            name = self.validated_data['name'],
+            code = self.validated_data['code']
+        )
+        if Language.objects.filter(name=lang.name).exists():
+            raise serializers.ValidationError({'message': _("The language already exists.")})
+
+        if Language.objects.filter(code=lang.code).exists():
+            raise serializers.ValidationError({'message': _("The language already exists.")})
+        
+        return lang.save()
+
+
+class BookCategorySerializer(serializers.ModelSerializer):
+    language = LanguageSerializer()
     class Meta:
         model = Book
-        fields = ('id',
-                  'name',
-                  'pages',
-                  'image',
-                  'description',
-                  'tags',
-                  'date',
-                  'pages',
-                  'file',
-                  'language',
-                  'book_type',
-                  'list',
-                  'author',
-                  'category',
-                  'slug',
-                  'views',
-                  "size" )
+        fields =  'name', 'language', 'id', 'slug'
 
+
+
+class BooksSerializer(serializers.ModelSerializer):
+    class Meta:
+        model= Book
+        fields = ("id", 'slug', 'name', 'image')
+
+class BookSerializer(serializers.ModelSerializer):
+    category = BookCategorySerializer()
+    language = LanguageSerializer()
+    class Meta:
+        model = Book
+        fields = ('id', 'name', 'pages', 'image', 'description', 'tags', 'date', 'pages',
+                  'file', 'language', 'book_type', 'list', 'author', 'category', 'slug',
+                  'views', "size" )
+
+
+class PostCategorySerializer(serializers.ModelSerializer):
+    language = LanguageSerializer()
+    class Meta:
+        model = Post
+        fields =  'name', 'language', 'id', 'slug'
 
 # Post Serializer
 class PostSerializer(serializers.ModelSerializer):
@@ -136,45 +162,14 @@ class UserCreationSerialize(serializers.ModelSerializer):
 
 
 
-# post language view
-class LanguageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Language
-        fields =  'name', 'code', 'id'
 
 
 
-    def save(self):
-
-        lang = Language(
-            name = self.validated_data['name'],
-            code = self.validated_data['code']
-        )
-
-        if Language.objects.filter(name=lang.name).exists():
-            raise serializers.ValidationError({'message': _("The language already exists.")})
-
-        if Language.objects.filter(code=lang.code).exists():
-            raise serializers.ValidationError({'message': _("The language already exists.")})
-        
-        return lang.save()
-
-# post category view
-class PostCategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PostCategory
-        fields =  'name', 'language', 'id'
-
-
-# post category view
-class BookCategorySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Book
-        fields =  'name', 'language', 'id'
 
 
 # post play list
 class PostListSerialiszer(serializers.ModelSerializer):
+    language = LanguageSerializer()
     class Meta:
         model = PostList
         fields = 'name', 'description', 'cover', 'id', 'language', 'slug', 'date'

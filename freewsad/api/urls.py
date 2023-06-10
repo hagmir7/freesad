@@ -7,9 +7,6 @@ urlpatterns = [
     path('', home),
     path('create-post/', postCreate),
     path('create-topic', createPost),
-    path('book/<int:id>', bookDetail),
-    path('books/<int:num_books>/', BookListView.as_view()),
-    path('posts/<int:num_posts>/', PostListView.as_view()),
     path('contact', contact_api,),
     path('post/<slug:slug>', postDetail),
     path('post/language/', postLanguage , name='post_language'),
@@ -24,9 +21,10 @@ urlpatterns = [
     path('post/play-list/', postList),
     path('all/posts/play-lists', allPostList ),
     path('play-list/posts/<int:id>', playListPosts), # list of posts that contain the current play list
+    path('books/category/<str:slug>', bookByCategory, name="book_by_category"),
     path('book/category/<int:id>', bookCategory, name="book_category"),
     path('book/list/crud/<int:id>', bookListCrud),
-    path('book/list/', bookList),
+    path('book/list/', bookPlayList),
     path('language/crud/<int:id>', languageCrud),
     path('language/list', language),
     path('search', search),
@@ -57,11 +55,14 @@ urlpatterns = [
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     path('post/get/', getPosts),
-
+    
+    # Book
+    path('book/<str:slug>', BookView.as_view()),
     path('book/create', createBook),
     path('book/update/<int:id>', updateBook),
-    path('books', books),
-    path('book/<str:slug>', book),
+    path('books/', booklist, name='book-list'),
+
+
     path('book', searchBook),
     path('books/<str:category>', bookListCategory),
     path('trafiq', trafiq)

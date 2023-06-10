@@ -19,7 +19,6 @@ from bs4 import BeautifulSoup
 class AdsView(View):
     def get(self, request, *args, **kwargs):
         return render(request, 'ads.txt')
-    
 
 
 def is_admin(user):
@@ -36,7 +35,6 @@ def logs(request):
 
 
 def index(request):
-
     query = request.GET.get('query')
     if query is not None:
         title = Post.objects.filter(title__icontains=query)
@@ -276,23 +274,7 @@ def deletePostCategory(request, id):
         return redirect('home')
 
 
-def convet(request):
-    posts = Post.objects.filter(category=3)
-    posts2 = Post.objects.filter(category=2)
-    post1 = Post.objects.filter(category=1)
-    for post in posts:
-        post.language = 3
-        post.save()
-    for post in posts2:
-        post.language = 2
-        post.save()
-    for post in post1:
-        post.language = 1
-        post.save()
-    return redirect('home')
-
 # ------------------------ Book Views ----------------------
-
 
 def books(request):
     list = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-date')
@@ -315,7 +297,7 @@ def bookDetail(request, slug):
         'tags': book.tags
     }
     return render(request, 'book/book.html', context)
-
+# -------------------------  Book list
 @login_required
 def bookList(request):
     if request.user.is_superuser:

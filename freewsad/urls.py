@@ -55,8 +55,6 @@ urlpatterns = [
     path('book/delete/category/<int:id>', deleteBookCategory, name='delete_book_category'),
     path('book/category/list', bookCategoryList,  name="category_book_list"),
 
-
-    path('convet', convet),
     path('clear/history', clearHistory),
     path('clear/token', clearTokns),
     # path('lang', languagUpdate),
