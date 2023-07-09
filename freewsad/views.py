@@ -285,7 +285,6 @@ def books(request):
     context = {'books': books, 'count': count, 'title': "Books - Freesad"}
     return render(request, 'book/list.html', context)
 
-@login_required
 def bookDetail(request, slug):
     book = get_object_or_404(Book , slug=slug)
     book.addView()

@@ -4,10 +4,11 @@ from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.utils.crypto import get_random_string
 from django.utils import timezone
+import uuid
 from django.db.models.signals import pre_save, pre_delete,post_save
 from django.dispatch import receiver
 import os
-import uuid
+
 import fitz
 from ebooklib import epub
 from PIL import Image

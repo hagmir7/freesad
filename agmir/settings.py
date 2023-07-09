@@ -216,7 +216,6 @@ if CPANEL:
     SECURE_SSL_REDIRECT = True
   
 
-    DEBUG_PROPAGATE_EXCEPTIONS = str(os.environ.get('DEBUG_PROPAGATE_EXCEPTIONS')) == '1'
 
     DATABASES = {
         'default': {
