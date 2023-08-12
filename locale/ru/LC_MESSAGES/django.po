@@ -1,0 +1,953 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-10 19:38+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
+"(n%100>=11 && n%100<=14)? 2 : 3);\n"
+#: .\freewsad\api\serializers.py:19 .\freewsad\api\serializers.py:22
+msgid "The language already exists."
+msgstr ""
+
+#: .\freewsad\api\serializers.py:154
+msgid "Username already exists."
+msgstr ""
+
+#: .\freewsad\api\serializers.py:158
+msgid "Email already exists."
+msgstr ""
+
+#: .\freewsad\api\serializers.py:161
+msgid "Password must match."
+msgstr ""
+
+#: .\freewsad\api\views.py:272
+msgid "Message has ben send Successfully"
+msgstr ""
+
+#: .\freewsad\api\views.py:289
+msgid "Post updated successfully."
+msgstr ""
+
+#: .\freewsad\api\views.py:318
+msgid "Post deleted successfully."
+msgstr ""
+
+#: .\freewsad\api\views.py:320
+msgid "Post deleted Fail."
+msgstr ""
+
+#: .\freewsad\api\views.py:356
+msgid "Book created successfully..."
+msgstr ""
+
+#: .\freewsad\api\views.py:369
+msgid "Author created successfully..."
+msgstr ""
+
+#: .\freewsad\api\views.py:394
+msgid "Book updated successfully."
+msgstr ""
+
+#: .\freewsad\api\views.py:410 .\freewsad\api\views.py:569
+msgid "List Created successfully."
+msgstr ""
+
+#: .\freewsad\api\views.py:419 .\freewsad\api\views.py:578
+msgid "List updated successfully."
+msgstr ""
+
+#: .\freewsad\api\views.py:426 .\freewsad\api\views.py:585
+msgid "List Deleted successfully."
+msgstr ""
+
+#: .\freewsad\api\views.py:530
+msgid "Book deleted successfully."
+msgstr ""
+
+#: .\freewsad\api\views.py:611
+msgid "Language Created successfully."
+msgstr ""
+
+#: .\freewsad\api\views.py:620
+msgid "Language updated successfully."
+msgstr ""
+
+#: .\freewsad\api\views.py:627
+msgid "Language Deleted successfully."
+msgstr ""
+
+#: .\freewsad\api\views.py:654
+msgid "Post category created successfully."
+msgstr ""
+
+#: .\freewsad\api\views.py:663
+msgid "Post Category updated successfully."
+msgstr ""
+
+#: .\freewsad\api\views.py:670
+msgid "Post Category Deleted successfully."
+msgstr ""
+
+#: .\freewsad\models.py:244
+msgid "Image"
+msgstr ""
+
+#: .\freewsad\models.py:245
+msgid "Description"
+msgstr ""
+
+#: .\freewsad\models.py:481
+msgid "list "
+msgstr ""
+
+#: .\freewsad\models.py:486
+msgid "Category "
+msgstr ""
+
+#: .\freewsad\models.py:525 .\freewsad\templates\video\quality\upload.html:35
+#: .\freewsad\templates\video\quality\upload.html:109
+msgid "Quality"
+msgstr ""
+
+#: .\freewsad\templates\book\book.html:16
+msgid "About book"
+msgstr ""
+
+#: .\freewsad\templates\book\book.html:20
+msgid "Author"
+msgstr ""
+
+#: .\freewsad\templates\book\book.html:24
+msgid "Publisher"
+msgstr ""
+
+#: .\freewsad\templates\book\book.html:29
+msgid "File type"
+msgstr ""
+
+#: .\freewsad\templates\book\book.html:34
+msgid "Language"
+msgstr ""
+
+#: .\freewsad\templates\book\book.html:39
+msgid "Pages"
+msgstr ""
+
+#: .\freewsad\templates\book\book.html:45
+msgid "Size"
+msgstr ""
+
+#: .\freewsad\templates\book\book.html:51
+msgid "Download Book"
+msgstr ""
+
+#: .\freewsad\templates\book\book.html:54
+msgid "DOWNLOAD"
+msgstr ""
+
+#: .\freewsad\templates\book\book.html:55
+msgid "Read"
+msgstr ""
+
+#: .\freewsad\templates\book\book.html:63
+#: .\freewsad\templates\post\post.html:91
+#: .\freewsad\templates\video\show.html:88
+msgid "Next"
+msgstr ""
+
+#: .\freewsad\templates\book\book.html:69
+#: .\freewsad\templates\post\post.html:86
+#: .\freewsad\templates\video\show.html:83
+msgid "Previous"
+msgstr ""
+
+#: .\freewsad\templates\book\book.html:75
+#: .\freewsad\templates\video\quality\upload.html:39
+#: .\freewsad\templates\video\show.html:243
+msgid "Delete"
+msgstr ""
+
+#: .\freewsad\templates\book\book.html:76
+#: .\users\templates\profile\update_profile.html:41
+#: .\users\templates\profile\user_update_info.html:34
+msgid "Update"
+msgstr ""
+
+#: .\freewsad\templates\book\book.html:83
+#: .\freewsad\templates\post\post.html:106
+msgid "Copyrights"
+msgstr ""
+
+#: .\freewsad\templates\book\book.html:92
+#: .\freewsad\templates\post\post.html:114
+msgid "Read More"
+msgstr ""
+
+#: .\freewsad\templates\book\list.html:17
+msgid "No Books"
+msgstr ""
+
+#: .\freewsad\templates\contact\contact.html:5
+#: .\users\templates\password_reset\reset_password_done.html:17
+msgid "Contact us"
+msgstr ""
+
+#: .\freewsad\templates\contact\contact.html:15
+#: .\users\templates\profile\profile.html:11
+msgid "Full Name"
+msgstr ""
+
+#: .\freewsad\templates\contact\contact.html:17 .\users\forms.py:41
+#: .\users\forms.py:42 .\users\templates\password_reset\reset_password.html:13
+#: .\users\templates\profile\profile.html:20
+#: .\users\templates\profile\public.html:31
+#: .\users\templates\profile\user_update_info.html:31
+msgid "Email"
+msgstr ""
+
+#: .\freewsad\templates\contact\contact.html:19
+msgid "Message"
+msgstr ""
+
+#: .\freewsad\templates\contact\contact.html:22
+msgid "Send message"
+msgstr ""
+
+#: .\freewsad\templates\index.html:26 .\freewsad\templates\index.html:34
+#: .\freewsad\templates\video\show.html:256
+msgid "Load More"
+msgstr ""
+
+#: .\freewsad\templates\index.html:30 .\freewsad\templates\video\list.html:15
+msgid "Latest Videos and courses"
+msgstr ""
+
+#: .\freewsad\templates\post\post.html:27
+#: .\freewsad\templates\video\show.html:59
+msgid "Comments"
+msgstr ""
+
+#: .\freewsad\templates\post\post.html:112 .\templates\base.html:153
+#: .\templates\components\header.html:41
+msgid "Contact Us"
+msgstr ""
+
+#: .\freewsad\templates\post\post.html:124
+msgid "More Freebies"
+msgstr ""
+
+#: .\freewsad\templates\post\post.html:149
+msgid "No Post Result"
+msgstr ""
+
+#: .\freewsad\templates\video\create.html:10
+msgid "Publishe a video"
+msgstr ""
+
+#: .\freewsad\templates\video\create.html:14
+#: .\freewsad\templates\video\quality\upload.html:116
+msgid "Publishe"
+msgstr ""
+
+#: .\freewsad\templates\video\quality\upload.html:20
+msgid "Upload video"
+msgstr ""
+
+#: .\freewsad\templates\video\quality\upload.html:39
+msgid "Are you sure you want to delete Video?"
+msgstr ""
+
+#: .\freewsad\templates\video\quality\upload.html:43
+msgid "No vedio"
+msgstr ""
+
+#: .\freewsad\templates\video\quality\upload.html:59
+msgid "Are you sure you want to leave page."
+msgstr ""
+
+#: .\freewsad\templates\video\quality\upload.html:89
+msgid "Success"
+msgstr ""
+
+#: .\freewsad\templates\video\quality\upload.html:89 .\freewsad\views.py:762
+msgid "Video uploaded successfully."
+msgstr ""
+
+#: .\freewsad\templates\video\quality\upload.html:93
+msgid "Fail"
+msgstr ""
+
+#: .\freewsad\templates\video\quality\upload.html:93
+msgid "Fail to uploade Video"
+msgstr ""
+
+#: .\freewsad\templates\video\quality\upload.html:113
+msgid "Video file"
+msgstr ""
+
+#: .\freewsad\templates\video\show.html:38
+#: .\templates\components\videos.html:12
+msgid "Views"
+msgstr ""
+
+#: .\freewsad\templates\video\show.html:46
+msgid "Followrs"
+msgstr ""
+
+#: .\freewsad\templates\video\show.html:49
+msgid "Follow"
+msgstr ""
+
+#: .\freewsad\templates\video\show.html:217
+msgid "Comment"
+msgstr ""
+
+#: .\freewsad\templates\video\show.html:257
+msgid "This is all"
+msgstr ""
+
+#: .\freewsad\views.py:149
+msgid "Post Creaeted successfully.."
+msgstr ""
+
+#: .\freewsad\views.py:176
+msgid "The post updated successfully."
+msgstr ""
+
+#: .\freewsad\views.py:179
+msgid "You cannot update the post"
+msgstr ""
+
+#: .\freewsad\views.py:196
+msgid "Post deleted successfull."
+msgstr ""
+
+#: .\freewsad\views.py:255 .\freewsad\views.py:419
+msgid "Category created successfully..."
+msgstr ""
+
+#: .\freewsad\views.py:273 .\freewsad\views.py:436
+msgid "Category updated successfully..."
+msgstr ""
+
+#: .\freewsad\views.py:286 .\freewsad\views.py:449 .\freewsad\views.py:452
+msgid "Category deleted successfully..."
+msgstr ""
+
+#: .\freewsad\views.py:289
+msgid "Fail to delete category."
+msgstr ""
+
+#: .\freewsad\views.py:378
+msgid "Book updated successfully..."
+msgstr ""
+
+#: .\freewsad\views.py:394
+msgid "Book deleted successfull."
+msgstr ""
+
+#: .\freewsad\views.py:500
+msgid "Page deleted successfully."
+msgstr ""
+
+#: .\freewsad\views.py:504
+msgid "Fail to delete page."
+msgstr ""
+
+#: .\freewsad\views.py:516
+msgid "Menu - Freesad"
+msgstr ""
+
+#: .\freewsad\views.py:532
+msgid "Freesad - Contace"
+msgstr ""
+
+#: .\freewsad\views.py:542
+msgid "Freesad - Contaces list"
+msgstr ""
+
+#: .\freewsad\views.py:643
+msgid "Play list deleted successfully."
+msgstr ""
+
+#: .\freewsad\views.py:683
+msgid "Video updated successfully."
+msgstr ""
+
+#: .\freewsad\views.py:691
+msgid "Video deleted successfully."
+msgstr ""
+
+#: .\freewsad\views.py:764
+msgid "Fail to upload Video"
+msgstr ""
+
+#: .\freewsad\views.py:781
+msgid "quality updated successfully."
+msgstr ""
+
+#: .\freewsad\views.py:790
+msgid "Quality delete successfully"
+msgstr ""
+
+#: .\freewsad\views.py:810
+msgid "Fail to create comment"
+msgstr ""
+
+#: .\freewsad\views.py:811
+msgid "Method not allowd."
+msgstr ""
+
+#: .\freewsad\views.py:831
+msgid "Comment deleted successfully!"
+msgstr ""
+
+#: .\templates\404.html:11
+msgid "Opps!"
+msgstr ""
+
+#: .\templates\404.html:11
+msgid "Page not found."
+msgstr ""
+
+#: .\templates\404.html:13
+msgid "The page you’re looking for doesn’t exist."
+msgstr ""
+
+#: .\templates\404.html:15
+msgid "Back to Home"
+msgstr ""
+
+#: .\templates\base.html:13 .\templates\base.html:16 .\templates\base.html:21
+#: .\templates\base.html:30
+msgid ""
+"You can enjoy Books and Bopics, Courses you love and download the original "
+"content, and share it all with your friends, and the whole world on freesad."
+msgstr ""
+
+#: .\templates\base.html:15
+msgid "Freesad - Professional Education Platform."
+msgstr ""
+
+#: .\templates\base.html:20 .\templates\base.html:26
+msgid "Freesad - Professional Education Platform"
+msgstr ""
+
+#: .\templates\base.html:97 .\templates\base.html:178
+msgid "About Us"
+msgstr ""
+
+#: .\templates\base.html:100
+msgid ""
+"Freesad is a Professional Education Platform. Here we will provide you only "
+"interesting content, which you will like very much. We're dedicated to "
+"providing you the best of Education..."
+msgstr ""
+
+#: .\templates\base.html:101
+msgid "More"
+msgstr ""
+
+#: .\templates\base.html:115
+msgid "Popular Posts"
+msgstr ""
+
+#: .\templates\base.html:143
+msgid "Copyright © 2023 All rights reserved"
+msgstr ""
+
+#: .\templates\base.html:151 .\templates\base.html:176
+#: .\templates\components\header.html:29
+msgid "Home"
+msgstr ""
+
+#: .\templates\base.html:152
+msgid "About"
+msgstr ""
+
+#: .\templates\base.html:154 .\templates\base.html:180
+msgid "Privacy Policy"
+msgstr ""
+
+#: .\templates\base.html:167 .\templates\components\header.html:68
+msgid "Search..."
+msgstr ""
+
+#: .\templates\base.html:177 .\templates\components\header.html:38
+msgid "Posts"
+msgstr ""
+
+#: .\templates\base.html:179
+msgid "Contact Page"
+msgstr ""
+
+#: .\templates\components\header.html:14 .\templates\components\hero.html:11
+msgid "Freesad is a Professional Education Platform."
+msgstr ""
+
+#: .\templates\components\header.html:17
+msgid "Freesad - Professional Education Platform, Web Development"
+msgstr ""
+
+#: .\templates\components\header.html:31
+msgid "Categories"
+msgstr ""
+
+#: .\templates\components\header.html:39
+msgid "Videos"
+msgstr ""
+
+#: .\templates\components\header.html:40
+msgid "Books"
+msgstr ""
+
+#: .\templates\components\header.html:44 .\templates\components\header.html:64
+msgid "Menu"
+msgstr ""
+
+#: .\templates\components\header.html:46 .\users\templates\settings.html:16
+msgid "Profile"
+msgstr ""
+
+#: .\templates\components\header.html:47
+msgid "Logout"
+msgstr ""
+
+#: .\templates\components\header.html:52
+msgid "Join us"
+msgstr ""
+
+#: .\templates\components\header.html:54
+msgid "Login"
+msgstr ""
+
+#: .\templates\components\header.html:55
+#: .\users\templates\password_reset\password_reset_confirm.html:40
+#: .\users\templates\password_reset\reset_done.html:19
+#: .\users\templates\password_reset\reset_password_done.html:15
+#: .\users\views.py:50
+msgid "Register"
+msgstr ""
+
+#: .\templates\components\hero.html:12
+msgid "Here we will provide you only interesting content!"
+msgstr ""
+
+#: .\templates\components\hero.html:16
+msgid "Articles, Books, Courses..."
+msgstr ""
+
+#: .\templates\components\media.html:4
+msgid "Follow Us"
+msgstr ""
+
+#: .\templates\components\posts.html:25
+msgid "No Post Articles"
+msgstr ""
+
+#: .\templates\components\videos.html:25
+msgid "No Post Videos"
+msgstr ""
+
+#: .\users\country.py:4
+msgid "Morocco"
+msgstr ""
+
+#: .\users\country.py:5
+msgid "Algeria"
+msgstr ""
+
+#: .\users\country.py:6
+msgid "Tunisia"
+msgstr ""
+
+#: .\users\country.py:7
+msgid "Libya"
+msgstr ""
+
+#: .\users\country.py:8
+msgid "Palestine"
+msgstr ""
+
+#: .\users\country.py:9
+msgid "Egypt"
+msgstr ""
+
+#: .\users\country.py:10
+msgid "Mauritania"
+msgstr ""
+
+#: .\users\country.py:11
+msgid "Sudan"
+msgstr ""
+
+#: .\users\country.py:12
+msgid "Kuwait"
+msgstr ""
+
+#: .\users\country.py:13
+msgid "Iraq"
+msgstr ""
+
+#: .\users\country.py:14
+msgid "UAE"
+msgstr ""
+
+#: .\users\forms.py:17
+msgid "There is no registered user with this name!"
+msgstr ""
+
+#: .\users\forms.py:34 .\users\forms.py:38 .\users\forms.py:39
+#: .\users\forms.py:40 .\users\templates\profile\user_update_info.html:18
+#: .\users\templates\registration\login.html:16
+msgid "Username"
+msgstr ""
+
+#: .\users\forms.py:35 .\users\forms.py:39
+#: .\users\templates\profile\user_update_info.html:21
+msgid "Username should not contain spaces"
+msgstr ""
+
+#: .\users\forms.py:43 .\users\forms.py:44
+msgid "First Name"
+msgstr ""
+
+#: .\users\forms.py:45 .\users\forms.py:46
+msgid "Last Name"
+msgstr ""
+
+#: .\users\forms.py:47 .\users\forms.py:48
+#: .\users\templates\registration\login.html:28
+#: .\users\templates\settings.html:38
+msgid "Password"
+msgstr ""
+
+#: .\users\forms.py:49 .\users\forms.py:50
+msgid "Confirm Password"
+msgstr ""
+
+#: .\users\forms.py:59 .\users\templates\profile\change-password.html:39
+msgid "Password does not match."
+msgstr ""
+
+#: .\users\forms.py:65
+msgid "There is a registered user with this name!"
+msgstr ""
+
+#: .\users\forms.py:73
+msgid "There is a registered user with this email!"
+msgstr ""
+
+#: .\users\forms.py:114
+msgid "The two passwords did not match"
+msgstr ""
+
+#: .\users\models.py:12
+msgid "Male"
+msgstr ""
+
+#: .\users\models.py:13
+msgid "Female"
+msgstr ""
+
+#: .\users\templates\footer\footer.html:13
+msgid "Help"
+msgstr ""
+
+#: .\users\templates\footer\footer.html:16
+msgid "About us"
+msgstr ""
+
+#: .\users\templates\footer\footer.html:19
+msgid "FreeWsad Jobs"
+msgstr ""
+
+#: .\users\templates\password_reset\password_reset_confirm.html:10
+msgid "Reset Password"
+msgstr ""
+
+#: .\users\templates\password_reset\password_reset_confirm.html:15
+msgid "New Password"
+msgstr ""
+
+#: .\users\templates\password_reset\password_reset_confirm.html:20
+msgid "New Password Confirmation"
+msgstr ""
+
+#: .\users\templates\password_reset\password_reset_confirm.html:25
+msgid "Change password"
+msgstr ""
+
+#: .\users\templates\password_reset\password_reset_confirm.html:33
+msgid "Password reset failed"
+msgstr ""
+
+#: .\users\templates\password_reset\password_reset_confirm.html:34
+msgid ""
+"The password recovery link is incorrect, possibly because it has been used "
+"before. Please request a password recovery again."
+msgstr ""
+
+#: .\users\templates\password_reset\password_reset_confirm.html:37
+#: .\users\templates\password_reset\reset_done.html:16
+#: .\users\templates\password_reset\reset_password_done.html:12
+msgid "Log out"
+msgstr ""
+
+#: .\users\templates\password_reset\password_reset_confirm.html:39
+#: .\users\templates\password_reset\reset_done.html:18
+#: .\users\templates\password_reset\reset_password_done.html:14
+#: .\users\templates\registration\login.html:4
+#: .\users\templates\registration\login.html:38
+msgid "Log in"
+msgstr ""
+
+#: .\users\templates\password_reset\reset_done.html:12
+msgid "The operation succeeded, the password was reset"
+msgstr ""
+
+#: .\users\templates\password_reset\reset_done.html:13
+msgid "Your password has been successfully changed. Log in now."
+msgstr ""
+
+#: .\users\templates\password_reset\reset_password.html:7
+msgid "Forgot your password"
+msgstr ""
+
+#: .\users\templates\password_reset\reset_password.html:8
+msgid ""
+"did you forget your password? Enter your email address below, and we'll "
+"email you instructions for setting up Set a new password."
+msgstr ""
+
+#: .\users\templates\password_reset\reset_password.html:15
+msgid "Enter your email"
+msgstr ""
+
+#: .\users\templates\password_reset\reset_password.html:17
+msgid "Send"
+msgstr ""
+
+#: .\users\templates\password_reset\reset_password_done.html:7
+#: .\users\views.py:139
+msgid "Password reset has been sent"
+msgstr ""
+
+#: .\users\templates\password_reset\reset_password_done.html:8
+msgid ""
+"We have sent you an email with a link where you can reset a new password."
+msgstr ""
+
+#: .\users\templates\password_reset\reset_password_done.html:9
+msgid ""
+"In case the e-mail is not received, please make sure that your e-mail "
+"address is entered correctly and review your spam folder."
+msgstr ""
+
+#: .\users\templates\password_reset\reset_password_done.html:10
+msgid "Check your email"
+msgstr ""
+
+#: .\users\templates\password_reset\reset_password_done.html:17
+msgid "If there is any problem"
+msgstr ""
+
+#: .\users\templates\profile\change-password.html:23
+#: .\users\templates\profile\update_profile.html:44
+msgid "Change Password"
+msgstr ""
+
+#: .\users\templates\profile\change-password.html:29
+msgid "Old Password"
+msgstr ""
+
+#: .\users\templates\profile\change-password.html:31
+msgid "The old password is incorrect."
+msgstr ""
+
+#: .\users\templates\profile\change-password.html:34
+msgid "New password"
+msgstr ""
+
+#: .\users\templates\profile\change-password.html:37
+msgid "New Password confirmation"
+msgstr ""
+
+#: .\users\templates\profile\change-password.html:42
+msgid "Change"
+msgstr ""
+
+#: .\users\templates\profile\change-password.html:47
+msgid "Your password can’t be too similar to your other personal information."
+msgstr ""
+
+#: .\users\templates\profile\change-password.html:48
+msgid "Your password must contain at least 8 characters."
+msgstr ""
+
+#: .\users\templates\profile\change-password.html:49
+msgid "Your password can’t be a commonly used password"
+msgstr ""
+
+#: .\users\templates\profile\change-password.html:50
+msgid "Your password can’t be entirely numeric."
+msgstr ""
+
+#: .\users\templates\profile\profile.html:30
+#: .\users\templates\profile\public.html:46
+#: .\users\templates\profile\update_profile.html:30
+#: .\users\templates\profile\update_profile.html:32
+msgid "Phone"
+msgstr ""
+
+#: .\users\templates\profile\profile.html:42
+#: .\users\templates\profile\public.html:124
+#: .\users\templates\profile\update_profile.html:36
+#: .\users\templates\profile\update_profile.html:38
+msgid "Country"
+msgstr ""
+
+#: .\users\templates\profile\profile.html:53
+#: .\users\templates\profile\public.html:78
+msgid "Bio"
+msgstr ""
+
+#: .\users\templates\profile\profile.html:65
+msgid "Edit"
+msgstr ""
+
+#: .\users\templates\profile\public.html:20
+msgid "Privacy"
+msgstr ""
+
+#: .\users\templates\profile\public.html:21
+msgid "Control who can see your information"
+msgstr ""
+
+#: .\users\templates\profile\public.html:62
+msgid "Website"
+msgstr ""
+
+#: .\users\templates\profile\public.html:94
+msgid "Gender"
+msgstr ""
+
+#: .\users\templates\profile\public.html:109
+msgid "Friends"
+msgstr ""
+
+#: .\users\templates\profile\public.html:114
+msgid "friends"
+msgstr ""
+
+#: .\users\templates\profile\public.html:140
+msgid "Birth"
+msgstr ""
+
+#: .\users\templates\profile\public.html:155
+msgid "Join Date"
+msgstr ""
+
+#: .\users\templates\profile\public.html:168
+msgid "Save"
+msgstr ""
+
+#: .\users\templates\profile\update_profile.html:8 .\users\views.py:87
+#: .\users\views.py:101
+msgid "Update Profile"
+msgstr ""
+
+#: .\users\templates\profile\update_profile.html:22
+msgid "Avatar"
+msgstr ""
+
+#: .\users\templates\profile\user_update_info.html:9
+msgid "Change Contact information"
+msgstr ""
+
+#: .\users\templates\profile\user_update_info.html:14
+msgid "Success!"
+msgstr ""
+
+#: .\users\templates\profile\user_update_info.html:14
+msgid "Info has been updated successfully..."
+msgstr ""
+
+#: .\users\templates\profile\user_update_info.html:23
+msgid "First name"
+msgstr ""
+
+#: .\users\templates\profile\user_update_info.html:27
+msgid "Last name"
+msgstr ""
+
+#: .\users\templates\profile\user_update_info.html:38
+msgid ""
+"Make sure that your contact information is correct and real, so that we can "
+"recover your account if you encounter a problem logging in."
+msgstr ""
+
+#: .\users\templates\registration\login.html:23
+msgid "Enter your username"
+msgstr ""
+
+#: .\users\templates\registration\login.html:34
+msgid "Enter your Passwrd"
+msgstr ""
+
+#: .\users\templates\registration\register.html:9
+msgid "Sing Up | Log In"
+msgstr ""
+
+#: .\users\templates\registration\register.html:48
+msgid "Sing in"
+msgstr ""
+
+#: .\users\templates\registration\register.html:49
+msgid "I have account"
+msgstr ""
+
+#: .\users\templates\settings.html:18
+msgid "Change your Avatar, Phone, Country..."
+msgstr ""
+
+#: .\users\templates\settings.html:27
+msgid "Contact Info"
+msgstr ""
+
+#: .\users\templates\settings.html:29
+msgid "Change your Username, Email..."
+msgstr ""
+
+#: .\users\templates\settings.html:39
+msgid "Change your password."
+msgstr ""
+
+#: .\users\urls.py:21
+msgid "Forgot Password"
+msgstr ""
+
+#: .\users\views.py:63
+msgid ""
+"You can join now to connect with your  friends and enjoy your books and "
+"courses register now"
+msgstr ""
+
+#: .\users\views.py:116
+msgid "Contact information"
+msgstr ""

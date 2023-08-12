@@ -1,3 +1,8 @@
+from django.http import Http404
+from django.forms.models import model_to_dict
+from django.http import JsonResponse
+from django_user_agents.utils import get_user_agent
+from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
 from django.core.paginator import Paginator
@@ -15,6 +20,25 @@ import os
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import user_passes_test
 from bs4 import BeautifulSoup
+from django.core.exceptions import PermissionDenied
+from django.utils.translation import gettext as _
+from django.utils import translation
+
+
+
+def superuser_required(user):
+    if not user.is_superuser:
+        raise PermissionDenied
+    return True
+
+
+def change_language(request, language_code):
+    if language_code in [lang[0] for lang in settings.LANGUAGES]:
+        translation.activate(language_code)
+        request.session["django_language"] = language_code
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
 
 class AdsView(View):
     def get(self, request, *args, **kwargs):
@@ -36,19 +60,37 @@ def logs(request):
 
 def index(request):
     query = request.GET.get('query')
+
+
     if query is not None:
         title = Post.objects.filter(title__icontains=query)
         description = Post.objects.filter(description__icontains=query)
-        list = title | description
+        posts = title | description
     else:
-        list = Post.objects.filter(language=1, is_public=True, ).order_by('-created')
+        posts = Post.objects.filter(language__code=request.LANGUAGE_CODE, is_public=True).order_by('-created')[0:16]
 
-    paginator = Paginator(list, 16) 
-    page_number = request.GET.get('page')
-    post = paginator.get_page(page_number)
+    if query is not None:
+        name = Book.objects.filter(name__icontains=query)
+        description = Book.objects.filter(description__icontains=query)
+        tags = Book.objects.filter(tags__icontains=query)
+        books = name | description | tags
+    else:
+        books = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')[0:16]
+
+    if query is not None:
+        title = Video.objects.filter(title__icontains=query)
+        description = Video.objects.filter(description__icontains=query)
+        tags = Video.objects.filter(tags__icontains=query)
+        videos = title | description | tags
+    else:
+        videos = Video.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')[0:16]
+
+
     context = {
-        'posts': post,
+        'posts': posts,
+        'videos': videos,
         'query' : query if query else '',
+        'books' : books,
         'title':  'Freesad - Articles' if 'posts' in request.path else None
     }
     return render(request, 'index.html', context)
@@ -128,7 +170,7 @@ def createPost(request):
             obj.body = bodyParser(obj.body, obj.title)
             obj.user = request.user
             obj.save()
-            messages.success(request, "Post Creaeted successfully..")
+            messages.success(request, _("Post Creaeted successfully.."))
             return redirect('create_post')
     context = {
         'form': form,
@@ -155,10 +197,10 @@ def updatePost(request, id):
                 obj = form.save(commit=False)
                 obj.body = bodyParser(obj.body, obj.title)
                 obj.save()
-                messages.success(request, 'The post updated successfully.')
+                messages.success(request, _('The post updated successfully.'))
                 return redirect('home')
             else:
-                messages.warning(request, 'You cannot update the post')
+                messages.warning(request, _('You cannot update the post'))
                 return redirect('home')
 
     context = {
@@ -175,7 +217,7 @@ def deletePost(request, id):
     post = get_object_or_404(Post, id=id)
     if post.user == request.user:
         post.delete()
-        messages.success(request, "Post deleted successfull.")
+        messages.success(request, _("Post deleted successfull."))
         return redirect('posts_list')
     else:
         return redirect('posts_list')
@@ -234,7 +276,7 @@ def createPostCategory(request):
         form = FromPostCategory(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Category created successfully...')
+            messages.success(request, _('Category created successfully...'))
             return redirect('post.category.create')
     context = {
         'form': form,
@@ -252,7 +294,7 @@ def updatePostCategory(request, id):
             form = FromPostCategory(request.POST, instance=category)
             if form.is_valid():
                 form.save()
-                messages.success(request, 'Category updated successfully...')
+                messages.success(request, _('Category updated successfully...'))
                 return redirect('category_post_list')
         context = {
             'form': form,
@@ -265,10 +307,10 @@ def deletePostCategory(request, id):
     category = get_object_or_404(PostCategory, id=id)
     if request.user.is_superuser:
         if category.delete():
-            messages.success(request, 'Category deleted successfully...')
+            messages.success(request, _('Category deleted successfully...'))
             return redirect('category_post_list')
         else:
-            messages.success(request, 'Category deleted successfully...')
+            messages.success(request, _('Fail to delete category.'))
             return redirect('category_post_list')
     else:
         return redirect('home')
@@ -277,7 +319,7 @@ def deletePostCategory(request, id):
 # ------------------------ Book Views ----------------------
 
 def books(request):
-    list = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-date')
+    list = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')
     paginator = Paginator(list, 30) 
     page_number = request.GET.get('page')
     books = paginator.get_page(page_number)
@@ -287,15 +329,19 @@ def books(request):
 
 def bookDetail(request, slug):
     book = get_object_or_404(Book , slug=slug)
+    videos = Video.objects.all()[0:14]
     book.addView()
     context = {
         'title' : book.name,
         'description' : book.description,
         'image': book.image,
         'book': book,
-        'tags': book.tags
+        'tags': book.tags,
+        'videos': videos
     }
     return render(request, 'book/book.html', context)
+
+
 # -------------------------  Book list
 @login_required
 def bookList(request):
@@ -355,7 +401,7 @@ def updateBook(request, id):
             form = BookForm(request.POST, instance=book, files=request.FILES)
             if form.is_valid():
                 form.save()
-                messages.success(request, 'Book updated successfully...')
+                messages.success(request, _('Book updated successfully...'))
                 return redirect('books_list')
         context = {
             'form': form,
@@ -366,15 +412,17 @@ def updateBook(request, id):
     return render(request, 'book/update.html', context)
 
 
+
 @login_required
 def deleteBook(request, id):
     book = get_object_or_404(Book, id=id)
-    if book.user == request.user:
+    try:
         book.delete()
-        messages.success(request, "Book deleted successfull.")
-        return redirect('books_list')
-    else:
-        return redirect('books_list')
+        messages.success(request, _("Book deleted successfully."))
+    except Exception as e:
+        messages.error(request, _("An error occurred: ") + str(e))
+    return redirect('books_list')
+
 
 
 def bookCategoryList(request):
@@ -396,7 +444,7 @@ def createBookCategory(request):
             form = FormBookCategory(request.POST)
             if form.is_valid():
                 form.save()
-                messages.success(request, 'Category created successfully...')
+                messages.success(request, _('Category created successfully...'))
                 return redirect('category_book_list')
         context = {
             'form': form,
@@ -413,7 +461,7 @@ def updateBookCategory(request, id):
             form = FormBookCategory(request.POST, instance=category)
             if form.is_valid():
                 form.save()
-                messages.success(request, 'Category updated successfully...')
+                messages.success(request, _('Category updated successfully...'))
                 return redirect('category_book_list')
         context = {
             'form': form,
@@ -426,10 +474,10 @@ def deleteBookCategory(request, id):
     category = get_object_or_404(BookCategory, id=id)
     if request.user.is_superuser:
         if category.delete():
-            messages.success(request, 'Category deleted successfully...')
+            messages.success(request, _('Category deleted successfully...'))
             return redirect('category_book_list')
         else:
-            messages.success(request, 'Category deleted successfully...')
+            messages.success(request, _('Category deleted successfully...'))
             return redirect('category_book_list')
     else:
         return redirect('home')
@@ -477,11 +525,11 @@ def deletePage(request, id):
     if request.user.is_superuser:
         operation = page.delete()
         if operation:
-            messages.success(request, 'Page deleted successfully.')
+            messages.success(request, _('Page deleted successfully.'))
             return redirect('pages')
 
         else:
-            messages.warning(request, 'Page deleted failde ')
+            messages.warning(request, _('Fail to delete page.'))
             return redirect('pages')
 
     return redirect('home')
@@ -493,7 +541,7 @@ def lable(request, lable):
     return render(request, 'lable.html', context)
 
 def menu(request):
-    context = {'title': 'Menu - Freesad'}
+    context = {'title': _('Menu - Freesad')}
     return render(request, 'menu.html', context)
 
 
@@ -507,9 +555,9 @@ def contact(request):
         form = CreateContact(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, 'The message has been sent successfully')
+            messages.success(request, -('The message has been sent successfully'))
             return redirect('contact')
-    context = {'form':form,'title':'Freesad - Contace'}
+    context = {'form':form,'title': _('Freesad - Contace')}
     return render(request, 'contact/contact.html', context)
 
 
@@ -519,7 +567,7 @@ def contactList(request):
     paginator = Paginator(list, 20)
     page_number = request.GET.get('page')
     contacts = paginator.get_page(page_number)
-    context = {'contacts':contacts,'title':'Freesad - Contaces list'}
+    context = {'contacts':contacts,'title': _('Freesad - Contaces list')}
     return render(request, 'contact/list.html', context)
 
 
@@ -620,7 +668,7 @@ def postPlayList(request):
 def deletePostPlayList(request, id):
     list = get_object_or_404(PostList, id=id)
     list.delete()
-    messages.success(request, "Play list deleted successfully.")
+    messages.success(request, _("Play list deleted successfully."))
     return redirect('/post/play-lists/list')
 
 
@@ -631,6 +679,186 @@ def updateBody(request):
         post.body = bodyParser(post.body, post.title)
         post.save()
     return redirect('/')
+
+
+
+
+
+
+
+
+
+# Video
+@user_passes_test(superuser_required)
+def create_video(request):
+    if request.method == 'POST':
+        form = VideoForm(request.POST, request.FILES)
+        if form.is_valid():
+            video = form.save(commit=False)
+            video.user = request.user
+            video.save()
+            return redirect(f'/upload/{video.slug}')
+    else:
+        form = VideoForm()
+    return render(request, 'video/create.html', {'form': form})
+
+
+def update_video(request, slug):
+    video = Video.objects.get(slug=slug)
+    form = VideoForm(request.POST, request.FILES, instance=video)
+    if form.is_valid():
+        form.save()
+        messages.success(request, _("Video updated successfully."))
+        return redirect(f'/video/{video.slug}')
+    return render(request, 'video/create.html', {'form': form, 'video': video})
+
+@user_passes_test(superuser_required)
+def delete_video(request, id):
+    video = get_object_or_404(Video, id=id)
+    video.delete()
+    messages.success(request, _("Video deleted successfully."))
+    return redirect('/')
+
+
+
+
+def videos(request):
+    videos_list = Video.objects.all().order_by('-created_at')
+    paginator = Paginator(videos_list, 16)
+    page_number = request.GET.get('page')
+    videos = paginator.get_page(page_number)
+
+    context = {'videos': videos}
+    return render(request, 'video/list.html', context)
+
+
+
+
+def video(request, slug):
+    video = get_object_or_404(Video, slug=slug)
+    qualities = Quality.objects.filter(video=video)
+
+    # List Vides (Order By views)
+    list_videos = Video.objects.annotate(views_count=Count('views')).order_by('-views_count')[0:14]
+    paginator = Paginator(list_videos, 24)
+    page_number = request.GET.get("page")
+    videos = paginator.get_page(page_number)
+
+
+    agent = get_user_agent(request)
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+
+    if not Location.objects.filter(ip=ip).exists():
+        location = Location.objects.create(
+            ip=ip,
+            os=agent.os[0],
+            browser=agent.browser[0],
+        )
+    else:
+        location = Location.objects.get(ip=ip)
+    if not location in video.views.all():
+        video.views.add(location)
+        video.save()
+
+
+    context = {
+        'video': video,
+        'videos': videos,
+        'title': video.title,
+        'qualities': qualities,
+        'image': video.image
+    }
+
+    return render(request, 'video/show.html', context)
+
+
+# Quality
+@user_passes_test(superuser_required)
+def quality_upload(request, slug):
+    video = get_object_or_404(Video, slug=slug)
+    qualities = Quality.objects.filter(video=video)
+    if request.method == 'POST':
+        form = QualityForm(request.POST, request.FILES)
+        if form.is_valid():
+            quality = form.save(commit=False)
+            quality.video = video
+            quality.save()
+            return JsonResponse({'message': _("Video uploaded successfully.")})
+        else:
+            return JsonResponse({'message': _("Fail to upload Video")}, status=500)
+
+    else:
+        form = QualityForm()
+    context = {
+        'form': form,
+        'video': video,
+        'qualities': qualities
+    }
+    return render(request, 'video/quality/upload.html', context)
+
+
+def update_quality(request, slug):
+    quality = Quality.objects.get(slug=slug)
+    form = QualityForm(request.POST, request.FILES, instance=quality)
+    if form.is_valid():
+        form.save()
+        messages.success(request, _("quality updated successfully."))
+        return redirect(f'/video/update/{quality.video.slug}')
+    return render(request, 'video/quality/update.html', {'form': form, 'quality': quality})
+
+
+@user_passes_test(superuser_required)
+def delete_quality(request, id):
+    video = get_object_or_404(Video, id=id)
+    video.delete()
+    messages.success(request, _("Quality delete successfully"))
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+
+from freewsad.api.serializers import VideoCommentSerializer
+
+# Video Comment
+def create_video_comment(request, slug):
+    video = get_object_or_404(Video, slug=slug)
+    if request.method == 'POST':
+        form = VideoCommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.video = video
+            comment.save()
+            serializer = VideoCommentSerializer(comment)
+            return JsonResponse(serializer.data, safe=False)
+        else:
+            return JsonResponse({"message": _("Fail to create comment")}, status=403)
+    return JsonResponse({"message": _("Method not allowd.")}, status=403)
+
+
+
+
+
+def video_comments(request, slug):
+    video = get_object_or_404(Video, slug=slug)
+    comments_list = VideoComment.objects.filter(video=video).order_by("-created_at")
+    paginator = Paginator(comments_list, 10)
+    page_number = request.GET.get("page")
+    comments = paginator.get_page(page_number)
+    serializer = VideoCommentSerializer(comments, many=True)
+    return JsonResponse({"data": serializer.data, "has_next": comments.has_next()}, safe=False)
+
+
+def delete_video_comment(request, id):
+    video = get_object_or_404(VideoComment, id=id)
+    if video.user == request.user or request.user.is_superuser:
+        video.delete()
+        return JsonResponse({"message": _('Comment deleted successfully!')})
+    else:
+        raise Http404("Page not found")
 
 
 

@@ -1,0 +1,1191 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-08-10 20:42+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+
+#: .\freewsad\api\serializers.py:19 .\freewsad\api\serializers.py:22
+msgid "The language already exists."
+msgstr "اللغة موجودة بالفعل."
+
+#: .\freewsad\api\serializers.py:154
+msgid "Username already exists."
+msgstr "اسم المستخدم موجود بالفعل."
+
+#: .\freewsad\api\serializers.py:158
+msgid "Email already exists."
+msgstr "البريد الإلكتروني موجود بالفعل."
+
+#: .\freewsad\api\serializers.py:161
+msgid "Password must match."
+msgstr "يجب أن تتطابق كلمات المرور."
+
+#: .\freewsad\api\views.py:272
+msgid "Message has ben send Successfully"
+msgstr "تم إرسال الرسالة بنجاح"
+
+#: .\freewsad\api\views.py:289
+msgid "Post updated successfully."
+msgstr "تم تحديث المقالة بنجاح."
+
+#: .\freewsad\api\views.py:318
+msgid "Post deleted successfully."
+msgstr "تم حذف المقالة بنجاح."
+
+#: .\freewsad\api\views.py:320
+msgid "Post deleted Fail."
+msgstr "فشل حذف المقالة."
+
+#: .\freewsad\api\views.py:356
+msgid "Book created successfully..."
+msgstr "تم إنشاء الكتاب بنجاح..."
+
+#: .\freewsad\api\views.py:369
+#, fuzzy
+#| msgid "Category created successfully..."
+msgid "Author created successfully..."
+msgstr "تم إنشاء التصنيف بنجاح..."
+
+#: .\freewsad\api\views.py:394
+msgid "Book updated successfully."
+msgstr "تم تحديث الكتاب بنجاح."
+
+#: .\freewsad\api\views.py:410 .\freewsad\api\views.py:569
+msgid "List Created successfully."
+msgstr "تم إنشاء القائمة بنجاح."
+
+#: .\freewsad\api\views.py:419 .\freewsad\api\views.py:578
+msgid "List updated successfully."
+msgstr "تم تحديث القائمة بنجاح."
+
+#: .\freewsad\api\views.py:426 .\freewsad\api\views.py:585
+msgid "List Deleted successfully."
+msgstr "تم حذف القائمة بنجاح."
+
+#: .\freewsad\api\views.py:530
+msgid "Book deleted successfully."
+msgstr "تم حذف الكتاب بنجاح."
+
+#: .\freewsad\api\views.py:611
+msgid "Language Created successfully."
+msgstr "تم إنشاء اللغة بنجاح."
+
+#: .\freewsad\api\views.py:620
+msgid "Language updated successfully."
+msgstr "تم تحديث اللغة بنجاح."
+
+#: .\freewsad\api\views.py:627
+msgid "Language Deleted successfully."
+msgstr "تم حذف اللغة بنجاح."
+
+#: .\freewsad\api\views.py:654
+msgid "Post category created successfully."
+msgstr "تم إنشاء تصنيف المقالة بنجاح."
+
+#: .\freewsad\api\views.py:663
+msgid "Post Category updated successfully."
+msgstr "تم تحديث تصنيف المقالة بنجاح."
+
+#: .\freewsad\api\views.py:670
+msgid "Post Category Deleted successfully."
+msgstr "تم حذف تصنيف المقالة بنجاح."
+
+#: .\freewsad\models.py:244
+msgid "Image"
+msgstr "صورة"
+
+#: .\freewsad\models.py:245
+msgid "Description"
+msgstr "وصف"
+
+#: .\freewsad\models.py:481
+msgid "list "
+msgstr "قائمة"
+
+#: .\freewsad\models.py:486
+#, fuzzy
+#| msgid "Categories"
+msgid "Category "
+msgstr "التصنيفات"
+
+#: .\freewsad\models.py:525 .\freewsad\templates\video\quality\upload.html:35
+#: .\freewsad\templates\video\quality\upload.html:109
+msgid "Quality"
+msgstr "جودة"
+
+#: .\freewsad\templates\book\book.html:16
+msgid "About book"
+msgstr "حول الكتاب"
+
+#: .\freewsad\templates\book\book.html:20
+msgid "Author"
+msgstr "الكاتب"
+
+#: .\freewsad\templates\book\book.html:24
+msgid "Publisher"
+msgstr "الناشر"
+
+#: .\freewsad\templates\book\book.html:29
+msgid "File type"
+msgstr "نوع الملف"
+
+#: .\freewsad\templates\book\book.html:34
+msgid "Language"
+msgstr "اللغة"
+
+#: .\freewsad\templates\book\book.html:39
+msgid "Pages"
+msgstr "الصفحات"
+
+#: .\freewsad\templates\book\book.html:45
+msgid "Size"
+msgstr "الحجم"
+
+#: .\freewsad\templates\book\book.html:51
+msgid "Download Book"
+msgstr "تحميل الكتاب"
+
+#: .\freewsad\templates\book\book.html:54
+msgid "DOWNLOAD"
+msgstr "تحميل"
+
+#: .\freewsad\templates\book\book.html:55
+msgid "Read"
+msgstr "قراءة"
+
+#: .\freewsad\templates\book\book.html:63
+#: .\freewsad\templates\post\post.html:91
+#: .\freewsad\templates\video\show.html:88
+msgid "Next"
+msgstr "التالي"
+
+#: .\freewsad\templates\book\book.html:69
+#: .\freewsad\templates\post\post.html:86
+#: .\freewsad\templates\video\show.html:83
+msgid "Previous"
+msgstr "السابق"
+
+#: .\freewsad\templates\book\book.html:75
+#: .\freewsad\templates\video\quality\upload.html:39
+#: .\freewsad\templates\video\show.html:243
+msgid "Delete"
+msgstr "حذف"
+
+#: .\freewsad\templates\book\book.html:76
+#: .\users\templates\profile\update_profile.html:41
+#: .\users\templates\profile\user_update_info.html:34
+msgid "Update"
+msgstr "تحديث"
+
+#: .\freewsad\templates\book\book.html:83
+#: .\freewsad\templates\post\post.html:106
+msgid "Copyrights"
+msgstr "حقوق التأليف والنشر"
+
+#: .\freewsad\templates\book\book.html:92
+#: .\freewsad\templates\post\post.html:114
+#, fuzzy
+#| msgid "Read"
+msgid "Read More"
+msgstr "قراءة"
+
+#: .\freewsad\templates\book\list.html:17
+msgid "No Books"
+msgstr "لا يوجد كتب"
+
+#: .\freewsad\templates\contact\contact.html:5
+#: .\users\templates\password_reset\reset_password_done.html:17
+msgid "Contact us"
+msgstr "اتصللتواصل معنا"
+
+#: .\freewsad\templates\contact\contact.html:15
+#: .\users\templates\profile\profile.html:11
+msgid "Full Name"
+msgstr "الاسم الكامل"
+
+#: .\freewsad\templates\contact\contact.html:17 .\users\forms.py:41
+#: .\users\forms.py:42 .\users\templates\password_reset\reset_password.html:13
+#: .\users\templates\profile\profile.html:20
+#: .\users\templates\profile\public.html:31
+#: .\users\templates\profile\user_update_info.html:31
+msgid "Email"
+msgstr "البريد الإلكتروني"
+
+#: .\freewsad\templates\contact\contact.html:19
+msgid "Message"
+msgstr "الرسالة"
+
+#: .\freewsad\templates\contact\contact.html:22
+msgid "Send message"
+msgstr "إرسال الرسالة"
+
+#: .\freewsad\templates\index.html:26 .\freewsad\templates\index.html:34
+#: .\freewsad\templates\video\show.html:256
+msgid "Load More"
+msgstr "تحميل المزيد"
+
+#: .\freewsad\templates\index.html:30 .\freewsad\templates\video\list.html:15
+msgid "Latest Videos and courses"
+msgstr "أخر الفيدويهات والدورات"
+
+#: .\freewsad\templates\post\post.html:27
+#: .\freewsad\templates\video\show.html:59
+msgid "Comments"
+msgstr "التعاليق"
+
+#: .\freewsad\templates\post\post.html:112 .\templates\base.html:153
+#: .\templates\components\header.html:41
+msgid "Contact Us"
+msgstr "اتصل بنا"
+
+#: .\freewsad\templates\post\post.html:124
+msgid "More Freebies"
+msgstr "المزيد من الهديا"
+
+#: .\freewsad\templates\post\post.html:149
+msgid "No Post Result"
+msgstr "لا يوجد مقالات"
+
+#: .\freewsad\templates\video\create.html:10
+#, fuzzy
+#| msgid "Publisher"
+msgid "Publish a video"
+msgstr "انشر مقطع فيديو"
+
+
+#: .\freewsad\templates\video\create.html:14
+#: .\freewsad\templates\video\quality\upload.html:116
+#, fuzzy
+#| msgid "Publisher"
+msgid "Publish"
+msgstr "نشر"
+
+#: .\freewsad\templates\video\quality\upload.html:20
+msgid "Upload video"
+msgstr "تحميل فيديو"
+
+#: .\freewsad\templates\video\quality\upload.html:39
+msgid "Are you sure you want to delete Video?"
+msgstr "هل أنت متأكدم من حذف الفيديو"
+
+#: .\freewsad\templates\video\quality\upload.html:43
+msgid "No vedio"
+msgstr "لا يجود فيديو"
+
+#: .\freewsad\templates\video\quality\upload.html:59
+msgid "Are you sure you want to leave page."
+msgstr "هل أنت متأكد من مغادرة هذه الصفحة"
+
+#: .\freewsad\templates\video\quality\upload.html:89
+#, fuzzy
+#| msgid "Success!"
+msgid "Success"
+msgstr "تم بنجاح!"
+
+#: .\freewsad\templates\video\quality\upload.html:89 .\freewsad\views.py:762
+#, fuzzy
+#| msgid "Post updated successfully."
+msgid "Video uploaded successfully."
+msgstr "تم تحديث المقالة بنجاح."
+
+#: .\freewsad\templates\video\quality\upload.html:93
+msgid "Fail"
+msgstr "فشل"
+
+#: .\freewsad\templates\video\quality\upload.html:93
+msgid "Fail to uploade Video"
+msgstr "فشل تحميل الفيديو"
+
+#: .\freewsad\templates\video\quality\upload.html:113
+msgid "Video file"
+msgstr "ملف الفيديو"
+
+#: .\freewsad\templates\video\show.html:38
+#: .\templates\components\videos.html:12
+msgid "Views"
+msgstr "مشاهدات"
+
+#: .\freewsad\templates\video\show.html:46
+msgid "Followrs"
+msgstr "متابعون"
+
+#: .\freewsad\templates\video\show.html:49
+msgid "Follow"
+msgstr "متابعة"
+
+#: .\freewsad\templates\video\show.html:217
+msgid "Comment"
+msgstr "تعليق"
+
+#: .\freewsad\templates\video\show.html:257
+msgid "This is all"
+msgstr "هذا كل شيء"
+
+#: .\freewsad\views.py:149
+#, fuzzy
+#| msgid "Post Created successfully.."
+msgid "Post Creaeted successfully.."
+msgstr "تم إنشاء المقالة بنجاح.."
+
+#: .\freewsad\views.py:176
+msgid "The post updated successfully."
+msgstr "تم تحديث المقالة بنجاح"
+
+#: .\freewsad\views.py:179
+msgid "You cannot update the post"
+msgstr "لا يمكنك تحديث المقالة"
+
+#: .\freewsad\views.py:196
+#, fuzzy
+#| msgid "Post deleted successfully."
+msgid "Post deleted successfull."
+msgstr "تم حذف المقالة بنجاح."
+
+#: .\freewsad\views.py:255 .\freewsad\views.py:419
+msgid "Category created successfully..."
+msgstr "تم إنشاء التصنيف بنجاح..."
+
+#: .\freewsad\views.py:273 .\freewsad\views.py:436
+msgid "Category updated successfully..."
+msgstr "تم تحديث التصنيف بنجاح..."
+
+#: .\freewsad\views.py:286 .\freewsad\views.py:449 .\freewsad\views.py:452
+msgid "Category deleted successfully..."
+msgstr "تم حذف التصنيف بنجاح..."
+
+#: .\freewsad\views.py:289
+msgid "Fail to delete category."
+msgstr "فشل حذف التصنيف."
+
+#: .\freewsad\views.py:378
+msgid "Book updated successfully..."
+msgstr "تم تحديث الكتاب بنجاح..."
+
+#: .\freewsad\views.py:394
+#, fuzzy
+#| msgid "Book deleted successfully."
+msgid "Book deleted successfull."
+msgstr "تم حذف الكتاب بنجاح."
+
+#: .\freewsad\views.py:500
+msgid "Page deleted successfully."
+msgstr "تم حذف الصفحة بنجاح."
+
+#: .\freewsad\views.py:504
+msgid "Fail to delete page."
+msgstr "فشل حذف الصفحة."
+
+#: .\freewsad\views.py:516
+msgid "Menu - Freesad"
+msgstr "قائمة - فري ساد"
+
+#: .\freewsad\views.py:532
+msgid "Freesad - Contace"
+msgstr "فري ساد - اتصال"
+
+#: .\freewsad\views.py:542
+msgid "Freesad - Contaces list"
+msgstr "فري ساد - قائمة جهات الاتصال"
+
+#: .\freewsad\views.py:643
+msgid "Play list deleted successfully."
+msgstr "تم حذف قائمة الاستماع بنجاح."
+
+#: .\freewsad\views.py:683
+#, fuzzy
+#| msgid "Post updated successfully."
+msgid "Video updated successfully."
+msgstr "تم تحديث المقالة بنجاح."
+
+#: .\freewsad\views.py:691
+#, fuzzy
+#| msgid "Post deleted successfully."
+msgid "Video deleted successfully."
+msgstr "تم حذف المقالة بنجاح."
+
+#: .\freewsad\views.py:764
+msgid "Fail to upload Video"
+msgstr "فشل تحميل الفيديو"
+
+#: .\freewsad\views.py:781
+#, fuzzy
+#| msgid "List updated successfully."
+msgid "quality updated successfully."
+msgstr "تم تحديث القائمة بنجاح."
+
+#: .\freewsad\views.py:790
+#, fuzzy
+#| msgid "Play list deleted successfully."
+msgid "Quality delete successfully"
+msgstr "تم حذف قائمة الاستماع بنجاح."
+
+#: .\freewsad\views.py:810
+#, fuzzy
+#| msgid "Fail to delete page."
+msgid "Fail to create comment"
+msgstr "فشل حذف الصفحة."
+
+#: .\freewsad\views.py:811
+msgid "Method not allowd."
+msgstr "طريقة غير مسموح بها"
+
+#: .\freewsad\views.py:831
+#, fuzzy
+#| msgid "Post deleted successfully."
+msgid "Comment deleted successfully!"
+msgstr "تم حذف المقالة بنجاح."
+
+#: .\templates\404.html:11
+msgid "Opps!"
+msgstr "أسف"
+
+#: .\templates\404.html:11
+#, fuzzy
+#| msgid "User Not Found"
+msgid "Page not found."
+msgstr "المستخدم غير موجود"
+
+#: .\templates\404.html:13
+msgid "The page you’re looking for doesn’t exist."
+msgstr "الصفحة الذي تريد الوصول إليها غير موجودة"
+
+#: .\templates\404.html:15
+msgid "Back to Home"
+msgstr "عودة للصفحة الرئيسية"
+
+#: .\templates\base.html:13 .\templates\base.html:16 .\templates\base.html:21
+#: .\templates\base.html:30
+msgid ""
+"You can enjoy Books and Bopics, Courses you love and download the original "
+"content, and share it all with your friends, and the whole world on freesad."
+msgstr ""
+"يمكنك الاستمتاع بالكتب والمواضيع، والدورات التي تحبها وتحميل المحتوى الأصلي، "
+"ومشاركته مع أصدقائك والعالم أجمع على freesad."
+
+#: .\templates\base.html:15
+msgid "Freesad - Professional Education Platform."
+msgstr "فريساد - منصة تعليمية مهنية."
+
+#: .\templates\base.html:20 .\templates\base.html:26
+msgid "Freesad - Professional Education Platform"
+msgstr "فريساد - منصة تعليمية مهنية"
+
+#: .\templates\base.html:97 .\templates\base.html:178
+msgid "About Us"
+msgstr "من نحن"
+
+#: .\templates\base.html:100
+msgid ""
+"Freesad is a Professional Education Platform. Here we will provide you only "
+"interesting content, which you will like very much. We're dedicated to "
+"providing you the best of Education..."
+msgstr "فريساد هي منصة تعليمية احترافية. هنا نقدم لك فقط محتوى مثير للاهتمام ستحبه كثيرًا. نحن ملتزمون به نوفر لك أفضل ما في التعليم ..."
+
+#: .\templates\base.html:101
+msgid "More"
+msgstr "المزيد"
+
+#: .\templates\base.html:115
+msgid "Popular Posts"
+msgstr "المنشورات الشائعة"
+
+#: .\templates\base.html:143
+msgid "Copyright © 2023 All rights reserved"
+msgstr "حقوق الطبع والنشر © 2023 جميع الحقوق محفوظة"
+
+#: .\templates\base.html:151 .\templates\base.html:176
+#: .\templates\components\header.html:29
+msgid "Home"
+msgstr "الرئيسية"
+
+#: .\templates\base.html:152
+#, fuzzy
+#| msgid "About Us"
+msgid "About"
+msgstr "من نحن"
+
+msgid "Privacy Policy"
+msgstr "سياسة الخصوصية"
+
+#: .\templates\base.html:167 .\templates\components\header.html:68
+msgid "Search..."
+msgstr "ابحث..."
+
+#: .\templates\base.html:177 .\templates\components\header.html:38
+msgid "Posts"
+msgstr "المقالات"
+
+msgid "Contact Page"
+msgstr "صفحة تواصل معنا"
+
+#: .\templates\components\header.html:14 .\templates\components\hero.html:11
+msgid "Freesad is a Professional Education Platform."
+msgstr "فريساد هي منصة تعليمية مهنية."
+
+#: .\templates\components\header.html:17
+msgid "Freesad - Professional Education Platform, Web Development"
+msgstr "فريساد - منصة تعليمية مهنية، تطوير الويب"
+
+#: .\templates\components\header.html:31
+msgid "Categories"
+msgstr "التصنيفات"
+
+#: .\templates\components\header.html:39
+msgid "Videos"
+msgstr "فيديو"
+
+#: .\templates\components\header.html:40
+msgid "Books"
+msgstr "كتب"
+
+#: .\templates\components\header.html:44 .\templates\components\header.html:64
+msgid "Menu"
+msgstr "القائمة"
+
+#: .\templates\components\header.html:46 .\users\templates\settings.html:16
+msgid "Profile"
+msgstr "الملف الشخصي"
+
+#: .\templates\components\header.html:47
+msgid "Logout"
+msgstr "تسجيل الخروج"
+
+#: .\templates\components\header.html:52
+#, fuzzy
+#| msgid "Join Date"
+msgid "Join us"
+msgstr "الإنضمام"
+
+#: .\templates\components\header.html:54
+msgid "Login"
+msgstr "تسجيل الدخول"
+
+#: .\templates\components\header.html:55
+#: .\users\templates\password_reset\password_reset_confirm.html:40
+#: .\users\templates\password_reset\reset_done.html:19
+#: .\users\templates\password_reset\reset_password_done.html:15
+#: .\users\views.py:50
+msgid "Register"
+msgstr "تسجيل"
+
+#: .\templates\components\hero.html:12
+msgid "Here we will provide you only interesting content!"
+msgstr "هنا سنقدم لك محتوى مثير فقط!"
+
+#: .\templates\components\hero.html:16
+msgid "Articles, Books, Courses..."
+msgstr "مقالات، كتب، دورات..."
+
+#: .\templates\components\media.html:4
+msgid "Follow Us"
+msgstr "تابعنا"
+
+#: .\templates\components\posts.html:25
+msgid "No Post Articles"
+msgstr "لا يوجد مقالات"
+
+#: .\templates\components\videos.html:25
+msgid "No Post Videos"
+msgstr "لا يوجد فيديو"
+
+#: .\users\country.py:4
+msgid "Morocco"
+msgstr "المغرب"
+
+#: .\users\country.py:5
+msgid "Algeria"
+msgstr "الجزائر"
+
+#: .\users\country.py:6
+msgid "Tunisia"
+msgstr "تونس"
+
+#: .\users\country.py:7
+msgid "Libya"
+msgstr "ليبيا"
+
+#: .\users\country.py:8
+msgid "Palestine"
+msgstr "فلسطين"
+
+#: .\users\country.py:9
+msgid "Egypt"
+msgstr "مصر"
+
+#: .\users\country.py:10
+msgid "Mauritania"
+msgstr "موريتانيا"
+
+#: .\users\country.py:11
+msgid "Sudan"
+msgstr "السودان"
+
+#: .\users\country.py:12
+msgid "Kuwait"
+msgstr "الكويت"
+
+#: .\users\country.py:13
+msgid "Iraq"
+msgstr "العراق"
+
+#: .\users\country.py:14
+msgid "UAE"
+msgstr "الإمارات"
+
+#: .\users\forms.py:17
+msgid "There is no registered user with this name!"
+msgstr "لا يوجد مستخدم مسجل بهذا الاسم!"
+
+#: .\users\forms.py:34 .\users\forms.py:38 .\users\forms.py:39
+#: .\users\forms.py:40 .\users\templates\profile\user_update_info.html:18
+#: .\users\templates\registration\login.html:16
+msgid "Username"
+msgstr "اسم المستخدم"
+
+#: .\users\forms.py:35 .\users\forms.py:39
+#: .\users\templates\profile\user_update_info.html:21
+msgid "Username should not contain spaces"
+msgstr "يجب ألا يحتوي اسم المستخدم على مسافات"
+
+#: .\users\forms.py:43 .\users\forms.py:44
+#, fuzzy
+#| msgid "First name"
+msgid "First Name"
+msgstr "الاسم الأول"
+
+#: .\users\forms.py:45 .\users\forms.py:46
+#, fuzzy
+#| msgid "Last name"
+msgid "Last Name"
+msgstr "الاسم الأخير"
+
+
+msgid "Latest Freebies"
+msgstr "أخر الهديا المجانية"
+
+#: .\users\forms.py:47 .\users\forms.py:48
+#: .\users\templates\registration\login.html:28
+#: .\users\templates\settings.html:38
+msgid "Password"
+msgstr "كلمة المرور"
+
+#: .\users\forms.py:49 .\users\forms.py:50
+msgid "Confirm Password"
+msgstr "تأكيد كلمة المرور"
+
+#: .\users\forms.py:59 .\users\templates\profile\change-password.html:39
+msgid "Password does not match."
+msgstr "كلمة المرور غير متطابقة."
+
+#: .\users\forms.py:65
+msgid "There is a registered user with this name!"
+msgstr "هناك مستخدم مسجل بهذا الاسم!"
+
+#: .\users\forms.py:73
+msgid "There is a registered user with this email!"
+msgstr "هناك مستخدم مسجل بهذا البريد الإلكتروني!"
+
+#: .\users\forms.py:114
+msgid "The two passwords did not match"
+msgstr "كلمتا المرور غير متطابقتين"
+
+#: .\users\models.py:12
+msgid "Male"
+msgstr "ذكر"
+
+#: .\users\models.py:13
+msgid "Female"
+msgstr "أنثى"
+
+#: .\users\templates\footer\footer.html:13
+msgid "Help"
+msgstr "مساعدة"
+
+#: .\users\templates\footer\footer.html:16
+msgid "About us"
+msgstr "عنا"
+
+#: .\users\templates\footer\footer.html:19
+msgid "FreeWsad Jobs"
+msgstr "وظائف فريساد المجانية"
+
+#: .\users\templates\password_reset\password_reset_confirm.html:10
+msgid "Reset Password"
+msgstr "إعادة تعيين كلمة المرور"
+
+#: .\users\templates\password_reset\password_reset_confirm.html:15
+#, fuzzy
+#| msgid "New password"
+msgid "New Password"
+msgstr "كلمة مرور جديدة"
+
+#: .\users\templates\password_reset\password_reset_confirm.html:20
+msgid "New Password Confirmation"
+msgstr "تأكيد كلمة المرور الجديدة"
+
+#: .\users\templates\password_reset\password_reset_confirm.html:25
+msgid "Change password"
+msgstr "تغيير كلمة المرور"
+
+#: .\users\templates\password_reset\password_reset_confirm.html:33
+msgid "Password reset failed"
+msgstr "فشل إعادة تعيين كلمة المرور"
+
+#: .\users\templates\password_reset\password_reset_confirm.html:34
+msgid ""
+"The password recovery link is incorrect, possibly because it has been used "
+"before. Please request a password recovery again."
+msgstr ""
+"رابط استعادة كلمة المرور غير صحيح، قد يكون لأنه تم استخدامه مسبقًا. يُرجى طلب "
+"استعادة كلمة المرور مرة أخرى."
+
+#: .\users\templates\password_reset\password_reset_confirm.html:37
+#: .\users\templates\password_reset\reset_done.html:16
+#: .\users\templates\password_reset\reset_password_done.html:12
+msgid "Log out"
+msgstr "تسجيل الخروج"
+
+#: .\users\templates\password_reset\password_reset_confirm.html:39
+#: .\users\templates\password_reset\reset_done.html:18
+#: .\users\templates\password_reset\reset_password_done.html:14
+#: .\users\templates\registration\login.html:4
+#: .\users\templates\registration\login.html:38
+msgid "Log in"
+msgstr "تسجيل الدخول"
+
+#: .\users\templates\password_reset\reset_done.html:12
+msgid "The operation succeeded, the password was reset"
+msgstr "نجحت العملية، تم إعادة تعيين كلمة المرور"
+
+#: .\users\templates\password_reset\reset_done.html:13
+msgid "Your password has been successfully changed. Log in now."
+msgstr "تم تغيير كلمة المرور بنجاح. سجّل الدخول الآن."
+
+#: .\users\templates\password_reset\reset_password.html:7
+msgid "Forgot your password"
+msgstr "نسيت كلمة المرور؟"
+
+#: .\users\templates\password_reset\reset_password.html:8
+msgid ""
+"did you forget your password? Enter your email address below, and we'll "
+"email you instructions for setting up Set a new password."
+msgstr ""
+"هل نسيت كلمة المرور؟ أدخل عنوان البريد الإلكتروني أدناه، وسنرسل لك تعليمات "
+"لإعداد كلمة مرور جديدة."
+
+#: .\users\templates\password_reset\reset_password.html:15
+msgid "Enter your email"
+msgstr "أدخل بريدك الإلكتروني"
+
+#: .\users\templates\password_reset\reset_password.html:17
+msgid "Send"
+msgstr "إرسال"
+
+#: .\users\templates\password_reset\reset_password_done.html:7
+#: .\users\views.py:139
+msgid "Password reset has been sent"
+msgstr "تم إرسال طلب إعادة تعيين كلمة المرور"
+
+#: .\users\templates\password_reset\reset_password_done.html:8
+msgid ""
+"We have sent you an email with a link where you can reset a new password."
+msgstr ""
+"لقد أرسلنا لك بريدًا إلكترونيًا يحتوي على رابط يمكنك من خلاله إعادة تعيين كلمة "
+"مرور جديدة."
+
+#: .\users\templates\password_reset\reset_password_done.html:9
+msgid ""
+"In case the e-mail is not received, please make sure that your e-mail "
+"address is entered correctly and review your spam folder."
+msgstr ""
+"في حالة عدم استلام البريد الإلكتروني، يرجى التأكد من إدخال عنوان البريد "
+"الإلكتروني بشكل صحيح ومراجعة مجلد البريد العشوائي (Spam)."
+
+#: .\users\templates\password_reset\reset_password_done.html:10
+msgid "Check your email"
+msgstr "تحقق من بريدك الإلكتروني"
+
+#: .\users\templates\password_reset\reset_password_done.html:17
+msgid "If there is any problem"
+msgstr "إذا كان هناك أي مشكلة"
+
+#: .\users\templates\profile\change-password.html:23
+#: .\users\templates\profile\update_profile.html:44
+#, fuzzy
+#| msgid "Change password"
+msgid "Change Password"
+msgstr "تغيير كلمة المرور"
+
+#: .\users\templates\profile\change-password.html:29
+msgid "Old Password"
+msgstr "كلمة المرور القديمة"
+
+#: .\users\templates\profile\change-password.html:31
+msgid "The old password is incorrect."
+msgstr "كلمة المرور القديمة غير صحيحة."
+
+#: .\users\templates\profile\change-password.html:34
+msgid "New password"
+msgstr "كلمة مرور جديدة"
+
+#: .\users\templates\profile\change-password.html:37
+msgid "New Password confirmation"
+msgstr "تأكيد كلمة المرور الجديدة"
+
+#: .\users\templates\profile\change-password.html:42
+msgid "Change"
+msgstr "تغيير"
+
+#: .\users\templates\profile\change-password.html:47
+msgid "Your password can’t be too similar to your other personal information."
+msgstr "لا يمكن أن تكون كلمة المرور مشابهة للغاية لمعلوماتك الشخصية الأخرى."
+
+#: .\users\templates\profile\change-password.html:48
+msgid "Your password must contain at least 8 characters."
+msgstr "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل."
+
+#: .\users\templates\profile\change-password.html:49
+msgid "Your password can’t be a commonly used password"
+msgstr "لا يمكن أن تكون كلمة المرور مشتركة استخدامًا."
+
+#: .\users\templates\profile\change-password.html:50
+msgid "Your password can’t be entirely numeric."
+msgstr "لا يمكن أن تكون كلمة المرور مكونة بالكامل من أرقام."
+
+#: .\users\templates\profile\profile.html:30
+#: .\users\templates\profile\public.html:46
+#: .\users\templates\profile\update_profile.html:30
+#: .\users\templates\profile\update_profile.html:32
+msgid "Phone"
+msgstr "الهاتف"
+
+#: .\users\templates\profile\profile.html:42
+#: .\users\templates\profile\public.html:124
+#: .\users\templates\profile\update_profile.html:36
+#: .\users\templates\profile\update_profile.html:38
+msgid "Country"
+msgstr "البلد"
+
+#: .\users\templates\profile\profile.html:53
+#: .\users\templates\profile\public.html:78
+msgid "Bio"
+msgstr "السيرة الذاتية"
+
+#: .\users\templates\profile\profile.html:65
+msgid "Edit"
+msgstr "تعديل"
+
+#: .\users\templates\profile\public.html:20
+msgid "Privacy"
+msgstr "الخصوصية"
+
+#: .\users\templates\profile\public.html:21
+msgid "Control who can see your information"
+msgstr "التحكم في من يمكنه رؤية معلوماتك"
+
+#: .\users\templates\profile\public.html:62
+msgid "Website"
+msgstr "الموقع الإلكتروني"
+
+#: .\users\templates\profile\public.html:94
+msgid "Gender"
+msgstr "الجنس"
+
+#: .\users\templates\profile\public.html:109
+#, fuzzy
+#| msgid "friends"
+msgid "Friends"
+msgstr "أصدقاء"
+
+#: .\users\templates\profile\public.html:114
+msgid "friends"
+msgstr "أصدقاء"
+
+#: .\users\templates\profile\public.html:140
+msgid "Birth"
+msgstr "تاريخ الميلاد"
+
+#: .\users\templates\profile\public.html:155
+msgid "Join Date"
+msgstr "تاريخ الانضمام"
+
+#: .\users\templates\profile\public.html:168
+msgid "Save"
+msgstr "حفظ"
+
+#: .\users\templates\profile\update_profile.html:8 .\users\views.py:87
+#: .\users\views.py:101
+msgid "Update Profile"
+msgstr "تحديث الملف الشخصي"
+
+#: .\users\templates\profile\update_profile.html:22
+msgid "Avatar"
+msgstr "الصورة الرمزية"
+
+#: .\users\templates\profile\user_update_info.html:9
+msgid "Change Contact information"
+msgstr "تغيير معلومات الاتصال"
+
+#: .\users\templates\profile\user_update_info.html:14
+msgid "Success!"
+msgstr "تم بنجاح!"
+
+#: .\users\templates\profile\user_update_info.html:14
+msgid "Info has been updated successfully..."
+msgstr "تم تحديث المعلومات بنجاح..."
+
+#: .\users\templates\profile\user_update_info.html:23
+msgid "First name"
+msgstr "الاسم الأول"
+
+#: .\users\templates\profile\user_update_info.html:27
+msgid "Last name"
+msgstr "الاسم الأخير"
+
+#: .\users\templates\profile\user_update_info.html:38
+msgid ""
+"Make sure that your contact information is correct and real, so that we can "
+"recover your account if you encounter a problem logging in."
+msgstr ""
+"تأكد من أن معلومات الاتصال الخاصة بك صحيحة وحقيقية، حتى نتمكن من استعادة "
+"حسابك إذا واجهت مشكلة في تسجيل الدخول."
+
+#: .\users\templates\registration\login.html:23
+msgid "Enter your username"
+msgstr "أدخل اسم المستخدم الخاص بك"
+
+#: .\users\templates\registration\login.html:34
+msgid "Enter your Passwrd"
+msgstr "أدخل كلمة المرور"
+
+#: .\users\templates\registration\register.html:9
+msgid "Sing Up | Log In"
+msgstr "التسجيل | تسجيل الدخول"
+
+#: .\users\templates\registration\register.html:48
+msgid "Sing in"
+msgstr "تسجيل الدخول"
+
+#: .\users\templates\registration\register.html:49
+msgid "I have account"
+msgstr "لدي حساب"
+
+#: .\users\templates\settings.html:18
+msgid "Change your Avatar, Phone, Country..."
+msgstr "تغيير الصورة الرمزية، الهاتف، البلد..."
+
+#: .\users\templates\settings.html:27
+msgid "Contact Info"
+msgstr "معلومات الاتصال"
+
+#: .\users\templates\settings.html:29
+msgid "Change your Username, Email..."
+msgstr "تغيير اسم المستخدم، البريد الإلكتروني..."
+
+#: .\users\templates\settings.html:39
+msgid "Change your password."
+msgstr "غيّر كلمة المرور."
+
+#: .\users\urls.py:21
+msgid "Forgot Password"
+msgstr "نسيت كلمة المرور"
+
+#: .\users\views.py:63
+#, fuzzy
+#| msgid ""
+#| "You can join now to connect with your friends and enjoy your books and "
+#| "courses. Register now"
+msgid ""
+"You can join now to connect with your  friends and enjoy your books and "
+"courses register now"
+msgstr ""
+"يمكنك الانضمام الآن للتواصل مع أصدقائك والاستمتاع بكتبك ودوراتك. سجل الآن"
+
+#: .\users\views.py:116
+msgid "Contact information"
+msgstr "معلومات الاتصال"
+
+#~ msgid ""
+#~ "You can enjoy Books and Bopics, Courses you love and download the "
+#~ "original content, and share it all with your friends, and the whole world "
+#~ "on freedaz."
+#~ msgstr ""
+#~ "يمكنك الاستمتاع بالكتب والمقالات والدورات التي تحبها وتنزيل المحتوى "
+#~ "الأصلي، ومشاركته مع أصدقائك والعالم كله على فري ساد."
+
+#~ msgid "Freedaz - The best website for Education."
+#~ msgstr "فري ساد - أفضل موقع للتعليم."
+
+#~ msgid "Freedaz - The best website for Education"
+#~ msgstr "فري ساد - أفضل موقع للتعليم"
+
+#~ msgid "Change your password..."
+#~ msgstr "تغيير كلمة المرور..."
+
+#~ msgid "Danger Zone"
+#~ msgstr "منطقة الخطر"
+
+#~ msgid "Delete your account permanetly!"
+#~ msgstr "حذف حسابك بشكل دائم!"
+
+#~ msgid "Registration succeeded!"
+#~ msgstr "تم التسجيل بنجاح!"
+
+#~ msgid "An activation link has been sent to your email address."
+#~ msgstr "تم إرسال رابط التنشيط إلى عنوان بريدك الإلكتروني."
+
+#~ msgid ""
+#~ "Please check your email and follow the instructions to activate your "
+#~ "account."
+#~ msgstr "يرجى التحقق من بريدك الإلكتروني واتباع التعليمات لتنشيط حسابك."
+
+#~ msgid "Return to home"
+#~ msgstr "العودة إلى الصفحة الرئيسية"
+
+#~ msgid "Please note that the activation link is valid for 24 hours."
+#~ msgstr "يرجى ملاحظة أن رابط التنشيط صالح لمدة 24 ساعة."
+
+#~ msgid ""
+#~ "If you do not receive an email, please check your spam folder as well."
+#~ msgstr ""
+#~ "إذا لم تتلقى بريدًا إلكترونيًا، يرجى التحقق أيضًا من مجلد البريد العشوائي "
+#~ "(Spam)."
+
+#~ msgid "The activation link you clicked is invalid or has expired."
+#~ msgstr "رابط التنشيط الذي قمت بالنقر عليه غير صالح أو انتهت صلاحيته."
+
+#~ msgid "Return to home page"
+#~ msgstr "العودة إلى الصفحة الرئيسية"
+
+#~ msgid "Account Activated!"
+#~ msgstr "تم تفعيل الحساب!"
+
+#~ msgid "Your account has been successfully activated."
+#~ msgstr "تم تنشيط حسابك بنجاح."
+
+#~ msgid "Return to login"
+#~ msgstr "العودة إلى تسجيل الدخول"
+
+#~ msgid "Thank you for activating your account!"
+#~ msgstr "شكرًا لتفعيل حسابك!"
+
+#~ msgid ""
+#~ "Thank you for choosing our platform. You can now log in to your account "
+#~ "and enjoy all the features."
+#~ msgstr ""
+#~ "شكرًا لاختيارك منصتنا. يمكنك الآن تسجيل الدخول إلى حسابك والاستمتاع بجميع "
+#~ "الميزات."
+
+#~ msgid "Profile Page"
+#~ msgstr "صفحة الملف الشخصي"
+
+#~ msgid "Public Profile"
+#~ msgstr "الملف الشخصي العام"
+
+#~ msgid "Update info"
+#~ msgstr "تحديث المعلومات"
+
+#~ msgid "Update Contact Info"
+#~ msgstr "تحديث معلومات الاتصال"
+
+#~ msgid "Privacy and Security"
+#~ msgstr "الخصوصية والأمان"
+
+#~ msgid "User Deletion"
+#~ msgstr "حذف المستخدم"
+
+#~ msgid "Password Reset"
+#~ msgstr "إعادة تعيين كلمة المرور"
+
+#~ msgid "Password Reset Done"
+#~ msgstr "تمت إعادة تعيين كلمة المرور"
+
+#~ msgid "Password Reset Complete"
+#~ msgstr "اكتمال إعادة تعيين كلمة المرور"
+
+#~ msgid "Activate Account"
+#~ msgstr "تفعيل الحساب"
+
+#~ msgid "Invalid Activation Link"
+#~ msgstr "رابط التنشيط غير صالح"
+
+#~ msgid "Account Activated"
+#~ msgstr "تم تفعيل الحساب"
+
+#~ msgid "Logged Out"
+#~ msgstr "تم تسجيل الخروج"
+
+#~ msgid "Search Results"
+#~ msgstr "نتائج البحث"
+
+#~ msgid "Search"
+#~ msgstr "بحث"
+
+#~ msgid "Change Avatar"
+#~ msgstr "تغيير الصورة الرمزية"
+
+#~ msgid "Change Username"
+#~ msgstr "تغيير اسم المستخدم"
+
+#~ msgid "Change Email"
+#~ msgstr "تغيير البريد الإلكتروني"
+
+#~ msgid "Change Phone"
+#~ msgstr "تغيير الهاتف"
+
+#~ msgid "Change Country"
+#~ msgstr "تغيير البلد"
+
+#~ msgid "Change Bio"
+#~ msgstr "تغيير السيرة الذاتية"
+
+#~ msgid "Change Website"
+#~ msgstr "تغيير الموقع الإلكتروني"
+
+#~ msgid "Change Gender"
+#~ msgstr "تغيير الجنس"
+
+#~ msgid "Change Birth"
+#~ msgstr "تغيير تاريخ الميلاد"
+
+#~ msgid "Change Join Date"
+#~ msgstr "تغيير تاريخ الانضمام"
+
+#~ msgid "Change Friends"
+#~ msgstr "تغيير الأصدقاء"
+
+#~ msgid "Password Recovery"
+#~ msgstr "استعادة كلمة المرور"
+
+#~ msgid ""
+#~ "Please check your email for instructions on how to reset your password."
+#~ msgstr ""
+#~ "يرجى التحقق من بريدك الإلكتروني للحصول على تعليمات حول كيفية إعادة تعيين "
+#~ "كلمة المرور الخاصة بك."
+
+#~ msgid "Current Password"
+#~ msgstr "كلمة المرور الحالية"
+
+#~ msgid "Sign Up | Log In"
+#~ msgstr "التسجيل | تسجيل الدخول"
+
+#~ msgid "Sign in"
+#~ msgstr "تسجيل الدخول"
+
+#~ msgid "I have an account"
+#~ msgstr "لدي حساب"

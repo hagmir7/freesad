@@ -348,16 +348,38 @@ def dashboardTools(request):
 
 
 @api_view(['POST'])
-@permission_classes((permissions.AllowAny, ))
+@permission_classes([IsAuthenticated])
 def createBook(request):
-    user = User.objects.get(id=1)
-    serializer = BookSerializer(data=request.data)
+    serializer = BookCreateSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save(user=user)
+        serializer.save(user=request.user)
         return Response({'message': _("Book created successfully...")})
     else:
         print("Not valid.")
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+@permission_classes((permissions.AllowAny,))
+def createAuthor(request):
+    user = User.objects.get(id=1)
+    serializer = CreateAuthorSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(user=user)
+        return Response({'message': _("Author created successfully...")})
+    else:
+        print("Not valid.")
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+@api_view(['GET'])
+@permission_classes((permissions.AllowAny,))
+def listAuthers(request):
+    authers = Author.objects.all().order_by('-created_at')
+    serializer = AuthorSerializer(authers, many=True)
+    return Response(serializer.data)
+
+
 
 
 @api_view(['PUT', 'GET'],)

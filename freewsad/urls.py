@@ -34,6 +34,7 @@ urlpatterns = [
     path('contact', contact, name='contact'),
     path('lable/<str:lable>', lable, name='lable'),
     path('menu', menu, name='menu'),
+    path('change_language/<str:language_code>', change_language, name="change_language"),
 
 
 
@@ -47,14 +48,13 @@ urlpatterns = [
     path('book/list', bookList, name='books_list'),
     path('book/<str:slug>', bookDetail, name="book_detail"),
     path('books', books, name='books'),
-    path('book/delete/<int:id>', deleteBook, name='book_delete'),
     path('book/update/<int:id>', updateBook , name='update_book'),
 
     path('book/create/category', createBookCategory, name='create_book_category'),
     path('book/update/category/<int:id>', updateBookCategory, name='update_book_category'),
     path('book/delete/category/<int:id>', deleteBookCategory, name='delete_book_category'),
     path('book/category/list', bookCategoryList,  name="category_book_list"),
-
+    path('book/delete/<int:id>', deleteBook, name='book_delete'),
     path('clear/history', clearHistory),
     path('clear/token', clearTokns),
     # path('lang', languagUpdate),
@@ -74,6 +74,19 @@ urlpatterns = [
     path('add-books-slug', addBooksSlug),
     path('book-file-exists', bookFileExists),
     path('update-post-body', updateBody),
+
+    path('video/comment/create/<str:slug>', create_video_comment, name="create_video_comment"),
+    # Video
+    path('video/create', create_video, name="create_video"),
+    path('videos', videos, name="videos"),
+
+    path('upload/<str:slug>', quality_upload, name="upload_video"),
+   
+    path('video/<str:slug>', video, name="video"),
+    path('video/comments/<str:slug>', video_comments, name="video_comments"),
+    path('video/comment/delete/<int:id>', delete_video_comment, name="delete_video_comment")
+
+    
 
 
 

@@ -57,3 +57,24 @@ class PostSearchForm(forms.Form):
        
 
 
+
+
+# Video
+
+class VideoForm(forms.ModelForm):
+    class Meta:
+        model = Video
+        fields = ['title', 'image', 'tags', 'category', 'description', 'language']
+
+
+class QualityForm(forms.ModelForm):
+    class Meta:
+        model = Quality
+        fields = ['quality','file']
+
+
+
+class VideoCommentForm(forms.ModelForm):
+    class Meta:
+        model = VideoComment
+        fields = ['body']

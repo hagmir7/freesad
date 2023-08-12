@@ -1,0 +1,73 @@
+{% extends 'profile/profile.html' %}
+{% load i18n %}
+
+
+{% block profile %}
+<div class="tab-pane active show" id="profile-videos">
+    <div class="m-b-10 m-b-10 container-fluid p-0 m-0"><b>{% trans "Articles" %} ({{ page.user.posts.all.count }})</b>
+        <div class="row blog-posts hfeed index-post-wrap mt-2">
+            {% for post in  posts %}
+            <article class="blog-post hentry index-post post-10 p-sm-0 p-md-1 p-lg-1 p-xl-1" style="width: calc(100% / 3);">
+                <a class="entry-image-wrap is-image" href="{% url 'post' post.slug %}">
+                {% if post.image %}
+                    <span class="entry-thumb" data-image="{{ post.image.url }}"><span class="d-none">{{post.title}}</span></span>
+                {% endif %}
+                </a>
+                <div class="entry-header">
+                <div class="entry-meta">
+                    <span class="entry-category m-item">{{ post.category.name }}</span>
+                    <span class="entry-time m-item">
+                        <span class="t-label m-item">-</span>
+                        <time class="published m-item" datetime="{{post.created}}">{{post.created|date:'M d, Y '}}</time>
+                    </span>
+                </div>
+                <h2 class="entry-title"><a class="entry-title-link"
+                    href="{% url 'post' post.slug %}" rel="bookmark">{{ post.title|truncatechars:55 }}</a>
+                </h2>
+                </div>
+            </article>
+
+            {% empty %}
+            <div class="d-flex justify-content-center w-100">
+                <h1 class="py-5 text-center h4"> {% trans "No Post Articles" %}</h1>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <main aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            {% if posts.has_previous %}
+                <li class="page-item">
+                    <a class="page-link bg-card" href="?page={{ posts.previous_page_number }}">{% trans "Previous" %}</a>
+                </li>
+            {% endif %}
+    
+            {% for num in posts.paginator.page_range %}
+                {% if num > posts.number|add:'-4' and num < posts.number %}
+                    <li class="page-item">
+                        <a class="page-link bg-card" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                {% endif %}
+    
+                {% if num > posts.number and num <= posts.number|add:'4' %}
+                    <li class="page-item">
+                        <a class="page-link bg-card" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                {% endif %}
+    
+                {% if num == posts.paginator.num_pages|add:'-1' and num < posts.number|add:'5' %}
+                    <li class="page-item">
+                        <a class="page-link bg-card" href="?page={{ num }}">...</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+    
+            {% if posts.has_next %}
+                <li class="page-item">
+                    <a class="page-link bg-card" href="?page={{ posts.next_page_number }}">{% trans "Next" %}</a>
+                </li>
+            {% endif %}
+        </ul>
+    </main>
+</div>
+{% endblock profile %}

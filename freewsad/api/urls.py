@@ -57,15 +57,23 @@ urlpatterns = [
     path('post/get/', getPosts),
     
     # Book
-    path('book/<str:slug>', BookView.as_view()),
-    path('book/create', createBook),
+   
+
     path('book/update/<int:id>', updateBook),
-    path('books/', booklist, name='book-list'),
+    
 
 
+    
+    path('book/create', createBook),
+    path('book/<str:slug>', BookView.as_view()),
     path('book', searchBook),
+    path('books/', booklist, name='book-list'),
     path('books/<str:category>', bookListCategory),
-    path('trafiq', trafiq)
+    path('trafiq', trafiq),
+
+    path('author/create', createAuthor),
+    path('auther/list', listAuthers),
+   
 
 
 

@@ -62,6 +62,31 @@ class LanguageIMportExport(ImportExportModelAdmin):
     pass
 
 
+@admin.register(Author)
+class AuthorImportExport(ImportExportModelAdmin):
+    pass
+
+
+@admin.register(Type)
+class BookTypeImportExport(ImportExportModelAdmin):
+    pass
+
+
+# Vidoe
+@admin.register(Video)
+class VideoImportExport(ImportExportModelAdmin):
+    pass
+
+
+@admin.register(Quality)
+class QualityImportExport(ImportExportModelAdmin):
+    pass
+
+
+@admin.register(VideoComment)
+class VideoCommentImportExport(ImportExportModelAdmin):
+    pass
+
 
 
 

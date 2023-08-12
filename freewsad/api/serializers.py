@@ -1,6 +1,6 @@
 from users.models import Profile
 from rest_framework import serializers
-from freewsad.models import Book, BookList, Contact, Language, Post, PostCategory, PostList, Subscribe
+from freewsad.models import *
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
@@ -46,6 +46,11 @@ class BookSerializer(serializers.ModelSerializer):
                   'file', 'language', 'book_type', 'list', 'author', 'category', 'slug',
                   'views', "size" )
 
+
+class BookCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = ('name', 'image', 'description', 'tags', 'file', 'language', 'list', 'author_id', 'category')
 
 class PostCategorySerializer(serializers.ModelSerializer):
     language = LanguageSerializer()
@@ -95,7 +100,7 @@ class ProfileSerialize(serializers.ModelSerializer):
 class UpdatedProfileSerialize(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = 'phone', 'bio', 'gander', 'country', 'city'
+        fields = 'phone', 'bio', 'gander', 'country', 'city', 'avatar'
 
 # Update avatar
 class AvatarSerialize(serializers.ModelSerializer):
@@ -106,9 +111,10 @@ class AvatarSerialize(serializers.ModelSerializer):
 
 # Get user 
 class UserSerialize(serializers.ModelSerializer):
+    profile = UpdatedProfileSerialize()
     class Meta:
         model = User
-        fields = 'id', 'username', 'first_name', 'email','last_name', 'is_superuser'
+        fields = 'id', 'username', 'first_name', 'email','last_name', 'is_superuser', 'profile'
 
 
     
@@ -179,3 +185,29 @@ class BookListSerialiszer(serializers.ModelSerializer):
     class Meta:
         model = BookList
         fields = 'name', 'description', 'cover', 'id'
+
+
+class AuthorSerializer(serializers.ModelSerializer):
+    user = UserSerialize()
+    class Meta:
+        model = Author
+        fields = 'full_name', 'image', 'description', 'id', 'user'
+
+
+class CreateAuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Author
+        fields = 'full_name', 'image', 'description'
+
+
+class VideoSerializer(serializers.ModelSerializer):
+    user = UserSerialize()
+    language = LanguageSerializer()
+    class Meta:
+        model = Video
+        fields = ['user', 'title', 'image', 'description', 'tags', 'language', 'category', 'created_at', 'slug']
+class VideoCommentSerializer(serializers.ModelSerializer):
+    user = UserSerialize()
+    class Meta:
+        model = VideoComment
+        fields = 'user',  'body', 'id', 'created_at'

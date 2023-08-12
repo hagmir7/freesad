@@ -2,12 +2,13 @@
 
 {% load static %} {% load i18n %}
 <!DOCTYPE html>
-<html class="ltr" lang="en" dir="ltr">
+<html {% if LANGUAGE_CODE == 'ar' %} class="rtl" lang="ar" dir="rtl" {% else %} class="ltr" lang="{{ LANGUAGE_CODE }}" dir="ltr" {% endif %}>
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% if title %} {{title|slice:'60'}} {% else %} Freesad - Professional Education Platform {% endif %}</title>
   <!--  Social Tags-->
+
   <meta name="keywords" content="{{tags}}, books, course, articles, news, programing,python, javascript, c##, djanog, html,css, learn, education">
   <meta name="description" content="{% if description %}{{description|slice:'158'}}{% else %}{% trans 'You can enjoy Books and Bopics, Courses you love and download the original content, and share it all with your friends, and the whole world on freesad.' %} {% endif %}">
   <!-- Schema.org markup for Google+ -->
@@ -47,8 +48,317 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6043226569102012" crossorigin="anonymous"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" rel="stylesheet" />
   <meta name="google-site-verification" content="5ciJ5g9RpZVgFKaGO38lnvifNcWCEUhIFGZur3euyW0" />
-</head>
 
+  {% comment %} font {% endcomment %}
+
+  {% if LANGUAGE_CODE == 'ar' %}
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@500&display=swap" rel="stylesheet">
+ 
+  {% else %}
+  {% endif %}
+
+
+{% block head %}{% endblock head %}
+</head>
+<style>
+  .pre-wrap{
+    white-space: pre-wrap!important;
+  }
+
+  {% if LANGUAGE_CODE == 'ar' %}
+    *{
+    font-family: 'Noto Sans Arabic', sans-serif!important;
+  }
+  {% endif %}
+
+
+
+  .vidoe-icon{
+    color: gray;
+    position: absolute;
+    z-index: 300;
+    top: 45%;
+    right: 45%;
+  }
+  .profile-info-list {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+.friend-list,
+.img-grid-list {
+    margin: -1px;
+    list-style-type: none;
+}
+.profile-info-list > li.title {
+    font-size: 0.625rem;
+    font-weight: 700;
+    color: #8a8a8f;
+    padding: 0 0 0.3125rem;
+}
+.profile-info-list > li + li.title {
+    padding-top: 1.5625rem;
+}
+.profile-info-list > li {
+    padding: 0.625rem 0;
+}
+.profile-info-list > li .field {
+    font-weight: 700;
+}
+.profile-info-list > li .value {
+    color: #666;
+}
+.profile-info-list > li.img-list a {
+    display: inline-block;
+}
+.profile-info-list > li.img-list a img {
+    max-width: 2.25rem;
+    -webkit-border-radius: 2.5rem;
+    -moz-border-radius: 2.5rem;
+    border-radius: 2.5rem;
+}
+.coming-soon-cover img,
+.email-detail-attachment .email-attachment .document-file img,
+.email-sender-img img,
+.friend-list .friend-img img,
+.profile-header-img img {
+    max-width: 100%;
+}
+.table.table-profile th {
+    border: none;
+    color: #000;
+    padding-bottom: 0.3125rem;
+    padding-top: 0;
+}
+.table.table-profile td {
+    border-color: #c8c7cc;
+}
+.table.table-profile tbody + thead > tr > th {
+    padding-top: 1.5625rem;
+}
+.table.table-profile .field {
+    color: #666;
+    font-weight: 600;
+    width: 25%;
+    text-align: right;
+}
+.table.table-profile .value {
+    font-weight: 500;
+}
+.profile-header {
+    position: relative;
+    overflow: hidden;
+}
+.profile-header .profile-header-cover {
+    background: url(https://bootdey.com/img/Content/bg1.jpg) center no-repeat;
+    background-size: 100% auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+.profile-header .profile-header-cover:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.25) 0, rgba(0, 0, 0, 0.85) 100%);
+}
+.profile-header .profile-header-content,
+.profile-header .profile-header-tab,
+.profile-header-img,
+body .fc-icon {
+    position: relative;
+}
+.profile-header .profile-header-tab {
+    background: #fff;
+    list-style-type: none;
+    margin: -1.25rem 0 0;
+    padding: 0 0 0 8.75rem;
+    border-bottom: 1px solid #c8c7cc;
+    white-space: nowrap;
+}
+.profile-header .profile-header-tab > li {
+    display: inline-block;
+    margin: 0;
+}
+.profile-header .profile-header-tab > li > a {
+    display: block;
+    color: #000;
+    line-height: 1.25rem;
+    padding: 0.625rem 1.25rem;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.75rem;
+    border: none;
+}
+.profile-header .profile-header-tab > li.active > a,
+.profile-header .profile-header-tab > li > a.active {
+    color: #007aff;
+}
+.profile-header .profile-header-content:after,
+.profile-header .profile-header-content:before {
+    content: "";
+    display: table;
+    clear: both;
+}
+.profile-header .profile-header-content {
+    color: #fff;
+    padding: 1.25rem;
+}
+body .fc th a,
+body .fc-ltr .fc-basic-view .fc-day-top .fc-day-number,
+body .fc-widget-header a {
+    color: #000;
+}
+.profile-header-img {
+    float: left;
+    width: 7.5rem;
+    height: 7.5rem;
+    overflow: hidden;
+    z-index: 10;
+    margin: 0 1.25rem -1.25rem 0;
+    padding: 0.1875rem;
+    -webkit-border-radius: 0.25rem;
+    -moz-border-radius: 0.25rem;
+    border-radius: 0.25rem;
+    background: #fff;
+}
+.profile-header-info h4 {
+    font-weight: 500;
+    margin-bottom: 0.3125rem;
+}
+.profile-container {
+    padding: 1.5625rem;
+}
+@media (max-width: 967px) {
+    .profile-header-img {
+        width: 5.625rem;
+        height: 5.625rem;
+        margin: 0;
+    }
+    .profile-header-info {
+        margin-left: 6.5625rem;
+        padding-bottom: 0.9375rem;
+    }
+    .profile-header .profile-header-tab {
+        padding-left: 0;
+    }
+}
+@media (max-width: 767px) {
+    .profile-header .profile-header-cover {
+        background-position: top;
+    }
+    .profile-header-img {
+        width: 3.75rem;
+        height: 3.75rem;
+        margin: 0;
+    }
+    .profile-header-info {
+        margin-left: 4.6875rem;
+        padding-bottom: 0.9375rem;
+    }
+    .profile-header-info h4 {
+        margin: 0 0 0.3125rem;
+    }
+    .profile-header .profile-header-tab {
+        white-space: nowrap;
+        overflow: scroll;
+        padding: 0;
+    }
+    .profile-container {
+        padding: 0.9375rem 0.9375rem 3.6875rem;
+    }
+    .friend-list > li {
+        float: none;
+        width: auto;
+    }
+}
+.profile-info-list {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+.friend-list,
+.img-grid-list {
+    margin: -1px;
+    list-style-type: none;
+}
+.profile-info-list > li.title {
+    font-size: 0.625rem;
+    font-weight: 700;
+    color: #8a8a8f;
+    padding: 0 0 0.3125rem;
+}
+.profile-info-list > li + li.title {
+    padding-top: 1.5625rem;
+}
+.profile-info-list > li {
+    padding: 0.625rem 0;
+}
+.profile-info-list > li .field {
+    font-weight: 700;
+}
+.profile-info-list > li .value {
+    color: #666;
+}
+.profile-info-list > li.img-list a {
+    display: inline-block;
+}
+.profile-info-list > li.img-list a img {
+    max-width: 2.25rem;
+    -webkit-border-radius: 2.5rem;
+    -moz-border-radius: 2.5rem;
+    border-radius: 2.5rem;
+}
+.coming-soon-cover img,
+.email-detail-attachment .email-attachment .document-file img,
+.email-sender-img img,
+.friend-list .friend-img img,
+.profile-header-img img {
+    max-width: 100%;
+}
+.table.table-profile th {
+    border: none;
+    color: #000;
+    padding-bottom: 0.3125rem;
+    padding-top: 0;
+}
+.table.table-profile td {
+    border-color: #c8c7cc;
+}
+.table.table-profile tbody + thead > tr > th {
+    padding-top: 1.5625rem;
+}
+.table.table-profile .field {
+    color: #666;
+    font-weight: 600;
+    width: 25%;
+    text-align: right;
+}
+.table.table-profile .value {
+    font-weight: 500;
+}
+.row.row-space-2 {
+    margin: 0 -1px;
+}
+.m-b-2 {
+    margin-bottom: 2px!important;
+}
+.embed-responsive {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    overflow: hidden;
+}
+.row.row-space-2>[class*=col-] {
+    padding: 0 1px;
+}
+</style>
 <style>
   .main-logo { box-sizing: initial; }
   p{margin-bottom: 15px!important;}
@@ -66,63 +376,7 @@
   <!-- Outer Wrapper -->
   <div id="outer-wrapper">
     <!-- Header Wrapper -->
-    <header id="freebify-preview-header-wrapper">
-      <div class="headerify-wrap">
-        <div class="headerify">
-          <div class="headerify-inner">
-            <div class="container row-x1">
-              <div class="headerify-items d-flex justify-content-between" >
-                <div class="main-logo-wrap">
-                  <div class="main-logo section" id="main-logo" name="Header Logo">
-                    <div class="widget Header" data-version="2" id="Header1">
-                      <div class="logo-content">
-                        <a class="logo-img" href="/">
-                          <img alt="Freesad is a Professional Education Platform." height="auto" width="auto"
-                            src="{% static 'img/logo.svg' %}" />
-                            {% if request.path|length == 4  %}
-                            <h1 id="h1-tag">Freesad - Professional Education Platform, Web Development,</h1>
-                            {% endif %}
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <nav class="main-menu-wrap">
-                  <div class="freebify-preview-main-menu section" id="freebify-preview-main-menu" name="Main Menu">
-                    <div class="widget LinkList show-menu" data-version="2" id="LinkList152">
-
-                      <ul id="freebify-preview-main-menu-nav" role="menubar">
-                        <li><a href="/" role="menuitem">Home</a></li>
-                        <li class="has-sub" role="menuitem" aria-haspopup="true" aria-expanded="false">
-                          <a href="#" role="menuitem">Categories</a>
-                          <ul class="sub-menu m-sub" role="menu">
-                            {% for category in categories  %}
-                            <li><a href="/category/{{ category.slug }}" role="menuitem">{{ category.name }}</a></li>
-                             {% endfor %}
-                          </ul>
-                        </li>
-                        <li><a href="/en/posts" role="menuitem">Posts</a></li>
-                        <li><a href="/page/about-us-4gtsf" role="menuitem">About Us</a></li>
-                        <li><a href="/contact" role="menuitem">Contact Us</a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </nav>
-                <div class="main-toggle-wrap">
-                  <a class="main-toggle-style mobile-menu-toggle" onclick="sliderShow()" href="javascript:;"><span class="d-none">Menu</span></a>
-                </div>
-                <div id="nav-search-wrap">
-                  <form action="{% url 'search' %}" class="search-form" role="search">
-                    <input autocomplete="off" name="search" class="search-input" placeholder="Search" value="" />
-                    <button class="search-action" type="submit" value=""></button>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
+    {% include 'components/header.html' %}
     
 
 
@@ -141,12 +395,25 @@
             <!-- About us -->
             <div class="widget Text" data-version="2" id="Text1">
               <div class="widget-title">
-                <h3 class="title">About Us</h3>
+                <h3 class="title">{% trans "About Us" %}</h3>
               </div>
               <div class="widget-content excerpt">
-                Freesad is a Professional Education Platform. Here we will provide you only interesting content, which you will like very much. We're dedicated to providing you the best of Education...
-                 <a href="/page/about-us-4gtsf" target="_blank">more &#8594;</a>
+               {% trans "Freesad is a Professional Education Platform. Here we will provide you only interesting content, which you will like very much. We're dedicated to providing you the best of Education..." %}
+                 <a href="/page/about-us-4gtsf" target="_blank">{% trans "More" %} &#8594;</a>
               </div>
+                <form action="{% url 'set_language' %}" method="post">{% csrf_token %}
+                  <input name="next" type="hidden" value="{{ redirect_to }}">
+                  <select class="mt-3 p-1" name="language" id="language">
+                      {% get_current_language as LANGUAGE_CODE %}
+                      {% get_available_languages as LANGUAGES %}
+                      {% get_language_info_list for LANGUAGES as languages %}
+                      {% for language in languages %}
+                          <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                              {{ language.name_local }} ({{ language.code }})
+                          </option>
+                      {% endfor %}
+                  </select>
+              </form>
             </div>
 
             <!-- Social media -->
@@ -158,7 +425,7 @@
           <div class="footer freebify-preview-widget-ready section" id="footer3" name="Footer 3">
             <div class="widget PopularPosts" data-version="2" id="PopularPosts2">
               <div class="widget-title">
-                <h3 class="title">Popular Posts</h3>
+                <h3 class="title">{% trans "Popular Posts" %}</h3>
               </div>
               <div class="widget-content">
 
@@ -182,11 +449,12 @@
         </div>
       </div>
 
+
       <!-- Small footer -->
       <div class="footerbar">
         <div class="container row-x1">
           <div class="footer-copyright" id="footer-copyright">
-            <span class="copyright-text">Copyright © 2023 All rights reserved -
+            <span class="copyright-text">{% trans "Copyright © 2023 All rights reserved" %} -
                <a href="/" title="Freesad">Freesad.com.</a>
               </span>
           </div>
@@ -194,10 +462,10 @@
             <div class="widget LinkList" data-version="2" id="LinkList155">
               <div class="widget-content">
                 <ul class="link-list">
-                  <li><a href="/">Home</a></li>
-                  <li><a href="/page/about-us-4gtsf">About</a></li>
-                  <li><a href="/contact">Contact Us</a></li>
-                  <li><a href="/page/privacy-policy-xgxps">Privacy Policy</a></li>
+                  <li><a href="/">{% trans "Home" %}</a></li>
+                  <li><a href="/page/about-us-4gtsf">{% trans "About Us" %}</a></li>
+                  <li><a href="/contact">{% trans "Contact Us" %}</a></li>
+                  <li><a href="/page/privacy-policy-xgxps">{% trans "Privacy Policy" %}</a></li>
                 </ul>
               </div>
             </div>
@@ -205,12 +473,13 @@
         </div>
       </div>
     </footer>
+
   </div>
   <div id="slide-menu" class="nav-active">
     <div class="slide-menu-header">
       <div class="mobile-search">
         <form method="GET" action="/" class="search-form" role="search">
-          <input autocomplete="off" class="search-input" name="query" placeholder="Search" value="{{ query }}">
+          <input autocomplete="off" class="search-input" name="query" placeholder="{% trans "Search..." %}" value="{{ query }}">
           <button class="search-action" type="submit" value=""></button>
         </form>
       </div>
@@ -219,14 +488,14 @@
     <div class="slide-menu-flex">
       <div class="freebify-preview-mobile-menu" id="freebify-preview-mobile-menu">
         <ul id="main-mobile-nav" role="menubar">
-          <li><a href="/" role="menuitem">Home</a></li>
-          <li><a href="/posts" role="menuitem">Posts</a></li>
-          <!-- <li><a href="/play-lists" role="menuitem">Play Lists</a></li> -->
-          <li><a href="/page/about-us-4gtsf" role="menuitem">About Us</a></li>
-          <li><a href="/contact" role="menuitem">Contact Page</a></li>
-          <li><a href="/page/privacy-policy-xgxps" role="menuitem">Privacy Policy</a></li>
+          <li><a href="/" role="menuitem">{% trans "Home" %}</a></li>
+          <li><a href="/posts" role="menuitem">{% trans "Posts" %}</a></li>
+          <li><a href="/page/about-us-4gtsf" role="menuitem">{% trans "About Us" %}</a></li>
+          <li><a href="/contact" role="menuitem">{% trans "Contact Page" %}</a></li>
+          <li><a href="/page/privacy-policy-xgxps" role="menuitem">{% trans "Privacy Policy" %}</a></li>
         </ul>
       </div>
+   
       {% comment %} <div class="mobile-menu-footer">
         <div class="mobile-navbar-social">
           <ul class="social-icons social">
@@ -265,6 +534,8 @@
     $(function () { $(".df-hide").on("click", function () { $(".demo-float").fadeOut(170); }); });
   </script> -->
 {% endif %}
+    {% block footer %}{% endblock footer %}
+   
   <script>
 
     document.addEventListener("DOMContentLoaded", function () {
@@ -296,7 +567,16 @@
       document.getElementById('slide-menu').style.display = "none";
       document.getElementById('slide-menu').style.transform = "translateX(1)";
     }
+
+    // Change language
+  const langSelect = document.querySelector('#language');
+
+  langSelect.addEventListener('change', () => {
+    langSelect.form.submit();
+  });
   </script>
+
+   {% block script %}{% endblock script %}
 </body>
 
 </html>

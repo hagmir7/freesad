@@ -1,16 +1,11 @@
 from django.db import models
 from django.contrib.auth.models import User
-
 from django.utils.text import slugify
 from django.utils.crypto import get_random_string
 from django.utils import timezone
 import uuid
-from django.db.models.signals import pre_save, pre_delete,post_save
-from django.dispatch import receiver
 import os
-
-import fitz
-from ebooklib import epub
+from django.utils.translation import gettext_lazy as _
 from PIL import Image
 import os
 
@@ -35,7 +30,19 @@ def filename(instance, filename):
     
     return file
 
+class Location(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    ip = models.CharField(max_length=100)
+    country = models.CharField(max_length=100, null=True, blank=True)
+    city = models.CharField(max_length=100, null=True, blank=True)
+    country_flag = models.CharField(max_length=300, null=True, blank=True)
+    country_code = models.CharField(max_length=10, null=True, blank=True)
+    browser = models.CharField(max_length=100, null=True, blank=True)
+    os = models.CharField(max_length=100, null=True, blank=True)
+    date = models.DateField(auto_now_add=True, null=True, blank=True)
 
+    def __str__(self):
+        return self.ip
 
 
 class IpModel(models.Model):
@@ -98,7 +105,7 @@ class PostList(models.Model):
        
 
 class Post(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1, related_name='posts')
     list = models.ForeignKey(PostList, on_delete=models.CASCADE, blank=True, null=True)
     title = models.CharField(max_length=150, blank=True, null=True)
     image = models.ImageField(upload_to=filename, blank=True, null=True)
@@ -150,28 +157,6 @@ class Post(models.Model):
     def __str__(self):
         return str(self.title)
 
-@receiver(pre_save, sender=Post)
-def delete_old_image(sender, instance, **kwargs):
-    if instance.pk:
-        # Retrieve the existing instance from the database
-        existing_instance = sender.objects.get(pk=instance.pk)
-
-        # Check if the image field has changed
-        if existing_instance.image and existing_instance.image != instance.image:
-            # Delete the old image file
-            existing_instance.image.delete(save=False)
-
-
-@receiver(pre_delete, sender=Post)
-def delete_image_file(sender, instance, **kwargs):
-    # Delete the image file when the model instance is deleted
-    instance.image.delete(save=False) 
-    
-
-
-
-
-
 
 
 
@@ -191,8 +176,6 @@ class PostComment(models.Model):
 
 
 
-
-
 class Subscribe(models.Model):
     email = models.EmailField(max_length=100)
     date = models.DateTimeField(auto_now_add=True)
@@ -202,7 +185,6 @@ class Subscribe(models.Model):
     def __str__(self):
         return self.email
 
-# BOOk MODEL
     
 
 
@@ -235,37 +217,80 @@ class BookCategory(models.Model):
         return self.name
 
 
+class Author(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    full_name = models.CharField(max_length=100)
+    image = models.ImageField(_("Image"), upload_to=filename, null=True, blank=True)
+    description = models.TextField(_("Description"), null=True, blank=True)
+    slug = models.SlugField(blank=True, null=True, editable=False, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def save(self, *args, **kwargs):
+        if self.slug == None:
+            self.slug = get_random_string(length=40)
+        super(Author, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.full_name
+    
+
+class Type(models.Model):
+    name = models.CharField(max_length=50)
+    language = models.ForeignKey(Language, on_delete=models.CASCADE, blank=True, null=True)
+    slug = models.SlugField(blank=True, null=True, editable=False, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+
+    def save(self, *args, **kwargs):
+        if self.name == None:
+            self.slug = get_random_string(length=40)
+        super(Type, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
 
 
 
 class Book(models.Model):
     name = models.CharField(max_length=80, verbose_name='BOOK ')
     list = models.ForeignKey(BookList, models.CASCADE, null=True, blank=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    author = models.CharField(max_length=50, verbose_name='Author ', null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="books")
+    author = models.CharField(max_length=50, verbose_name='Author name', null=True, blank=True)
+    author_id = models.ForeignKey(Author, on_delete=models.CASCADE, null=True, blank=True)
     category = models.ForeignKey(BookCategory, on_delete=models.CASCADE, null=True)
     language = models.ForeignKey(Language, on_delete=models.CASCADE ,blank=True, null=True)
+    type = models.ForeignKey(Type, on_delete=models.CASCADE, null=True, blank=True)
     pages = models.IntegerField(verbose_name='Page Number ',  null=True, blank=True)
     size = models.CharField(verbose_name="Size", null=True, blank=True, max_length=100)
-
     book_type = models.CharField(max_length=30, verbose_name='Book Type ', null=True, blank=True)
     image = models.ImageField(upload_to=filename, verbose_name='Image ')
     description = models.TextField(null=True, blank=True, verbose_name='Description ' , max_length=300)
     body = models.TextField(verbose_name='Body', null=True, blank=True)
     save_book = models.ManyToManyField(User, related_name='book_save')
-    like = models.ManyToManyField(User, related_name='book_like')
+    likes = models.ManyToManyField(User, related_name='book_like')
     tags = models.CharField(max_length=500, null=True, blank=True)
-    date = models.DateTimeField(auto_now_add=True)
     views = models.IntegerField(default=0, null=True, blank=True)
     file = models.FileField(upload_to=filename, blank=True, verbose_name='File')
     is_public = models.BooleanField(default=True)
-    slug = models.SlugField(blank=True, null=True)
+    status = models.BooleanField(default=None, null=True, blank=True)
+    slug = models.SlugField(blank=True, null=True, editable=False, unique=True)
+    is_deleted = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    # Rest of your model fields and methods
+
+    # def delete(self):
+    #     self.is_deleted = True
+    #     self.save()
 
     def get_absolute_url(self, *args, **kwargs):
         return f'/{self.language.code}/book/{self.id}'
 
     class Meta:
-        ordering = ['-date']
+        ordering = ['-created_at']
 
 
     def __str__(self):
@@ -304,65 +329,11 @@ class Book(models.Model):
 
 
     def next(self):
-        return self.get_next_by_date()
+        return self.get_next_by_created_at()
 
     def pre(self):
-        return self.get_previous_by_date()
+        return self.get_previous_by_created_at()
     
-
-
-
-
-@receiver(pre_save, sender=Book)
-def delete_old_image(sender, instance, **kwargs, ):
-    if instance.pk:
-        # Retrieve the existing instance from the database
-        existing_instance = sender.objects.get(pk=instance.pk)
-
-        # Check if the image field has changed
-        if existing_instance.image and existing_instance.image != instance.image:
-            # Delete the old image file
-            existing_instance.image.delete(save=False)
-
-
-        if existing_instance.file and existing_instance.file != instance.file:
-            # Delete the old file file
-            existing_instance.file.delete(save=False)
-        
-
-        
-
-@receiver(pre_delete, sender=Book)
-def delete_image_file(sender, instance, **kwargs):
-    # Delete the image file when the model instance is deleted
-    instance.image.delete(save=False) 
-    instance.file.delete(save=False) 
-
-
-def epub_count_pages(epub_path):
-    book = epub.read_epub(epub_path)
-    num_pages = len(book.spine)
-
-    return num_pages
-
-
-@receiver(post_save, sender=Book)
-def update_page_count(sender, instance, **kwargs):
-
-
-    if instance.file and not instance.pages:
-        if instance.book_type == 'PDF':
-            doc = fitz.open(instance.file.path)
-            instance.pages = doc.page_count
-            doc.close()
-            
-        elif instance.book_type == 'EPUB':
-            instance.pages = epub_count_pages(instance.file.path)
-        else:
-            instance.pages = 1
-        instance.save()
-
-
 
 
 class CommentBook(models.Model):
@@ -420,8 +391,76 @@ class Page(models.Model):
         super(Page, self).save(*args, **kwargs)
 
 
+    
+class Video(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=255, verbose_name=_("Title"))
+    image = models.ImageField(upload_to=filename, null=True, blank=True, verbose_name=_("Image"))
+    list = models.ForeignKey(PostList, on_delete=models.CASCADE, null=True, blank=True, verbose_name=(_("Play list")))
+    description = models.TextField(verbose_name=_("Description"))
+    tags = models.CharField(max_length=200, null=True, blank=True, verbose_name=_("Tags "))
+    views = models.ManyToManyField('Location', through='VideoView')
+    language = models.ForeignKey(Language, on_delete=models.SET_NULL ,blank=True, null=True, verbose_name=_("Language"))
+    category = models.ManyToManyField(PostCategory, related_name='video_category', blank=True, verbose_name=_("Category"))
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    save = models.ManyToManyField(User, related_name='video_save', blank=True)
+    slug = models.SlugField(null=True, blank=True)
 
 
+    def __str__(self):
+        return self.title
+    
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = uuid.uuid4().hex
+        return super(Video, self).save(*args, **kwargs)  
+    
+
+    
+
+class VideoView(models.Model):
+    vidoe = models.ForeignKey(Video, on_delete=models.CASCADE)
+    view = models.ForeignKey(Location, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
- 
+class Quality(models.Model):
+    quality = models.CharField(max_length=100, verbose_name=(_("Quality")), null=True, blank=True)
+    file = models.FileField(upload_to=filename, verbose_name="Video")
+    video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="video_qualities")
+    size = models.CharField(max_length=50, blank=True, null=True)
+    height = models.IntegerField(blank=True, null=True)
+    width = models.IntegerField(blank=True, null=True)
+    duration = models.CharField(max_length=20, null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    slug = models.SlugField(null=True, blank=True)
+
+
+    def __str__(self):
+        return self.video.title
+
+    class Meta:
+            # Define the default ordering for querysets
+        ordering = ['height']
+    
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = uuid.uuid4().hex
+        return super(Quality, self).save(*args, **kwargs)
+    
+
+
+class VideoComment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="video_comment")
+    like = models.ManyToManyField(User, related_name='comment_like', blank=True)
+    body = models.TextField(max_length=500)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.user.username

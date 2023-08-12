@@ -9,6 +9,8 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
+from freewsad.models import Book, Post, Video
+from django.core.paginator import Paginator
 
 
 def login_view(request):
@@ -23,15 +25,17 @@ def login_view(request):
             else:
                 return redirect('home')
         else:
-            return render(request, 'registrations/login.html', {'error': 'Authentification invalide'})
+            return render(request, 'auth/login.html', {'error': 'Authentification invalide'})
     else:
-        return render(request, 'registrations/login.html')
+        return render(request, 'auth/login.html')
+
     
 
 # REGISTER 
 def register(request):
     if request.user.is_authenticated:
         return redirect('home')
+
     else:
         form = UserCreationForm()
         if request.method == 'POST':
@@ -48,21 +52,32 @@ def register(request):
                     
                 return redirect('login')
     context = {'title': _('Register'), 'form': form, }
-    return render(request, 'registrations/register.html', context)
+    return render(request, 'auth/register.html', context)
 
 
 class ProfileView(DetailView):
     model = Profile
-    template_name = 'profile/profile.html'
-    count_hit = True
+    template_name = 'profile/posts.html'
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
 
     def get_context_data(self, *arge, **kwargs):
         context = super(ProfileView, self).get_context_data(*arge, **kwargs)
         page = get_object_or_404(Profile, slug=self.kwargs['slug'])
-        title = f'{page.user.first_name} {page.user.last_name}'
+        post_list = Post.objects.filter(user=page.user).order_by('-created')
+        paginator = Paginator(post_list, 12)
+        page_number = self.request.GET.get('page')
+        posts = paginator.get_page(page_number)
         description = _('You can join now to connect with your  friends and enjoy your books and courses register now')
+        title = f'{page.user.first_name} {page.user.last_name} - {_("Freesad")}'
+        
+
+
         context["page"] = page
-        context['description'] = f'{title} {description}'
+        context["posts"] = posts
+        context["title"] = title
+        context['description'] = description
+        context['iamge'] = page.avatar.url
         return context
 
 
@@ -144,6 +159,38 @@ def settings(request):
     return render(request, 'settings.html')
 
 
-        
+
+def books(request, slug):
+    page = get_object_or_404(Profile, slug=slug)
+    books_list = Book.objects.filter(user=page.user).order_by('-created_at')
+    paginator = Paginator(books_list, 12)
+    page_number = request.GET.get('page')
+    books = paginator.get_page(page_number)
+    context = {
+        'books' : books,
+        'page': page,
+        'image': page.avatar.url,
+        'title': f'{page.user.first_name} {page.user.last_name} - {_("Books")}',
+        'description': _('You can join now to connect with your  friends and enjoy your books and courses register now')
+    }
+    return render(request, 'profile/books.html', context)
+
+
+def videos(request, slug):
+    page = get_object_or_404(Profile, slug=slug)
+    videos_list = Video.objects.filter(user=page.user).order_by('-created_at')
+    paginator = Paginator(videos_list, 12)
+    page_number = request.GET.get('page')
+    videos = paginator.get_page(page_number)
+    context = {
+        'videos': videos,
+        'page': page,
+        'image': page.avatar.url,
+        'title': f'{page.user.first_name} {page.user.last_name} - {_("videos")}',
+        'description': _('You can join now to connect with your  friends and enjoy your videos and courses register now')
+    }
+    return render(request, 'profile/videos.html', context)
+
+              
 
 

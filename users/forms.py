@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserChangeForm, PasswordChangeForm
 from django.contrib.auth.models import User
 from django.forms import fields
-from .models import Profile, Public, Pusblisher, Media
+from .models import Profile
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
@@ -10,19 +10,6 @@ from django.utils.translation import gettext_lazy as _
 class UserLoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
-
-    # def clean(self, *args, **kwargs):
-    #     username = self.cleaned_data.get('username')
-    #     password = self.cleaned_data.get('password')
-
-    #     if username and password:
-    #         user = authenticate(username=username, password=password)
-    #         if not user:
-    #             raise forms.ValidationError(_('The password or username is incorrect'))
-    #         if not user.check_password(password):
-    #             raise forms.ValidationError(_('Password is incorrect'))
-
-    #     return super(UserLoginForm, self).clean(*args, **kwargs)
     
     def clean_username(self):
         cd = self.cleaned_data
@@ -31,19 +18,6 @@ class UserLoginForm(forms.Form):
         return cd['username']
 
  
-
-
-
-            
-
-        
-
-
-
-        
-
-        
-
 
 class SignUpForm(forms.ModelForm):
     email = forms.EmailField()
@@ -66,10 +40,10 @@ class UserCreationForm(forms.ModelForm):
         attrs={'class': 'form-control input-size', 'placeholder': _('Username')}))
     email = forms.EmailField(label=_('Email'), widget=forms.EmailInput(
         attrs={'class': 'form-control', 'placeholder': _('Email')}))
-    first_name = forms.CharField(label=_('First Name'), widget=forms.TextInput(
-        attrs={'class': 'form-control input-size', 'placeholder': _('First Name')}))
-    last_name = forms.CharField(label=_('Last Name'),widget=forms.TextInput(
-        attrs={'class': 'form-control input-size ', 'placeholder': _('Last Name')}))
+    first_name = forms.CharField(label=_('First name'), widget=forms.TextInput(
+        attrs={'class': 'form-control input-size', 'placeholder': _('First name')}))
+    last_name = forms.CharField(label=_('Last name'),widget=forms.TextInput(
+        attrs={'class': 'form-control input-size ', 'placeholder': _('Last name')}))
     password1 = forms.CharField(label=_('Password'), widget=forms.PasswordInput(
         attrs={'class': 'form-control input-size', 'placeholder': _('Password')}), min_length=8)
     password2 = forms.CharField(label=_('Confirm Password'), widget=forms.PasswordInput(
@@ -121,12 +95,7 @@ class UserUpdateInfo(UserChangeForm):
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email')
-    
 
-class PublicForm(forms.ModelForm):
-    class Meta:
-        model = Public
-        fields = ('email', 'phone', 'bio', 'gander', 'friends', 'country', 'birth', 'created',)
 
 
 class PasswordChange(PasswordChangeForm):
@@ -147,12 +116,4 @@ class PasswordChange(PasswordChangeForm):
 
 
 
-class CreatePublisher(forms.ModelForm):
-    class Meta:
-        model = Pusblisher
-        fields = ('category',)
 
-class SocialMedia(forms.ModelForm):
-    class Meta:
-        model = Media
-        fields = ('web', 'github', 'facebook', 'twitter', 'instagram')

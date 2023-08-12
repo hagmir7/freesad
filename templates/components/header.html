@@ -1,47 +1,84 @@
-{% load static %}<nav class="navbar navbar-expand-lg border-bottom mb-2 nav bg-white p-1">
-    <div class="container-fluid">
-      {% if not title %}<h1 class="d-none">Freedaz - The best platform for education</h1>{% endif %}
-      <a class="text-muted logo-text" href="/"><img src="{% static 'img/freedaz-1.png' %}" alt="freedaz" width="100px" height="auto"></a>
-      <a href="/menu" class="navbar-toggler fs-1"> &#x2261; </a>
-      <div class="collapse navbar-collapse mx-4" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link text-muted fs-6"  href="/books">Books</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-muted fs-6"  href="/lable/python">Python</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-muted fs-6"  href="/lable/JavaScript">JavaScript</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-muted fs-6"  href="/lable/PHP">PHP</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-muted fs-6"  href="/lable/HTML">HTML</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-muted fs-6"  href="/lable/CSS">CSS</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-muted fs-6"  href="/lable/Django">Django</a>
-          </li>
-          {% if user.is_superuser %}
-          <li class="nav-item">
-            <a class="nav-link text-muted fs-6" href="/post/create">Create post</a>
-          </li>
-          {% endif %}
-        </ul>
-        <form class="d-flex" action="{% url 'search' %}" method="POST">
-          {% csrf_token %}
+{% load static %}
+{% load i18n %}
+    <header id="freebify-preview-header-wrapper">
+      <div class="headerify-wrap">
+        <div class="headerify">
+          <div class="headerify-inner">
+            <div class="container row-x1">
+              <div class="headerify-items d-flex justify-content-between" >
+                <div class="main-logo-wrap">
+                  <div class="main-logo section" id="main-logo" name="Header Logo">
+                    <div class="widget Header" data-version="2" id="Header1">
+                      <div class="logo-content">
+                        <a class="logo-img" href="/">
+                          <img alt="{% trans "Freesad is a Professional Education Platform." %}" height="auto" width="auto"
+                            src="{% static 'img/logo.svg' %}" />
+                            {% if request.path|length == 4  %}
+                            <h1 id="h1-tag">{% trans "Freesad - Professional Education Platform, Web Development" %}</h1>
+                            {% endif %}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <nav class="main-menu-wrap">
+                  <div class="freebify-preview-main-menu section" id="freebify-preview-main-menu" name="Main Menu">
+                    <div class="widget LinkList show-menu" data-version="2" id="LinkList152">
 
-          <div class="bg-white border rounded-pill d-flex me-2">
-            <input type="text" class="form-control border-0 rounded-pill ps-3" name="search" type="search" placeholder="Search">
-            <button class="btn btn-warning my-1 me-1 btn-sm rounded-pill">
-             Search
-            </button>
+                      <ul id="freebify-preview-main-menu-nav" role="menubar">
+                        <li><a href="/" role="menuitem">{% trans "Home" %}</a></li>
+                        <li><a href="/videos" role="menuitem">{% trans "Videos" %}</a></li>
+                         <li><a href="/books" role="menuitem">{% trans "Books" %}</a></li>
+                         <li><a href="/en/posts" role="menuitem">{% trans "Posts" %}</a></li>
+                        <li class="has-sub" role="menuitem" aria-haspopup="true" aria-expanded="false">
+                          <a href="#" role="menuitem">{% trans "Categories" %}</a>
+                          <ul class="sub-menu m-sub" role="menu">
+                            {% for category in categories  %}
+                            <li><a href="/category/{{ category.slug }}" role="menuitem">{{ category.name }}</a></li>
+                             {% endfor %}
+                          </ul>
+                        </li>
+                        {% if user.is_authenticated %}
+                        <li class="has-sub" role="menuitem" aria-haspopup="true" aria-expanded="false">
+                          <a href="#" role="menuitem">{% trans "Menu" %}</a>
+                          <ul class="sub-menu m-sub" role="menu">
+                            <li><a href="/user/{{ user.profile.slug }}" role="menuitem">{% trans "Profile" %}</a></li>
+                            <li><a href="{% url 'logout' %}" role="menuitem">{% trans "Logout" %}</a></li>
+                          </ul>
+                        </li>
+                        {% else %}
+                         <li class="has-sub" role="menuitem" aria-haspopup="true" aria-expanded="false">
+                          <a href="#" role="menuitem">{% trans "Join us" %}</a>
+                          <ul class="sub-menu m-sub" role="menu">
+                            <li><a href="/accounts/login" role="menuitem">{% trans "Login" %}</a></li>
+                             <li><a href="{% url 'register' %}" role="menuitem">{% trans "Register" %}</a></li>
+                          </ul>
+                        </li>
+                        {% endif %}
+                         <li class="has-sub" role="menuitem" aria-haspopup="true" aria-expanded="false">
+                          <a href="#" role="menuitem">{% trans "More" %}</a>
+                          <ul class="sub-menu m-sub" role="menu">
+                              <li><a href="{% url 'create_post' %}" role="menuitem">{% trans "Create Post" %}</a></li>
+                             <li><a href="{% url 'create_book' %}" role="menuitem">{% trans "Create Book" %}</a></li>
+                             <li><a href="{% url 'create_video' %}" role="menuitem">{% trans "Upload video" %}</a></li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </nav>
+                <div class="main-toggle-wrap">
+                  <a class="main-toggle-style mobile-menu-toggle" onclick="sliderShow()" href="javascript:;"><span class="d-none">{% trans "Menu" %}</span></a>
+                </div>
+                <div id="nav-search-wrap">
+                  <form action="{% url 'search' %}" class="search-form" role="search">
+                    <input autocomplete="off" name="search" class="search-input" placeholder="{% trans "Search..." %}" value="" />
+                    <button class="search-action" type="submit" value=""></button>
+                  </form>
+                </div>
+              </div>
             </div>
-        </form>
+          </div>
+        </div>
       </div>
-    </div>
-  </nav>
+    </header>

@@ -1,155 +1,90 @@
-{% extends 'dash.html' %}
+{% extends 'base.html' %}
 {% load i18n %}
 {% load static %}
+
+{% block header %}{% endblock header %}
 {% block content %}
-<main class="main" id="main">
-  <div class="col-md-8">
-    <div class="card mb-3">
-      <div class="card-body p-0">
-        <div class="row p-3">
-          <div class="col-sm-3">
-            <h6 class="mb-0">{% trans "Full Name" %}</h6>
-          </div>
-          <div class="col-sm-9 text-secondary">
-            {{page.user.first_name}} {{page.user.last_name}}
-          </div>
+<div class="container">
+  <div id="content-wrapper">
+    <div id="content" class="content p-0">
+        <div class="profile-header rounded">
+            <div class="profile-header-cover"></div>
+    
+            <div class="profile-header-content">
+                <div class="profile-header-img">
+                    <img class="w-100 cover" src="{{ page.avatar.url }}" alt="{{ page.user.username}}" />
+                </div>
+    
+                <div class="profile-header-info">
+                    <h4 class="m-t-sm">{{ page.user.first_name }} {{ page.user.last_name }}</h4>
+                    <p class="m-b-sm">@{{ page.user }}</p>
+                    {% if user.profile.id == page.id %}
+                    <a href="{% url 'profile_update' page.id %}" class="btn btn-xs btn-info mb-4">{% trans "Update Profile" %}</a>
+                    {% else %}
+                    {% endif %}
+                </div>
+            </div>
+    
+            <ul class="profile-header-tab nav nav-tabs">
+                <li class="nav-item show active"><a href="{% url 'profile' page.slug %}" class="nav-link_">{% trans "Articles" %}</a></li>
+                <li class="nav-item"><a href="{% url 'profile_books' page.slug %}" class="nav-link_">{% trans "Books" %}</a></li>
+                {% comment %} <li class="nav-item"><a href="" class="nav-link_">{% trans "Photos" %}</a></li> {% endcomment %}
+                <li class="nav-item"><a href="{% url 'profile_videos' page.slug %}" class="nav-link_">{% trans "Videos" %}</a></li>
+                {% comment %} <li class="nav-item"><a href="h#" class="nav-link_">{% trans "Followrs" %}</a></li> {% endcomment %}
+            </ul>
         </div>
-        <hr class="m-0">
-        <div class="row p-3">
-          <div class="col-sm-3">
-            <h6 class="mb-0">{% trans "Email" %}</h6>
-          </div>
-          <div class="col-sm-9 text-secondary">
-            {{page.user.email}}
-          </div>
+    
+        <div class="profile-container">
+            <div class="row row-space-20">
+                <div class="col-md-8">
+                    <div class="tab-content p-0">
+                      {% block profile %}{% endblock profile %}
+                    </div>
+                </div>
+                <div class="col-md-4 hidden-xs hidden-sm">
+                    <ul class="profile-info-list">
+                        <li class="title">{% trans "About" %} {{ page.user.first_name }}</li>
+                        <li>
+                            <div class="field">{% trans "Email" %}:</div>
+                            <div class="value">{{ page.user.email }}</div>
+                        </li>
+                        <li>
+                            <div class="field">{% trans "Username" %}:</div>
+                            <div class="value">@{{ page.user }}</div>
+                        </li>
+                        {% if page.birth %}
+                         <li>
+                            <div class="field">{% trans "Birth" %}:</div>
+                            <div class="value">{{ page.birth }}</div>
+                        </li>
+                        {% endif %}
+                       
+                        {% if page.country %}
+                        <li>
+                            <div class="field">{% trans "Country" %}:</div>
+                            <div class="value">{{ page.country }}</div>
+                        </li>
+                        {% endif %}
+                        
+                        {% if page.phone %}
+                        <li>
+                            <div class="field">{% trans "Phone" %}:</div>
+                            <div class="value">{{ page.phone }}</div>
+                        </li>
+                        {% endif %}
+                        <li>
+                          <div class="field">{% trans "Followrs" %}: ({{ page.follow.all.count }})</div>
+                         </li>
+                        <li class="img-list">
+                          {% for user in page.follow.all|slice:":15" %}
+                            <a href="{% url 'profile' user.slug %}" class="m-b-5"><img src="{{ user.profile.avatar.url }}" alt="{{ user }}" /></a>
+                          {% endfor %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        {% if page.phone != 0 or user == page.user %}
-        <hr class="m-0">
-        <div class="row p-3">
-          <div class="col-sm-3">
-            <h6 class="mb-0">{% trans "Phone" %}</h6>
-          </div>
-          <div class="col-sm-9 text-secondary">
-           {% if page.phone == 0 %} <a href="#" class="text-sm">Add phone</a> {% else %} {{page.phone}} {% endif %}
-          </div>
-        </div>
-        {% endif %}
-
-        {% if page.country != 0 or user == page.user %}
-        <hr class="m-0">
-        <div class="row p-3">
-          <div class="col-sm-3">
-            <h6 class="mb-0">{% trans "Country" %}</h6>
-          </div>
-          <div class="col-sm-9 text-secondary">
-          {{page.country}}
-          </div>
-        </div>
-        {% endif %}
-        {% if page.bio != 0 or user == page.user %}
-        <hr class="m-0">
-        <div class="row p-3">
-          <div class="col-sm-3">
-            <h6 class="mb-0">{% trans "Bio" %}</h6>
-          </div>
-          <div class="col-sm-9 text-secondary">
-            {{page.bio}}
-          </div>
-        </div>
-        {% endif %}
-        
-        {% if user == page.user %}
-        <hr class="m-0">
-        <div class="row p-3">
-          <div class="col-sm-12">
-            <a class="btn btn-info m-0 text-white" href="{% url 'profile_update' page.id %}">{% trans "Edit" %}</a>
-          </div>
-        </div>
-        {% endif %}
-      </div>
     </div>
-    {% comment %}
-    <div class="card mb-2">
-      <div class="card-body">
-        <form method="POST">
-          {% csrf_token %}
-        <div class="row mb-3">
-          <div class="col-sm-3">
-            <h6 class="mb-0">{% trans "Website" %}</h6>
-          </div>
-          <div class="col-sm-9 text-secondary"> <input type="text" name="web" id="web" class="form-control" value="{{page.user.media.web}}"></div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-sm-3">
-            <h6 class="mb-0">Github</h6>
-          </div>
-          <div class="col-sm-9 text-secondary"> <input type="text" name="github" id="github" class="form-control" value="{{page.user.media.github}}"></div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-sm-3">
-            <h6 class="mb-0">Facebook</h6>
-          </div>
-          <div class="col-sm-9 text-secondary"> <input type="text" name="facebook" id="facebook" class="form-control" value="{{page.user.media.facebook}}"></div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-sm-3">
-            <h6 class="mb-0">Twitter</h6>
-          </div>
-          <div class="col-sm-9 text-secondary"> <input type="text" name="twitter" id="twitter" class="form-control" value="{{page.user.media.twitter}}"></div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-sm-3">
-            <h6 class="mb-0">Instagram</h6>
-          </div>
-          <div class="col-sm-9 text-secondary"> <input type="text" name="instagram" id="instagram" class="form-control" value="{{page.user.media.instagram}}">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-3"></div>
-          <div class="col-sm-9 text-secondary"> <input type="button" id="update-sucial" class="btn btn-primary px-4" value="Save Changes">
-          </div>
-        </div>
-      </form>
-      </div>
-    </div>
-
-    <div class="row gutters-sm">
-      <div class="col-sm-6 mb-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <h6 class="d-flex align-items-center mb-3">{% trans "Skills" %}</h6>
-            {% for skill in page.skills.all %}
-            <small>{{skil.name}}</small>
-            <div class="progress mb-3" style="height: 5px">
-              <div class="progress-bar bg-primary" role="progressbar" style="width: {{skill.scour}}" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-            {% empty %}
-            <div class="d-flex justify-content-center">
-              <a href="#" class="text-sm"><strong> + </strong>{% trans "New Skill" %}</a>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6 mb-3">
-        <div class="card h-100">
-          <div class="card-body">
-            <h6 class="d-flex align-items-center mb-3">Languages</h6>
-            {% for lang in page.language.all %}
-            <small>{{lang.name}}</small>
-            <div class="progress mb-3" style="height: 5px">
-              <div class="progress-bar bg-primary" role="progressbar" style="width: {{lang.scour}}" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
-            {% empty %}
-            <div class="d-flex justify-content-center">
-              <a href="#" class="text-sm"><strong> + </strong>{% trans "New Language" %}</a>
-            </div>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-    </div>
-    {% endcomment %}
-  </div>
-</main>
+</div>
+</div>
 {% endblock %}
