@@ -167,7 +167,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Media file
 MEDIA_URL = os.environ.get('MEDIA_URL')
-MEDIA_ROOT = '/home/agha6919/freesad/media/'
+MEDIA_ROOT = '/home/agha6919/freesad/media'
 
 
 # Google cloud
