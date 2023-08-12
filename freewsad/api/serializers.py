@@ -42,7 +42,7 @@ class BookSerializer(serializers.ModelSerializer):
     language = LanguageSerializer()
     class Meta:
         model = Book
-        fields = ('id', 'name', 'pages', 'image', 'description', 'tags', 'date', 'pages',
+        fields = ('id', 'name', 'pages', 'image', 'description', 'tags', 'created_at', 'pages',
                   'file', 'language', 'book_type', 'list', 'author', 'category', 'slug',
                   'views', "size" )
 
