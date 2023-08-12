@@ -1,0 +1,165 @@
+{% extends "base.html" %}{% load static %}{% load i18n %}
+{% block content %}
+<div style="height: auto !important;">
+    <div class="container-lg" style="height: auto !important;">
+        <div class="row pt-3" style="height: auto !important;">
+            <div class="col-12 col-md-7 col-lg-8 col-xl-8 mb-3 m-0" style="height: auto !important;">
+                <article class="blog-post" style="height: auto !important;">
+                    {% if post.image %}
+                    <div class="d-flex justify-content-center mb-3">
+                        <div class="card overflow-hidden w-100">
+                            <img src="{{post.image.url}}" width="100%" height='auto' alt="{{post.title}}" />
+                        </div>
+                    </div>
+                    {% endif %}
+                    <h1 dir="auto" class="blog-post-title h4 mt-2">{{post.title}}</h1>
+                    <p dir="auto" class="text-left h6 text-muted">
+                        <strong><a href="{% url 'category' post.category.slug %}">{{ post.category.name }}</a></strong> -
+                        {{post.created|date:'M d, Y '}}
+                    </p>
+                    <!-- - H:i -->
+                    <div class="my-3">{{post.body|safe}}</div>
+                </article>
+
+                <!-- - Comment section -->
+                 <section class="comments threaded mt-3"  id="comments">
+                    <div class="title-wrap comments-title">
+                        <div class="comment-title h5">({{ post.post_comment.count }}) {% trans "Comments" %}</div>
+                    </div>
+                    <div class="comments-content">
+                        <div id="comment-holder">
+                            <div class="comment-thread toplevel-thread">
+                                <ol id="top-ra">
+                                    <li class="comment" >
+                                        <div class="avatar-image-container">
+                                            <img src="//4.bp.blogspot.com/-oSjP8F09qxo/Wy1J9dp7b0I/AAAAAAAACF0/ggcRfLCFQ9s2SSaeL9BFSE2wyTYzQaTyQCK4BGAYYCw/s35-r/avatar.jpg"
+                                                alt="">
+                                        </div>
+                                        <div class="comment-block">
+                                            <div class="comment-header">
+                                                <cite class="user">Anonymous</cite>
+                                                <span class="icon user"></span>
+                                                <span class="datetime secondary-text">
+                                                    <a rel="nofollow" href="#">July 07, 2020</a>
+                                                </span>
+                                            </div>
+                                            <p class="comment-content">
+                                                 The generated Lorem Ipsum is therefore always
+                                                free from repetition, injected humour, or
+                                                non-characteristic words etc.
+                                            </p>
+
+                                            <span class="comment-actions secondary-text">
+                                                <a class="comment-reply" href="javascript:;">Reply</a>
+                                                {% if user.is_superuser %}
+                                                <span class="blog-admin blog-admin">
+                                                    <a target="_self" href="#">Delete</a>
+                                                </span>
+                                                {% endif %}
+                                            </span>
+                                        </div>
+            
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <a href="javascript:;" id="show-comment-form">Post a Comment</a>
+            
+                </section> 
+                {% if user.is_superuser %}
+                <div class="py-3">
+                    <a href="/post/update/{{post.id}}" class="btn me-3 btn-outline-success btn-sm">Update</a>
+                    <a href="/post/delete/{{post.id}}" onclick="return confirm('Are you sur you want to delete Post')" class="btn btn-sm btn-outline-danger me-3">Delete</a>
+                    {% if post.is_public %}
+                    <a href="/post/status/{{ post.id }}" class="btn btn-sm btn-outline-info me-3">Un Publish</a>
+                    {% else %}
+                    <a href="/post/status/{{ post.id }}" class="btn btn-sm btn-outline-info me-3">Publish</a>
+                    {% endif %}
+                </div> 
+                {% endif %}
+
+                <div class="post-nav">
+                    {% if post.next %}
+                    <a class="post-nav-older-link" href="/p/{{post.next.slug}}">
+                        {% trans "Previous" %}
+                    </a>
+                    {% endif %}
+                    {% if post.pre %}
+                    <a class="post-nav-newer-link" href="/p/{{post.pre.slug}}">
+                        {% trans "Next" %}
+                    </a>
+                    {% endif %}
+                </div>
+                <!-- End Article -->
+            </div>
+            <div class="col-12 col-md-5 col-lg-4 col-xl-4 position-relative" style="height: auto !important;">
+                <div class="position-sticky" style="top: 10px; height: auto !important;">
+                    <div class="mb-2 rounded overflow-hidden shadow-sm">
+                        <a href="https://railway.app?referralCode=e4zbYM" target="_blank">
+                            <img src="{% static 'img/railway.png' %}" width="100%" height="auto" alt="Free Hosting"
+                                title="Railway Free hosting">
+                        </a>
+                    </div>
+                    <div class="p-2 mt-3 bg-light card shadow-sm border"><span
+                            class="fst-italic h4 p-1">{% trans "Copyrights" %}</span>
+                        <div>
+                            We respect the property rights of others, and are always careful not to infringe on their
+                            rights, so authors and publishing houses have the right to demand that an article or book download link
+                            be removed from the site. If you find an article or book of yours and do not agree to the posting of a
+                            download link, or you have a suggestion or complaint, write to us through the 
+                            <a href="/contact"  target="_blank">{% trans "Contact Us" %} </a>.
+                        </div>
+                        <a href="/page/copyrights-sxrmt">{% trans "Read More" %}</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <main id="main-wrapper">
+            <div class="main section" id="main" name="Main Posts">
+              <div class="widget Blog" data-version="2" id="Blog1">
+                <div class="blog-posts-title title-wrap">
+                  <div class="title h5">{% trans "More Freebies" %}</div>
+                </div>
+                <div class="blog-posts hfeed container index-post-wrap">
+                  {% for post in  posts %}
+                  <article class="blog-post hentry index-post post-10">
+                    <a class="entry-image-wrap is-image" href="{% url 'post' post.slug %}">
+                        {% if post.image %}
+                            <span class="entry-thumb" data-image="{{ post.image.url }}"><span class="d-none">{{post.title}}</span></span>
+                         {% endif %}
+                    </a>
+                    <div class="entry-header">
+                      <div class="entry-meta">
+                        <span class="entry-category m-item">{{ post.category.name }}</span>
+                        <span class="entry-time m-item">
+                            <span class="t-label m-item">-</span>
+                            <time class="published m-item" datetime="{{post.created}}">{{post.created|date:'M d, Y '}}</time>
+                        </span>
+                      </div>
+                      <h2 class="entry-title"><a class="entry-title-link"
+                          href="{% url 'post' post.slug %}" rel="bookmark">{{ post.title|truncatechars:70 }}</a>
+                      </h2>
+                    </div>
+                  </article>
+                  {% empty %}
+                  <div class="d-flex justify-content-center w-100">
+                    <h1 class="py-5 text-center h4"> <i class="fas fa-exclamation-triangle"></i>  {% trans "No Post Result" %}</h1>
+                  </div>
+                  {% endfor %}
+
+                </div>
+                {% if posts.has_next %}
+                <div class="blog-pager container" id="blog-pager">
+                    <a class="blog-pager-older-link load-more"  href="?page={{ posts.next_page_number }}" id="freebify-preview-load-more-link">  Load More </a>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+          </main>
+                    
+    </div>
+</div>
+{% endblock %}

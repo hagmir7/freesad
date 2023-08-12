@@ -1,0 +1,63 @@
+{% extends "dash.html" %}
+
+{% block content %}
+<main class="main" id="main">
+    <div class="container">
+        <div class="row">
+            <div class="d-flex justify-content-center card p-0 shadow-sm">
+                <div class="p-2 px-3 d-flex justify-content-between">
+                    <span>Posts (<strong>{{contacts.count}}</strong>)</span>
+                </div>
+                <table class="table p-3 mt-2">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Is Public</th>
+                            <th scope="col">Created</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for contact in contacts %}
+                        <tr>
+                            <th scope="row">{{contact.id}}</th>
+                            <td><a href="/contact/{{contact.id}}">{{contact.full_name|truncatechars:40}}</a></td>
+                            <td>{{post.email}}</td>
+                            <td>{{post.is_public}}</td>
+                            <td>{{post.created|date:"D d M Y"}}</td>
+                            <td>
+                                <a class="btn btn-sm btn-success" href="/post/update/{{post.id}}">Update</a>
+                                <a class="btn btn-sm btn-danger" href="/post/delete/{{post.id}}" onclick="return confirm('Are you sur you wnat to delete Post')">Delete</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <div class="h3 py-5 my-5 text-center">
+                            OOPS! No Post
+                        </div>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <nav aria-label="Page navigation example ">
+                    <ul class="pagination d-flex justify-content-center">
+                        <li class="page-item ">
+                            {% if posts.has_previous %}
+                            <a href="?page={{ posts.previous_page_number }}"
+                                class="page-link rounded-pill px-5 h3 py-0">&#x2190;</a>
+                            {% endif %}
+                        </li>
+                        <li class="page-item p-0">
+                            {% if posts.has_next %}
+                            <a href="?page={{ posts.next_page_number }}"
+                                class="page-link rounded-pill px-5 h3 py-0">&#x2192;</a>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+    
+        </div>
+    </div>
+</main>
+{% endblock %}

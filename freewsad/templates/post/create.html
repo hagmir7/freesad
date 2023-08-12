@@ -1,0 +1,68 @@
+{% extends "dash.html" %}
+
+{% block content %}
+<main class="main" id="main">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-12 card shadow-sm">
+                <h1 class="h4 my-3">Create post</h1>
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert  m-0 alert-{{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+                <form method="POST" enctype="multipart/form-data" class="my-3">
+                    {% csrf_token %}
+    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input class="form-control" type="text" placeholder="Title" name="title" maxlength="300" id="id_title">
+                            <input class="form-control mt-3" type="file" name="image" accept="image/*" id="id_image">
+                            <select class="form-control mt-3" name="language" required id="id_language">
+                                <option value="" selected>-- Select language --</option>
+                                {% for lang in language %}
+                                <option value="{{lang.id}}">{{lang.name}}</option>
+                                {% endfor %}
+                            </select>
+                            
+                            <select class="form-control mt-3" name="category" id="id_category">
+                                <option value="" selected>-- Select category --</option>
+                                {% for item in category %}
+                                <option value="{{item.id}}">{{item.name}}</option>
+                                {% endfor %}
+                            </select>
+
+                            <input class="form-control mt-3" placeholder="Tags" type="text" name="tags" maxlength="1000" id="id_tags">
+                            <select class="form-control mt-3" name="list" id="id_list">
+                                <option value="" selected>-- Select post list --</option>
+                                {% for item in lists %}
+                                <option value="{{item.id}}">{{item.name}}</option>
+                                {% endfor %}
+            
+                            </select>
+                            <textarea class="form-control my-3" name="description" cols="40" rows="4" placeholder="Description" d="id_description"></textarea>
+                            <div class="mt-3">
+                                <input class="form-check-input" type="checkbox" name="is_public" id="id_is_public" checked>
+                                <label for="is_public">Make post public</label>
+                            </div>
+                        </div>
+    
+    
+                        <div class="col-md-6">
+                            {{ form.body }}
+                            <button class="btn btn-success w-100 mt-4">Create</button>
+                        </div>
+                    </div>
+    
+                   
+    
+                    
+    
+                    
+    
+    
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

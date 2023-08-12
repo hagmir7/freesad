@@ -1,0 +1,20 @@
+{% extends "dash.html" %}
+
+{% block content %}
+<main id="main" class="main">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-10 card shadow-sm">
+                <h1 class="h4 my-3">Create Page</h1>
+                <form method="POST" enctype="multipart/form-data" class="my-3">
+                    {% csrf_token %}
+                    <label for="title">Title</label>
+                    <input class="form-control mb-3" type="text" placeholder="Title" name="title" maxlength="300" id="id_title">
+                        {{ form.body }}
+                    <button class="btn btn-success w-100 mt-4">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

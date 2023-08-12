@@ -1,0 +1,88 @@
+{% extends 'base.html' %}{% load static %}{% load i18n %}{% block content %}
+<div class="container">
+  <div class="row py-5">
+    <div class="col-md-8 mb-3">
+      <article class="blog-post">
+        <h1 dir="auto" class="blog-post-title h3 lang">{{book.name}}</h1>
+        <p dir="auto">{{book.description}}</p>
+        <hr>
+        <div class="d-flex justify-content-center mb-3">
+          <div class="card shadow-sm overflow-hidden col-8 col-md-6 col-lg-5 col-xl-4 p-0">
+            {% if book.image.url %}
+            <img class="book-detail-image" src="{{book.image.url}}" height="auto" width="auto" alt="{{book.name}}">
+            {% endif %}
+          </div>
+        </div>
+        <h2 class="h5">{% trans "About book" %}</h2>
+        <table class="table table-hover border">
+          <tbody>
+            <tr>
+              <th scope="row">{% trans 'Author' %}</th>
+              <td>{{book.author}}</td>
+            </tr>
+            <tr>
+              <th scope="row">{% trans 'Publisher' %}</th>
+              <td>{{book.user.first_name}} {{book.user.last_name}}</td>
+            </tr>
+            {% if book.book_type %}
+              <tr>
+                <th scope="row">{% trans 'File type' %}</th>
+                <td>{{book.book_type}}</td>
+              </tr>
+            {% endif %}
+              <tr>
+                <th scope="row">{% trans 'Language' %}</th>
+                <td>{{book.language}}</td>
+              </tr>
+            {% if book.pages %}
+              <tr>
+                <th scope="row">{% trans 'Pages' %}</th>
+                <td>{{book.pages}}</td>
+              </tr>
+            {% endif %}
+            {% if book.size %}
+              <tr>
+                <th scope="row">{% trans 'Size' %}</th>
+                <td>{{book.size}}</td>
+              </tr>
+            {% endif %}
+          </tbody>
+        </table>
+        <h2 class="h5">{% trans 'Download Book' %}</h2>
+        <div class="w-100 my-5 d-flex justify-content-center">
+            <div class="w-50">
+                <a class="btn btn-success w-100 mt-2" href="{{book.file.url}}"  target="_blanck">{% trans "DOWNLOAD" %}</a><br>
+                <a class="btn btn-primary w-100 mt-2" href="{{book.file.url}}"  target="_blanck">{% trans "Read" %}</a>
+            </div>
+        </div>
+      </article>
+
+      <div class="post-nav mb-3">
+        {% if book.pre %}
+        <a class="post-nav-newer-link" href="/book/{{book.pre.slug}}">
+            {% trans "Next" %}
+        </a>
+        {% endif %}
+
+        {% if book.next %}
+        <a class="post-nav-older-link" href="/book/{{book.next.slug}}">
+            {% trans "Previous" %}
+        </a>
+        {% endif %}
+    </div>
+      {% if user == book.user %}
+      <nav class="blog-pagination mt-3" aria-label="Pagination">
+        <a class="btn btn-outline-danger btn-sm m-2" href="book/delete/{{book.id}}" onclick="return confirm('Are you sur you wante to delete Book')">{% trans "Delete" %}</a>
+        <a class="btn btn-outline-success btn-sm m-2" href="{% url 'update_book' book.id %}">{% trans "Update" %}</a>
+      </nav>
+      {% endif %}
+    </div>
+    <div class="col-md-4 position-relative">
+        <div class="col-11">
+            {% include 'book/components/books-col.html' %}
+        </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
