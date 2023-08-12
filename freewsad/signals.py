@@ -132,7 +132,8 @@ def get_quality(width, height):
 @receiver(post_save, sender=Quality)
 def create_quality(sender, instance, created, **kwargs):
     if created:  # Check if a new instance is created
-        file_path = os.path.normpath(f'D:\\Development\\CPanel\\freesad{os.path.join(instance.file.url)}')
+        # freesad/media
+        file_path = os.path.normpath(f'\\home\\agha6919\\freesad{os.path.join(instance.file.url)}')
         video = VideoFileClip(file_path)
         width, height = video.size
         instance.width = width
