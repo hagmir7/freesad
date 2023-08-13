@@ -20,7 +20,11 @@
                             <video controls crossorigin playsinline poster="{{ video.image.url }}" style="--plyr-color-main: #6c6cfe;" id="player" class="border w-100">
                                 <!-- movie files -->
                                 {% for video in qualities  %}
-                                    <source src="{{ video.file.url }}"  type="video/mp4" size="{{ video.height }}">
+                                    {% if vidoe.url %}
+                                        <source src="{{ video.url }}"  type="video/mp4" size="{{ video.height }}">
+                                    {% else %}
+                                        <source src="{{ video.file.url }}"  type="video/mp4" size="{{ video.height }}">
+                                    {% endif %}
                                 {% endfor %}
                                 <!-- Fallback for browsers that don't support the <video> element -->
                             </video>
@@ -32,7 +36,11 @@
                     </p>
                     {% for video in qualities  %}
                         {% if user.is_authenticated %}
-                        <a href="{{ video.file.url }}" class="btn btn-success btn-sm">{{ video.quality }}</a>
+                            {% if video.url %}
+                                <a href="{{ video.url }}" class="btn btn-success btn-sm">{{ video.quality }}</a>
+                            {% else %}
+                                <a href="{{ video.file.url }}" class="btn btn-success btn-sm">{{ video.quality }}</a>
+                            {% endif %}
                         {% else %}
                         <a href="/accounts/login?next={{ request.path }}" class="btn btn-success btn-sm">{{ video.quality }}</a>
                         {% endif %}
@@ -98,22 +106,24 @@
                     <a href="" class="btn btn-danger btn-sm my-2">حذف</a>
                     <a href="/play-list/3b43f4ea583446ab84713b02548fa894" class="btn btn-info btn-sm my-2">مشاهدة</a>
                 {% endif %}
-                <div class="row p-0 m-0 ">
-                    {% for chapter in video.list.videos.all  %}
-                        <div class="col-12 p-0">
-                            <div class="rounded border p-2 m-1 {% if video == chapter %} bg-light shadow-sm{% endif %}">
-                                <a href="{% url 'video' chapter.slug %}" class="d-flex align-items-center">
-                                    <div class="mx-3 fw-bold">
-                                        {{ forloop.counter }} - {{ chapter.title }}
-                                    </div>
-                                </a>
-                                
+                {% if vidoe.list %}
+                    <div class="row p-0 m-0 ">
+                        {% for chapter in video.list.videos.all  %}
+                            <div class="col-12 p-0">
+                                <div class="rounded border p-2 m-1 {% if video == chapter %} bg-light shadow-sm{% endif %}">
+                                    <a href="{% url 'video' chapter.slug %}" class="d-flex align-items-center">
+                                        <div class="mx-3 fw-bold">
+                                            {{ forloop.counter }} - {{ chapter.title }}
+                                        </div>
+                                    </a>
+                                    
+                                </div>
                             </div>
-                        </div>
-                    {% empty %}
-                        <p class="text-center my-3 h6">{% trans "No Video yet" %} </p>
-                    {% endfor %}
-                </div>
+                        {% empty %}
+                            <p class="text-center my-3 h6">{% trans "No Video yet" %} </p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
                 
             </div>
             <div class="w-100 row d-flex justify-content-center">

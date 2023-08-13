@@ -452,12 +452,13 @@ class VideoView(models.Model):
 
 class Quality(models.Model):
     quality = models.CharField(max_length=100, verbose_name=(_("Quality")), null=True, blank=True)
-    file = models.FileField(upload_to=filename, verbose_name="Video")
+    file = models.FileField(upload_to=filename, verbose_name="Video", null=True, blank=True)
     video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="video_qualities")
     size = models.CharField(max_length=50, blank=True, null=True)
     height = models.IntegerField(blank=True, null=True)
     width = models.IntegerField(blank=True, null=True)
     duration = models.CharField(max_length=20, null=True, blank=True)
+    url = models.CharField(max_length=600, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     slug = models.SlugField(null=True, blank=True)
