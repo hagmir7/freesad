@@ -75,7 +75,7 @@ def index(request):
         tags = Book.objects.filter(tags__icontains=query)
         books = name | description | tags
     else:
-        books = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')[0:16]
+        books = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')[0:18]
 
     if query is not None:
         title = Video.objects.filter(title__icontains=query)
@@ -83,7 +83,7 @@ def index(request):
         tags = Video.objects.filter(tags__icontains=query)
         videos = title | description | tags
     else:
-        videos = Video.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')[0:18]
+        videos = Video.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')[0:16]
 
 
     context = {
