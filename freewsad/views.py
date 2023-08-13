@@ -83,7 +83,7 @@ def index(request):
         tags = Video.objects.filter(tags__icontains=query)
         videos = title | description | tags
     else:
-        videos = Video.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')[0:16]
+        videos = Video.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')[0:18]
 
 
     context = {
@@ -683,11 +683,6 @@ def updateBody(request):
 
 
 
-
-
-
-
-
 # Video
 @user_passes_test(superuser_required)
 def create_video(request):
@@ -739,7 +734,7 @@ def video(request, slug):
     qualities = Quality.objects.filter(video=video)
 
     # List Vides (Order By views)
-    list_videos = Video.objects.annotate(views_count=Count('views')).order_by('-views_count')[0:14]
+    list_videos = Video.objects.annotate(views_count=Count('views')).filter(language__code=request.LANGUAGE_CODE).order_by('-views_count')[0:14]
     paginator = Paginator(list_videos, 24)
     page_number = request.GET.get("page")
     videos = paginator.get_page(page_number)
