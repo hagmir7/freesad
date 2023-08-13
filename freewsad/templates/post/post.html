@@ -20,54 +20,6 @@
                     <!-- - H:i -->
                     <div class="my-3">{{post.body|safe}}</div>
                 </article>
-
-                <!-- - Comment section -->
-                 <section class="comments threaded mt-3"  id="comments">
-                    <div class="title-wrap comments-title">
-                        <div class="comment-title h5">({{ post.post_comment.count }}) {% trans "Comments" %}</div>
-                    </div>
-                    <div class="comments-content">
-                        <div id="comment-holder">
-                            <div class="comment-thread toplevel-thread">
-                                <ol id="top-ra">
-                                    <li class="comment" >
-                                        <div class="avatar-image-container">
-                                            <img src="//4.bp.blogspot.com/-oSjP8F09qxo/Wy1J9dp7b0I/AAAAAAAACF0/ggcRfLCFQ9s2SSaeL9BFSE2wyTYzQaTyQCK4BGAYYCw/s35-r/avatar.jpg"
-                                                alt="">
-                                        </div>
-                                        <div class="comment-block">
-                                            <div class="comment-header">
-                                                <cite class="user">Anonymous</cite>
-                                                <span class="icon user"></span>
-                                                <span class="datetime secondary-text">
-                                                    <a rel="nofollow" href="#">July 07, 2020</a>
-                                                </span>
-                                            </div>
-                                            <p class="comment-content">
-                                                 The generated Lorem Ipsum is therefore always
-                                                free from repetition, injected humour, or
-                                                non-characteristic words etc.
-                                            </p>
-
-                                            <span class="comment-actions secondary-text">
-                                                <a class="comment-reply" href="javascript:;">Reply</a>
-                                                {% if user.is_superuser %}
-                                                <span class="blog-admin blog-admin">
-                                                    <a target="_self" href="#">Delete</a>
-                                                </span>
-                                                {% endif %}
-                                            </span>
-                                        </div>
-            
-                                    </li>
-                                </ol>
-                            </div>
-                        </div>
-                    </div>
-    
-                    <a href="javascript:;" id="show-comment-form">Post a Comment</a>
-            
-                </section> 
                 {% if user.is_superuser %}
                 <div class="py-3">
                     <a href="/post/update/{{post.id}}" class="btn me-3 btn-outline-success btn-sm">Update</a>
