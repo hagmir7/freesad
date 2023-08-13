@@ -20,6 +20,9 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
+            next_url = request.GET.get('next', '/')
+            if next_url:
+                return redirect(next_url)
             if user.is_superuser:
                 return redirect('/dashboard')
             else:
@@ -48,6 +51,9 @@ def register(request):
                 if new_user is not None:
                     if new_user.is_active:
                         login(request, new_user)
+                        next_url = request.GET.get('next', '/')
+                        if next_url:
+                            return redirect(next_url)
                         return redirect('home')
                     
                 return redirect('login')

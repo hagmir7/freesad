@@ -64,8 +64,12 @@ class PostSearchForm(forms.Form):
 class VideoForm(forms.ModelForm):
     class Meta:
         model = Video
-        fields = ['title', 'image', 'tags', 'category', 'description', 'language']
+        fields = ['title', 'image', 'tags', 'language', 'list','category', 'description', ]
 
+class VideoListForm(forms.ModelForm):
+    class Meta:
+        model = VidoeList
+        fields = ['name', 'image', 'tags', 'language','category', 'description', ]
 
 class QualityForm(forms.ModelForm):
     class Meta:

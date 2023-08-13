@@ -2,7 +2,9 @@
 {% load i18n %}
 {% load static %}
 
-{% block header %}{% endblock header %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+{% endblock head %}
 {% block content %}
 <div class="container">
   <div id="content-wrapper">

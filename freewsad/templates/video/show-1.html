@@ -2,7 +2,14 @@
 
 
 {% block head %}
+    <!-- <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script> -->
+    <!-- Player -->
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css">
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/{{ LANGUAGE_CODE }}.js" charset="UTF-8"></script> -->
+
     <script>
         window.console = window.console || function (t) { };
     </script>
@@ -128,6 +135,151 @@
 {% endblock %}
 
 {% block script %}
+<script type="text/babel">
+  const App = () => {
+
+    const [comments, setComments] = React.useState([]);
+    const [currentPage, setCurrentPage] = React.useState(1);
+    const [next, setNext] = React.useState(false);
+    const [empty, setEmpty] = React.useState(false)
+
+    const createCommetn = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        fetch("{% url 'create_video_comment' video.slug %}", {
+            method: "POST",
+            body: formData
+        })
+        .then((result) => result.json())
+        .then((response) => {
+            setComments([response,...comments]); // Updated line
+            e.target.reset() // Rest form
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    };
+
+    const getComment = () => {
+        fetch("{% url 'video_comments' video.slug %}")
+            .then((result) => result.json())
+            .then((response) => {
+                setComments(response.data); // Updated line
+                comment.length == 0 ? setEmpty(true) : null
+                if (response.has_next) {
+                    setNext(true);
+                } else {
+                    setNext(false);
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
+    React.useEffect(() => {
+    getComment()
+    }, []);
+
+    const loadMoreComments = () => {
+        const nextPage = currentPage + 1;
+        fetch(`{% url 'video_comments' video.slug %}?page=${nextPage}`)
+            .then((result) => result.json())
+            .then((response) => {
+                setComments((prevComments) => [...prevComments, ...response.data]);
+                setCurrentPage(nextPage);
+                if(response.has_next){
+                    setNext(true);
+                }else{
+                    setNext(false);
+                }
+            })
+                .catch((error) => {
+                console.log(error);
+            });
+    };
+
+
+    const deleteVidoe = (id) => {
+        if (confirm('{% trans "Are you sur you wnat to delete the comment?" %}')) {
+            fetch(`/video/comment/delete/${id}`)
+            .then((result) => result.json())
+            .then((response) => {
+                getComment();
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }
+    }
+
+
+
+
+    return (
+        <div id="comment-holder">
+            {% if user.is_authenticated %}
+                <form onSubmit={createCommetn} method="POST" encType="multipart/form-data">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}" />
+                    <div id="div_body" className="mb-2"> 
+                        <textarea name="body" maxLength="1000" className="textinput form-control" required id="body"></textarea>
+                    </div>
+                    <button className="btn btn-success w-100 btn-sm">{% trans "Comment" %}</button>
+                </form>
+            {% else %}
+            
+            {% endif %}
+           
+            <div className="comment-thread toplevel-thread mt-2">
+                
+                <ol id="top-ra">
+                    {
+                        comments.map(item =>{
+                            moment.locale('{{ LANGUAGE_CODE }}');
+                            return(
+                                <li className="comment" >
+                                    <div className="avatar-image-container">
+                                        <img src={item.user.profile.avatar} alt="" />
+                                    </div>
+                                    <div className="comment-block">
+                                        <div className="comment-header">
+                                            <cite className="user">{ item.user.first_name } { item.user.last_name }</cite>
+                                            <span className="icon user"></span>
+                                            <span className="datetime secondary-text">
+                                                <a rel="nofollow" dir="auto" href="#">{moment(item.created_at).locale('ar').fromNow()}</a>
+                                            </span>
+                                        </div>
+                                        <p className="comment-content pre-wrap" dir="auto">{item.body}</p>
+                                        <span className="comment-actions secondary-text">
+                                            {
+                                            item.user.id == "{{ user.id }}" ? <span className="blog-admin blog-admin">
+                                                <a 
+                                                    onClick={()=> deleteVidoe(item.id)}
+                                                    href="#!">{% trans "Delete" %}</a> 
+                                            </span> : ''
+                                            }
+                                        </span>
+                                    </div>
+                                </li>
+                            )
+                        })
+                    }
+
+                </ol>
+                <div className="my-3 d-flex justify-content-center">
+                {
+                    next ? <button className="btn border bg-light btn-sm rounded-pill w-50" onClick={loadMoreComments}>{% trans "Load More" %}</button> : (
+                        <a className="border btn rounded-pill mx-2 disabled bg-white w-50">{% trans "This is all" %}</a>
+                    )
+                }
+                </div>
+            </div>
+        </div>
+    );
+  };
+
+ReactDOM.render(<App />, document.getElementById('comment'));
+</script>
 {% endblock script %}
 
 {% block footer %}

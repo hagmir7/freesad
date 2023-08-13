@@ -8,7 +8,7 @@
             <div class="alert alert-danger p-2 mt-3" role="alert">{{message}}</div>
             {% endfor %}
         {% endif %}
-        <form id="join-form" method="POST">
+        <form id="join-form" action="{{ request.path}}?next={{ request.GET.next }}" method="POST">
             {% csrf_token %}
             <div class="form-group mb-0">
                 {% if form.username.errors %}
@@ -37,6 +37,7 @@
             <button type="submit" id="submit-button" class="btn mt-3  btn-success w-100 btn-block text-center">
                 {% trans 'Log in' %}
             </button>
+            <a href="{% url 'register' %}?next={{ request.GET.next }}" class="btn w-100 btn-primary mt-2">{% trans "Create new account" %}</a>
         </form>
     </div>
 </div>

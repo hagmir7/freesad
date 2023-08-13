@@ -131,9 +131,11 @@ def get_quality(width, height):
 
 @receiver(post_save, sender=Quality)
 def create_quality(sender, instance, created, **kwargs):
-    if created:  # Check if a new instance is created
-        # freesad/media\\home\\agha6919\\freesad
-        file_path = os.path.normpath(f'/home/agha6919/freesad/{os.path.join(instance.file.url)}')
+    if created:
+        if settings.CPANEL:
+            file_path = os.path.normpath(f'/home/agha6919/freesad/{os.path.join(instance.file.url)}')
+        else:
+            file_path = os.path.normpath(f'{os.path.join(instance.file.url)}')
         video = VideoFileClip(file_path)
         width, height = video.size
         instance.width = width
@@ -143,11 +145,19 @@ def create_quality(sender, instance, created, **kwargs):
         instance.quality = get_quality(width, height)
         video.close()
         video_instance = instance.video
+
+        # qualities = Quality.objects.filter(video=video_instance)
+        # print(qualities)
+        # if qualities:
+        #     if not qualities[1].duration == instance.duration:
+        #         instance.delete()
+        #         raise ValueError("Quality is not the same")
+
         if video_instance.video_qualities.filter(quality=instance.quality).exists():
             instance.delete()
             raise ValueError("Quality already exists")
-        else:
-            instance.save()
+      
+        instance.save()
 
 @receiver(pre_delete, sender=Quality)
 def delete_quality_file(sender, instance, **kwargs):

@@ -55,14 +55,19 @@
                           </ul>
                         </li>
                         {% endif %}
-                         <li class="has-sub" role="menuitem" aria-haspopup="true" aria-expanded="false">
-                          <a href="#" role="menuitem">{% trans "More" %}</a>
-                          <ul class="sub-menu m-sub" role="menu">
-                              <li><a href="{% url 'create_post' %}" role="menuitem">{% trans "Create Post" %}</a></li>
-                             <li><a href="{% url 'create_book' %}" role="menuitem">{% trans "Create Book" %}</a></li>
-                             <li><a href="{% url 'create_video' %}" role="menuitem">{% trans "Upload video" %}</a></li>
-                          </ul>
-                        </li>
+                        {% if user.is_superuser %}
+                          <li class="has-sub" role="menuitem" aria-haspopup="true" aria-expanded="false">
+                            <a href="#" role="menuitem">{% trans "More" %}</a>
+                            <ul class="sub-menu m-sub" role="menu">
+                                <li><a href="{% url 'create_post' %}" role="menuitem">{% trans "Create Post" %}</a></li>
+                              <li><a href="{% url 'create_book' %}" role="menuitem">{% trans "Create Book" %}</a></li>
+                              <li><a href="{% url 'create_video' %}" role="menuitem">{% trans "Upload video" %}</a></li>
+                              <li><a href="{% url 'create_video_list' %}" role="menuitem">{% trans "Create video list" %}</a></li>
+
+                            </ul>
+                            
+                          </li>
+                        {% endif %}
                       </ul>
                     </div>
                   </div>

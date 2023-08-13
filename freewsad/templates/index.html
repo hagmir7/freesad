@@ -17,7 +17,7 @@
                     {% if title %}
                     <h1 class="title h5 text-black">{{ title }}</h1>
                     {% else %}
-                    <h3 class="title">{% trans "Latest Freebies" %} </h3>
+                    <h3 class="title">{% trans "Popular articles" %} </h3>
                     {% endif %}
                   </div>
 
@@ -30,7 +30,7 @@
     
                 {% if videos  %}
                   <div class="blog-posts-title title-wrap">
-                    <h3 class="title">{% trans "Latest Videos and courses" %} </h3>
+                    <h3 class="title">{% trans "Popular Videos and courses" %} </h3>
                   </div>
                   {% include 'components/videos.html' %}
                   <div class="blog-pager container" id="blog-pager">
@@ -41,7 +41,7 @@
 
                 {% if books %}
                   <div class="blog-posts-title title-wrap">
-                    <h3 class="title">{% trans "Latest books" %} </h3>
+                    <h3 class="title">{% trans "Popular books" %} </h3>
                   </div>
                   {% include 'book/components/books.html' %}
                   <div class="blog-pager container" id="blog-pager">

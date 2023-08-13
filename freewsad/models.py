@@ -391,12 +391,36 @@ class Page(models.Model):
         super(Page, self).save(*args, **kwargs)
 
 
+class VidoeList(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='video_lists')
+    name = models.CharField(max_length=300, verbose_name='Name ')
+    language = models.ForeignKey(Language, on_delete=models.CASCADE, null=True, blank=True)
+    description = models.TextField(blank=True, null=True)
+    tags = models.CharField(max_length=200, null=True, blank=True, verbose_name=_("Tags "))
+    image = models.ImageField(upload_to=filename, default='default-post.png')
+    slug = models.SlugField(unique=True, auto_created=True, null=True, blank=True)
+    category = models.ManyToManyField(PostCategory, related_name='video_list_category', blank=True, verbose_name=_("Category"))
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        return self.name
+
+    def save(self, *args, **kwargs):
+        random = get_random_string(length=5)
+        if self.id:
+            self.slug = self.slug
+        elif self.name == None:
+            self.slug = slugify(get_random_string(length=40).upper())
+        else:
+            self.slug = slugify(str(self.name) + "-" + str(random))
+        super(VidoeList, self).save(*args, **kwargs)
     
 class Video(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255, verbose_name=_("Title"))
     image = models.ImageField(upload_to=filename, null=True, blank=True, verbose_name=_("Image"))
-    list = models.ForeignKey(PostList, on_delete=models.CASCADE, null=True, blank=True, verbose_name=(_("Play list")))
+    list = models.ForeignKey(VidoeList, on_delete=models.CASCADE, related_name="videos", null=True, blank=True, verbose_name=(_("Play list")))
     description = models.TextField(verbose_name=_("Description"))
     tags = models.CharField(max_length=200, null=True, blank=True, verbose_name=_("Tags "))
     views = models.ManyToManyField('Location', through='VideoView')

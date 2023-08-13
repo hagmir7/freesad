@@ -83,6 +83,8 @@ urlpatterns = [
     path('upload/<str:slug>', quality_upload, name="upload_video"),
    
     path('video/<str:slug>', video, name="video"),
+    path('video/list/create', create_video_list, name="create_video_list"),
+    path('quality/delete/<int:id>', delete_quality, name="delete_quality"),
     path('video/comments/<str:slug>', video_comments, name="video_comments"),
     path('video/comment/delete/<int:id>', delete_video_comment, name="delete_video_comment")
 

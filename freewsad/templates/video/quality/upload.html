@@ -36,7 +36,7 @@
                 </div>
               </div>
               <div class="flex-start">
-                <a href="/quality/delete/{{ video.id }}" onclick="return confirm('{% trans "Are you sure you want to delete Video?" %}')" class="btn btn-danger btn-sm ">{% trans "Delete" %}</a>
+                <a href="{% url 'delete_quality' video.id %}" onclick="return confirm('{% trans "Are you sure you want to delete Video?" %}')" class="btn btn-danger btn-sm ">{% trans "Delete" %}</a>
               </div>
             </div>
               {% empty %}

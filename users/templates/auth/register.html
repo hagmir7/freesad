@@ -17,7 +17,7 @@
                 </ul>
                 {% endif %}
                 <div class="well mt-2">
-                    <form class="p-1" method="POST" enctype="multipart/form-data" role="form">
+                    <form class="p-1" action="{% url 'register' %}?next={{ request.GET.next }}" method="POST" enctype="multipart/form-data" role="form">
                         {% csrf_token %}
                         <div class="mb-3">
                             <small class="text-danger">{{ form.username.errors }}</small>
@@ -45,7 +45,7 @@
                             {{form.password2}}
                         </div>
                         <div class="text-center mb-3">
-                            <button class="btn btn-primary w-100 ">{% trans 'Sing in' %}</button>
+                            <button class="btn btn-primary w-100">{% trans 'Sing in' %}</button>
                             <a href="{% url 'login' %}" class="btn-ag ag-blue mt-3 w-100">{% trans 'I have account' %}</a>
                         </div>
                     </form>

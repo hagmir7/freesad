@@ -813,7 +813,7 @@ def update_quality(request, slug):
 
 @user_passes_test(superuser_required)
 def delete_quality(request, id):
-    video = get_object_or_404(Video, id=id)
+    video = get_object_or_404(Quality, id=id)
     video.delete()
     messages.success(request, _("Quality delete successfully"))
     return redirect(request.META.get('HTTP_REFERER'))
@@ -860,6 +860,20 @@ def delete_video_comment(request, id):
     else:
         raise Http404("Page not found")
 
+
+def create_video_list(request):
+    form = VideoListForm()
+    if request.method == 'POST':
+        form = VideoListForm(request.POST, request.FILES)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.user = request.user
+            obj.save()
+            return redirect('create_video')
+    context = {
+        'form' : form
+    }
+    return render(request, 'video/list/create.html', context)
 
 
 
