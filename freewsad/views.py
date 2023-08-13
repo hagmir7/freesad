@@ -723,7 +723,7 @@ def delete_video(request, id):
 
 
 def videos(request):
-    videos_list = Video.objects.all().order_by('-created_at')
+    videos_list = Video.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')
     paginator = Paginator(videos_list, 16)
     page_number = request.GET.get('page')
     videos = paginator.get_page(page_number)

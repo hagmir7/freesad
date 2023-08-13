@@ -34,79 +34,47 @@
                     <p dir="auto" class="text-left h6 text-muted">
                         {{video.created_at|date:'M d, Y '}} - {% trans "Views" %} {{ video.views.all.count }}
                     </p>
+
+                    <!-- Download -->
                     {% for video in qualities  %}
                         {% if user.is_authenticated %}
                             {% if video.url %}
-                                <a href="{{ video.url }}" class="btn btn-success btn-sm">{{ video.quality }}</a>
+                                <a href="{{ video.url }}" class="btn btn-success btn-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-download" viewBox="0 0 16 16">
+                                        <path d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z"/>
+                                        <path d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z"/>
+                                    </svg>
+                                    {{ video.quality }}
+                                </a>
                             {% else %}
-                                <a href="{{ video.file.url }}" class="btn btn-success btn-sm">{{ video.quality }}</a>
+                                <a href="{{ video.file.url }}" class="btn btn-success btn-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-download" viewBox="0 0 16 16">
+                                        <path d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z"/>
+                                        <path d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z"/>
+                                    </svg>
+                                    {{ video.quality }}
+                                </a>
                             {% endif %}
                         {% else %}
-                        <a href="/accounts/login?next={{ request.path }}" class="btn btn-success btn-sm">{{ video.quality }}</a>
+                        <a href="/accounts/login?next={{ request.path }}" class="btn btn-success btn-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cloud-download" viewBox="0 0 16 16">
+                                <path d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383z"/>
+                                <path d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708l3 3z"/>
+                            </svg>
+                            {{ video.quality }}
+                        </a>
                         {% endif %}
                     {% endfor %}
-                    <!-- Video Pulbisher -->
-                    {% comment %} <div class="my-2 d-flex justify-content-between mt-4">
-                        <a href="{% url 'profile' video.user.profile.slug %}" class="rounded-pill d-flex align-items-center">
-                            <img width="40px" class="rounded-pill border" style="object-fit: cover;" height="40px" width="40px" src="{{ video.user.profile.avatar.url }}" alt="{{ video.user.first_name }}">
-                            <div class="mx-3" style="line-height: 1;">
-                                <p class="m-0 fw-bold">{{ video.user.first_name }} {{ video.user.last_name }}</p>
-                                <small>{{ video.user.profile.follow.all.count }} {% trans "Followrs" %}</small>
-                            </div>
-                        </a>
-                        <button class="btn btn-success btn-sm rounded-pill px-3"> <i class="bi bi-patch-minus"></i> &#xa0;{% trans "Follow" %} </button>
-                    </div> {% endcomment %}
-
                     <!-- - H:i -->
-                    <div class="my-3 pre-wrap" dir="auto">{{video.description|safe}}</div>
+                    <div class="my-3 pre-wrap" dir="auto">{{video.description|urlize}}</div>
                 </article>
-
-                <!-- - Comment section -->
-                 <section class="comments threaded mt-3"  id="comments">
-                    <div class="title-wrap comments-title">
-                        <div class="comment-title w-100 h5" dir="autho">{% trans "Comments" %} ({{ video.video_comment.count }})</div>
-                    </div>
-                    <div class="comments-content" id="comment">
-                    </div>
-    
-                    {% comment %} <a href="javascript:;" id="show-comment-form">Post a Comment</a> {% endcomment %}
-            
-                </section> 
-                {% if user.is_superuser %}
-                <div class="py-3">
-                    <a href="/post/update/{{post.id}}" class="btn me-3 btn-outline-success btn-sm">Update</a>
-                    <a href="/post/delete/{{post.id}}" onclick="return confirm('Are you sur you want to delete Post')" class="btn btn-sm btn-outline-danger me-3">Delete</a>
-                    {% if post.is_public %}
-                    <a href="/post/status/{{ post.id }}" class="btn btn-sm btn-outline-info me-3">Un Publish</a>
-                    {% else %}
-                    <a href="/post/status/{{ post.id }}" class="btn btn-sm btn-outline-info me-3">Publish</a>
-                    {% endif %}
-                </div> 
-                {% endif %}
-
-                <div class="post-nav">
-                    {% if post.next %}
-                    <a class="post-nav-older-link" href="/p/{{post.next.slug}}">
-                        {% trans "Previous" %}
-                    </a>
-                    {% endif %}
-                    {% if post.pre %}
-                    <a class="post-nav-newer-link" href="/p/{{post.pre.slug}}">
-                        {% trans "Next" %}
-                    </a>
-                    {% endif %}
-                </div>
-                <!-- End Article -->
             </div>
             <div class="col-12 col-md-5 col-lg-4 col-xl-4 position-relative row" style="height: auto !important;">
+
             <div class="bg-card sticky overflow-auto mb-4">
-                <h2 class="h5"> {{video.list.name }}</h2>
-                {% if user.is_superuser %}
-                    <a href="/play-list/update/3b43f4ea583446ab84713b02548fa894" class="btn btn-success btn-sm my-2">تعديل</a>
-                    <a href="" class="btn btn-danger btn-sm my-2">حذف</a>
-                    <a href="/play-list/3b43f4ea583446ab84713b02548fa894" class="btn btn-info btn-sm my-2">مشاهدة</a>
-                {% endif %}
+                
                 {% if vidoe.list %}
+                <h2 class="h5"> {{video.list.name }}</h2>
                     <div class="row p-0 m-0 ">
                         {% for chapter in video.list.videos.all  %}
                             <div class="col-12 p-0">
@@ -126,13 +94,14 @@
                 {% endif %}
                 
             </div>
-            <div class="w-100 row d-flex justify-content-center">
-                <div class="col-11">
-                    {% include 'book/components/books-col.html' %}
+            <div class="container">
+                <div class="row d-flex justify-content-center p-0">
+                    <div class="col-10 col-md-11">
+                        {% include 'book/components/books-col.html' %}
+                    </div>
                 </div>
             </div>
         </div>
-        
     </div>
 </div>
 {% endblock %}

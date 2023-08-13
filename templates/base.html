@@ -211,7 +211,17 @@
       <div class="freebify-preview-mobile-menu" id="freebify-preview-mobile-menu">
         <ul id="main-mobile-nav" role="menubar">
           <li><a href="/" role="menuitem">{% trans "Home" %}</a></li>
-          <li><a href="/posts" role="menuitem">{% trans "Posts" %}</a></li>
+          <li><a href="/vidoes">{% trans "Videos" %}</a></li>
+          <li><a href="/books">{% trans "Books" %}</a></li>
+          <li><a href="/posts">{% trans "Articles" %}</a></li>
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'profile' user.profile.slug %}">{% trans "Profile" %}</a></li>
+            <li><a href="{% url 'logout'%}">{% trans "Logout" %}</a></li>
+          {% else %}
+          <li><a href="/accounts/login">{% trans "Login" %}</a></li>
+            <li><a href="{% url 'register'%}">{% trans "Register" %}</a></li>
+          {% endif %}
+          
           <li><a href="/page/about-us-4gtsf" role="menuitem">{% trans "About Us" %}</a></li>
           <li><a href="/contact" role="menuitem">{% trans "Contact Page" %}</a></li>
           <li><a href="/page/privacy-policy-xgxps" role="menuitem">{% trans "Privacy Policy" %}</a></li>

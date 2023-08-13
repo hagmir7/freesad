@@ -547,7 +547,7 @@ msgstr "التصنيفات"
 
 #: .\templates\components\header.html:39
 msgid "Videos"
-msgstr "فيديو"
+msgstr "فيديوهات"
 
 #: .\templates\components\header.html:40
 msgid "Books"
@@ -598,6 +598,9 @@ msgstr "تابعنا"
 #: .\templates\components\posts.html:25
 msgid "No Post Articles"
 msgstr "لا يوجد مقالات"
+
+msgid "Articles"
+msgstr "مقالات"
 
 #: .\templates\components\videos.html:25
 msgid "No Post Videos"
@@ -1020,16 +1023,16 @@ msgstr ""
 msgid "Contact information"
 msgstr "معلومات الاتصال"
 
-#~ msgid ""
-#~ "You can enjoy Books and Bopics, Courses you love and download the "
-#~ "original content, and share it all with your friends, and the whole world "
-#~ "on freedaz."
-#~ msgstr ""
-#~ "يمكنك الاستمتاع بالكتب والمقالات والدورات التي تحبها وتنزيل المحتوى "
-#~ "الأصلي، ومشاركته مع أصدقائك والعالم كله على فري ساد."
 
-#~ msgid "Freedaz - The best website for Education."
-#~ msgstr "فري ساد - أفضل موقع للتعليم."
+msgid "Popular articles"
+msgstr "أبرز المقالات"
+
+msgid "Popular Videos and courses"
+msgstr "أبرز الفديوهات والدورات"
+
+msgid "Popular books"
+msgstr "أبرز الكتب"
+
 
 #~ msgid "Freedaz - The best website for Education"
 #~ msgstr "فري ساد - أفضل موقع للتعليم"
