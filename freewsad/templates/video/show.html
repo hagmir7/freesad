@@ -20,7 +20,7 @@
                             <video controls crossorigin playsinline poster="{{ video.image.url }}" style="--plyr-color-main: #6c6cfe;" id="player" class="border w-100">
                                 <!-- movie files -->
                                 {% for video in qualities  %}
-                                    {% if vidoe.url %}
+                                    {% if video.url %}
                                         <source src="{{ video.url }}"  type="video/mp4" size="{{ video.height }}">
                                     {% else %}
                                         <source src="{{ video.file.url }}"  type="video/mp4" size="{{ video.height }}">
