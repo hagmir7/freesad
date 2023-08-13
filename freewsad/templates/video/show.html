@@ -2,7 +2,7 @@
 
 
 {% block head %}
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css">
+    <link rel="stylesheet" href="{% static 'plyr/style.css' %}">
     <script>
         window.console = window.console || function (t) { };
     </script>
@@ -17,7 +17,7 @@
                 <article class="blog-post" style="height: auto !important;">
                     <div class="d-flex justify-content-center mb-3">
                         <div class="card overflow-hidden w-100">
-                            <video controls crossorigin playsinline poster="{{ video.image.url }}" id="player" class="border w-100">
+                            <video controls crossorigin playsinline poster="{{ video.image.url }}" style="--plyr-color-main: #6c6cfe;" id="player" class="border w-100">
                                 <!-- movie files -->
                                 {% for video in qualities  %}
                                     <source src="{{ video.file.url }}"  type="video/mp4" size="{{ video.height }}">
@@ -131,7 +131,7 @@
 {% endblock script %}
 
 {% block footer %}
-    <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+    <script src="{% static 'plyr/script.js' %}"></script>
     <script src="{% static 'js/plyr.js' %}"></script>
 {% endblock footer %}
 
