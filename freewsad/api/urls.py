@@ -23,7 +23,7 @@ urlpatterns = [
     path('all/posts/play-lists', allPostList ),
     path('play-list/posts/<int:id>', playListPosts), # list of posts that contain the current play list
     path('books/category/<str:slug>', bookByCategory, name="book_by_category"),
-    path('book/category/<int:id>', bookCategory, name="book_category"),
+    path('book/category', bookCategory, name="book_category"),
     path('book/list/crud/<int:id>', bookListCrud),
     path('book/list/', bookPlayList),
     path('books/trending', trending_books),

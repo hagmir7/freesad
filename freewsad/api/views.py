@@ -535,8 +535,8 @@ def bookByCategory(request, slug):
 # Book Category
 @api_view(['GET', ])
 @permission_classes((permissions.AllowAny,))
-def bookCategory(request, id):
-    language = BookCategory.objects.filter(language=id)
+def bookCategory(request):
+    language = BookCategory.objects.filter(language__code=request.LANGUAGE_CODE)
     serializer = BookCategorySerializer(language, many=True)
     return Response(serializer.data)
 

@@ -21,19 +21,11 @@
             {% empty %}
             <div class="py-5 text-center">{% trans "No Books" %}</div>
             {% endfor %}
-            <div aria-label="Page navigation example" class="mt-3">
-                <ul class="pagination d-flex justify-content-center">
-                    <li class="page-item ">
-                        {% if books.has_previous %}
-                        <a href="?page={{ books.previous_page_number }}" class="border rounded-pill py-1 px-5 h5 mx-3">&#x2190;</a>
-                        {% endif %}
-                    </li>
-                    <li class="page-item my-3"> 
-                        {% if books.has_next %}
-                        <a href="?page={{ books.next_page_number }}" class="border rounded-pill py-1 px-5 h5 mx-3">&#x2192;</a>
-                        {% endif %}
-                    </li>
-                </ul>
+            <div class="blog-pager container" id="blog-pager">
+                {% if books.has_next %}
+                    <a class="blog-pager-older-link load-more"  href="?page={{ books.next_page_number }}"> {% trans "Load More" %} </a>
+                {% endif %}
+               
             </div>
       </div>
 </main>
