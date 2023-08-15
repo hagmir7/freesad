@@ -528,7 +528,12 @@ def trending_books(request):
 @api_view(['GET', ])
 @permission_classes((permissions.AllowAny,))
 def bookByCategory(request, slug):
-    books = Book.objects.filter(category__slug=slug)
+    books = Book.objects.annotate(
+        views_count=Count('bookview'),
+    ).filter(
+        language__code=request.LANGUAGE_CODE,
+        category__slug=slug
+    ).order_by('-views_count')
     serializer = BooksSerializer(books, many=True)
     return Response({'data': serializer.data})
 
