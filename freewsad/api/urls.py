@@ -25,6 +25,8 @@ urlpatterns = [
     path('book/category/<int:id>', bookCategory, name="book_category"),
     path('book/list/crud/<int:id>', bookListCrud),
     path('book/list/', bookPlayList),
+    path('books/trending', trending_books),
+    path('books/new', new_books),
     path('language/crud/<int:id>', languageCrud),
     path('language/list', language),
     path('search', search),

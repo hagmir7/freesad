@@ -1,4 +1,7 @@
 
+from django_user_agents.utils import get_user_agent
+from datetime import timedelta
+from django.db.models import Count
 from django.core.paginator import Paginator
 from rest_framework import status
 from django.views.generic import View
@@ -481,11 +484,40 @@ def bookListCategory(request, category):
 
 #----------------------------- Books -----------
 
-
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny, ))
 def booklist(request):
-    book_list = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-views')
+    book_list = Book.objects.annotate(views_count=Count('views')).filter(language__code=request.LANGUAGE_CODE).order_by('-views_count')
+    paginator = Paginator(book_list, 24)
+    page_number = request.GET.get('page')
+    books = paginator.get_page(page_number)
+    serializer = BooksSerializer(books, many=True)
+    return Response({'data': serializer.data, 'has_next': books.has_next()})
+
+
+@api_view(['GET'])
+@permission_classes((permissions.AllowAny, ))
+def new_books(request):
+    book_list = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')
+    paginator = Paginator(book_list, 24)
+    page_number = request.GET.get('page')
+    books = paginator.get_page(page_number)
+    serializer = BooksSerializer(books, many=True)
+    return Response({'data': serializer.data, 'has_next': books.has_next()})
+
+
+from django.utils import timezone
+
+@api_view(['GET'])
+@permission_classes((permissions.AllowAny, ))
+def trending_books(request):
+    seven_days_ago = timezone.now() - timedelta(days=7)
+    book_list = Book.objects.annotate(
+        views_count=Count('bookview'),
+    ).filter(
+        language__code=request.LANGUAGE_CODE,
+        bookview__created_at__gte=seven_days_ago
+    ).order_by('-views_count')
     paginator = Paginator(book_list, 24)
     page_number = request.GET.get('page')
     books = paginator.get_page(page_number)
@@ -531,7 +563,26 @@ class BookView(APIView):
 
     def get(self, request, slug):
         book = get_object_or_404(Book, slug=slug)
-        book.addView()
+
+        
+        agent = get_user_agent(request)
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+
+        if not Location.objects.filter(ip=ip).exists():
+            location = Location.objects.create(
+                ip=ip,
+                os=agent.os[0],
+                browser=agent.browser[0],
+            )
+        else:
+            location = Location.objects.get(ip=ip)
+        if not location in book.views.all():
+            book.views.add(location)
+            book.save()
         serializer = BookSerializer(book)
         return Response(serializer.data)
 

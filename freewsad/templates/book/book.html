@@ -46,6 +46,10 @@
                 <td>{{book.size}}</td>
               </tr>
             {% endif %}
+              <tr>
+                <th scope="row">{% trans 'Downloads' %}</th>
+                <td>{{ book.bookview_set.all.count }}</td>
+              </tr>
           </tbody>
         </table>
         <h2 class="h5">{% trans 'Download Book' %}</h2>
@@ -76,13 +80,43 @@
         <a class="btn btn-outline-success btn-sm m-2" href="{% url 'update_book' book.id %}">{% trans "Update" %}</a>
       </nav>
       {% endif %}
+    <div class="row">
+      {% for book in books %}
+      <div class="book-card col-6 col-sm-6 col-md-5 col-lg-4 col-xl-3 mt-2 px-2">
+          <div class="card card-book shadow-sm overflow-hidden h-100 m-0">
+              <a href="/book/{{book.slug}}" class="h-100">
+                  <img class="book-image fill" height="100%" src="{{book.image.url}}" alt="{{book.name}}" width="100%">
+              </a>
+          </div>
+      </div>
+      {% empty %}
+      <div class="py-5 text-center">{% trans "No Books" %}</div>
+      {% endfor %}
+  </div>
+    <div class="blog-pager container" id="blog-pager">
+      <a class="blog-pager-older-link load-more"  href="/books?page=2"> {% trans "Load More" %} </a>
+    </div>
     </div>
     <div class="col-md-4 position-relative d-flex justify-content-center">
-        <div class="col-11">
+        <div class="col-12 col-md-11">
             {% include 'book/components/books-col.html' %}
         </div>
     </div>
   </div>
 </div>
 
+
+
+
+
 {% endblock %}
+
+
+    {% comment %} {% for view in book.views.all %}
+    {{ view.created_at }}
+        new
+    {% endfor %}
+    {% for intermediary_model in book.bookview_set.all %}
+        {{ intermediary_model.created_at }}
+        new item
+    {% endfor %}  {% endcomment %}

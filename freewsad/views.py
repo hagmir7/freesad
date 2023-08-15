@@ -23,7 +23,8 @@ from bs4 import BeautifulSoup
 from django.core.exceptions import PermissionDenied
 from django.utils.translation import gettext as _
 from django.utils import translation
-
+from django.utils import timezone
+from datetime import timedelta
 
 
 def superuser_required(user):
@@ -91,7 +92,7 @@ def index(request):
         'videos': videos,
         'query' : query if query else '',
         'books' : books,
-        'title':  'Freesad - Articles' if 'posts' in request.path else None
+        'title':  _('Freesad - Articles') if 'posts' in request.path else None
     }
     return render(request, 'index.html', context)
 
@@ -318,8 +319,12 @@ def deletePostCategory(request, id):
 
 # ------------------------ Book Views ----------------------
 
+
+
+
+
 def books(request):
-    list = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')
+    list = Book.objects.annotate(views_count=Count('views')).filter(language__code=request.LANGUAGE_CODE).order_by('-views_count')
     paginator = Paginator(list, 30) 
     page_number = request.GET.get('page')
     books = paginator.get_page(page_number)
@@ -327,18 +332,76 @@ def books(request):
     context = {'books': books, 'count': count, 'title': "Books - Freesad"}
     return render(request, 'book/list.html', context)
 
+
+def new_books(request):
+    list = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')
+    paginator = Paginator(list, 30)
+    page_number = request.GET.get('page')
+    books = paginator.get_page(page_number)
+    count = Book.objects.all().count()
+    context = {'books': books, 'count': count, 'title': "Books - Freesad"}
+    return render(request, 'book/list.html', context)
+
+
+def trending_books(request):
+    seven_days_ago = timezone.now() - timedelta(days=7)
+    list = Book.objects.annotate(
+        views_count=Count('bookview'),
+    ).filter(
+        language__code=request.LANGUAGE_CODE,
+        bookview__created_at__gte=seven_days_ago
+    ).order_by('-views_count')
+    paginator = Paginator(list, 30)
+    page_number = request.GET.get('page')
+    books = paginator.get_page(page_number)
+    count = Book.objects.all().count()
+    context = {'books': books, 'count': count, 'title': "Books - Freesad"}
+    return render(request, 'book/list.html', context)
+
 def bookDetail(request, slug):
+    seven_days_ago = timezone.now() - timedelta(days=7)
     book = get_object_or_404(Book , slug=slug)
+    books = Book.objects.annotate(
+        views_count=Count('bookview'),
+    ).filter(
+        language__code=request.LANGUAGE_CODE,
+        bookview__created_at__gte=seven_days_ago
+    ).order_by('-views_count')[0:18]
+
+
+    agent = get_user_agent(request)
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+
+    if not Location.objects.filter(ip=ip).exists():
+        location = Location.objects.create(
+            ip=ip,
+            os=agent.os[0],
+            browser=agent.browser[0],
+        )
+    else:
+        location = Location.objects.get(ip=ip)
+    if not location in book.views.all():
+        book.views.add(location)
+        book.save()
+
+
+
     videos = Video.objects.all()[0:14]
-    book.addView()
+
     context = {
         'title' : book.name,
         'description' : book.description,
         'image': book.image,
         'book': book,
         'tags': book.tags,
-        'videos': videos
+        'videos': videos,
+        'books': books
     }
+
     return render(request, 'book/book.html', context)
 
 

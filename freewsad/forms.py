@@ -68,7 +68,7 @@ class VideoForm(forms.ModelForm):
 
 class VideoListForm(forms.ModelForm):
     class Meta:
-        model = VidoeList
+        model = VideoList
         fields = ['name', 'image', 'tags', 'language','category', 'description', ]
 
 class QualityForm(forms.ModelForm):

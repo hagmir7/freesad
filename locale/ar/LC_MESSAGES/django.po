@@ -553,6 +553,18 @@ msgstr "فيديوهات"
 msgid "Books"
 msgstr "كتب"
 
+msgid "Downloads"
+msgstr "تحميلات"
+
+
+msgid "Freesad - Articles"
+msgstr "فرساد - مقالات"
+
+
+msgid "Download the most popular and latest books"
+msgstr "تحميل أبرز واحدث الكتب"
+
+
 #: .\templates\components\header.html:44 .\templates\components\header.html:64
 msgid "Menu"
 msgstr "القائمة"

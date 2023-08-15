@@ -72,7 +72,7 @@ class BookTypeImportExport(ImportExportModelAdmin):
     pass
 
 
-# Vidoe
+# Video
 @admin.register(Video)
 class VideoImportExport(ImportExportModelAdmin):
     pass

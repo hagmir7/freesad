@@ -48,6 +48,8 @@ urlpatterns = [
     path('book/list', bookList, name='books_list'),
     path('book/<str:slug>', bookDetail, name="book_detail"),
     path('books', books, name='books'),
+    path('books/trending', trending_books, name='trending_books'),
+    path('books/new', new_books, name='new_books'),
     path('book/update/<int:id>', updateBook , name='update_book'),
 
     path('book/create/category', createBookCategory, name='create_book_category'),

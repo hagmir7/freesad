@@ -271,7 +271,7 @@ class Book(models.Model):
     save_book = models.ManyToManyField(User, related_name='book_save')
     likes = models.ManyToManyField(User, related_name='book_like')
     tags = models.CharField(max_length=500, null=True, blank=True)
-    views = models.IntegerField(default=0, null=True, blank=True)
+    views = models.ManyToManyField('Location', through='BookView')
     file = models.FileField(upload_to=filename, blank=True, verbose_name='File')
     is_public = models.BooleanField(default=True)
     status = models.BooleanField(default=None, null=True, blank=True)
@@ -333,7 +333,12 @@ class Book(models.Model):
 
     def pre(self):
         return self.get_previous_by_created_at()
-    
+
+
+class BookView(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    view = models.ForeignKey(Location, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
 class CommentBook(models.Model):
@@ -391,7 +396,7 @@ class Page(models.Model):
         super(Page, self).save(*args, **kwargs)
 
 
-class VidoeList(models.Model):
+class VideoList(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='video_lists')
     name = models.CharField(max_length=300, verbose_name='Name ')
     language = models.ForeignKey(Language, on_delete=models.CASCADE, null=True, blank=True)
@@ -414,13 +419,13 @@ class VidoeList(models.Model):
             self.slug = slugify(get_random_string(length=40).upper())
         else:
             self.slug = slugify(str(self.name) + "-" + str(random))
-        super(VidoeList, self).save(*args, **kwargs)
+        super(VideoList, self).save(*args, **kwargs)
     
 class Video(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255, verbose_name=_("Title"))
     image = models.ImageField(upload_to=filename, null=True, blank=True, verbose_name=_("Image"))
-    list = models.ForeignKey(VidoeList, on_delete=models.CASCADE, related_name="videos", null=True, blank=True, verbose_name=(_("Play list")))
+    list = models.ForeignKey(VideoList, on_delete=models.CASCADE, related_name="videos", null=True, blank=True, verbose_name=(_("Play list")))
     description = models.TextField(verbose_name=_("Description"))
     tags = models.CharField(max_length=200, null=True, blank=True, verbose_name=_("Tags "))
     views = models.ManyToManyField('Location', through='VideoView')
@@ -445,7 +450,7 @@ class Video(models.Model):
     
 
 class VideoView(models.Model):
-    vidoe = models.ForeignKey(Video, on_delete=models.CASCADE)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE)
     view = models.ForeignKey(Location, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 

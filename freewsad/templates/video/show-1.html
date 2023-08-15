@@ -200,7 +200,7 @@
     };
 
 
-    const deleteVidoe = (id) => {
+    const deleteVideo = (id) => {
         if (confirm('{% trans "Are you sur you wnat to delete the comment?" %}')) {
             fetch(`/video/comment/delete/${id}`)
             .then((result) => result.json())
@@ -254,7 +254,7 @@
                                             {
                                             item.user.id == "{{ user.id }}" ? <span className="blog-admin blog-admin">
                                                 <a 
-                                                    onClick={()=> deleteVidoe(item.id)}
+                                                    onClick={()=> deleteVideo(item.id)}
                                                     href="#!">{% trans "Delete" %}</a> 
                                             </span> : ''
                                             }
