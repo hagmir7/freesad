@@ -16,9 +16,9 @@ router = routers.DefaultRouter()
 sitemaps = {
     'static': StaticViewSitemap,
     'posts': PostsSitemap,
-    # 'books': BookSitemap,
-    # 'profile':ProfileSitemap,
-    # 'templates':TemplateSitemap,
+    'books': BookSitemap,
+    'profile':ProfileSitemap,
+    'vidoes':VideoSitemap,
 }
 
 

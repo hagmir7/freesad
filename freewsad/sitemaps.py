@@ -1,6 +1,6 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
-from .models import Book, Language, Post
+from .models import Book, Language, Post, Video
 from users.models import Profile
 import math
 from django.conf import settings
@@ -49,13 +49,18 @@ class PostsSitemap(Sitemap):
 
 
 
-# class BookSitemap(Sitemap):
-#     def items(self):
-#         return Book.objects.all()
+class BookSitemap(Sitemap):
+    def items(self):
+        return Book.objects.all()
 
     
-# class ProfileSitemap(Sitemap):
-#     def items(self):
-#         return Profile.objects.all()
+class ProfileSitemap(Sitemap):
+    def items(self):
+        return Profile.objects.all()
+
+
+class VideoSitemap(Sitemap):
+    def items(self):
+        return Video.objects.all()
     
  

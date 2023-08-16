@@ -287,7 +287,7 @@ class Book(models.Model):
     #     self.save()
 
     def get_absolute_url(self, *args, **kwargs):
-        return f'/{self.language.code}/book/{self.id}'
+        return f'/{self.language.code}/book/{self.slug}'
 
     class Meta:
         ordering = ['-created_at']
@@ -445,6 +445,12 @@ class Video(models.Model):
         if not self.slug:
             self.slug = uuid.uuid4().hex
         return super(Video, self).save(*args, **kwargs)  
+    
+    def get_absolute_url(self, *args, **kwargs):
+        if self.language:
+            return f'/{self.language.code}/video/{self.slug}'
+        else:
+            return f'/video/{self.slug}'
     
 
     
