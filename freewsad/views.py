@@ -329,7 +329,7 @@ def books(request):
     page_number = request.GET.get('page')
     books = paginator.get_page(page_number)
     count = Book.objects.all().count()
-    context = {'books': books, 'count': count, 'title': "Books - Freesad"}
+    context = {'books': books, 'count': count, 'title': "Download free books PDF - Freesad"}
     return render(request, 'book/list.html', context)
 
 
@@ -339,7 +339,7 @@ def new_books(request):
     page_number = request.GET.get('page')
     books = paginator.get_page(page_number)
     count = Book.objects.all().count()
-    context = {'books': books, 'count': count, 'title': "Books - Freesad"}
+    context = {'books': books, 'count': count, 'title': "Download free and new books PDF - Freesad"}
     return render(request, 'book/list.html', context)
 
 
@@ -355,7 +355,7 @@ def trending_books(request):
     page_number = request.GET.get('page')
     books = paginator.get_page(page_number)
     count = Book.objects.all().count()
-    context = {'books': books, 'count': count, 'title': "Books - Freesad"}
+    context = {'books': books, 'count': count, 'title': "Download free and popular books PDF - Freesad"}
     return render(request, 'book/list.html', context)
 
 def bookDetail(request, slug):

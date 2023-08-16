@@ -565,6 +565,16 @@ msgid "Download the most popular and latest books"
 msgstr "تحميل أبرز واحدث الكتب"
 
 
+msgid "Download free books PDF - Freesad"
+msgstr "تحميل كتب PDF مجانا - فريساد"
+
+
+msgid "Download free and new books PDF - Freesad"
+msgstr "تحميل أحدث الكتب مجانا PDF - فريساد"
+
+msgid "Download free and popular books PDF - Freesad"
+msgstr "تحميل أشهر الكتب مجانا PDF - فريساد"
+
 #: .\templates\components\header.html:44 .\templates\components\header.html:64
 msgid "Menu"
 msgstr "القائمة"
@@ -578,8 +588,7 @@ msgid "Logout"
 msgstr "تسجيل الخروج"
 
 #: .\templates\components\header.html:52
-#, fuzzy
-#| msgid "Join Date"
+
 msgid "Join us"
 msgstr "الإنضمام"
 
