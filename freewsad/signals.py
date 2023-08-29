@@ -87,6 +87,7 @@ def update_page_count(sender, instance, **kwargs):
         if instance.book_type == 'PDF':
             doc = fitz.open(instance.file.path)
             instance.pages = doc.page_count
+            instance.size = format_duration(get_video_file_size(instance.file.path))
             doc.close()
 
         elif instance.book_type == 'EPUB':

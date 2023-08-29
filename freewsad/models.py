@@ -255,6 +255,7 @@ class Type(models.Model):
 
 class Book(models.Model):
     name = models.CharField(max_length=80, verbose_name='BOOK ')
+    title = models.CharField(max_length=150, null=True, blank=True)
     list = models.ForeignKey(BookList, models.CASCADE, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="books")
     author = models.CharField(max_length=50, verbose_name='Author name', null=True, blank=True)
@@ -266,7 +267,7 @@ class Book(models.Model):
     size = models.CharField(verbose_name="Size", null=True, blank=True, max_length=100)
     book_type = models.CharField(max_length=30, verbose_name='Book Type ', null=True, blank=True)
     image = models.ImageField(upload_to=filename, verbose_name='Image ')
-    description = models.TextField(null=True, blank=True, verbose_name='Description ' , max_length=300)
+    description = models.TextField(null=True, blank=True, verbose_name='Description ')
     body = models.TextField(verbose_name='Body', null=True, blank=True)
     save_book = models.ManyToManyField(User, related_name='book_save')
     likes = models.ManyToManyField(User, related_name='book_like')
@@ -301,14 +302,6 @@ class Book(models.Model):
         self.views = self.views + 1
         super(Book, self).save(*args, **kwargs)
 
-    
-
-
-    def getSize(self, *args, **kwargs):
-        if round(self.file.size * 1e-6, 3) >= 1:
-            return str(round(self.file.size * 1e-6, 2)) + ' MB'
-        else:
-            return str(round(self.file.size * 0.001, 2)) + ' KB'
 
             
     def save(self, *args, **kwargs):
@@ -320,7 +313,7 @@ class Book(models.Model):
             self.slug = slugify(self.name[0:20] +"-"+ str(random))
         elif not self.slug:
             self.slug = slugify(self.name[0:20] +"-"+ str(random))
-        self.size = self.getSize()
+       
 
         if self.file:
             self.book_type = self.file.url.split('.')[-1].upper()

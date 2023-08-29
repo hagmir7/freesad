@@ -5,6 +5,7 @@ from . sites.dev import dev
 from . sites.geeksforgeeks import geeksforgeeks
 from . sites.cloud import cloud
 from . sites.codingnepalweb import codingnepalweb
+from . sites.book import books as book_scraping
 
 
 urlpatterns = [
@@ -67,6 +68,7 @@ urlpatterns = [
     path('geeksforgeeks', geeksforgeeks),
     path('cloud', cloud),
     path('codingnepalweb', codingnepalweb),
+    path('book-scraping', book_scraping),
 
 
     # emport Export 

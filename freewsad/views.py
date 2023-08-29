@@ -500,6 +500,8 @@ def bookCategoryList(request):
     else:
         return redirect('home')
 
+
+@login_required
 def createBookCategory(request):
     if request.user.is_superuser:
         form = FormBookCategory()
@@ -509,6 +511,8 @@ def createBookCategory(request):
                 form.save()
                 messages.success(request, _('Category created successfully...'))
                 return redirect('category_book_list')
+            else:
+                print("not valid")
         context = {
             'form': form,
             'title': 'Create category'
@@ -530,7 +534,7 @@ def updateBookCategory(request, id):
             'form': form,
             'title': 'Update category'
         }
-        return render(request, 'book/category/update.html', context)
+        return render(request, 'book/category/create.html', context)
 
 
 def deleteBookCategory(request, id):
