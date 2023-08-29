@@ -1,26 +1,28 @@
 {% extends "dash.html" %}
 
 {% block content %}
+
+
 <main class="main" id="main">
     <div class="container">
         <div class="row">
             <div class="d-flex justify-content-center card shadow-sm p-0">
                 <div class="p-2 px-3 d-flex justify-content-between">
                     <span>Books (<strong>{{count}}</strong>)</span>
-                    <span><a href="/book/create">+ New Book</a></span>
-                    <span><a href="/book/create/category">+ New Category</a></span>
+                    <span><a href="/book/create" class="btn btn-sm btn-success">+ Create book</a></span>
+                    <span><a href="/book/create/category" class="btn btn-sm btn-success">+ Create category</a></span>
                     <form method="GET">
-                        <input type="search" value="{{ query }}" placeholder="Title, Id, Description..." name="query" class="form-control form-control-sm">
+                        <input type="search" value="{{ query }}" placeholder="Title, id, description..." name="query" class="form-control form-control-sm">
                     </form>
                 </div>
-                <table class="table p-3 mt-2">
+                <table class="table p-3 mt-2 datatable datatable-table">
                     {% if books %}
                     <thead>
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
-                            <th scope="col">Views</th>
                             <th scope="col">Category</th>
+                            <th scope="col">Views</th>
                             <th scope="col">Created</th>
                             <th scope="col">Actions</th>
                         </tr>
@@ -34,11 +36,13 @@
                                 <a href="/book/{{ book.slug }}">{{book.name|truncatechars:40}}</a>
                             </td>
                             <td>{{book.category.name}}</td>
-                            <td>{{book.views}}</td>
-                            <td>{{book.date|date:"D d M Y"}}</td>
+                            <td>{{book.views.all.count }}</td>
+                            <td>{{book.created_at|date:"D d M Y"}}</td>
                             <td>
-                                <a class="btn btn-sm btn-success" href="/book/update/{{book.id}}">Update</a>
-                                <a class="btn btn-sm btn-danger" href="/book/delete/{{book.id}}" onclick="return confirm('Are you sur you wnat to delete book')">Delete</a>
+
+                                <a class="btn btn-sm btn-success" href="/book/update/{{book.id}}"><i class="ri-edit-fill"></i></a>
+                                <a class="btn btn-sm btn-danger" href="/book/delete/{{book.id}}" onclick="return confirm('Are you sur you wnat to delete book')"><i class="ri-delete-bin-5-fill"></i></a>
+                                <a class="btn btn-sm btn-primary" href="{% url 'book_rapport' book.slug %}"><i class="ri-bar-chart-2-fill"></i></a>
                             </td>
                         </tr>
                         {% empty %}

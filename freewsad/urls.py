@@ -30,6 +30,9 @@ urlpatterns = [
     path('page/delete/<int:id>', deletePage, name='delete_page'),
     path('page/update/<int:id>', updatePage, name='update_page'),
 
+
+    path('book/rapport/<str:slug>', book_rapport, name="book_rapport"),
+
     # Search post
     path('search', search, name='search'),
     path('contact', contact, name='contact'),
@@ -61,6 +64,9 @@ urlpatterns = [
     path('clear/history', clearHistory),
     path('clear/token', clearTokns),
     # path('lang', languagUpdate),
+
+
+    
 
 
     # Scraping

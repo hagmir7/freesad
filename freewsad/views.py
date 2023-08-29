@@ -1,3 +1,5 @@
+from .models import BookView
+from django.db.models.functions import TruncDate
 from django.http import Http404
 from django.forms.models import model_to_dict
 from django.http import JsonResponse
@@ -458,7 +460,7 @@ def createBook(request):
 @login_required
 def updateBook(request, id):
     book = get_object_or_404(Book, id=id)
-    if request.user.is_superuser and request.user == book.user:
+    if request.user.is_superuser or request.user == book.user:
         form = BookForm(instance=book)
         if request.method == "POST":
             form = BookForm(request.POST, instance=book, files=request.FILES)
@@ -938,7 +940,35 @@ def create_video_list(request):
     return render(request, 'video/list/create.html', context)
 
 
-
-
-
-
+def book_rapport(request, slug):
+    try:
+        book = Book.objects.get(slug=slug)
+    except Book.DoesNotExist:
+        return JsonResponse({'error': 'Book not found'}, status=404)
+    
+    today = timezone.now().date()
+    seven_days_ago = today - timedelta(days=6)  # Last seven days including today
+    
+    dates = [seven_days_ago + timedelta(days=i) for i in range(7)]
+    
+    book_views = BookView.objects.filter(
+        book=book,
+        created_at__date__range=(seven_days_ago, today)
+    ).annotate(date=TruncDate('created_at')).values('date').annotate(views_count=Count('id')).order_by('date')
+    
+    date_to_views = {entry['date']: entry['views_count'] for entry in book_views}
+    
+    report_data = [
+        {
+            'date': date.strftime('%Y-%m-%d'),
+            'views_count': date_to_views.get(date, 0),
+        }
+        for date in dates
+    ]
+    
+    book_report = {
+        'book_name': book.name,  # Replace with the actual attribute representing the book's name
+        'book_report': report_data,
+    }
+    
+    return JsonResponse(book_report)
