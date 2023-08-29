@@ -14,7 +14,7 @@ class BookForm(forms.ModelForm):
     file = forms.FileField()
     class Meta:
         model = Book
-        fields = ('name','title', 'author', 'tags', 'language', 'category', 'file', 'image', 'description')
+        fields = ('name','title', 'author', 'tags', 'language', 'category', 'type', 'file', 'image', 'description')
 
 
 

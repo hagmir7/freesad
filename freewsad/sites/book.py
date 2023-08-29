@@ -139,30 +139,30 @@ def getItem(url, image, name):
         new_category = BookCategory.objects.get(name=category)
 
 
-
     if lang == 'العربية':
         language = Language.objects.get(code='ar')
     else:
         language = Language.objects.get(code='en')
 
 
-
-    book = Book.objects.create(
-        user= User.objects.get(id=1),
-        name=str(name),
-        title=str(title),
-        description=str(body),
-        tags = f"{name}, {title}",
-        category = new_category,
-        language = language
-        
-        
-    )
-    download_file(image, book.id, 'book')
-    download_book(download, book.id)
+    if not Book.objects.filter(name=str(name)).exists():
+        book = Book.objects.create(
+            user= User.objects.get(id=1),
+            name=str(name),
+            title=str(title),
+            description=str(body),
+            tags = f"{name}, {title}",
+            category = new_category,
+            language = language,
+            author=str(author)
+            
+            
+        )
+        download_file(image, book.id, 'book')
+        download_book(download, book.id)
 
 def books(request):
-    for page in range(5, 0, -1):
+    for page in range(10, 0, -1):
         url = f"https://foulabook.com/ar/books?page={page}/"
         html = requests.get(url)
         soup = BeautifulSoup(html.content, "html.parser")
