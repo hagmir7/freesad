@@ -362,7 +362,7 @@ def trending_books(request):
 
 def bookDetail(request, slug):
     book = get_object_or_404(Book , slug=slug)
-    books = Book.objects.filter(category=book.category).order_by('views')[0:18]
+    books = Book.objects.filter(category=book.category).order_by('?')[0:12]
 
 
     agent = get_user_agent(request)
