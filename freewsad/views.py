@@ -345,19 +345,38 @@ def new_books(request):
     return render(request, 'book/list.html', context)
 
 
+# def trending_books(request):
+#     seven_days_ago = timezone.now() - timedelta(days=7)
+#     list = Book.objects.annotate(
+#         views_count=Count('bookview'),
+#     ).filter(
+#         language__code=request.LANGUAGE_CODE,
+#         bookview__created_at__gte=seven_days_ago
+#     ).order_by('-views_count')
+#     paginator = Paginator(list, 30)
+#     page_number = request.GET.get('page')
+#     books = paginator.get_page(page_number)
+#     count = Book.objects.all().count()
+#     context = {'books': books, 'count': count, 'title': _("Download free and popular books PDF - Freesad")}
+#     return render(request, 'book/list.html', context)
+
+
 def trending_books(request):
     seven_days_ago = timezone.now() - timedelta(days=7)
-    list = Book.objects.annotate(
-        views_count=Count('bookview'),
-    ).filter(
+
+    books = Book.objects.filter(
         language__code=request.LANGUAGE_CODE,
         bookview__created_at__gte=seven_days_ago
-    ).order_by('-views_count')
-    paginator = Paginator(list, 30)
+    ).annotate(views_count=Count('bookview')).order_by('-views_count')
+
+    paginator = Paginator(books, 30)
     page_number = request.GET.get('page')
-    books = paginator.get_page(page_number)
-    count = Book.objects.all().count()
-    context = {'books': books, 'count': count, 'title': _("Download free and popular books PDF - Freesad")}
+    books_page = paginator.get_page(page_number)
+
+    context = {
+        'books': books_page,
+        'title': _("Download free and popular books PDF - Freesad")
+    }
     return render(request, 'book/list.html', context)
 
 def bookDetail(request, slug):
