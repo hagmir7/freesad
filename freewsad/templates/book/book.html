@@ -83,7 +83,7 @@
         </a>
         {% endif %}
     </div>
-      {% if user == book.user %}
+      {% if user == book.user or user.is_superuser %}
       <nav class="blog-pagination mt-3" aria-label="Pagination">
         <a class="btn btn-outline-danger btn-sm m-2" href="book/delete/{{book.id}}" onclick="return confirm('Are you sur you wante to delete Book')">{% trans "Delete" %}</a>
         <a class="btn btn-outline-success btn-sm m-2" href="{% url 'update_book' book.id %}">{% trans "Update" %}</a>
@@ -103,7 +103,7 @@
       {% endfor %}
   </div>
     <div class="blog-pager container" id="blog-pager">
-      <a class="blog-pager-older-link load-more"  href="/books?page=2"> {% trans "Load More" %} </a>
+      <a class="blog-pager-older-link load-more"  href="/books"> {% trans "Load More" %} </a>
     </div>
     </div>
     <div class="col-md-4 position-relative d-flex justify-content-center">
