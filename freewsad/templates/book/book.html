@@ -4,7 +4,6 @@
     <div class="col-md-8 mb-3">
       <article class="blog-post">
         <h1 dir="auto" class="blog-post-title h3 lang">{{book.name}}</h1>
-        <p dir="auto">{{book.description}}</p>
         <hr>
         <div class="d-flex justify-content-center mb-3">
           <div class="card shadow-sm overflow-hidden col-8 col-md-6 col-lg-5 col-xl-4 p-0">
@@ -61,6 +60,10 @@
           </div>
           {% include "ads.html" %}
         </div>
+        <h2 class="h5">{{ book.name }}</h2>
+        <article dir="auto" style="white-space: break-spaces;">
+           {{book.description|safe}}
+        </article>
       </article>
 
       <div class="post-nav mb-3">
