@@ -361,14 +361,8 @@ def trending_books(request):
     return render(request, 'book/list.html', context)
 
 def bookDetail(request, slug):
-    seven_days_ago = timezone.now() - timedelta(days=7)
     book = get_object_or_404(Book , slug=slug)
-    books = Book.objects.annotate(
-        views_count=Count('bookview'),
-    ).filter(
-        language__code=request.LANGUAGE_CODE,
-        bookview__created_at__gte=seven_days_ago
-    ).order_by('-views_count')[0:18]
+    books = Book.objects.filter(category=book.category).order_by('views')[0:18]
 
 
     agent = get_user_agent(request)
