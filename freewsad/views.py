@@ -389,7 +389,7 @@ def bookDetail(request, slug):
     videos = Video.objects.all()[0:14]
 
     context = {
-        'title' : book.title,
+        'title' : book.title if book.title else book.name,
         'description' : book.description,
         'image': book.image,
         'book': book,
