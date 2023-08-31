@@ -5,13 +5,13 @@
     <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-md-10 card shadow-sm">
-                <h1 class="h4 my-3">Create Page</h1>
+                <h1 class="h4 my-3">{% trans "Create Page" %}</h1>
                 <form method="POST" enctype="multipart/form-data" class="my-3">
                     {% csrf_token %}
-                    <label for="title">Title</label>
-                    <input class="form-control mb-3" type="text" placeholder="Title" name="title" maxlength="300" id="id_title">
+                    <label for="title">{% trans "Title" %}</label>
+                    <input class="form-control mb-3" type="text" placeholder="{% trans "Title" %}" name="title" maxlength="300" id="id_title">
                         {{ form.body }}
-                    <button class="btn btn-success w-100 mt-4">Create</button>
+                    <button class="btn btn-success w-100 mt-4">{% trans "Create" %}</button>
                 </form>
             </div>
         </div>

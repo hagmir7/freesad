@@ -1,13 +1,14 @@
 {% load static %}
+{% load i18n %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html  {% if LANGUAGE_CODE == 'ar' %} class="rtl" lang="ar" dir="rtl" {% else %} class="ltr" lang="{{ LANGUAGE_CODE }}" dir="ltr" {% endif %}>
 
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Dashboard - NiceAdmin Bootstrap Template</title>
+    <title>{% trans "Dashboard - Freesad Pro dashboard" %}</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -22,7 +23,16 @@
         rel="stylesheet">
 
     <!-- Vendor CSS Files -->
+    
+
+
+    {% if LANGUAGE_CODE == 'ar' %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.rtl.min.css" integrity="sha384-PRrgQVJ8NNHGieOA1grGdCTIt4h21CzJs6SnWH4YMQ6G5F5+IEzOHz67L4SQaF0o" crossorigin="anonymous">
+    {% endif %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+
+
     <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
     <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
     <link href="{% static 'assets/vendor/quill/quill.snow.css' %}" rel="stylesheet">
@@ -47,20 +57,20 @@
 <body>
 
     <!-- ======= Header ======= -->
-    <header id="header" class="header fixed-top d-flex align-items-center">
+    <header id="header" class="header fixed-top d-flex align-items-center shadow-sm">
 
         <div class="d-flex align-items-center justify-content-between">
             <a href="/dashboard" class="logo d-flex align-items-center">
-                <img src="{% static 'assets/img/logo.png' %}" alt="">
-                <span class="d-none d-lg-block">Freesad Admin</span>
+                <img src="{% static 'assets/img/logo.png' %}" alt="" class='mx-2'>
+                <span class="d-none d-lg-block">{% trans "Freesad dashboard" %}</span>
             </a>
-            <i class="bi bi-list toggle-sidebar-btn"></i>
+            <i class="bi bi-list toggle-sidebar-btn mx-2"></i>
         </div><!-- End Logo -->
 
         <div class="search-bar">
             <form class="search-form d-flex align-items-center" method="POST" action="#">
-                <input type="text" name="query" placeholder="Search" title="Enter search keyword">
-                <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+                <input type="text" name="query" placeholder="{% trans "Search" %}" title="Enter search keyword">
+                <button type="submit" class='mx-2' title="Search"><i class="bi bi-search"></i></button>
             </form>
         </div><!-- End Search Bar -->
 
@@ -72,147 +82,6 @@
                         <i class="bi bi-search"></i>
                     </a>
                 </li><!-- End Search Icon-->
-
-                <li class="nav-item dropdown">
-
-                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                        <i class="bi bi-bell"></i>
-                        <span class="badge bg-primary badge-number">4</span>
-                    </a><!-- End Notification Icon -->
-
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
-                        <li class="dropdown-header">
-                            You have 4 new notifications
-                            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="notification-item">
-                            <i class="bi bi-exclamation-circle text-warning"></i>
-                            <div>
-                                <h4>Lorem Ipsum</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>30 min. ago</p>
-                            </div>
-                        </li>
-
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="notification-item">
-                            <i class="bi bi-x-circle text-danger"></i>
-                            <div>
-                                <h4>Atque rerum nesciunt</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>1 hr. ago</p>
-                            </div>
-                        </li>
-
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="notification-item">
-                            <i class="bi bi-check-circle text-success"></i>
-                            <div>
-                                <h4>Sit rerum fuga</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>2 hrs. ago</p>
-                            </div>
-                        </li>
-
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="notification-item">
-                            <i class="bi bi-info-circle text-primary"></i>
-                            <div>
-                                <h4>Dicta reprehenderit</h4>
-                                <p>Quae dolorem earum veritatis oditseno</p>
-                                <p>4 hrs. ago</p>
-                            </div>
-                        </li>
-
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li class="dropdown-footer">
-                            <a href="#">Show all notifications</a>
-                        </li>
-
-                    </ul><!-- End Notification Dropdown Items -->
-
-                </li><!-- End Notification Nav -->
-
-                <li class="nav-item dropdown">
-
-                    <a class="nav-link nav-icon" href="#" data-bs-toggle="dropdown">
-                        <i class="bi bi-chat-left-text"></i>
-                        <span class="badge bg-success badge-number">3</span>
-                    </a><!-- End Messages Icon -->
-
-                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow messages">
-                        <li class="dropdown-header">
-                            You have 3 new messages
-                            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="message-item">
-                            <a href="#">
-                                <img src="{% static 'assets/img/messages-1.jpg' %}" alt="" class="rounded-circle">
-                                <div>
-                                    <h4>Maria Hudson</h4>
-                                    <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                                    <p>4 hrs. ago</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="message-item">
-                            <a href="#">
-                                <img src="{% static 'assets/img/messages-2.jpg' %}" alt="" class="rounded-circle">
-                                <div>
-                                    <h4>Anna Nelson</h4>
-                                    <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                                    <p>6 hrs. ago</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="message-item">
-                            <a href="#">
-                                <img src="{% static 'assets/img/messages-3.jpg' %}" alt="" class="rounded-circle">
-                                <div>
-                                    <h4>David Muldon</h4>
-                                    <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
-                                    <p>8 hrs. ago</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-
-                        <li class="dropdown-footer">
-                            <a href="#">Show all messages</a>
-                        </li>
-
-                    </ul><!-- End Messages Dropdown Items -->
-
-                </li><!-- End Messages Nav -->
 
                 <li class="nav-item dropdown pe-3">
 
@@ -235,8 +104,8 @@
                         <li>
                             <a class="dropdown-item d-flex align-items-center"
                                 href="{% url 'profile' user.profile.slug %}">
-                                <i class="bi bi-person"></i>
-                                <span>My Profile</span>
+                                <i class="bi bi-person mx-2"></i>
+                                <span>{% trans "Profile" %}</span>
                             </a>
                         </li>
                         <li>
@@ -245,19 +114,12 @@
 
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="{% url 'settings' %}">
-                                <i class="bi bi-gear"></i>
-                                <span>Account Settings</span>
+                                <i class="bi bi-gear mx-2"></i>
+                                <span>{% trans "Settings" %}</span>
                             </a>
                         </li>
                         <li>
                             <hr class="dropdown-divider">
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item d-flex align-items-center" href="pages-faq.html">
-                                <i class="bi bi-question-circle"></i>
-                                <span>Need Help?</span>
-                            </a>
                         </li>
                         <li>
                             <hr class="dropdown-divider">
@@ -265,8 +127,8 @@
 
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="{% url 'logout' %}">
-                                <i class="bi bi-box-arrow-right"></i>
-                                <span>Sign Out</span>
+                                <i class="bi bi-box-arrow-right mx-2"></i>
+                                <span>{% trans "Logout" %}</span>
                             </a>
                         </li>
 
@@ -279,69 +141,69 @@
     </header><!-- End Header -->
 
     <!-- ======= Sidebar ======= -->
-    <aside id="sidebar" class="sidebar">
+    <aside id="sidebar" class="sidebar" {% if LANGUAGE_CODE == 'ar' %} style="right:0;" {% endif %}>
 
         <ul class="sidebar-nav" id="sidebar-nav">
             <!-- Dashboard Nav -->
             <li class="nav-item">
                 <a class="nav-link " href="/dashboard">
-                    <i class="bi bi-grid"></i>
-                    <span>Dashboard</span>
+                    <i class="bi mx-2 bi-grid"></i>
+                    <span>{% trans "Dashboard" %}</span>
                 </a>
             </li>
 
             <!-- Posts -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/post/list">
-                    <i class="bi bi-layout-text-window-reverse"></i>
-                    <span>Posts</span>
+                    <i class="bi mx-2 bi-layout-text-window-reverse"></i>
+                    <span>{% trans "Posts" %}</span>
                 </a>
             </li>
 
             <!-- Categories -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/post/category/list">
-                    <i class="bx bx-category-alt"></i>
-                    <span>Post Category</span>
+                    <i class="bx mx-2 bx-category-alt"></i>
+                    <span>{% trans "Post category" %}</span>
                 </a>
             </li>
 
             <!-- Books -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/book/list">
-                    <i class="bi bi-journal-text"></i>
-                    <span>Books</span>
+                    <i class="bi mx-2 bi-journal-text"></i>
+                    <span>{% trans "Books" %}</span>
                 </a>
             </li>
             <!-- Categories -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="/book/category/list">
-                    <i class="bx bx-category-alt"></i>
-                    <span>Book Category</span>
+                    <i class="bx mx-2 bx-category-alt"></i>
+                    <span>{% trans "Book category" %}</span>
                 </a>
             </li>
 
             <!--  Play lasts -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="contact/list">
-                    <i class="bi bi-view-list"></i>
-                    <span>Play Lists</span>
+                    <i class="bi mx-2 bi-view-list"></i>
+                    <span>{% trans "Play lists" %}</span>
                 </a>
             </li>
 
                 <!--  Play lasts -->
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="/pages">
-                        <i class="bi bi-file-earmark"></i>
-                        <span>Pages</span>
+                        <i class="bi mx-2 bi-file-earmark"></i>
+                        <span>{% trans "Pages" %}</span>
                     </a>
                 </li>
 
             <!--  Contact Page Nav -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="contact/list">
-                    <i class="bi bi-envelope"></i>
-                    <span>Contact</span>
+                    <i class="bi mx-2 bi-envelope"></i>
+                    <span>{% trans "Messages" %}</span>
                 </a>
             </li>
 
@@ -349,14 +211,14 @@
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{% url 'profile' user.profile.slug %}">
-                    <i class="bi bi-person"></i>
-                    <span>Profile</span>
+                    <i class="bi mx-2 bi-person"></i>
+                    <span>{% trans "Profile" %}</span>
                 </a>
             </li><!-- End Profile Page Nav -->
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="pages-faq.html">
-                    <i class="bi bi-question-circle"></i>
+                    <i class="bi mx-2 bi-question-circle"></i>
                     <span>F.A.Q</span>
                 </a>
             </li><!-- End F.A.Q Page Nav -->
@@ -365,21 +227,21 @@
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="pages-register.html">
-                    <i class="bi bi-card-list"></i>
+                    <i class="bi mx-2 bi-card-list"></i>
                     <span>Register</span>
                 </a>
             </li><!-- End Register Page Nav -->
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="pages-login.html">
-                    <i class="bi bi-box-arrow-in-right"></i>
+                    <i class="bi mx-2 bi-box-arrow-in-right"></i>
                     <span>Login</span>
                 </a>
             </li><!-- End Login Page Nav -->
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="pages-error-404.html">
-                    <i class="bi bi-dash-circle"></i>
+                    <i class="bi mx-2 bi-dash-circle"></i>
                     <span>Error 404</span>
                 </a>
             </li>
@@ -389,7 +251,7 @@
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="pages-blank.html">
-                    <i class="bi bi-file-earmark"></i>
+                    <i class="bi mx-2 bi-file-earmark"></i>
                     <span>Blank</span>
                 </a>
             </li><!-- End Blank Page Nav -->
@@ -398,11 +260,15 @@
 
     </aside><!-- End Sidebar-->
 
+    <main class="main" id="main" {% if LANGUAGE_CODE == 'ar' %} style="margin-right:300px; margin-left:0;" {% endif %}>
+
+
     {% block content %}
 
 
     {% endblock content %}
 
+    </main>
     <!-- ======= Footer ======= -->
     <footer id="footer" class="footer">
         <div class="copyright">

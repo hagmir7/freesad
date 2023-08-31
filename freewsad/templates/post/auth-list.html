@@ -1,15 +1,15 @@
 {% extends "dash.html" %}
+{% load i18n %}
 
 {% block content %}
-<main class="main" id="main">
     <div class="container">
         <div class="row">
             <div class="d-flex justify-content-center card p-0 shadow-sm">
                 <div class="p-2 px-3 d-flex justify-content-between">
-                    <span>Posts (<strong>{{count}}</strong>)</span>
-                    <span><a  class="btn btn-outline-success btn-sm" href="/post/create">+ New Post</a></span>
+                    <span>{% trans "Posts" %} (<strong>{{count}}</strong>)</span>
+                    <span><a  class="btn btn-outline-success btn-sm" href="/post/create">+ {% trans "New Post" %}</a></span>
                     <form method="GET">
-                        <input type="search" value="{{ query }}" placeholder="Title, Id, Description..." name="query" class="form-control form-control-sm">
+                        <input type="search" value="{{ query }}" placeholder="{% trans "Title, id, description..." %}" name="query" class="form-control form-control-sm">
                     </form>
                 </div>
                 <table class="table p-3 mt-2">
@@ -17,11 +17,11 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Is Public</th>
-                            <th scope="col">Created</th>
-                            <th scope="col">Actions</th>
+                            <th scope="col">{% trans "Title" %}</th>
+                            <th scope="col">{% trans "Category" %}</th>
+                            <th scope="col">{% trans "Is Public" %}</th>
+                            <th scope="col">{% trans "Created" %}</th>
+                            <th scope="col">{% trans "Actions" %}</th>
                         </tr>
                     </thead>
                     {% endif %}
@@ -34,13 +34,13 @@
                             <td>{{post.is_public}}</td>
                             <td>{{post.created|date:"Y-m-d"}}</td>
                             <td>
-                                <a class="btn btn-sm btn-success" href="/post/update/{{post.id}}">Update</a>
-                                <a class="btn btn-sm btn-danger" href="/post/delete/{{post.id}}" onclick="return confirm('Are you sur you wnat to delete Post')">Delete</a>
+                                <a class="btn btn-sm btn-success" href="/post/update/{{post.id}}">{% trans "Update" %}</a>
+                                <a class="btn btn-sm btn-danger" href="/post/delete/{{post.id}}" onclick="return confirm('Are you sur you wnat to delete Post')">{% trans "Delete" %}</a>
                             </td>
                         </tr>
                         {% empty %}
                         <div class="h3 py-5 my-5 text-center">
-                            OOPS! No Post
+                            {% trans "OOPS! No Post" %}
                         </div>
                         {% endfor %}
                     </tbody>
@@ -65,5 +65,4 @@
     
         </div>
     </div>
-</main>
 {% endblock %}

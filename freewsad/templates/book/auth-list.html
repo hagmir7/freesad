@@ -1,18 +1,16 @@
 {% extends "dash.html" %}
+{% load i18n %}
 
 {% block content %}
-
-
-<main class="main" id="main">
     <div class="container">
         <div class="row">
             <div class="d-flex justify-content-center card shadow-sm p-0">
                 <div class="p-2 px-3 d-flex justify-content-between">
-                    <span>Books (<strong>{{count}}</strong>)</span>
-                    <span><a href="/book/create" class="btn btn-sm btn-success">+ Create book</a></span>
-                    <span><a href="/book/create/category" class="btn btn-sm btn-success">+ Create category</a></span>
+                    <span>{% trans "Books" %} (<strong>{{count}}</strong>)</span>
+                    <span><a href="/book/create" class="btn btn-sm btn-success">+ {% trans "Create book" %}</a></span>
+                    <span><a href="/book/create/category" class="btn btn-sm btn-success">+ {% trans "Create category" %}</a></span>
                     <form method="GET">
-                        <input type="search" value="{{ query }}" placeholder="Title, id, description..." name="query" class="form-control form-control-sm">
+                        <input type="search" value="{{ query }}" placeholder="{% trans "Title, id, description..." %}" name="query" class="form-control form-control-sm">
                     </form>
                 </div>
                 <table class="table p-3 mt-2 datatable datatable-table">
@@ -20,11 +18,11 @@
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Views</th>
-                            <th scope="col">Created</th>
-                            <th scope="col">Actions</th>
+                            <th scope="col" dir="auto">{% trans "Name" %}</th>
+                            <th scope="col" dir="auto">{% trans "Category" %}</th>
+                            <th scope="col" dir="auto">{% trans "Views" %}</th>
+                            <th scope="col" dir="auto">{% trans "Created" %}</th>
+                            <th scope="col" dir="auto">{% trans "Actions" %}</th>
                         </tr>
                     </thead>
                     {% endif %}
@@ -73,5 +71,6 @@
             </div>
         </div>
     </div>
-</main>
+
+
 {% endblock %}

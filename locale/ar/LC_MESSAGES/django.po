@@ -55,9 +55,7 @@ msgstr "فشل حذف المقالة."
 msgid "Book created successfully..."
 msgstr "تم إنشاء الكتاب بنجاح..."
 
-#: .\freewsad\api\views.py:369
-#, fuzzy
-#| msgid "Category created successfully..."
+
 msgid "Author created successfully..."
 msgstr "تم إنشاء التصنيف بنجاح..."
 
@@ -117,9 +115,6 @@ msgstr "وصف"
 msgid "list "
 msgstr "قائمة"
 
-#: .\freewsad\models.py:486
-#, fuzzy
-#| msgid "Categories"
 msgid "Category "
 msgstr "التصنيفات"
 
@@ -144,9 +139,6 @@ msgstr "الناشر"
 msgid "File type"
 msgstr "نوع الملف"
 
-#: .\freewsad\templates\book\book.html:34
-msgid "Language"
-msgstr "اللغة"
 
 #: .\freewsad\templates\book\book.html:39
 msgid "Pages"
@@ -197,10 +189,6 @@ msgstr "تحديث"
 msgid "Copyrights"
 msgstr "حقوق التأليف والنشر"
 
-#: .\freewsad\templates\book\book.html:92
-#: .\freewsad\templates\post\post.html:114
-#, fuzzy
-#| msgid "Read"
 msgid "Read More"
 msgstr "قراءة"
 
@@ -291,15 +279,10 @@ msgstr "لا يجود فيديو"
 msgid "Are you sure you want to leave page."
 msgstr "هل أنت متأكد من مغادرة هذه الصفحة"
 
-#: .\freewsad\templates\video\quality\upload.html:89
-#, fuzzy
-#| msgid "Success!"
+
 msgid "Success"
 msgstr "تم بنجاح!"
 
-#: .\freewsad\templates\video\quality\upload.html:89 .\freewsad\views.py:762
-#, fuzzy
-#| msgid "Post updated successfully."
 msgid "Video uploaded successfully."
 msgstr "تم تحديث المقالة بنجاح."
 
@@ -336,9 +319,7 @@ msgstr "تعليق"
 msgid "This is all"
 msgstr "هذا كل شيء"
 
-#: .\freewsad\views.py:149
-#, fuzzy
-#| msgid "Post Created successfully.."
+
 msgid "Post Creaeted successfully.."
 msgstr "تم إنشاء المقالة بنجاح.."
 
@@ -350,9 +331,6 @@ msgstr "تم تحديث المقالة بنجاح"
 msgid "You cannot update the post"
 msgstr "لا يمكنك تحديث المقالة"
 
-#: .\freewsad\views.py:196
-#, fuzzy
-#| msgid "Post deleted successfully."
 msgid "Post deleted successfull."
 msgstr "تم حذف المقالة بنجاح."
 
@@ -376,9 +354,7 @@ msgstr "فشل حذف التصنيف."
 msgid "Book updated successfully..."
 msgstr "تم تحديث الكتاب بنجاح..."
 
-#: .\freewsad\views.py:394
-#, fuzzy
-#| msgid "Book deleted successfully."
+
 msgid "Book deleted successfull."
 msgstr "تم حذف الكتاب بنجاح."
 
@@ -434,9 +410,6 @@ msgstr "تم تحديث القائمة بنجاح."
 msgid "Quality delete successfully"
 msgstr "تم حذف قائمة الاستماع بنجاح."
 
-#: .\freewsad\views.py:810
-#, fuzzy
-#| msgid "Fail to delete page."
 msgid "Fail to create comment"
 msgstr "فشل حذف الصفحة."
 
@@ -444,9 +417,6 @@ msgstr "فشل حذف الصفحة."
 msgid "Method not allowd."
 msgstr "طريقة غير مسموح بها"
 
-#: .\freewsad\views.py:831
-#, fuzzy
-#| msgid "Post deleted successfully."
 msgid "Comment deleted successfully!"
 msgstr "تم حذف المقالة بنجاح."
 
@@ -454,9 +424,6 @@ msgstr "تم حذف المقالة بنجاح."
 msgid "Opps!"
 msgstr "أسف"
 
-#: .\templates\404.html:11
-#, fuzzy
-#| msgid "User Not Found"
 msgid "Page not found."
 msgstr "المستخدم غير موجود"
 
@@ -513,9 +480,6 @@ msgstr "حقوق الطبع والنشر © 2023 جميع الحقوق محفو�
 msgid "Home"
 msgstr "الرئيسية"
 
-#: .\templates\base.html:152
-#, fuzzy
-#| msgid "About Us"
 msgid "About"
 msgstr "من نحن"
 
@@ -543,7 +507,7 @@ msgstr "فريساد - منصة تعليمية مهنية، تطوير الوي�
 
 #: .\templates\components\header.html:31
 msgid "Categories"
-msgstr "التصنيفات"
+msgstr "الأصناف"
 
 #: .\templates\components\header.html:39
 msgid "Videos"
@@ -1051,8 +1015,193 @@ msgstr "أبرز المقالات"
 msgid "Popular Videos and courses"
 msgstr "أبرز الفديوهات والدورات"
 
-msgid "Popular books"
-msgstr "أبرز الكتب"
+msgid "Author name"
+msgstr "الكاتب"
+
+msgid "Title"
+msgstr "عنوان"
+
+msgid "Name"
+msgstr "الإسم"
+
+msgid "Language"
+msgstr "اللغة"
+
+msgid "Type"
+msgstr "نوع"
+
+msgid "File"
+msgstr "ملف"
+
+
+
+msgid "Create book"
+msgstr "إنشاء كتاب"
+
+msgid "Create new book"
+msgstr "إنشاء كتاب جديد"
+
+msgid "Dashboard"
+msgstr "لوحة التحكم"
+
+msgid "Post category"
+msgstr "صنف المقال"
+
+msgid "Book category"
+msgstr "صنف الكتاب"
+
+msgid "Play lists"
+msgstr "قوائم التشغيل"
+
+msgid "Messages"
+msgstr "رسائل"
+
+msgid "Settings"
+msgstr "الإعدادات"
+
+msgid "Freesad dashboard"
+msgstr "لوحة التحكم"
+
+
+msgid "Created"
+msgstr "تاريخ الإنشاء"
+
+msgid "Is Public"
+msgstr "علني"
+
+msgid "Actions"
+msgstr "تفـاعـــل"
+
+msgid "New Post"
+msgstr "مقال جديد"
+
+msgid "New category"
+msgstr "صنف جديد"
+
+msgid "Create post category"
+msgstr "إنشاء صنف للمقال"
+
+msgid "Create"
+msgstr "إنشاء"
+
+msgid "Update book category"
+msgstr "إنشاء صنف للكتاب"
+
+msgid "Create category"
+msgstr "إنشاء صنف"
+
+
+
+msgid "Title, id, description..."
+msgstr "عنوان, وصف, رمز..."
+
+msgid "Users"
+msgstr "ستخدمون"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+#  msgid "File"
+#  msgstr "ملف"
+
+
 
 
 #~ msgid "Freedaz - The best website for Education"

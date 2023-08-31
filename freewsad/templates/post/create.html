@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-md-12 card shadow-sm">
-                <h1 class="h4 my-3">Create post</h1>
+                <h1 class="h4 my-3">{% trans "Create post" %}</h1>
                 {% if messages %}
                     {% for message in messages %}
                     <div class="alert  m-0 alert-{{ message.tags }}">{{ message }}</div>

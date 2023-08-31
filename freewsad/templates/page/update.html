@@ -5,15 +5,15 @@
     <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-md-10 card shadow-sm my-4">
-                <h1 class="h4 my-3">Update Page</h1>
+                <h1 class="h4 my-3">{% trans "Update page" %}</h1>
                 <form method="POST" enctype="multipart/form-data" class="my-3">
                     {% csrf_token %}
-                    <label for="title">Title</label>
-                    <input class="form-control mb-3" value="{{form.title.value}}" type="text" placeholder="Title" name="title" maxlength="300"
+                    <label for="title">{% trans "Title" %}</label>
+                    <input class="form-control mb-3" value="{{form.title.value}}" type="text" placeholder="{% trans "Title" %}" name="title" maxlength="300"
                         id="id_title">
-                    <label for="body">Description</label>
+                    <label for="body">{% trans "Description" %}</label>
                     {{ form.body }}
-                    <button class="btn btn-success w-100 mt-4">Create</button>
+                    <button class="btn btn-success w-100 mt-4">{% trans "Update" %}</button>
                 </form>
             </div>
         </div>

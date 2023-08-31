@@ -345,39 +345,39 @@ def new_books(request):
     return render(request, 'book/list.html', context)
 
 
-# def trending_books(request):
-#     seven_days_ago = timezone.now() - timedelta(days=7)
-#     list = Book.objects.annotate(
-#         views_count=Count('bookview'),
-#     ).filter(
-#         language__code=request.LANGUAGE_CODE,
-#         bookview__created_at__gte=seven_days_ago
-#     ).order_by('-views_count')
-#     paginator = Paginator(list, 30)
-#     page_number = request.GET.get('page')
-#     books = paginator.get_page(page_number)
-#     count = Book.objects.all().count()
-#     context = {'books': books, 'count': count, 'title': _("Download free and popular books PDF - Freesad")}
-#     return render(request, 'book/list.html', context)
-
-
 def trending_books(request):
     seven_days_ago = timezone.now() - timedelta(days=7)
-
-    books = Book.objects.filter(
+    list = Book.objects.annotate(
+        views_count=Count('bookview'),
+    ).filter(
         language__code=request.LANGUAGE_CODE,
         bookview__created_at__gte=seven_days_ago
-    ).annotate(views_count=Count('bookview')).order_by('-views_count')
-
-    paginator = Paginator(books, 30)
+    ).order_by('-views_count')
+    paginator = Paginator(list, 30)
     page_number = request.GET.get('page')
-    books_page = paginator.get_page(page_number)
-
-    context = {
-        'books': books_page,
-        'title': _("Download free and popular books PDF - Freesad")
-    }
+    books = paginator.get_page(page_number)
+    count = Book.objects.all().count()
+    context = {'books': books, 'count': count, 'title': _("Download free and popular books PDF - Freesad")}
     return render(request, 'book/list.html', context)
+
+
+# def trending_books(request):
+#     seven_days_ago = timezone.now() - timedelta(days=7)
+
+#     books = Book.objects.filter(
+#         language__code=request.LANGUAGE_CODE,
+#         bookview__created_at__gte=seven_days_ago
+#     ).annotate(views_count=Count('bookview')).order_by('-views_count')
+
+#     paginator = Paginator(books, 30)
+#     page_number = request.GET.get('page')
+#     books_page = paginator.get_page(page_number)
+
+#     context = {
+#         'books': books_page,
+#         'title': _("Download free and popular books PDF - Freesad")
+#     }
+#     return render(request, 'book/list.html', context)
 
 def bookDetail(request, slug):
     book = get_object_or_404(Book , slug=slug)
@@ -655,7 +655,17 @@ def contactList(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'dashboard/index.html')
+    users = User.objects.all().count()
+    posts = Post.objects.all().count()
+    books = Book.objects.all().count()
+    views = Location.objects.all().count()
+    context = {
+        "users" : users,
+        "posts" : posts,
+        "views" : views,
+        'books' : books
+    }
+    return render(request, 'dashboard/index.html', context)
 
 
 from django.contrib.admin.models import LogEntry;
@@ -985,3 +995,58 @@ def book_rapport(request, slug):
     }
     
     return JsonResponse(book_report)
+
+
+def rapport(request):
+    today = timezone.now().date()
+    seven_days_ago = today - timedelta(days=6)  # Last seven days including today
+    
+    dates = [seven_days_ago + timedelta(days=i) for i in range(7)]
+    
+    book_counts = Book.objects.filter(created_at__date__range=(seven_days_ago, today)).values('created_at__date').annotate(book_count=models.Count('id'))
+
+    user_counts = User.objects.filter(date_joined__date__range=(seven_days_ago, today)).values('date_joined__date').annotate(user_count=models.Count('id'))
+
+    # location_counts = Location.objects.filter(created_at__date__range=(seven_days_ago, today)).values('created_at__date').annotate(location_count=models.Count('id'))
+
+
+
+
+    book_data_count = {entry['created_at__date']: entry['book_count'] for entry in book_counts}
+
+    user_data_count = {entry['date_joined__date']: entry['user_count'] for entry in user_counts}
+
+    # location_data_count = {entry['created_at__date']: entry['location_count'] for entry in location_counts}
+    
+    book = [
+        {
+            'date': date.strftime('%Y-%m-%d'),
+            'count': book_data_count.get(date, 0),
+        }
+        for date in dates
+    ]
+
+
+    user = [
+        {
+            'date': date.strftime('%Y-%m-%d'),
+            'count': user_data_count.get(date, 0),
+        }
+        for date in dates
+    ]
+
+    # views = [
+    #     {
+    #         'date': date.strftime('%Y-%m-%d'),
+    #         'count': location_data_count.get(date, 0),
+    #     }
+    #     for date in dates
+    # ]
+    
+    rapport = {
+        'books': book,
+        'users': user,
+        # 'views': views
+    }
+    
+    return JsonResponse(rapport)

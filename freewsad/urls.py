@@ -32,7 +32,7 @@ urlpatterns = [
 
 
     path('book/rapport/<str:slug>', book_rapport, name="book_rapport"),
-
+    path('rapport', rapport),
     # Search post
     path('search', search, name='search'),
     path('contact', contact, name='contact'),

@@ -1,20 +1,19 @@
 {% extends "dash.html" %}
-
+{% load i18n %}
 {% block content %}
-<main class="main" id="main">
   <div class="container">
     <div class="row d-flex justify-content-center ">
         <div class="col-md-10 card my-3 shadow-sm">
           <div class="p-2">
-            <a href="/page/create" class="btn btn-sm btn-outline-success "> + Create Page</a>
+            <a href="/page/create" class="btn btn-sm btn-outline-success "> + {% trans "Create Page" %}</a>
           </div>
             <table class="table">
                 <thead>
                   <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Created</th>
-                    <th scope="col">Actions</th>
+                    <th scope="col">{% trans "Title" %}</th>
+                    <th scope="col">{% trans "Created" %}</th>
+                    <th scope="col">{% trans "Actions" %}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -24,8 +23,8 @@
                     <td><a href="/page/{{page.slug}}">{{page.title}}</a></td>
                     <td>{{page.created}}</td>
                     <td class="d-flex">
-                        <a class="btn mx-1 btn-sm btn-danger" href="/page/delete/{{page.id}}" onclick="return alert('Are you sur you want to delete')">Delete</a>
-                        <a class="btn mx-1 btn-sm btn-success" href="/page/update/{{page.id}}">Update</a>
+                        <a class="btn mx-1 btn-sm btn-danger" href="/page/delete/{{page.id}}" onclick="return alert('Are you sur you want to delete')">{% trans "Delete" %}</a>
+                        <a class="btn mx-1 btn-sm btn-success" href="/page/update/{{page.id}}">{% trans "Update" %}</a>
                     </td>
                   </tr>
                   {% endfor %}
@@ -34,5 +33,4 @@
         </div>
     </div>
 </div>
-</main>
 {% endblock %}

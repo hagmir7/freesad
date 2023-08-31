@@ -113,19 +113,16 @@
 
 .datatable-table > thead > tr > th {
 	vertical-align: bottom;
-	text-align: left;
 	border-bottom: 1px solid #d9d9d9;
 }
 
 .datatable-table > tfoot > tr > th {
 	vertical-align: bottom;
-	text-align: left;
 	border-top: 1px solid #d9d9d9;
 }
 
 .datatable-table th {
 	vertical-align: bottom;
-	text-align: left;
 }
 
 .datatable-table th a {
