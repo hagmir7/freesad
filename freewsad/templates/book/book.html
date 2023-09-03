@@ -1,4 +1,89 @@
 {% extends 'base.html' %}{% load static %}{% load i18n %}{% block content %}
+{% block header %}
+<style>
+
+
+.ttop {
+  background: #5682A3;
+  height: 52px;
+  width: 100%;
+  color: #fff;
+  text-align: center;
+  line-height: 50px;
+}
+
+.tlogo {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+}
+
+.tlogo img {
+  height: 35px;
+  width: 35px;
+}
+
+span.tname,
+span.ttitle{
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+  font-weight: bold;
+}
+
+.tbottom {
+  min-height: 50%;
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+}
+
+.tbottom:hover {
+  background: #eef2f5;
+  cursor: pointer;
+}
+
+.tbottom:hover span.nickname {
+  text-decoration: underline;
+}
+
+.tavatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  -webkit-border-radius: 25px;
+  -moz-border-radius: 25px;
+  background: url(http://cs625322.vk.me/v625322187/2313a/K56_aKXExds.jpg) no-repeat;
+  margin: 10px;
+  float: left;
+}
+
+span.tname {
+  height: 50%;
+  margin-left: 5px;
+  font-size: 14px;
+  margin-top: 15px;
+  width: calc(100% - 80px);
+  float: left
+}
+
+span.tnickname {
+  height: 50%;
+  width: calc(100% - 80px);
+  font-weight: normal;
+  float: left;
+  margin-left: 5px;
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+a.tlink {
+  color: inherit;
+}
+</style>
+
+
+{% endblock header %}
 <div class="container">
   <div class="row py-5">
     <div class="col-md-8 mb-3">
@@ -111,6 +196,7 @@
     <div class="col-md-4 position-relative d-flex justify-content-center">
         <div class="col-12 col-md-11">
            {% include "ads.html" %}
+           {% include 'components/telegram.html' %}
         </div>
     </div>
   </div>

@@ -1098,11 +1098,11 @@ msgstr "عنوان, وصف, رمز..."
 msgid "Users"
 msgstr "ستخدمون"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Follow us on Telegram"
+msgstr "تابعنا على تيليجرام"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Freewsad Books"
+msgstr "كتب فريساد"
 
 #  msgid "File"
 #  msgstr "ملف"
