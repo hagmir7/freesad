@@ -1,5 +1,6 @@
 {% extends 'base.html' %}{% load static %}{% load i18n %}{% block content %}
 <div class="container">
+  {% include "ads.html" %}
   <div class="row py-5">
     <div class="col-md-8 mb-3">
       <article class="blog-post">
@@ -62,7 +63,6 @@
               <a class="btn btn-success w-100" href="{{book.file.url}}"  target="_blanck">{% trans "DOWNLOAD" %}</a><br>
               <a class="btn btn-primary w-100 mt-2" href="{{book.file.url}}"  target="_blanck">{% trans "Read" %}</a>
           </div>
-          {% include "ads.html" %}
         </div>
         <h2 class="h5">{{ book.name }}</h2>
         <article dir="auto" style="white-space:pre-wrap;">
