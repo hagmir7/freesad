@@ -319,6 +319,32 @@ class Book(models.Model):
         if self.file:
             self.book_type = self.file.url.split('.')[-1].upper()
 
+
+        image_path = self.image.path
+        if os.path.exists(image_path):
+            image = Image.open(image_path)
+            print(image)
+
+            if image.width > 400 or image.height > 300:
+                width, height = image.size
+                aspect_ratio = width / height
+
+                new_width = 400
+                new_height = int(new_width / aspect_ratio)
+
+                resized_image = image.resize((new_width, new_height))
+                
+                # Save the resized image back to the same path
+                quality = 80  # You can adjust this value as needed
+
+                # Save the image in WebP format
+                resized_image.save(image_path, 'WEBP', quality=quality)
+        else:
+            print(f"File not found at path: {image_path}")
+
+
+            
+
         super(Book, self).save(*args, **kwargs)
 
 
@@ -327,6 +353,8 @@ class Book(models.Model):
 
     def pre(self):
         return self.get_previous_by_created_at()
+
+
 
 
 class BookView(models.Model):

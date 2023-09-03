@@ -183,3 +183,26 @@ def delete_quality_old_image(sender, instance, **kwargs):
         if existing_instance.file and existing_instance.file != instance.file:
             # Delete the old file file
             existing_instance.file.delete(save=False)
+
+from PIL import Image
+from io import BytesIO
+
+# @receiver(post_save, sender=Book)
+# def resize_and_convert_to_webp(sender, instance, **kwargs):
+#     # Check if the instance has an image field (adjust 'image' accordingly)
+#     if hasattr(instance, 'image') and instance.image:
+#         # Open the image using Pillow as specified
+#         image_data = os.path.normpath(f'{os.path.join(instance.image)}') 
+#         img = Image.open(BytesIO(instance.image.read()))
+
+#         if img.width > 400 or img.height > 300:
+#             output_size = (400, 300)
+#             img.thumbnail(output_size)
+
+#             # Convert the image to WebP format
+#             webp_path = instance.image.path.replace('.png', '.webp')  # Change the extension as needed
+#             img.save(webp_path, 'WEBP', quality=85)  # You can adjust quality as needed
+
+#             # Update the image field to the new WebP image
+#             instance.image.name = webp_path.split('/')[-1]
+#             instance.save()

@@ -11,7 +11,7 @@ class CreatePostForm(forms.ModelForm):
 
 
 class BookForm(forms.ModelForm):
-    file = forms.FileField()
+    file = forms.FileField(widget=forms.FileInput(attrs={'accept': '.pdf,.epub'}))
     class Meta:
         model = Book
         fields = ('name','title', 'author', 'tags', 'language', 'category', 'type', 'file', 'image', 'description')

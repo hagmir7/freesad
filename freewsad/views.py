@@ -346,13 +346,7 @@ def new_books(request):
 
 
 def trending_books(request):
-    seven_days_ago = timezone.now() - timedelta(days=7)
-    list = Book.objects.annotate(
-        views_count=Count('bookview'),
-    ).filter(
-        language__code=request.LANGUAGE_CODE,
-        bookview__created_at__gte=seven_days_ago
-    ).order_by('-views_count')
+    list = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('?')
     paginator = Paginator(list, 30)
     page_number = request.GET.get('page')
     books = paginator.get_page(page_number)

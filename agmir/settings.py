@@ -1,10 +1,10 @@
-from pathlib import Path
 import os
+from pathlib import Path
 from datetime import timedelta
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR  = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -12,7 +12,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY = '1f7=3i&8q!fm(bogwsrtokh6hj&-op(0rodrmzmnx$yd5#wnu0'
+SECRET_KEY = str(os.environ.get('SECRET_KEY'))
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -169,6 +169,9 @@ STATIC_ROOT = os.environ.get('STATIC_ROOT')
 MEDIA_URL = os.environ.get('MEDIA_URL')
 MEDIA_ROOT = os.environ.get('MEDIA_ROOT') #'/home/agha6919/freesad/media'
 
+if not CPANEL:
+    MEDIA_ROOT = os.path.join(BASE_DIR , "media")
+
 
 # Google cloud
 
@@ -221,12 +224,12 @@ if CPANEL:
 
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'NAME': 'agha6919_freesad',
-            'USER': 'agha6919_freesad_admin',
-            'PASSWORD': 'Guigou.1998@',
-            'HOST': 'localhost',  # Typically 'localhost' or '127.0.0.1'
-            'PORT': '3306',  # Typically '3306'
+            'ENGINE': os.environ.get("DB_ENGINE"),
+            'NAME': os.environ.get("DB_NAME"),
+            'USER': os.environ.get("DB_USER"),
+            'PASSWORD': os.environ.get("DB_PASSWORD"),
+            'HOST': os.environ.get("DB_HOST"),  # Typically 'localhost' or '127.0.0.1'
+            'PORT': os.environ.get("DB_PORT"),  # Typically '3306'
             'OPTIONS': {
                 'sql_mode': 'STRICT_TRANS_TABLES',
                 'charset': 'utf8mb4',
