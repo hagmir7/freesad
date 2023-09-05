@@ -199,7 +199,7 @@ msgstr "لا يوجد كتب"
 #: .\freewsad\templates\contact\contact.html:5
 #: .\users\templates\password_reset\reset_password_done.html:17
 msgid "Contact us"
-msgstr "اتصللتواصل معنا"
+msgstr "تواصل معنا"
 
 #: .\freewsad\templates\contact\contact.html:15
 #: .\users\templates\profile\profile.html:11
