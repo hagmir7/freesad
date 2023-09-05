@@ -1107,8 +1107,8 @@ msgstr "كتب فريساد"
 msgid "We respect the property rights of others, and are always careful not to infringe on their rights, so authors and publishing houses have the right to demand that the link to download an article or book be removed from the site. If you find an article or book of your own and do not agree to publish the download link, or have a suggestion or complaint, write to us through"
 msgstr "نحترم حقوق الملكية للآخرين ، ونحرص دائمًا على عدم التعدي على حقوقهم ، لذلك يحق للمؤلفين ودور النشر المطالبة بإزالة رابط تنزيل مقال أو كتاب من الموقع. إذا وجدت مقالًا أو كتابًا خاصًا بك ولم توافق على نشر رابط التنزيل ، أو كان لديك اقتراح أو شكوى ، فاكتب إلينا من خلال"
 
-#  msgid "أو عن طريق البريد الإلكتروني في "
-#  msgstr "or by email at"
+msgid "or by email at"
+msgstr "أو عن طريق البريد الإلكتروني في"
 
 #  msgid "File"
 #  msgstr "ملف"
