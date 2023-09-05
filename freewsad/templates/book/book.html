@@ -112,7 +112,7 @@ a.tlink {
             <tr>
               <th scope="row">{% trans 'Publisher' %}</th>
               <td> 
-                <a href="{% url 'profile' user.profile.slug %}" class="text-">
+                <a href="/profile/{{ book.user.proflie.slug}}" class="text-">
                   {{book.user.first_name}} {{book.user.last_name}}
                 </a>
               </td>
