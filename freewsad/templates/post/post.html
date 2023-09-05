@@ -18,7 +18,7 @@
                         {{post.created|date:'M d, Y '}}
                     </p>
                     <!-- - H:i -->
-                    <div class="my-3">{{post.body|safe}}</div>
+                    <div class="my-3" dir="auto">{{post.body|safe}}</div>
                 </article>
                 {% if user.is_superuser %}
                 <div class="py-3">
