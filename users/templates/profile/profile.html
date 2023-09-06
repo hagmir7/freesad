@@ -18,7 +18,7 @@
                 </div>
     
                 <div class="profile-header-info">
-                    <h4 class="m-t-sm">{{ page.user.first_name }} {{ page.user.last_name }}</h4>
+                    <h1 class="m-t-sm h4">{{ page.user.first_name }} {{ page.user.last_name }}</h1>
                     <p class="m-b-sm">@{{ page.user }}</p>
                     {% if user.profile.id == page.id %}
                     <a href="{% url 'profile_update' page.id %}" class="btn btn-xs btn-info mb-4">{% trans "Update Profile" %}</a>

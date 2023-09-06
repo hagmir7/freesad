@@ -69,5 +69,5 @@ class Profile(models.Model):
         return super().save(*args, **kwargs)
     
     def get_absolute_url(self):
-        return f'/{self.slug}'
+        return f'/user/{self.slug}'
 
