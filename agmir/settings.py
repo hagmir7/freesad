@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'users',
     "crispy_forms",
     "crispy_bootstrap5",
+    'django.contrib.humanize',
 ]
 
 
@@ -180,6 +181,9 @@ if not CPANEL:
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+USE_THOUSAND_SEPARATOR = True
 
 
 # SUMMERNOT TOOLS
