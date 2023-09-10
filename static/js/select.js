@@ -1,43 +1,234 @@
-document.addEventListener("DOMContentLoaded", function () {
- function e(e, t, l) { let n = e.dataset.dselectValue, s = e.closest(`.${t}`).previousElementSibling, o = s.nextElementSibling.querySelector(`.${l}`), i = s.nextElementSibling.querySelector("input"), a = Array.from(s.options); s.multiple ? a.find(e => e.value === n).selected = !0 : s.value = n, o.click(), s.dispatchEvent(new Event("change")), o.focus(), i && (i.value = "") } function t(e, t, l) { let n = e.parentNode.dataset.dselectValue, s = e.closest(`.${t}`).previousElementSibling, o = s.nextElementSibling.querySelector(`.${l}`), i = s.nextElementSibling.querySelector("input"), a = Array.from(s.options); a.find(e => e.value === n).selected = !1, s.dispatchEvent(new Event("change")), o.click(), i && (i.value = "") } function l(e, t, l, n, s) { let o = t.value.toLowerCase().trim(), i = t.nextElementSibling, a = i.querySelectorAll(".dropdown-header"), r = i.querySelectorAll(".dropdown-item"), c = i.nextElementSibling; a.forEach(e => e.classList.add("d-none")), r.forEach(e => { let t = e.textContent.toLowerCase(); if (t.includes(o)) { e.classList.remove("d-none"); let l = e; for (; l = l.previousElementSibling;)if (l.classList.contains("dropdown-header")) { l.classList.remove("d-none"); break } } else e.classList.add("d-none") }); let d = Array.from(r).filter(e => !e.classList.contains("d-none") && !e.hasAttribute("hidden")); if (d.length < 1) { if (c.classList.remove("d-none"), i.classList.add("d-none"), s && (c.innerHTML = `Press Enter to add "<strong>${t.value}</strong>"`, "Enter" === e.key)) { let u = t.closest(`.${l}`).previousElementSibling, p = u.nextElementSibling.querySelector(`.${n}`); u.insertAdjacentHTML("afterbegin", `<option value="${t.value}" selected>${t.value}</option>`), u.dispatchEvent(new Event("change")), t.value = "", t.dispatchEvent(new Event("keyup")), p.click(), p.focus() } } else c.classList.add("d-none"), i.classList.remove("d-none") } function n(e, t) { let l = e.closest(`.${t}`).previousElementSibling; Array.from(l.options).forEach(e => e.selected = !1), l.dispatchEvent(new Event("change")) } let s = document.querySelectorAll(".form-select"); s.forEach(e => {
-  !function e(t, l = {}) {
-   t.style.display = "none"; let n = "dselect-wrapper", s = "dselect-placeholder", o = "", i = f("search") || l.search || !1, a = f("creatable") || l.creatable || !1, r = f("clearable") || l.clearable || !1, c = t.dataset.dselectMaxHeight || l.maxHeight || "360px", d = t.dataset.dselectSize || l.size || o; d = "" !== d ? ` form-select-${d}` : ""; let u = `form-select${d}`, p = i ? `<input onkeydown="return event.key !== 'Enter'" onkeyup="dselectSearch(event, this, '${n}', '${u}', ${a})" type="text" class="form-control" placeholder="Recherche" autofocus>` : ""; function f(e) { let l = `data-dselect-${e}`; if (!t.hasAttribute(l)) return null; let n = t.getAttribute(l); return "true" === n.toLowerCase() } function m(e) { return "" === e.getAttribute("value") } function v(e, t) {
-    if (t) {
-     let l = Array.from(e).filter(e => e.selected && !m(e)), o = Array.from(e).filter(e => m(e)), i = []; if (0 === l.length) { let a = o.length ? o[0].textContent : "&nbsp;"; i.push(`<span class="${s}">${a}</span>`) } else for (let r of l) i.push(`<div class="dselect-tag" data-dselect-value="${r.value}">
-                                        ${r.text}
-                                        <svg onclick="dselectRemoveTag(this, '${n}', '${u}')" class="dselect-tag-remove" width="14" height="14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M0 0h24v24H0z" fill="none"/>
-                                            <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/>
-                                        </svg>
-                                    </div>
-                                `); return i.join("")
-    } { let c = e[e.selectedIndex]; return m(c) ? `<span class="${s}">${c.innerHTML}</span>` : c.innerHTML }
-   } function h(e) { let t = e[e.selectedIndex]; return m(t) ? "" : t.textContent } function g(e) { let l = []; for (let s of e) if ("OPTGROUP" === s.tagName) l.push(`<h6 class="dropdown-header">${s.getAttribute("label")}</h6>`); else { let o = m(s) ? " hidden" : "", i = s.selected ? " active" : "", a = t.multiple && s.selected ? " disabled" : "", r = s.value, c = s.textContent; l.push(`<button${o} class="dropdown-item${i}" data-dselect-value="${r}" type="button" onclick="dselectUpdate(this, '${n}', '${u}')" ${a}>${c}</button>`) } return l.join("") } function _() { let e = t.nextElementSibling, l = e.querySelector(`.${u}`), n = e.querySelector(".dselect-items"); l.innerHTML = v(t.options, t.multiple), n.innerHTML = g(t.querySelectorAll("*")), t.multiple || (l.dataset.dselectText = h(t.options)) } t.addEventListener("change", _), function e() {
-    let l = t.multiple ? ' data-bs-auto-close="outside"' : "", s = Array.from(t.classList).filter(e => "form-select" !== e && "form-select-sm" !== e && "form-select-lg" !== e).join(" "), o = r && !t.multiple ? `
-   <button type="button" class="btn dselect-clear" title="Clear selection" onclick="dselectClear(this, '${n}')">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" fill="none">
-     <path d="M13 1L0.999999 13" stroke-width="2" stroke="currentColor"></path>
-     <path d="M1 1L13 13" stroke-width="2" stroke="currentColor"></path>
-    </svg>
-   </button>
-   `: "", i = `
-   <div class="dropdown ${n} ${s}">
-    <button class="${u} ${!t.multiple && r ? "dselect-clearable" : ""}" data-dselect-text="${!t.multiple && h(t.options)}" type="button" style="text-align: left!important;" data-bs-toggle="dropdown" aria-expanded="false" ${l}>
-     ${v(t.options, t.multiple)}
+
+function dselectUpdate(button, classElement, classToggler) {
+    const value = button.dataset.dselectValue
+    const target = button.closest(`.${classElement}`).previousElementSibling
+    const toggler = target.nextElementSibling.getElementsByClassName(classToggler)[0]
+    const input = target.nextElementSibling.querySelector('input')
+    if (target.multiple) {
+        Array.from(target.options).filter(option => option.value === value)[0].selected = true
+    } else {
+        target.value = value
+    }
+    if (target.multiple) {
+        toggler.click()
+    }
+    target.dispatchEvent(new Event('change'))
+    toggler.focus()
+    if (input) {
+        input.value = ''
+    }
+}
+function dselectRemoveTag(button, classElement, classToggler) {
+    const value = button.parentNode.dataset.dselectValue
+    const target = button.closest(`.${classElement}`).previousElementSibling
+    const toggler = target.nextElementSibling.getElementsByClassName(classToggler)[0]
+    const input = target.nextElementSibling.querySelector('input')
+    Array.from(target.options).filter(option => option.value === value)[0].selected = false
+    target.dispatchEvent(new Event('change'))
+    toggler.click()
+    if (input) {
+        input.value = ''
+    }
+}
+function dselectSearch(event, input, classElement, classToggler, creatable) {
+    const filterValue = input.value.toLowerCase().trim()
+    const itemsContainer = input.nextElementSibling
+    const headers = itemsContainer.querySelectorAll('.dropdown-header')
+    const items = itemsContainer.querySelectorAll('.dropdown-item')
+    const noResults = itemsContainer.nextElementSibling
+
+    headers.forEach(i => i.classList.add('d-none'))
+
+    for (const item of items) {
+        const filterText = item.textContent
+
+        if (filterText.toLowerCase().indexOf(filterValue) > -1) {
+            item.classList.remove('d-none')
+            let header = item
+            while (header = header.previousElementSibling) {
+                if (header.classList.contains('dropdown-header')) {
+                    header.classList.remove('d-none')
+                    break
+                }
+            }
+        } else {
+            item.classList.add('d-none')
+        }
+    }
+    const found = Array.from(items).filter(i => !i.classList.contains('d-none') && !i.hasAttribute('hidden'))
+    if (found.length < 1) {
+        noResults.classList.remove('d-none')
+        itemsContainer.classList.add('d-none')
+        if (creatable) {
+            noResults.innerHTML = `Press Enter to add "<strong>${input.value}</strong>"`
+            if (event.key === 'Enter') {
+                const target = input.closest(`.${classElement}`).previousElementSibling
+                const toggler = target.nextElementSibling.getElementsByClassName(classToggler)[0]
+                target.insertAdjacentHTML('afterbegin', `<option value="${input.value}" selected>${input.value}</option>`)
+                target.dispatchEvent(new Event('change'))
+                input.value = ''
+                input.dispatchEvent(new Event('keyup'))
+                toggler.click()
+                toggler.focus()
+            }
+        }
+    } else {
+        noResults.classList.add('d-none')
+        itemsContainer.classList.remove('d-none')
+    }
+}
+function dselectClear(button, classElement) {
+    const target = button.closest(`.${classElement}`).previousElementSibling
+    Array.from(target.options).forEach(option => option.selected = false)
+    target.dispatchEvent(new Event('change'))
+}
+function dselect(el, option = {}) {
+    el.style.display = 'none'
+    const classElement = 'dselect-wrapper'
+    const classNoResults = 'dselect-no-results'
+    const classTag = 'dselect-tag'
+    const classTagRemove = 'dselect-tag-remove'
+    const classPlaceholder = 'dselect-placeholder'
+    const classClearBtn = 'dselect-clear'
+    const classTogglerClearable = 'dselect-clearable'
+    const defaultSearch = false
+    const defaultCreatable = false
+    const defaultClearable = false
+    const defaultMaxHeight = '360px'
+    const defaultSize = ''
+    const search = attrBool('search') || option.search || defaultSearch
+    const creatable = attrBool('creatable') || option.creatable || defaultCreatable
+    const clearable = attrBool('clearable') || option.clearable || defaultClearable
+    const maxHeight = el.dataset.dselectMaxHeight || option.maxHeight || defaultMaxHeight
+    let size = el.dataset.dselectSize || option.size || defaultSize
+    size = size !== '' ? ` form-select-${size}` : ''
+    const classToggler = `form-select${size}`
+
+    const searchInput = search ? `<input onkeydown="return event.key !== 'Enter'" onkeyup="dselectSearch(event, this, '${classElement}', '${classToggler}', ${creatable})" type="text" class="form-control" placeholder="Recherche" autofocus>` : ''
+
+    function attrBool(attr) {
+        const attribute = `data-dselect-${attr}`
+        if (!el.hasAttribute(attribute)) return null
+
+        const value = el.getAttribute(attribute)
+        return value.toLowerCase() === 'true'
+    }
+
+    function removePrev() {
+        if (el.nextElementSibling && el.nextElementSibling.classList && el.nextElementSibling.classList.contains(classElement)) {
+            el.nextElementSibling.remove()
+        }
+    }
+
+    function isPlaceholder(option) {
+        return option.getAttribute('value') === ''
+    }
+
+    function selectedTag(options, multiple) {
+        if (multiple) {
+            const selectedOptions = Array.from(options).filter(option => option.selected && !isPlaceholder(option))
+            const placeholderOption = Array.from(options).filter(option => isPlaceholder(option))
+            let tag = []
+            if (selectedOptions.length === 0) {
+                const text = placeholderOption.length ? placeholderOption[0].textContent : '&nbsp;'
+                tag.push(`<span class="${classPlaceholder}">${text}</span>`)
+            } else {
+                for (const option of selectedOptions) {
+                    tag.push(`
+            <div class="${classTag}" data-dselect-value="${option.value}">
+              ${option.text}
+              <svg onclick="dselectRemoveTag(this, '${classElement}', '${classToggler}')" class="${classTagRemove}" width="14" height="14" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M0 0h24v24H0z" fill="none"/><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></svg>
+            </div>
+          `)
+                }
+            }
+            return tag.join('')
+        } else {
+            const selectedOption = options[options.selectedIndex]
+            return isPlaceholder(selectedOption)
+                ? `<span class="${classPlaceholder}">${selectedOption.innerHTML}</span>`
+                : selectedOption.innerHTML
+        }
+    }
+
+    function selectedText(options) {
+        const selectedOption = options[options.selectedIndex]
+        return isPlaceholder(selectedOption) ? '' : selectedOption.textContent
+    }
+
+    function itemTags(options) {
+        let items = []
+        for (const option of options) {
+            if (option.tagName === 'OPTGROUP') {
+                items.push(`<h6 class="dropdown-header">${option.getAttribute('label')}</h6>`)
+            } else {
+                const hidden = isPlaceholder(option) ? ' hidden' : ''
+                const active = option.selected ? ' active' : ''
+                const disabled = el.multiple && option.selected ? ' disabled' : ''
+                const value = option.value
+                const text = option.textContent
+                items.push(`<button${hidden} class="dropdown-item${active}" data-dselect-value="${value}" type="button" onclick="dselectUpdate(this, '${classElement}', '${classToggler}')"${disabled}>${text}</button>`)
+            }
+        }
+        items = items.join('')
+        return items
+    }
+
+    function createDom() {
+        const autoclose = el.multiple ? ' data-bs-auto-close="outside"' : ''
+        const additionalClass = Array.from(el.classList).filter(className => {
+            return className !== 'form-select'
+                && className !== 'form-select-sm'
+                && className !== 'form-select-lg'
+        }).join(' ')
+        const clearBtn = clearable && !el.multiple ? `
+    <button type="button" class="btn ${classClearBtn}" title="Clear selection" onclick="dselectClear(this, '${classElement}')">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" fill="none">
+        <path d="M13 1L0.999999 13" stroke-width="2" stroke="currentColor"></path>
+        <path d="M1 1L13 13" stroke-width="2" stroke="currentColor"></path>
+      </svg>
     </button>
-    <div class="dropdown-menu w-100">
-     <div class="d-flex flex-column">
-      ${p}
-      <div class="dselect-items" style="max-height:${c};overflow:auto">
-       ${g(t.querySelectorAll("*"))}
+    ` : ''
+        const template = `
+    <div class="dropdown ${classElement} ${additionalClass}">
+      <button class="${classToggler} ${!el.multiple && clearable ? classTogglerClearable : ''}" data-dselect-text="${!el.multiple && selectedText(el.options)}" type="button" style="text-align: left!important;" data-bs-toggle="dropdown" aria-expanded="false"${autoclose}>
+        ${selectedTag(el.options, el.multiple)}
+      </button>
+      <div class="dropdown-menu w-100">
+        <div class="d-flex flex-column">
+          ${searchInput}
+          <div class="dselect-items" style="max-height:${maxHeight};overflow:auto">
+            ${itemTags(el.querySelectorAll('*'))}
+          </div>
+          <div class="${classNoResults} d-none p-2 text-danger">Aucun rÃ©sultat trouvÃ©</div>
+        </div>
       </div>
-      <div class="dselect-no-results d-none p-2 text-danger">Aucun r\xe9sultat trouv\xe9</div>
-     </div>
+      ${clearBtn}
     </div>
-    ${o}
-   </div>
-   `; t.nextElementSibling && t.nextElementSibling.classList && t.nextElementSibling.classList.contains(n) && t.nextElementSibling.remove(), t.insertAdjacentHTML("afterend", i)
-   }(), _()
-  }(e, { search: !0 })
- })
+    `
+        removePrev()
+        el.insertAdjacentHTML('afterend', template) // insert template after element
+    }
+    createDom()
+
+    function updateDom() {
+        const dropdown = el.nextElementSibling
+        const toggler = dropdown.getElementsByClassName(classToggler)[0]
+        const dSelectItems = dropdown.getElementsByClassName('dselect-items')[0]
+        toggler.innerHTML = selectedTag(el.options, el.multiple)
+        dSelectItems.innerHTML = itemTags(el.querySelectorAll('*'))
+        if (!el.multiple) {
+            toggler.dataset.dselectText = selectedText(el.options)
+        }
+    }
+
+    el.addEventListener('change', updateDom)
+}
+
+
+const select_box_elements = document.querySelectorAll('.form-select');
+select_box_elements.forEach(element => {
+    dselect(element, {
+        search: true
+    });
 });
