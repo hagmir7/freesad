@@ -113,7 +113,7 @@ def airlet(request):
             title = article.find('h2').text
             image = article.find('img')['src']
             path =  article.find('a')['href']
-            if not Post.objects.filter(imageURL=str(title)).exists():
+            if not Post.objects.filter(imageURL=str(image)).exists():
                 post = Post.objects.create(
                     title = str(bot(f"Rewrite this title with better without &quot ({title})")),
                     imageURL = str(image),
