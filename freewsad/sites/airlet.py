@@ -103,7 +103,7 @@ def getItem(url):
     return result.prettify()
 
 def airlet(request):
-    for page in range(1, 200):
+    for page in range(200, 1, -1):
         url = f"https://www.airtel.in/blog/page/{page}/"
         page = requests.get(url)
         soup = BeautifulSoup(page.content, "html.parser")
