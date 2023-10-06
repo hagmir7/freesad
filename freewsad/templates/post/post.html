@@ -22,8 +22,8 @@
                 </article>
                 {% if user.is_superuser %}
                 <div class="py-3">
-                    <a href="/post/update/{{post.id}}" class="btn me-3 btn-outline-success btn-sm">Update</a>
-                    <a href="/post/delete/{{post.id}}" onclick="return confirm('Are you sur you want to delete Post')" class="btn btn-sm btn-outline-danger me-3">Delete</a>
+                    <a href="/post/update/{{ post.id }}" class="btn me-3 btn-outline-success btn-sm">Update</a>
+                    <a href="/post/delete/{{ post.id }}" onclick="return confirm('Are you sur you want to delete Post')" class="btn btn-sm btn-outline-danger me-3">Delete</a>
                     {% if post.is_public %}
                     <a href="/post/status/{{ post.id }}" class="btn btn-sm btn-outline-info me-3">Un Publish</a>
                     {% else %}

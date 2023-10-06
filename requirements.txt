@@ -24,7 +24,6 @@ django-cors-headers==3.13.0
 django-crispy-forms==2.0
 django-dotenv==1.4.2
 django-filter==22.1
-django-humanize==0.1.2
 django-import-export==2.8.0
 django-robots==5.0
 django-summernote==0.8.20.0
@@ -39,7 +38,6 @@ futures==3.0.5
 goslate==1.5.4
 gunicorn==20.1.0
 h11==0.14.0
-humanize==4.8.0
 idna==3.3
 imageio==2.31.1
 imageio-ffmpeg==0.4.8

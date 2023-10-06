@@ -2,8 +2,6 @@
 
 
 {% extends 'base.html' %}
-
-{% load humanize %}
 {% load static %}
 {% load i18n %}
 
@@ -67,7 +65,7 @@
             {% endif %}
               <tr>
                 <th scope="row">{% trans 'Downloads' %}</th>
-               <td>{{ book.bookview_set.all.count|intword }}</td>
+               <td>{{ book.bookview_set.all.count }}</td>
               </tr>
           </tbody>
         </table>
