@@ -356,7 +356,7 @@ var {
 dl,
 ul {
     list-style-position: inside;
-    list-style: none
+    list-style: inside
 }
 
 ul li {
@@ -366,6 +366,17 @@ ul li {
 caption {
     text-align: center
 }
+
+h2{
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+h3{
+    font-size: 1.10rem;
+    font-weight: 500;
+}
+
 
 img {
     border: none;
