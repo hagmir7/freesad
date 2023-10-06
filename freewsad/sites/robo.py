@@ -1,10 +1,9 @@
 import openai
+import os
 
 
 
-# Set your OpenAI API key
-api_key = "YOUR_API_KEY_HERE"
-openai.api_key = "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"
+openai.api_key = os.environ.get('AI_KEY')
 
 def bot(prompt):
     try:

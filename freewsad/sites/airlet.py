@@ -38,7 +38,7 @@ def remove_all_extra_spaces(string):
 
 
 def download_file(url, id):
-        response = requests.get(url, headers=headers)
+        response = requests.get(url, headers=headers, verify=False)
         if response.status_code == 200:
             response.raise_for_status() 
 
