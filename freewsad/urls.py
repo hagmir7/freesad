@@ -6,6 +6,7 @@ from . sites.geeksforgeeks import geeksforgeeks
 from . sites.cloud import cloud
 from . sites.codingnepalweb import codingnepalweb
 from . sites.book import books as book_scraping
+from . sites.airlet import airlet
 
 
 urlpatterns = [
@@ -75,6 +76,7 @@ urlpatterns = [
     path('cloud', cloud),
     path('codingnepalweb', codingnepalweb),
     path('book-scraping', book_scraping),
+    path('airlet', airlet),
 
 
     # emport Export 
