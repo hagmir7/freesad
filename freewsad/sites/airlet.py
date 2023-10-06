@@ -120,7 +120,7 @@ def airlet(request):
                     tags = str(bot(f"Gave me eso meta keyword for ({title}) without &quot")),
                     description = str(bot(f"Gave me eso meta description for ({title}) without &quot")),
                     language = Language.objects.get(id=1),
-                    category = PostCategory.objects.get(id=1),
+                    category = PostCategory.objects.get(id=15),
                     body = str(getItem(path))
                 )
                 download_file(image, post.id)
