@@ -115,7 +115,7 @@ def airlet(request):
             path =  article.find('a')['href']
             if not Post.objects.filter(imageURL=str(title)).exists():
                 post = Post.objects.create(
-                    title = str(bot(f"Rewrite this title with better ({title}) without &quot")),
+                    title = str(bot(f"Rewrite this title with better without &quot ({title})")),
                     imageURL = str(image),
                     tags = str(bot(f"Gave me eso meta keyword for ({title}) without &quot")),
                     description = str(bot(f"Gave me eso meta description for ({title}) without &quot")),
