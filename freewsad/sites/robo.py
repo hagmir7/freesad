@@ -10,7 +10,7 @@ def bot(prompt):
         response = openai.Completion.create(
             engine="text-davinci-003",
             prompt=prompt,
-            max_tokens=400,  # Adjust the max tokens as needed
+            max_tokens=4000,  # Adjust the max tokens as needed
             n=1,
             stop=None,
             temperature=0.7  # Adjust the temperature for randomness

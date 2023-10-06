@@ -113,12 +113,12 @@ def airlet(request):
             title = article.find('h2').text
             image = article.find('img')['src']
             path =  article.find('a')['href']
-            if not Post.objects.filter(title=title).exists():
+            if not Post.objects.filter(imageURL=str(title)).exists():
                 post = Post.objects.create(
-                    title = str(title),
+                    title = str(bot(f"Rewrite this title with better ({title}) without &quot")),
                     imageURL = str(image),
-                    tags = str(bot(f"Gave me eso meta keyword for {title}")),
-                    description = str(bot(f"Gave me eso meta description for {title}")),
+                    tags = str(bot(f"Gave me eso meta keyword for ({title}) without &quot")),
+                    description = str(bot(f"Gave me eso meta description for ({title}) without &quot")),
                     language = Language.objects.get(id=1),
                     category = PostCategory.objects.get(id=1),
                     body = str(getItem(path))
