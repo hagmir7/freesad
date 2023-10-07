@@ -18,6 +18,15 @@ class BookForm(forms.ModelForm):
 
 
 
+class BookAiForm(forms.ModelForm):
+    file = forms.FileField(widget=forms.FileInput(attrs={'accept': '.pdf,.epub'}))
+    class Meta:
+        model = Book
+        fields = ('name','author', 'category', 'type', 'file', 'image')
+
+
+
+
 class CreateContact(forms.ModelForm):
     class Meta:
         model = Contact

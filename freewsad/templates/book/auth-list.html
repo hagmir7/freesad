@@ -8,6 +8,10 @@
                 <div class="p-2 px-3 d-flex justify-content-between">
                     <span>{% trans "Books" %} (<strong>{{count}}</strong>)</span>
                     <span><a href="/book/create" class="btn btn-sm btn-success">+ {% trans "Create book" %}</a></span>
+
+
+                    <span><a href="/book/create/ai" class="btn btn-sm btn-success"><i class="bi bi-robot"></i> {% trans "AI Book" %}</a></span>
+
                     <span><a href="/book/create/category" class="btn btn-sm btn-success">+ {% trans "Create category" %}</a></span>
                     <form method="GET">
                         <input type="search" value="{{ query }}" placeholder="{% trans "Title, id, description..." %}" name="query" class="form-control form-control-sm">

@@ -56,6 +56,7 @@ urlpatterns = [
     path('books/trending', trending_books, name='trending_books'),
     path('books/new', new_books, name='new_books'),
     path('book/update/<int:id>', updateBook , name='update_book'),
+    path('book/create/ai', createBookAi, name="create_ai_book"),
 
     path('book/create/category', createBookCategory, name='create_book_category'),
     path('book/update/category/<int:id>', updateBookCategory, name='update_book_category'),

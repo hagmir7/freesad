@@ -8,6 +8,11 @@
             <div class="alert alert-danger p-2 mt-3" role="alert">{{message}}</div>
             {% endfor %}
         {% endif %}
+        {% if error %}
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+        {% endif %}
         <form id="join-form" action="{{ request.path}}?next={{ request.GET.next }}" method="POST">
             {% csrf_token %}
             <div class="form-group mb-0">

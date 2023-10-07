@@ -464,6 +464,54 @@ def createBook(request):
     return render(request, 'book/create.html', context)
 
 
+from .sites.robo import bot
+
+
+
+def getBookTitle(name: str, lang: str, book_type: str):
+    if lang == 'ar':
+        title = f"تحميل {book_type} {name} PDF مجانا"
+    elif lang == 'en':
+        title = f"Download {name} free PDF {book_type}"
+    else:
+        title = f"Télécharger {name} gratuitement en PDF {book_type}"
+    return title
+
+
+
+@login_required
+def createBookAi(request):
+    form = BookAiForm()
+    if request.method == 'POST' and request.FILES.get('file'):
+        file = request.FILES['file']
+        allowed_extensions = ['.txt', '.pdf', '.epub']
+        file_extension = os.path.splitext(file.name)[1]
+        if file_extension.lower() not in allowed_extensions:
+            return HttpResponseBadRequest("Invalid file type. Only .txt, .pdf and epub files are allowed.")
+        else:
+            form = BookAiForm(request.POST, files=request.FILES)
+            if form.is_valid():
+                obj = form.save(commit=False)
+                obj.user = request.user
+                
+                obj.language = obj.category.language
+                obj.title = getBookTitle(obj.name, obj.category.language.code, obj.type.name)
+                obj.tags = bot(f"return to me meta keyword for ({obj.title}) in on line by comma")
+                obj.description = bot(f"return to me a long description for ({obj.title})")
+                obj.save()
+                messages.success(request, 'Book created successfully.')
+                return redirect('create_book')
+            else:
+                messages.warning(request, 'Fail to create a Book.')
+                return redirect('create_book')
+
+    context = {
+        'form': form,
+        'title': 'Create Book',
+    }
+    return render(request, 'book/create.html', context)
+
+
 @login_required
 def updateBook(request, id):
     book = get_object_or_404(Book, id=id)
