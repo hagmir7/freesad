@@ -497,7 +497,7 @@ def createBookAi(request):
                 obj.language = obj.category.language
                 obj.title = getBookTitle(obj.name, obj.category.language.code, obj.type.name)
                 obj.tags = bot(f"return to me meta keyword for ({obj.title}) in on line by comma")
-                obj.description = bot(f"return to me a long description for ({obj.title})")
+                obj.description = bot(f"return to me a long description for ({obj.title}) evry paragraph in <p> tag")
                 obj.save()
                 messages.success(request, 'Book created successfully.')
                 return redirect('create_book')
