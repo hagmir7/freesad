@@ -3,5 +3,5 @@
   "editor.defaultFormatter": "ms-python.black-formatter"
  },
 "python.formatting.provider": "none",
-"editor.inlineSuggest.showToolbar": "onHover"
+"editor.inlineSuggest.showToolbar": "always"
 }

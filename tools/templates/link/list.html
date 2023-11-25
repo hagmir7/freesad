@@ -36,7 +36,7 @@
                                 {{ link.start }} &#x27A1; {{ link.end }}
                                 <img src="https://www.freewsad.com/favicon.webp" width="16" height="16" class="rounded-circle me-1" alt="{ link.name }}">
                                 <a href="{{ link.link }}" target="_blank" rel="nofollow">
-                                    <strong class="text-break">{{ link.name }} </strong> </a> 
+                                    <strong class="text-break">{{ link.name|truncatechars:30 }} </strong> </a> 
                             </div>
                             <div class="d-block mt-1">
                                 <div class="text-muted copyable animate__animated f-s" style="padding: 5px; cursor: pointer;">https://d-aa.com/{{ link.custom }}</div>
