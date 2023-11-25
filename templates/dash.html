@@ -24,7 +24,8 @@
         rel="stylesheet">
 
     <!-- Vendor CSS Files -->
-    
+    {% block head %}
+    {% endblock head %}
 
 
     {% if LANGUAGE_CODE == 'ar' %}
@@ -290,6 +291,8 @@
     <script src="{% static 'assets/vendor/tinymce/tinymce.min.js' %}"></script>
     <!-- Template Main JS File -->
     <script src="{% static 'assets/js/main.js' %}"></script>
+
+    {% block script %}{% endblock script %}
 </body>
 
 </html>

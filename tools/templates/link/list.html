@@ -1,0 +1,161 @@
+{% extends "dash.html" %}
+{% load i18n %}
+
+{% block head %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+{% endblock head %}
+
+{% block content %}
+
+
+<form method="POST" action="{% url 'delete_link' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">&#x2716;</button>
+    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        &#x271A;
+    </button>
+<div class="container mt-3">
+    <div class="row">
+        {% if messages %}
+            {% for message in messages %}
+            <div {% if message.tags %} class="alert alert-{{ message.tags }} p-2" {% endif %}>{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% for link in links %}
+      
+        <div id="link-{{ link.id }}" class="col-md-6">
+            <div class="rounded border overflow-hidden mb-2">
+                <div class="d-flex align-items-start">
+                    <div class="flex-grow-1 d-flex">
+                        <div>
+                            <img height="150px" width="100px" style="object-fit: cover;" src="{{ link.image.url }}" alt="">
+                        </div>
+                        <div class="p-2">
+                            <div class="mb-2 d-block">
+                                <input class="form-check-input me-2" type="checkbox" data-dynamic="1" name="link[]" value="{{ link.id }}">
+                                {{ link.start }} &#x27A1; {{ link.end }}
+                                <img src="https://www.freewsad.com/favicon.webp" width="16" height="16" class="rounded-circle me-1" alt="{ link.name }}">
+                                <a href="{{ link.link }}" target="_blank" rel="nofollow">
+                                    <strong class="text-break">{{ link.name }} </strong> </a> 
+                            </div>
+                            <div class="d-block mt-1">
+                                <div class="text-muted copyable animate__animated f-s" style="padding: 5px; cursor: pointer;">https://d-aa.com/{{ link.custom }}</div>
+                            </div>
+                            <div class="d-block mt-1">
+                                <div class="fw-bold copyable animate__animated f-s" style="white-space: pre-wrap;padding: 5px; cursor: pointer;">{{ link.description }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- <div class="float-end">
+                            <button type="button" class="btn btn-default bg-white btn-sm" data-bs-toggle="dropdown"
+                                aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal">
+                                    <circle cx="12" cy="12" r="1"></circle>
+                                    <circle cx="19" cy="12" r="1"></circle>
+                                    <circle cx="5" cy="12" r="1"></circle>
+                                </svg>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="#!"> More Info</a></li>
+                                <li>
+                            </ul>
+                        </div> -->
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <main aria-label="Page navigation mt-3">
+        <ul class="pagination justify-content-center">
+            {% if links.has_previous %}
+            <li class="page-item">
+                <a class="page-link bg-card" href="?page={{ links.previous_page_number }}">{% trans "Previous" %}</a>
+            </li>
+            {% endif %}
+    
+            {% for num in links.paginator.page_range %}
+                {% if num > links.number|add:'-4' and num < links.number %} 
+                <li class="page-item">
+                    <a class="page-link bg-card" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endif %}
+        
+                {% if num > links.number and num <= links.number|add:'4' %}
+                <li class="page-item">
+                    <a class="page-link bg-card" href="?page={{ num }}">{{ num }}</a>
+                </li>
+                {% endif %}
+        
+                {% if num == links.paginator.num_pages|add:'-1' and num < links.number|add:'5' %}
+                    <li class="page-item">
+                        <a class="page-link bg-card" href="?page={{ num }}">...</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+    
+            {% if links.has_next %}
+                <li class="page-item">
+                    <a class="page-link bg-card" href="?page={{ links.next_page_number }}">{% trans "Next" %}</a>
+                </li>
+            {% endif %}
+        </ul>
+    </main>
+</div>
+</form>
+
+<!-- Modal -->
+<div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">{% trans "Create link" %}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary w-100">{% trans "Create" %}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block script %}
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var copyableElements = document.querySelectorAll('.copyable');
+
+        copyableElements.forEach(function (element) {
+            element.addEventListener('click', function () {
+                copyTextToClipboard(element.innerText);
+                element.classList.add('animate__bounce');
+                setTimeout(() => {
+                     element.classList.remove('animate__bounce');
+                }, 1000);
+            });
+        });
+
+        function copyTextToClipboard(text) {
+            navigator.clipboard.writeText(text)
+                .then(function () {
+                    console.log('Text successfully copied to clipboard');
+                })
+                .catch(function (err) {
+                    console.error('Unable to copy text to clipboard', err);
+                });
+        }
+    });
+
+</script>
+{% endblock script %}
