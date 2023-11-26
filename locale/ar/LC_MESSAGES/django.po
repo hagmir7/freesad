@@ -1111,25 +1111,25 @@ msgid "or by email at"
 msgstr "أو عن طريق البريد الإلكتروني في"
 
 msgid "Links"
-msgstr "الرابط"
+msgstr "الروابط"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Link created successfully"
+msgstr "تم إنشاء الرابط بنجاح"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Links deleted successfully"
+msgstr "تم حذف الرابط بنجاح"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "No links selected"
+msgstr "لم يتم تحديد أي رابط"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Link updated successfully"
+msgstr "تـــم تعديل الرابط بنجاح"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Failed to delete links"
+msgstr "فشل حذف الرابط"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Create link"
+msgstr "إنشاء رابط"
 
 #  msgid "File"
 #  msgstr "ملف"

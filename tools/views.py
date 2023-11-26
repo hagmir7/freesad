@@ -6,6 +6,7 @@ from django.core.paginator import Paginator
 from django.contrib import messages
 import requests
 import json
+from django.utils.translation import gettext as _
 
 
 class LinkCreateView(View):
@@ -56,7 +57,7 @@ class LinkCreateView(View):
                 else:
                     print(f"Request failed with status code: {response.status_code}")
 
-            messages.success(request, "Link created successfully")
+            messages.success(request, _("Link created successfully"))
             return redirect(request.META.get("HTTP_REFERER", "/"))
 
         return render(request, self.template_name, {"form": form})
@@ -68,14 +69,14 @@ def delete_link(request):
         print(selected_links)
         if selected_links:
             Link.objects.filter(pk__in=selected_links).delete()
-            messages.success(request, "Links deleted successfully")
+            messages.success(request, _("Links deleted successfully"))
         else:
-            messages.warning(request, "No links selected.")
+            messages.warning(request, _("No links selected"))
 
         # Redirect to a specific URL or use a default if HTTP_REFERER is not available
         return redirect(request.META.get("HTTP_REFERER", "/"))
 
-    messages.warning(request, "Failed to delete links")
+    messages.warning(request, _("Failed to delete links"))
     return redirect(request.META.get("HTTP_REFERER", "/"))
 
 
@@ -87,7 +88,7 @@ def update_link(request, id):
         if form.is_valid():
             form.save()
             messages.success(request, "Link updated successfully")
-            return redirect('/tools/links')
+            return redirect("/tools/links")
 
     context = {"form": form}
     return render(request, "link/form.html", context)
