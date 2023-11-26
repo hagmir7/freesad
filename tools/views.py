@@ -32,7 +32,6 @@ class LinkCreateView(View):
             custom = form.cleaned_data.get("custom")
             start = form.cleaned_data.get("start")
             end = form.cleaned_data.get("end")
-       
 
             url = "https://enshom.link/api/url/add"
             headers = {
@@ -41,7 +40,6 @@ class LinkCreateView(View):
             }
 
             for i in range(start, end + 1, 1):
-
                 data = {
                     "url": long_url,
                     "custom": f"{custom}-{i}",
@@ -56,9 +54,7 @@ class LinkCreateView(View):
                     print(f"{custom}-{i}")
                     print(response.json())
                 else:
-                    print(
-                        f"Request failed with status code: {response.status_code}"
-                    )
+                    print(f"Request failed with status code: {response.status_code}")
 
             messages.success(request, "Link created successfully")
             return redirect(request.META.get("HTTP_REFERER", "/"))
@@ -81,3 +77,17 @@ def delete_link(request):
 
     messages.warning(request, "Failed to delete links")
     return redirect(request.META.get("HTTP_REFERER", "/"))
+
+
+def update_link(request, id):
+    link = Link.objects.get(id=id)
+    form = LinkForm(instance=link)
+    if request.method == "POST":
+        form = LinkForm(request.POST, request.FILES, instance=link)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Link updated successfully")
+            return redirect('/tools/links')
+
+    context = {"form": form}
+    return render(request, "link/form.html", context)

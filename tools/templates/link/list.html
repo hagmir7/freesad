@@ -15,20 +15,19 @@
         &#x271A;
     </button>
 <div class="container mt-3">
+    {% if messages %}
+        {% for message in messages %}
+        <div {% if message.tags %} class="alert col-md-6 alert-{{ message.tags }} p-2" {% endif %}>{{ message }}</div>
+        {% endfor %}
+    {% endif %}
     <div class="row">
-        {% if messages %}
-            {% for message in messages %}
-            <div {% if message.tags %} class="alert alert-{{ message.tags }} p-2" {% endif %}>{{ message }}</div>
-            {% endfor %}
-        {% endif %}
         {% for link in links %}
-      
         <div id="link-{{ link.id }}" class="col-md-6">
             <div class="rounded border overflow-hidden mb-2">
                 <div class="d-flex align-items-start">
                     <div class="flex-grow-1 d-flex">
                         <div>
-                            <img height="150px" width="100px" style="object-fit: cover;" src="{{ link.image.url }}" alt="">
+                            <img height="150px" width="100px" style="object-fit: cover;" src="{{ link.image.url }}" alt="{{ link.name }}">
                         </div>
                         <div class="p-2">
                             <div class="mb-2 d-block">
@@ -36,7 +35,8 @@
                                 {{ link.start }} &#x27A1; {{ link.end }}
                                 <img src="https://www.freewsad.com/favicon.webp" width="16" height="16" class="rounded-circle me-1" alt="{ link.name }}">
                                 <a href="{{ link.link }}" target="_blank" rel="nofollow">
-                                    <strong class="text-break">{{ link.name|truncatechars:30 }} </strong> </a> 
+                                    <strong class="text-break">{{ link.name|truncatechars:30 }} </strong>
+                                </a> 
                             </div>
                             <div class="d-block mt-1">
                                 <div class="text-muted copyable animate__animated f-s" style="padding: 5px; cursor: pointer;">https://d-aa.com/{{ link.custom }}</div>
@@ -46,11 +46,9 @@
                             </div>
                         </div>
                     </div>
-
-
-                    <!-- <div class="float-end">
-                            <button type="button" class="btn btn-default bg-white btn-sm" data-bs-toggle="dropdown"
-                                aria-expanded="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                     <div class="float-end">
+                            <button type="button" class="btn btn-default bg-white btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                     stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal">
                                     <circle cx="12" cy="12" r="1"></circle>
@@ -58,12 +56,12 @@
                                     <circle cx="5" cy="12" r="1"></circle>
                                 </svg>
                             </button>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu p-0">
                                 <li>
-                                    <a class="dropdown-item" href="#!"> More Info</a></li>
+                                    <a class="dropdown-item" href="{% url 'update_link' link.id %}">{% trans "Update" %}</a></li>
                                 <li>
                             </ul>
-                        </div> -->
+                        </div> 
                 </div>
             </div>
         </div>

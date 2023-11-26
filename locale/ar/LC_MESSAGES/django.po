@@ -1110,8 +1110,8 @@ msgstr "نحترم حقوق الملكية للآخرين ، ونحرص دائم
 msgid "or by email at"
 msgstr "أو عن طريق البريد الإلكتروني في"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Links"
+msgstr "الرابط"
 
 #  msgid "File"
 #  msgstr "ملف"
