@@ -16,8 +16,15 @@ class LinkCreateView(View):
 
     def get(self, request):
         form = LinkForm()
-        contact_list = Link.objects.all().order_by("-date")
-        paginator = Paginator(contact_list, 30)
+        query = request.GET.get("query")
+        if query:
+            name = Link.objects.filter(name__icontains=query)
+            custom = Link.objects.filter(custom__icontains=query)
+            link = Link.objects.filter(link__icontains=query)
+            results = link | name | custom
+        else:
+            results = Link.objects.all().order_by("-date")
+        paginator = Paginator(results, 30)
         page_number = request.GET.get("page")
         links = paginator.get_page(page_number)
         context = {"form": form, "links": links}
@@ -92,3 +99,20 @@ def update_link(request, id):
 
     context = {"form": form}
     return render(request, "link/form.html", context)
+
+
+def link_search(request, id):
+    query = request.GET.get("search_query", "")
+    if query:
+        name = Link.objects.filter(name__icontains=query)
+        custom = Link.objects.filter(custom__icontains=query)
+        link = Link.objects.filter(link__icontains=query)
+        results = link | name | custom
+    else:
+        results = []
+
+    paginator = Paginator(results, 30)
+    page_number = request.GET.get("page")
+    links = paginator.get_page(page_number)
+    context = {"form": form, "links": links}
+    return render(request, self.template_name, context)

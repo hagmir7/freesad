@@ -8,12 +8,26 @@
 {% block content %}
 
 
-<form method="POST" action="{% url 'delete_link' %}">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">&#x2716;</button>
-    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+<div class="d-flex">
+    <button type="button" onclick="deleteForm()" class="btn btn-danger">&#x2716;</button>
+    <button type="button" class="btn btn-success mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
         &#x271A;
     </button>
+    <form method="get" class="col-md-6">
+        <div class="input-group rounded">
+            <input type="search" placeholder="{% trans 'Search' %}" value="{{ request.GET.query }}" name="query" class="form-control">
+            <button type="submit" class="input-group-text" id="searchIcon">
+                <i class="bx bx-search-alt"></i>
+            </button>
+        </div>
+    </form>
+    
+
+</div>
+<form method="POST" id="form-delete" action="{% url 'delete_link' %}">
+    {% csrf_token %}
+    
+
 <div class="container mt-3">
     {% if messages %}
         {% for message in messages %}
@@ -154,6 +168,13 @@
                 });
         }
     });
+
+
+    const form = document.getElementById('form-delete');
+
+    function deleteForm() {
+        form.submit()
+    }
 
 </script>
 {% endblock script %}
