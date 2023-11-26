@@ -87,7 +87,7 @@ def update_link(request, id):
         form = LinkForm(request.POST, request.FILES, instance=link)
         if form.is_valid():
             form.save()
-            messages.success(request, "Link updated successfully")
+            messages.success(request, _("Link updated successfully"))
             return redirect("/tools/links")
 
     context = {"form": form}
