@@ -324,7 +324,6 @@ class Book(models.Model):
             image_path = self.image.path
             if os.path.exists(image_path):
                 image = Image.open(image_path)
-                print(image)
 
                 if image.width > 400 or image.height > 300:
                     width, height = image.size
@@ -341,7 +340,7 @@ class Book(models.Model):
                     # Save the image in WebP format
                     resized_image.save(image_path, 'WEBP', quality=quality)
             else:
-                print(f"File not found at path: {image_path}")
+                pass
         except:
             pass
 

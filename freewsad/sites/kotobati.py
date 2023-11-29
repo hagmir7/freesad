@@ -100,17 +100,12 @@ def page_download(url, data, error):
                     is_public=True
                     # file= ("file.png", File(file)),
                 )
-                # print(data.get("name"))
-                # print(data.get("author"))
-                # print(data.get("body"))
-                # print(data.get("author"))
                 download_image(data.get("image"), book.id)
                 download_file(url, book.id)
                 time.sleep(5)
 
 
 def getItem(url):
-    print(url)
     page = requests.get(url, verify=True, headers=headers)
     soup = BeautifulSoup(page.content, "html.parser")
     try:
@@ -120,56 +115,46 @@ def getItem(url):
         else:
             image_url = image["src"]
         image = f"https://www.kotobati.com{image_url}"
-    except:
-        image = "https://vitaldigital.us/wp-content/uploads/2017/11/book-placeholder-small-125x150.png"
 
-    try:
         name = soup.find("h2", {"class": "img-title"}).text
-    except Exception as e:
-        print(f"Name error: {e}\n")
-        name = "Default name"
 
-    try:
+
+
         author = soup.find_all("p", {"class": "book-p-info"})[0].text
-    except Exception as e:
-        print(f"Author error: {e}\n")
-        author = "Agmir Hassane"
 
-    try:
         category = soup.find_all("p", {"class": "book-p-info"})[1].text
+ 
+        language = (
+            soup.find("ul", class_="book-table-info")
+            .find_all("li")[1]
+            .find_all("p")[1]
+            .text.strip()
+        )
+        body = soup.find("div", {"class": "tab-content"})
+
+        try:
+            if body:
+                body.find("a").decompose()
+        except Exception as e:
+            pass
+
+        data = {
+            "image": image,
+            "name": name,
+            "category": category,
+            "author": author,
+            "language": language,
+            "body": body,
+        }
+
+        try:
+            download_path = soup.find("a", {"class": "download"})["href"]
+            path = f"https://www.kotobati.com{download_path}"
+            page_download(path, data, False)
+        except:
+            page_download("None", {}, True)
     except Exception as e:
-        category = "التنمية البشرية"
-        print(f"Category error: {e}\n")
-
-    language = (
-        soup.find("ul", class_="book-table-info")
-        .find_all("li")[1]
-        .find_all("p")[1]
-        .text.strip()
-    )
-    body = soup.find("div", {"class": "tab-content"})
-
-    try:
-        if body:
-            body.find("a").decompose()
-    except Exception as e:
-        print(f"Custom error: {e}")
-
-    data = {
-        "image": image,
-        "name": name,
-        "category": category,
-        "author": author,
-        "language": language,
-        "body": body,
-    }
-
-    try:
-        download_path = soup.find("a", {"class": "download"})["href"]
-        path = f"https://www.kotobati.com{download_path}"
-        page_download(path, data, False)
-    except:
-        page_download("None", {}, True)
+        print("Error To Scrap data 📕")
 
 
 def kotobati(request):
