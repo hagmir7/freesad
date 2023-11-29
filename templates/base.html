@@ -1,9 +1,5 @@
-
-
-{% load static %} {% load i18n %}
-<!DOCTYPE html>
+{% load static %}{% load i18n %}<!DOCTYPE html>
 <html {% if LANGUAGE_CODE == 'ar' %} class="rtl" lang="ar" dir="rtl" {% else %} class="ltr" lang="{{ LANGUAGE_CODE }}" dir="ltr" {% endif %}>
-
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% if title %} {{title|slice:'60'}} {% else %} {% trans "Freesad - Professional Education Platform" %} {% endif %}</title>

@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
-from .models import Link
-from .forms import LinkForm
+from .models import *
+from .forms import *
 from django.core.paginator import Paginator
 from django.contrib import messages
 import requests
@@ -84,7 +84,7 @@ def delete_link(request):
         return redirect(request.META.get("HTTP_REFERER", "/"))
 
     messages.warning(request, _("Failed to delete links"))
-    return redirect(request.META.get("HTTP_REFERER", "/"))
+    return redirect(request.META.get("HTTP_REFERER"))
 
 
 def update_link(request, id):
@@ -101,18 +101,78 @@ def update_link(request, id):
     return render(request, "link/form.html", context)
 
 
-def link_search(request, id):
-    query = request.GET.get("search_query", "")
-    if query:
-        name = Link.objects.filter(name__icontains=query)
-        custom = Link.objects.filter(custom__icontains=query)
-        link = Link.objects.filter(link__icontains=query)
-        results = link | name | custom
+def create_facebook_group(request):
+    if request.method == "POST":
+        form = FacebookGroupForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect(request.META.get("HTTP_REFERER"))
     else:
-        results = []
+        form = FacebookGroupForm()
 
-    paginator = Paginator(results, 30)
-    page_number = request.GET.get("page")
-    links = paginator.get_page(page_number)
-    context = {"form": form, "links": links}
-    return render(request, self.template_name, context)
+    return render(request, "tools/group/list.html", {"form": form})
+
+
+def create_account(request):
+    if request.method == "POST":
+        form = AccountForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect(request.META.get("HTTP_REFERER"))
+    else:
+        form = AccountForm()
+
+    return render(request, "create_account.html", {"form": form})
+
+
+def update_facebook_group(request, pk):
+    facebook_group = get_object_or_404(FacebookGroup, pk=pk)
+
+    if request.method == "POST":
+        form = FacebookGroupForm(request.POST, request.FILES, instance=facebook_group)
+        if form.is_valid():
+            form.save()
+            return redirect(request.META.get("HTTP_REFERER"))
+    else:
+        form = FacebookGroupForm(instance=facebook_group)
+
+    return render(
+        request,
+        "update_facebook_group.html",
+        {"form": form, "facebook_group": facebook_group},
+    )
+
+
+def update_account(request, pk):
+    account = get_object_or_404(Account, pk=pk)
+
+    if request.method == "POST":
+        form = AccountForm(request.POST, request.FILES, instance=account)
+        if form.is_valid():
+            form.save()
+            return redirect(request.META.get("HTTP_REFERER"))
+    else:
+        form = AccountForm(instance=account)
+
+    return render(request, "update_account.html", {"form": form, "account": account})
+
+
+def delete_facebook_group(request, pk):
+    facebook_group = get_object_or_404(FacebookGroup, pk=pk)
+
+    if request.method == "POST":
+        facebook_group.delete()
+        return redirect(request.META.get("HTTP_REFERER"))
+
+    return render(
+        request, "delete_facebook_group.html", {"facebook_group": facebook_group}
+    )
+
+
+def delete_account(request, pk):
+    account = get_object_or_404(Account, pk=pk)
+    if request.method == "POST":
+        account.delete()
+        return redirect(request.META.get("HTTP_REFERER"))
+
+    return render(request, "delete_account.html", {"account": account})

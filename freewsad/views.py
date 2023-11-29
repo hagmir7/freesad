@@ -73,12 +73,12 @@ def index(request):
         posts = Post.objects.filter(language__code=request.LANGUAGE_CODE, is_public=True).order_by('-created')[0:16]
 
     if query is not None:
-        name = Book.objects.filter(name__icontains=query)
-        description = Book.objects.filter(description__icontains=query)
-        tags = Book.objects.filter(tags__icontains=query)
+        name = Book().filler().filter(name__icontains=query)
+        description = Book().filler().filter(description__icontains=query)
+        tags = Book().filler().filter(tags__icontains=query)
         books = name | description | tags
     else:
-        books = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')[0:18]
+        books = Book().filler().filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')[0:18]
 
     if query is not None:
         title = Video.objects.filter(title__icontains=query)
@@ -326,7 +326,7 @@ def deletePostCategory(request, id):
 
 
 def books(request):
-    list = Book.objects.annotate(views_count=Count('views')).filter(language__code=request.LANGUAGE_CODE).order_by('-views_count')
+    list = Book().filler().annotate(views_count=Count('views')).filter(language__code=request.LANGUAGE_CODE).order_by('-views_count')
     paginator = Paginator(list, 30) 
     page_number = request.GET.get('page')
     books = paginator.get_page(page_number)
@@ -375,7 +375,7 @@ def trending_books(request):
 
 def bookDetail(request, slug):
     book = get_object_or_404(Book , slug=slug)
-    books = Book.objects.filter(category=book.category).order_by('?')[0:12]
+    books = Book().filler().filter(category=book.category).order_by('?')[0:12]
 
 
     agent = get_user_agent(request)

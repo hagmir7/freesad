@@ -1,5 +1,5 @@
 from django import forms
-from .models import Link
+from .models import *
 
 
 class LinkForm(forms.ModelForm):
@@ -15,3 +15,15 @@ class LinkForm(forms.ModelForm):
             "end": forms.NumberInput(attrs={"class": "form-control", "min": 1, "max": 60}),
             "description": forms.Textarea(attrs={"class": "form-control", "rows": 5}),
         }
+
+
+
+class FacebookGroupForm(forms.ModelForm):
+    class Meta:
+        model = FacebookGroup
+        fields = '__all__'
+
+class AccountForm(forms.ModelForm):
+    class Meta:
+        model = Account
+        fields = '__all__'

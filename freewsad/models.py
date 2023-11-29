@@ -21,13 +21,16 @@ def is_image(file_path):
 
 # Generate file name
 def filename(instance, filename):
-    ext = filename.split('.')[-1]  # Get the file extension
-    new_filename = f'{uuid.uuid4().hex}.{ext}'
-    base_path = f"{str(instance._meta.model_name).lower()}s/{ext.upper()}" # Change this to your desired directory
-    current_date = timezone.now().strftime('%Y-%m-%d')
-    file = os.path.join(base_path, current_date, new_filename)
-    
-    return file
+    if filename:
+        ext = filename.split('.')[-1]  # Get the file extension
+        new_filename = f'{uuid.uuid4().hex}.{ext}'
+        base_path = f"{str(instance._meta.model_name).lower()}s/{ext.upper()}" # Change this to your desired directory
+        current_date = timezone.now().strftime('%Y-%m-%d')
+        file = os.path.join(base_path, current_date, new_filename)
+        
+        return file
+    else:
+        return None
 
 class Location(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -265,14 +268,14 @@ class Book(models.Model):
     pages = models.IntegerField(verbose_name='Page Number ',  null=True, blank=True)
     size = models.CharField(verbose_name="Size", null=True, blank=True, max_length=100)
     book_type = models.CharField(max_length=30, verbose_name='Book Type ', null=True, blank=True)
-    image = models.ImageField(upload_to=filename, verbose_name=_("Image"))
+    image = models.ImageField(upload_to=filename, verbose_name=_("Image"), null=True,  blank=True)
     description = models.TextField(null=True, blank=True, verbose_name=_("Description"))
     body = models.TextField(verbose_name='Body', null=True, blank=True)
     save_book = models.ManyToManyField(User, related_name='book_save')
     likes = models.ManyToManyField(User, related_name='book_like')
     tags = models.CharField(max_length=500, null=True, blank=True, verbose_name=_("Tags"))
     views = models.ManyToManyField('Location', through='BookView')
-    file = models.FileField(upload_to=filename, blank=True, verbose_name=_("File"))
+    file = models.FileField(upload_to=filename, null=True, blank=True, verbose_name=_("File"))
     is_public = models.BooleanField(default=True)
     status = models.BooleanField(default=None, null=True, blank=True)
     slug = models.SlugField(blank=True, null=True, editable=False, unique=True)
@@ -297,9 +300,8 @@ class Book(models.Model):
         return self.name
 
     
-    def addView(self, *args, **kwargs):
-        self.views = self.views + 1
-        super(Book, self).save(*args, **kwargs)
+    def filler(self):
+        return Book.objects.filter(image__isnull=False, is_public=True, file__isnull=False)
 
 
 
@@ -318,28 +320,30 @@ class Book(models.Model):
         if self.file:
             self.book_type = self.file.url.split('.')[-1].upper()
 
+        try:
+            image_path = self.image.path
+            if os.path.exists(image_path):
+                image = Image.open(image_path)
+                print(image)
 
-        image_path = self.image.path
-        if os.path.exists(image_path):
-            image = Image.open(image_path)
-            print(image)
+                if image.width > 400 or image.height > 300:
+                    width, height = image.size
+                    aspect_ratio = width / height
 
-            if image.width > 400 or image.height > 300:
-                width, height = image.size
-                aspect_ratio = width / height
+                    new_width = 400
+                    new_height = int(new_width / aspect_ratio)
 
-                new_width = 400
-                new_height = int(new_width / aspect_ratio)
+                    resized_image = image.resize((new_width, new_height))
+                    
+                    # Save the resized image back to the same path
+                    quality = 80  # You can adjust this value as needed
 
-                resized_image = image.resize((new_width, new_height))
-                
-                # Save the resized image back to the same path
-                quality = 80  # You can adjust this value as needed
-
-                # Save the image in WebP format
-                resized_image.save(image_path, 'WEBP', quality=quality)
-        else:
-            print(f"File not found at path: {image_path}")
+                    # Save the image in WebP format
+                    resized_image.save(image_path, 'WEBP', quality=quality)
+            else:
+                print(f"File not found at path: {image_path}")
+        except:
+            pass
 
 
             

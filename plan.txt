@@ -1,0 +1,16 @@
+Facebook Group:
+    - name
+    - image
+    - url
+    - members
+    - status
+    - description
+    - language
+
+Account:
+    - full_name 
+    - image
+    - identity
+    - password
+    - status
+    - gender
