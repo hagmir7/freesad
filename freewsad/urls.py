@@ -7,7 +7,7 @@ from .sites.cloud import cloud
 from .sites.codingnepalweb import codingnepalweb
 from .sites.book import books as book_scraping
 from .sites.airlet import airlet
-from .sites.kotobati import kotobati
+from .sites.kotobati import kotobati, scraping_kotobati
 
 
 urlpatterns = [
@@ -19,7 +19,9 @@ urlpatterns = [
     path("post/delete/<int:id>", deletePost, name="delete_post"),
     path("post/list", postList, name="posts_list"),
     path("post/create/category", createPostCategory, name="post.category.create"),
-    path( "post/update/category/<int:id>", updatePostCategory, name="update_post_category"),
+    path(
+        "post/update/category/<int:id>", updatePostCategory, name="update_post_category"
+    ),
     path(
         "post/delete/category/<int:id>", deletePostCategory, name="delete_post_category"
     ),
@@ -98,4 +100,6 @@ urlpatterns = [
         delete_video_comment,
         name="delete_video_comment",
     ),
+    # Scraping
+    path("scraping/kotobati", scraping_kotobati),
 ]

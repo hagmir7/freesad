@@ -1131,20 +1131,20 @@ msgstr "فشل حذف الرابط"
 msgid "Create link"
 msgstr "إنشاء رابط"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Scraping"
+msgstr "إستخراج"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Kotobati Scraping"
+msgstr "إستخراج من Kotobati"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Kotobati url"
+msgstr "رابط Kotobati"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Scrap"
+msgstr "إستخراج"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Scraping the book is successfully"
+msgstr "تم إستخراج الكتاب بنجاح"
 
 #  msgid "File"
 #  msgstr "ملف"

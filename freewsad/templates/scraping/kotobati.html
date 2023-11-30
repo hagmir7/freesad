@@ -1,0 +1,17 @@
+{% extends 'dash.html' %}
+{% load static %} {% load i18n %} 
+
+
+{% block content %}
+<div class="row d-flex justify-content-center">
+    <div class="col-md-8">
+        <div class="card p-2 shadow-sm">
+            <h5 class="card-title">{% trans "Kotobati Scraping" %} </h5>
+            <form action="/kotobati" method="GET">
+                <input type="url" name="url" required class="form-control" placeholder="{% trans 'Kotobati url' %}...">
+                <button class="btn btn-success rounded-pill px-3 mt-2 text-white">{% trans "Scrap" %}</button>
+            </form>
+        </div>
+    </div><!-- End Reports -->
+</div>
+{% endblock content %}

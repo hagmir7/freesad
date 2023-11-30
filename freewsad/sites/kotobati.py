@@ -1,5 +1,7 @@
 from base64 import encode
 from bs4 import BeautifulSoup, Comment
+from django.shortcuts import render, redirect, get_object_or_404
+
 import requests
 from freewsad.models import Post, Language, PostCategory, Book, BookCategory
 from django.http import JsonResponse
@@ -118,12 +120,10 @@ def getItem(url):
 
         name = soup.find("h2", {"class": "img-title"}).text
 
-
-
         author = soup.find_all("p", {"class": "book-p-info"})[0].text
 
         category = soup.find_all("p", {"class": "book-p-info"})[1].text
- 
+
         language = (
             soup.find("ul", class_="book-table-info")
             .find_all("li")[1]
@@ -157,7 +157,16 @@ def getItem(url):
         print("Error To Scrap data 📕")
 
 
+from django.contrib import messages
+from django.utils.translation import gettext as _
+
+
 def kotobati(request):
+    if request.GET.get("url"):
+        getItem(request.GET.get("url"))
+        messages.success(request, _("Scraping the book is successfully"))
+        return redirect("/scraping/kotobati")
+
     for i in range(1, 3, 1):
         url = f"https://www.kotobati.com/"
         respons = requests.get(url, verify=True, headers=headers)
@@ -171,3 +180,7 @@ def kotobati(request):
             getItem(path)
             time.sleep(5)
     return JsonResponse({"message": "Scraped Successfully..."})
+
+
+def scraping_kotobati(request):
+    return render(request, "scraping/kotobati.html")
