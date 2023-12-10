@@ -28,21 +28,21 @@ class BookCategorySerializer(serializers.ModelSerializer):
     language = LanguageSerializer()
     class Meta:
         model = Book
-        fields =  'name', 'language', 'id', 'slug'
+        fields =  'name', 'title', 'language', 'id', 'slug'
 
 
 
 class BooksSerializer(serializers.ModelSerializer):
     class Meta:
         model= Book
-        fields = ("id", 'slug', 'name', 'image')
+        fields = ("id", 'title', 'slug', 'name', 'image')
 
 class BookSerializer(serializers.ModelSerializer):
     category = BookCategorySerializer()
     language = LanguageSerializer()
     class Meta:
         model = Book
-        fields = ('id', 'name', 'pages', 'image', 'description', 'tags', 'created_at', 'pages',
+        fields = ('id', 'name', 'pages','title', 'image', 'description', 'tags', 'created_at', 'pages',
                   'file', 'language', 'book_type', 'list', 'author', 'category', 'slug',
                   'views', "size" )
 
@@ -56,7 +56,7 @@ class PostCategorySerializer(serializers.ModelSerializer):
     language = LanguageSerializer()
     class Meta:
         model = Post
-        fields =  'name', 'language', 'id', 'slug'
+        fields =  'name', 'title', 'language', 'id', 'slug'
 
 # Post Serializer
 class PostSerializer(serializers.ModelSerializer):

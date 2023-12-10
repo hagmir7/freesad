@@ -167,8 +167,12 @@ def kotobati(request):
         messages.success(request, _("Scraping the book is successfully"))
         return redirect("/scraping/kotobati")
 
-    for i in range(1, 3, 1):
+    if request.GET.get("page"):
+        url = f"https://www.kotobati.com/book/top?page={request.GET.get('page')}"
+    else:
         url = f"https://www.kotobati.com/"
+
+    for i in range(1, 3, 1):
         respons = requests.get(url, verify=True, headers=headers)
         respons.raise_for_status()
         soup = BeautifulSoup(respons.content, "html.parser")

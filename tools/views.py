@@ -102,6 +102,8 @@ def update_link(request, id):
 
 
 def create_facebook_group(request):
+    
+
     if request.method == "POST":
         form = FacebookGroupForm(request.POST, request.FILES)
         if form.is_valid():
@@ -109,8 +111,18 @@ def create_facebook_group(request):
             return redirect(request.META.get("HTTP_REFERER"))
     else:
         form = FacebookGroupForm()
+        query = request.GET.get("query")
+        if query:
+            name = FacebookGroup.objects.filter(name__icontains=query)
+            description = FacebookGroup.objects.filter(description__icontains=query)
+            results = name | description
+        else:
+            results = FacebookGroup.objects.all().order_by("-date")
+        paginator = Paginator(results, 30)
+        page_number = request.GET.get("page")
+        groups = paginator.get_page(page_number)
 
-    return render(request, "tools/group/list.html", {"form": form})
+    return render(request, "group/list.html", {"form": form, "groups": groups})
 
 
 def create_account(request):
