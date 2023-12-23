@@ -28,7 +28,7 @@ headers = {
 def download_image(url, id):
     response = requests.get(url, headers=headers, verify=False)
     if response.status_code == 200:
-        response.raise_for_status()
+        # response.raise_for_status()
 
         file_temp = NamedTemporaryFile()
         file_temp.write(response.content)
@@ -45,7 +45,7 @@ def download_image(url, id):
 def download_file(url, id):
     response = requests.get(url, headers=headers, verify=False)
     if response.status_code == 200:
-        response.raise_for_status()
+        # response.raise_for_status()
 
         file_temp = NamedTemporaryFile()
         file_temp.write(response.content)
@@ -68,7 +68,7 @@ def page_download(url, data, error):
         url = f"https://www.kotobati.com{download_btn}"
         response = requests.get(url, verify=True, headers=headers)
         if response.status_code == 200:
-            response.raise_for_status()
+            # response.raise_for_status()
 
             file_temp = NamedTemporaryFile()
             file_temp.write(response.content)
