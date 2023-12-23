@@ -21,15 +21,7 @@ def slug(length=8):
 
 
 headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
-    "Accept-Language": "en-US,en;q=0.9",
-    "Accept-Encoding": "gzip, deflate, br",
-    "Connection": "keep-alive",
-    "Upgrade-Insecure-Requests": "1",
-    "Referer": "https://www.google.com/",
-    "DNT": "1",  # Do Not Track header
-    # Add more headers as needed
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36"
 }
 
 
@@ -175,17 +167,13 @@ def kotobati(request):
         messages.success(request, _("Scraping the book is successfully"))
         return redirect("/scraping/kotobati")
 
-    if request.GET.get("pages"):
-        url = f"https://www.kotobati.com/book/top?page={request.GET.get('pages')}"
-    else:
-        url = f"https://www.kotobati.com/book/top"
-
     for i in range(1, 3, 1):
-        url = f"https://www.kotobati.com/book/top"
-        respons = requests.get(url, verify=True, headers=headers, allow_redirects=True)
+        url = f"https://www.kotobati.com/"
+        respons = requests.get(url, verify=True, headers=headers)
+        # respons.raise_for_status()
         soup = BeautifulSoup(respons.content, "html.parser")
         books = soup.find_all("div", {"class": "book-teaser"})
-        time.sleep(5)
+
         for book in books:
             book_url = book.find("h3").find("a")["href"]
             path = f"https://www.kotobati.com{book_url}"
