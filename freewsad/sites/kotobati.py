@@ -175,8 +175,13 @@ def kotobati(request):
         messages.success(request, _("Scraping the book is successfully"))
         return redirect("/scraping/kotobati")
 
+    if request.GET.get("pages"):
+        url = f"https://www.kotobati.com/book/top?page={request.GET.get('pages')}"
+    else:
+        url = f"https://www.kotobati.com/book/top"
+
     for i in range(1, 3, 1):
-        url = f"https://www.kotobati.com/"
+        url = f"https://www.kotobati.com/book/top"
         respons = requests.get(url, verify=True, headers=headers, allow_redirects=True)
         respons.raise_for_status()
         soup = BeautifulSoup(respons.content, "html.parser")
