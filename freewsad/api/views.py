@@ -344,7 +344,7 @@ def getPosts(request):
 @permission_classes((permissions.AllowAny,))
 def dashboardTools(request):
     return Response({
-        'books': Book().filler().all().count(),
+        'books': Book.objects.all().count(),
         'posts': Post.objects.all().count(),
         'products': 0
     })
@@ -474,7 +474,7 @@ def playListPosts(request, id):
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny, ))
 def bookListCategory(request, category):
-    books = Book().filler().filter(category__name=category.capitalize())
+    books = Book.objects.filter(category__name=category.capitalize())
     paginator = Paginator(books, 24)
     page_number = request.GET.get('page')
     book = paginator.get_page(page_number)
@@ -487,7 +487,7 @@ def bookListCategory(request, category):
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny, ))
 def booklist(request):
-    book_list = Book().filler().annotate(views_count=Count('views')).filter(language__code=request.LANGUAGE_CODE).order_by('-views_count')
+    book_list = Book.objects.annotate(views_count=Count('views')).filter(language__code=request.LANGUAGE_CODE).order_by('-views_count')
     paginator = Paginator(book_list, 24)
     page_number = request.GET.get('page')
     books = paginator.get_page(page_number)
@@ -498,7 +498,7 @@ def booklist(request):
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny, ))
 def new_books(request):
-    book_list = Book().filler().filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')
+    book_list = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')
     paginator = Paginator(book_list, 24)
     page_number = request.GET.get('page')
     books = paginator.get_page(page_number)
@@ -512,7 +512,7 @@ from django.utils import timezone
 @permission_classes((permissions.AllowAny, ))
 def trending_books(request):
     seven_days_ago = timezone.now() - timedelta(days=7)
-    book_list = Book().filler().annotate(
+    book_list = Book.objects.annotate(
         views_count=Count('bookview'),
     ).filter(
         language__code=request.LANGUAGE_CODE,
@@ -528,7 +528,7 @@ def trending_books(request):
 @api_view(['GET', ])
 @permission_classes((permissions.AllowAny,))
 def bookByCategory(request, slug):
-    books = Book().filler().annotate(  views_count=Count('bookview'),).filter(
+    books = Book.objects.annotate(  views_count=Count('bookview'),).filter(
         category__slug=slug
     ).order_by('-views_count')
     serializer = BooksSerializer(books, many=True)
@@ -762,7 +762,7 @@ def search(request):
 @permission_classes((permissions.AllowAny, ))
 def searchBook(request):
     query = request.GET.get('q')
-    books = Book().filler().annotate(views_count=Count('views')).filter(
+    books = Book.objects.annotate(views_count=Count('views')).filter(
         language__code=request.LANGUAGE_CODE, name__icontains=query).order_by('-views_count')[0:10]
     serializer = BookSerializer(books, many=True)
     return Response(serializer.data)

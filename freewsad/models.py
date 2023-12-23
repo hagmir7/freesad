@@ -301,7 +301,7 @@ class Book(models.Model):
 
     
     def filler(self):
-        return Book.objects.filter(image__isnull=False, is_public=True).exclude(size=None)
+        return Book.objects.filter(image__isnull=False, is_public=True, file__isnull=False)
 
 
 

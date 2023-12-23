@@ -24,7 +24,7 @@
     
 
 </div>
-<form method="POST" id="form-delete" action="">
+<form method="POST" id="form-delete" action="{% url 'delete_group' %}">
     {% csrf_token %}
     
 
@@ -72,7 +72,7 @@
                             </button>
                             <ul class="dropdown-menu p-0">
                                 <li>
-                                    <a class="dropdown-item" href="">{% trans "Update" %}</a></li>
+                                    <a class="dropdown-item" href="{% url 'update_group' group.id %}">{% trans "Update" %}</a></li>
                                 <li>
                             </ul>
                         </div> 

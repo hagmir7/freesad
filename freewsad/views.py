@@ -78,12 +78,7 @@ def index(request):
         tags = Book().filler().filter(tags__icontains=query)
         books = name | description | tags
     else:
-        
         books = Book().filler().filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')[0:18]
-
-
-
-
 
     if query is not None:
         title = Video.objects.filter(title__icontains=query)
