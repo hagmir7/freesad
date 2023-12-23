@@ -73,9 +73,14 @@
         <div class="w-100 my-5 d-flex justify-content-center">
           
           <div class="w-50">
+            {% if book.file %}
             {% include "ads.html" %}
               <a class="btn btn-success w-100" href="{{book.file.url}}"  target="_blanck">{% trans "DOWNLOAD" %}</a><br>
-              <a class="btn btn-primary w-100 mt-2" href="{{book.file.url}}"  target="_blanck">{% trans "Read" %}</a>
+              <a class="btn btn-primary w-100 mt-2" href="{{book.file.url}}"  target="_blanck">{% trans "Read" %}</a>            
+            {% else %}
+            <div class="alert alert-danger">{% trans "Sorry😢 There is no file." %}</div>
+            {% endif %}
+
               {% include "ads.html" %}
           </div>
         </div>
