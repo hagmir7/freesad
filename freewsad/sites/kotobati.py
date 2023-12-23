@@ -177,7 +177,7 @@ def kotobati(request):
 
     for i in range(1, 3, 1):
         url = f"https://www.kotobati.com/"
-        respons = requests.get(url, verify=True, headers=headers)
+        respons = requests.get(url, verify=True, headers=headers, allow_redirects=True)
         respons.raise_for_status()
         soup = BeautifulSoup(respons.content, "html.parser")
         books = soup.find_all("div", {"class": "book-teaser"})
@@ -192,5 +192,3 @@ def kotobati(request):
 
 def scraping_kotobati(request):
     return render(request, "scraping/kotobati.html")
-
-
