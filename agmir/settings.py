@@ -212,11 +212,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
-<<<<<<< HEAD
     'http://localhost:8000',
-=======
-    'http://localhost:8000'
->>>>>>> parent of 1c9c5fc (Add new featurs)
     'https://www.freewsad.com',
     'https://freewsad.com',
     'http://index.freesad.com'
