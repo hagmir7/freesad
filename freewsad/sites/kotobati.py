@@ -183,7 +183,6 @@ def kotobati(request):
     for i in range(1, 3, 1):
         url = f"https://www.kotobati.com/book/top"
         respons = requests.get(url, verify=True, headers=headers, allow_redirects=True)
-        respons.raise_for_status()
         soup = BeautifulSoup(respons.content, "html.parser")
         books = soup.find_all("div", {"class": "book-teaser"})
         time.sleep(5)
