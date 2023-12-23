@@ -181,7 +181,7 @@ def kotobati(request):
         respons.raise_for_status()
         soup = BeautifulSoup(respons.content, "html.parser")
         books = soup.find_all("div", {"class": "book-teaser"})
-
+        time.sleep(5)
         for book in books:
             book_url = book.find("h3").find("a")["href"]
             path = f"https://www.kotobati.com{book_url}"
@@ -192,3 +192,5 @@ def kotobati(request):
 
 def scraping_kotobati(request):
     return render(request, "scraping/kotobati.html")
+
+
