@@ -116,7 +116,7 @@ def create_facebook_group(request):
     else:
         list = FacebookGroup.objects.all().order_by("-members")
 
-    sort_list = list.order_by("-members").order_by("status")
+    sort_list = list.order_by("-status").order_by("-members")
     paginator = Paginator(sort_list, 30)
     page_number = request.GET.get("page")
     groups = paginator.get_page(page_number)

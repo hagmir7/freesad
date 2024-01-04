@@ -43,10 +43,10 @@
                         class="card-img-top border" alt="{{ group.nae }}">
                     <div class="card-body p-0">
                         <h5 class="card-title p-2 pb-0" dir="auto">
-                            <a href="{{ group.url }}" target="_blank">{{group.name|truncatechars:"50" }}</a>
+                            <a href="{{ group.url }}" target="_blank">{{group.name|truncatechars:"40" }}</a>
                         </h5>
                         <p class="card-text p-2 pt-0">
-                            <span>{% trans "Members" %} : {{ group.members|floatformat:"-3g" }}</span> |
+                            <span>{% trans "Members" %} : <strong>{{ group.members|floatformat:"-3g" }}</strong></span> |
                             <span>{{ group.language.name }}</span> |
                             {% if group.status %}
                             <span class="text-success">{% trans "Active" %}</span>
