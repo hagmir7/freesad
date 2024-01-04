@@ -1173,8 +1173,8 @@ msgstr "إنشاء مجموعة"
 msgid "Reports"
 msgstr "تقرير"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "The group already exists."
+msgstr "المجموعة موجودة بالفعل."
 
 #  msgid "File"
 #  msgstr "ملف"
