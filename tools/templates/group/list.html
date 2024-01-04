@@ -46,7 +46,7 @@
                             <a href="{{ group.url }}" target="_blank">{{group.name|truncatechars:"50" }}</a>
                         </h5>
                         <p class="card-text p-2 pt-0">
-                            <span>{% trans "Members" %} : {{ group.members }}</span> |
+                            <span>{% trans "Members" %} : {{ group.members|floatformat:"-3g" }}</span> |
                             <span>{{ group.language.name }}</span> |
                             {% if group.status %}
                             <span class="text-success">{% trans "Active" %}</span>

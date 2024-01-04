@@ -90,7 +90,8 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 WSGI_APPLICATION = "agmir.wsgi.application"
 
-
+USE_THOUSAND_SEPARATOR = True
+NUMBER_GROUPING = 3
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
