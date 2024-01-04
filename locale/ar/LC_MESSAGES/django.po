@@ -1146,32 +1146,32 @@ msgstr "إستخراج"
 msgid "Scraping the book is successfully"
 msgstr "تم إستخراج الكتاب بنجاح"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Are you sure you want to delete group?"
+msgstr "هل أنت متأكد من حذف المجموة؟"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Members"
+msgstr "أعضاء"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Active"
+msgstr "نشيط"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Close"
+msgstr "مغلق"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Facebook group deleted successfully"
+msgstr "تم حذف مجموعة الفيسبوك"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Facebook groups"
+msgstr "مجموعات فيسبوك"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Group created successfully"
+msgstr "تم إنشاء المجموعة بنجاح"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Create group"
+msgstr "إنشاء مجموعة"
 
-#  msgid "File"
-#  msgstr "ملف"
+msgid "Reports"
+msgstr "تقرير"
 
 #  msgid "File"
 #  msgstr "ملف"

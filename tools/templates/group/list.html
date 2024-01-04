@@ -1,122 +1,120 @@
 {% extends "dash.html" %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 
-{% block head %}
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-{% endblock head %}
 
 {% block content %}
 
 
 <div class="d-flex">
-    <button type="button" onclick="deleteForm()" class="btn btn-danger">&#x2716;</button>
     <button type="button" class="btn btn-success mx-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
         &#x271A;
     </button>
     <form method="get" class="col-md-6">
         <div class="input-group rounded">
-            <input type="search" placeholder="{% trans 'Search' %}" value="{{ request.GET.query }}" name="query" class="form-control">
+            <input type="search" placeholder="{% trans 'Search' %}" value="{{ request.GET.query }}" name="query"
+                class="form-control">
             <button type="submit" class="input-group-text" id="searchIcon">
                 <i class="bx bx-search-alt"></i>
             </button>
         </div>
     </form>
-    
+
 
 </div>
-<form method="POST" id="form-delete" action="{% url 'delete_group' %}">
+<form method="POST" id="form-delete" action="">
     {% csrf_token %}
-    
 
-<div class="container mt-3">
-    {% if messages %}
+
+    <div class="container mt-3">
+        {% if messages %}
         {% for message in messages %}
         <div {% if message.tags %} class="alert col-md-6 alert-{{ message.tags }} p-2" {% endif %}>{{ message }}</div>
         {% endfor %}
-    {% endif %}
-    <div class="row">
-        {% for group in groups %}
-        <div id="group-{{ group.id }}" class="col-md-6">
-            <div class="rounded border overflow-hidden mb-2">
-                <div class="d-flex align-items-start">
-                    <div class="flex-grow-1 d-flex">
-                        <div>
-                            <img height="150px" width="100px" style="object-fit: cover;" src="{{ group.image.url }}" alt="{{ group.name }}">
-                        </div>
-                        <div class="p-2">
-                            <div class="mb-2 d-block">
-                                <input class="form-check-input me-2" type="checkbox" data-dynamic="1" name="group[]" value="{{ group.id }}">
-                                {{ group.start }} &#x27A1; {{ group.end }}
-                                <img src="https://www.freewsad.com/favicon.webp" width="16" height="16" class="rounded-circle me-1" alt="{ group.name }}">
-                                <a href="{{ group.group }}" target="_blank" rel="nofollow">
-                                    <strong class="text-break">{{ group.name|truncatechars:30 }} </strong>
-                                </a> 
+        {% endif %}
+        <div class="row">
+            {% for group in groups %}
+            <div class="col-md-3">
+                <div class="card shadow-sm">
+                    <img src="{{ group.image.url }}" style="height: 150px; object-fit: cover;"
+                        class="card-img-top border" alt="{{ group.nae }}">
+                    <div class="card-body p-0">
+                        <h5 class="card-title p-2 pb-0" dir="auto">
+                            <a href="{{ group.url }}" target="_blank">{{group.name|truncatechars:"50" }}</a>
+                        </h5>
+                        <p class="card-text p-2 pt-0">
+                            <span>{% trans "Members" %} : {{ group.members }}</span> |
+                            <span>{{ group.language.name }}</span> |
+                            {% if group.status %}
+                            <span class="text-success">{% trans "Active" %}</span>
+                            {% else %}
+                            <span class="text-danger">{% trans "Close" %}</span>
+                            {% endif %} |
+                            <a data-bs-toggle="collapse" href="#collapse-{{ group.id }}" role="button"
+                                aria-expanded="false" aria-controls="collapse-{{ group.id }}">
+                                {% trans "More" %}
+                            </a>
+                        </p>
+                    </div>
+                    <div class="p-2 pt-0">
+                        <div class="collapse" id="collapse-{{ group.id }}">
+                            <div>
+                                {{ group.description }}
                             </div>
-                            <div class="d-block mt-1">
-                                <div class="text-muted copyable animate__animated f-s" style="padding: 5px; cursor: pointer;">https://d-aa.com/{{ group.custom }}</div>
-                            </div>
-                            <div class="d-block mt-1">
-                                <div class="fw-bold copyable animate__animated f-s" style="white-space: pre-wrap;padding: 5px; cursor: pointer;">{{ group.description }}</div>
-                            </div>
+                            <a href="{% url 'update_facebook_group' group.id %}" class="btn btn-sm btn-success">
+                                {% trans "Update" %}
+                            </a>
+                            <a href="{% url 'delete_facebook_group' group.id %}" class="btn btn-sm btn-danger"
+                                onclick="return confirm('{% trans "Are you sure you want to delete group?" %}')">
+                                {% trans "Delete" %}
+                            </a>
                         </div>
                     </div>
-                     <div class="float-end">
-                            <button type="button" class="btn btn-default bg-white btn-sm" data-bs-toggle="dropdown" aria-expanded="false">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                    viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                    stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal">
-                                    <circle cx="12" cy="12" r="1"></circle>
-                                    <circle cx="19" cy="12" r="1"></circle>
-                                    <circle cx="5" cy="12" r="1"></circle>
-                                </svg>
-                            </button>
-                            <ul class="dropdown-menu p-0">
-                                <li>
-                                    <a class="dropdown-item" href="{% url 'update_group' group.id %}">{% trans "Update" %}</a></li>
-                                <li>
-                            </ul>
-                        </div> 
                 </div>
             </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
-    <main aria-label="Page navigation mt-3">
-        <ul class="pagination justify-content-center">
-            {% if groups.has_previous %}
-            <li class="page-item">
-                <a class="page-group bg-card" href="?page={{ groups.previous_page_number }}">{% trans "Previous" %}</a>
-            </li>
-            {% endif %}
-    
-            {% for num in groups.paginator.page_range %}
+        <main aria-label="Page navigation mt-3">
+            <ul class="pagination justify-content-center">
+                {% if groups.has_previous %}
+                <li class="page-item">
+                    <a class="page-group card mx-1 py-2 px-3 shadow-sm border"
+                        href="?page={{ groups.previous_page_number }}">{% trans "Previous" %}</a>
+                </li>
+                {% endif %}
+
+                {% for num in groups.paginator.page_range %}
+
                 {% if num > groups.number|add:'-4' and num < groups.number %} 
                 <li class="page-item">
-                    <a class="page-group bg-card" href="?page={{ num }}">{{ num }}</a>
+                    <a class="page-group card mx-1 py-2 px-3 shadow-sm border" href="?page={{ num }}">{{ num }}</a>
                 </li>
                 {% endif %}
-        
-                {% if num > groups.number and num <= groups.number|add:'4' %}
-                <li class="page-item">
-                    <a class="page-group bg-card" href="?page={{ num }}">{{ num }}</a>
-                </li>
-                {% endif %}
-        
-                {% if num == groups.paginator.num_pages|add:'-1' and num < groups.number|add:'5' %}
+
+                {% if num > groups.number and num <= groups.number|add:'4' %} 
                     <li class="page-item">
-                        <a class="page-group bg-card" href="?page={{ num }}">...</a>
+                        <a class="page-group card mx-1 py-2 px-3 shadow-sm border" href="?page={{ num }}">{{ num }}</a>
                     </li>
                 {% endif %}
-            {% endfor %}
-    
-            {% if groups.has_next %}
+
+
+                {% if num == groups.paginator.num_pages|add:'-1' and num < groups.number|add:'5' %}
                 <li class="page-item">
-                    <a class="page-group bg-card" href="?page={{ groups.next_page_number }}">{% trans "Next" %}</a>
+                    <a class="page-group card mx-1 py-2 px-3 shadow-sm border" href="?page={{ num }}">...</a>
                 </li>
-            {% endif %}
-        </ul>
-    </main>
-</div>
+                {% endif %}
+
+                {% endfor %}
+
+                {% if groups.has_next %}
+                <li class="page-item">
+                    <a class="page-group card mx-1 py-2 px-3 shadow-sm border" href="?page={{ groups.next_page_number }}">{% trans "Next" %}
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </main>
+    </div>
 </form>
 
 <!-- Modal -->
@@ -125,13 +123,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">{% trans "Create group" %}</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="container">
                     <form method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        {{ form.as_p }}
+                        {{ form|crispy }}
                         <button type="submit" class="btn btn-primary w-100">{% trans "Create" %}</button>
                     </form>
                 </div>
@@ -140,41 +137,3 @@
     </div>
 </div>
 {% endblock content %}
-
-{% block script %}
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var copyableElements = document.querySelectorAll('.copyable');
-
-        copyableElements.forEach(function (element) {
-            element.addEventListener('click', function () {
-                copyTextToClipboard(element.innerText);
-                element.classList.add('animate__bounce');
-                setTimeout(() => {
-                     element.classList.remove('animate__bounce');
-                }, 1000);
-            });
-        });
-
-        function copyTextToClipboard(text) {
-            navigator.clipboard.writeText(text)
-                .then(function () {
-                    console.log('Text successfully copied to clipboard');
-                })
-                .catch(function (err) {
-                    console.error('Unable to copy text to clipboard', err);
-                });
-        }
-    });
-
-
-    const form = document.getElementById('form-delete');
-
-    function deleteForm() {
-        form.submit()
-    }
-
-</script>
-{% endblock script %}

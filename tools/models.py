@@ -1,6 +1,7 @@
 from django.db import models
 from freewsad.models import filename
 from freewsad.models import Language
+from django.utils.translation import gettext as _
 
 
 class Link(models.Model):
@@ -18,13 +19,13 @@ class Link(models.Model):
 
 
 class FacebookGroup(models.Model):
-    name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to=filename)
-    url = models.URLField(max_length=1000)
-    members = models.IntegerField()
-    language = models.ForeignKey(Language, on_delete=models.CASCADE)
-    status = models.BooleanField()
-    description = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, verbose_name=_("Group name"))
+    image = models.ImageField(upload_to=filename, verbose_name=_("Image"))
+    url = models.URLField(max_length=1000, verbose_name=_("Link"))
+    members = models.IntegerField(verbose_name=_("Members"))
+    language = models.ForeignKey(Language, on_delete=models.CASCADE, verbose_name=_("Language"))
+    status = models.BooleanField(verbose_name=_("Status"))
+    description = models.TextField(verbose_name=_("Description"))
     date = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -32,7 +33,7 @@ class FacebookGroup(models.Model):
 
 
 class Account(models.Model):
-    full_name = models.CharField(max_length=100)
+    full_name = models.CharField(max_length=100, verbose_name=_("Frist name"))
     image = models.ImageField(upload_to=filename)
     identity = models.CharField(max_length=100)
     password = models.CharField(max_length=100)

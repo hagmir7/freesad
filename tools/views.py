@@ -106,11 +106,21 @@ def create_facebook_group(request):
         form = FacebookGroupForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, _("Group created successfully"))
             return redirect(request.META.get("HTTP_REFERER"))
     else:
         form = FacebookGroupForm()
 
-    return render(request, "tools/group/list.html", {"form": form})
+    if request.GET.get("query"):
+        list = FacebookGroup.objects.filter(name__icontains=request.GET.get("query"))
+    else:
+        list = FacebookGroup.objects.all().order_by("-members")
+
+    sort_list = list.order_by("-members").order_by("status")
+    paginator = Paginator(sort_list, 30)
+    page_number = request.GET.get("page")
+    groups = paginator.get_page(page_number)
+    return render(request, "group/list.html", {"form": form, "groups": groups})
 
 
 def create_account(request):
@@ -138,7 +148,7 @@ def update_facebook_group(request, pk):
 
     return render(
         request,
-        "update_facebook_group.html",
+        "group/update.html",
         {"form": form, "facebook_group": facebook_group},
     )
 
@@ -159,14 +169,10 @@ def update_account(request, pk):
 
 def delete_facebook_group(request, pk):
     facebook_group = get_object_or_404(FacebookGroup, pk=pk)
-
-    if request.method == "POST":
-        facebook_group.delete()
-        return redirect(request.META.get("HTTP_REFERER"))
-
-    return render(
-        request, "delete_facebook_group.html", {"facebook_group": facebook_group}
-    )
+    facebook_group.delete()
+    messages.success(request, _("Facebook group deleted successfully"))
+    # Redirect to a specific URL or use a default if HTTP_REFERER is not available
+    return redirect(request.META.get("HTTP_REFERER"))
 
 
 def delete_account(request, pk):
