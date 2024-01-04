@@ -86,7 +86,6 @@
                 </li><!-- End Search Icon-->
 
                 <li class="nav-item dropdown pe-3">
-
                     <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
                         <img src="{{ user.profile.avatar.url }}" alt="Profile" class="rounded-circle border avatar">
                         <span class="d-none d-md-block dropdown-toggle ps-2">
@@ -103,6 +102,7 @@
                             <hr class="dropdown-divider">
                         </li>
 
+                        {% if user.is_authenticated %}
                         <li>
                             <a class="dropdown-item d-flex align-items-center"
                                 href="{% url 'profile' user.profile.slug %}">
@@ -110,6 +110,7 @@
                                 <span>{% trans "Profile" %}</span>
                             </a>
                         </li>
+                        {% endif %}
                         <li>
                             <hr class="dropdown-divider">
                         </li>
