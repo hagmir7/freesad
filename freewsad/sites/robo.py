@@ -15,5 +15,4 @@ def bot(prompt):
                 return chunk.choices[0].delta.content
 
     except Exception as e:
-        print("Error")
         return str(e)
