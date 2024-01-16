@@ -1,22 +1,19 @@
-import openai
 import os
+from openai import OpenAI
 
-
-
-openai.api_key = os.environ.get('AI_KEY')
 
 def bot(prompt):
     try:
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=prompt,
-            max_tokens=4000,  # Adjust the max tokens as needed
-            n=1,
-            stop=None,
-            temperature=0.7  # Adjust the temperature for randomness
+        client = OpenAI(api_key=str(os.environ.get("AI_KEY")))
+        stream = client.chat.completions.create(
+            model="gpt-4",
+            messages=[{"role": "user", "content": prompt}],
+            stream=True,
         )
-        return response.choices[0].text.strip()
+        for chunk in stream:
+            if chunk.choices[0].delta.content is not None:
+                return chunk.choices[0].delta.content
+
     except Exception as e:
+        print("Error")
         return str(e)
-
-
