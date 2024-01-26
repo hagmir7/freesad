@@ -288,7 +288,7 @@ LOGGING = {
         "file": {
             "level": "DEBUG",
             "class": "logging.FileHandler",
-            "filename": "/home/agha6919/freesad.com/logse/passenger.log",
+            "filename": os.path.join(BASE_DIR, "logse/passenger.log"),
         },
     },
     "loggers": {
