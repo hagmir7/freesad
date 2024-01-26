@@ -288,11 +288,11 @@ LOGGING = {
         "file": {
             "level": "DEBUG",
             "class": "logging.FileHandler",
-            "filename": os.path.join(BASE_DIR, "logse/passenger.log"),
+            "filename": "/home/agha6919/freesad.com/logse/passenger.log",
         },
     },
     "loggers": {
-        "": {
+        "django": {
             "handlers": ["file"],
             "level": "DEBUG",
             "propagate": True,
