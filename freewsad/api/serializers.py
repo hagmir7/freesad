@@ -178,7 +178,7 @@ class PostListSerialiszer(serializers.ModelSerializer):
     language = LanguageSerializer()
     class Meta:
         model = PostList
-        fields = 'name', 'description', 'cover', 'id', 'language', 'slug', 'date'
+        fields = 'name', 'title', 'description', 'cover', 'id', 'language', 'slug', 'date'
 
 # book play list
 class BookListSerialiszer(serializers.ModelSerializer):
