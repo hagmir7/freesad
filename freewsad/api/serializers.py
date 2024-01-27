@@ -40,9 +40,10 @@ class BooksSerializer(serializers.ModelSerializer):
 class BookSerializer(serializers.ModelSerializer):
     category = BookCategorySerializer()
     language = LanguageSerializer()
+    views = serializers.IntegerField(source='views.count')
     class Meta:
         model = Book
-        fields = ('id', 'name', 'pages', 'image', 'description', 'tags', 'created_at', 'pages',
+        fields = ('id', 'name', 'title', 'pages', 'image', 'description', 'tags', 'created_at', 'pages',
                   'file', 'language', 'book_type', 'list', 'author', 'category', 'slug',
                   'views', "size" )
 
@@ -178,7 +179,7 @@ class PostListSerialiszer(serializers.ModelSerializer):
     language = LanguageSerializer()
     class Meta:
         model = PostList
-        fields = 'name', 'title', 'description', 'cover', 'id', 'language', 'slug', 'date'
+        fields = 'name', 'description', 'cover', 'id', 'language', 'slug', 'date'
 
 # book play list
 class BookListSerialiszer(serializers.ModelSerializer):
