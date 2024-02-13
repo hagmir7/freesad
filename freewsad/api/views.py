@@ -168,12 +168,14 @@ def user(request, username):
     user = User.objects.get(username=username)
     serializer1 = UserSerialize(user, many=False)
     serializer2 = ProfileSerialize(profile, many=False)
-    serializer = []
 
-    serializer.append(serializer1.data)
-    serializer.append(serializer2.data)
+    data = {
+        "user": serializer1.data,
+        "profile": serializer2.data
+    }
 
-    return Response(serializer)
+    return Response(data)
+
 
 
 @api_view(['GET', 'POST'])

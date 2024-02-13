@@ -203,6 +203,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://www.freewsad.com",
     "https://freewsad.com",
     "http://index.freesad.com",
+    "http://next.freesad.com",
 ]
 
 
