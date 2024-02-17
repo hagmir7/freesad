@@ -1,4 +1,3 @@
-
 from django_user_agents.utils import get_user_agent
 from datetime import timedelta
 from django.db.models import Count
@@ -37,7 +36,6 @@ def home(request):
     return Response({'data': serializer.data, 'has_next': posts.has_next()})
 
 
-
 @api_view(['POST'])
 @permission_classes((permissions.AllowAny,))
 def postCreate(request):
@@ -72,12 +70,6 @@ class PostUploadImage(APIView):
             return Response(serializer.data)
         else:
             return Response(serializer.errors)
-
-
-
-
-
-
 
 
 @api_view(['GET'])
@@ -175,7 +167,6 @@ def user(request, username):
     }
 
     return Response(data)
-
 
 
 @api_view(['GET', 'POST'])
@@ -375,7 +366,7 @@ def createAuthor(request):
     else:
         print("Not valid.")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
 
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny,))
@@ -383,8 +374,6 @@ def listAuthers(request):
     authers = Author.objects.all().order_by('-created_at')
     serializer = AuthorSerializer(authers, many=True)
     return Response(serializer.data)
-
-
 
 
 @api_view(['PUT', 'GET'],)
@@ -465,26 +454,26 @@ def playListPosts(request, id):
     return Response(serializer.data)
 
 
-
-
-
-
-
-
-
-
-@api_view(['GET'])
-@permission_classes((permissions.AllowAny, ))
+@api_view(["GET"])
+@permission_classes((permissions.AllowAny,))
 def bookListCategory(request, category):
     books = Book.objects.filter(category__name=category.capitalize())
+    books_category = get_object_or_404(BookCategory, slug=category)
     paginator = Paginator(books, 24)
-    page_number = request.GET.get('page')
+    page_number = request.GET.get("page")
     book = paginator.get_page(page_number)
-    serializer = BookSerializer(book, many=True)
-    return Response({'data': serializer.data, 'has_next': book.has_next()})
+    serializer = BooksSerializer(book, many=True)
+    category_serializer = BookCategorySerializer(books_category, many=False)
+    return Response(
+        {
+            "category": category_serializer.data,
+            "data": serializer.data,
+            "has_next": book.has_next(),
+        }
+    )
 
 
-#----------------------------- Books -----------
+# ----------------------------- Books -----------
 
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny, ))
@@ -599,17 +588,6 @@ class BookView(APIView):
 
         return Response(serializer.errors, status=400)
 
-
-
-
-
-
-
-
-        
-    
-
-    
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'],)
 @permission_classes((permissions.AllowAny,))
@@ -778,8 +756,3 @@ def trafiq(request):
     profile.trafiq = profile.trafiq + 1
     profile.save()
     return Response({'message': profile.slug})
-
-
-
-
-

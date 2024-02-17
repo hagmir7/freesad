@@ -24,6 +24,8 @@ class LanguageSerializer(serializers.ModelSerializer):
         return lang.save()
 
 
+
+# Book Category
 class BookCategorySerializer(serializers.ModelSerializer):
     language = LanguageSerializer()
     class Meta:
@@ -31,12 +33,14 @@ class BookCategorySerializer(serializers.ModelSerializer):
         fields =  'name', 'language', 'id', 'slug'
 
 
-
+# List of books
 class BooksSerializer(serializers.ModelSerializer):
     class Meta:
         model= Book
         fields = ("id", 'slug', 'name', 'image')
 
+
+# Single book (Book Detail)
 class BookSerializer(serializers.ModelSerializer):
     category = BookCategorySerializer()
     language = LanguageSerializer()
@@ -47,24 +51,27 @@ class BookSerializer(serializers.ModelSerializer):
                   'file', 'language', 'book_type', 'list', 'author', 'category', 'slug',
                   'views', "size" )
 
-
+# Create book
 class BookCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = ('name', 'image', 'description', 'tags', 'file', 'language', 'list', 'author_id', 'category')
 
+
+
+# Post Category
 class PostCategorySerializer(serializers.ModelSerializer):
     language = LanguageSerializer()
     class Meta:
         model = Post
         fields =  'name', 'language', 'id', 'slug'
 
-# Post Serializer
+
+# Post List
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = 'title','image', 'imageURL', 'tags', 'slug', 'description', 'body','created'
-
 
 
 # Create post
@@ -74,7 +81,6 @@ class CreatePostSerializer(serializers.ModelSerializer):
         fields = ('title', 'image', 'tags', 'language', 'category', 'description', 'body', 'list')
 
 
- 
 # cotact create serializer
 class ContactSerializers(serializers.ModelSerializer):
     class Meta:
@@ -82,13 +88,11 @@ class ContactSerializers(serializers.ModelSerializer):
         fields = 'name','email','body'
 
 
-
 # Save Emails
 class SaveEmailsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Subscribe
         fields = "email",
-
 
 
 # Get profile
@@ -110,7 +114,7 @@ class AvatarSerialize(serializers.ModelSerializer):
         fields = 'avatar',
 
 
-# Get user 
+# Get user
 class UserSerialize(serializers.ModelSerializer):
     profile = UpdatedProfileSerialize()
     class Meta:
@@ -118,7 +122,6 @@ class UserSerialize(serializers.ModelSerializer):
         fields = 'id', 'username', 'first_name', 'email','last_name', 'is_superuser', 'profile'
 
 
-    
 # Update User
 class UpdateUserSerialize(serializers.ModelSerializer):
     class Meta:
@@ -168,12 +171,6 @@ class UserCreationSerialize(serializers.ModelSerializer):
         return account
 
 
-
-
-
-
-
-
 # post play list
 class PostListSerialiszer(serializers.ModelSerializer):
     language = LanguageSerializer()
@@ -207,6 +204,8 @@ class VideoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Video
         fields = ['user', 'title', 'image', 'description', 'tags', 'language', 'category', 'created_at', 'slug']
+
+
 class VideoCommentSerializer(serializers.ModelSerializer):
     user = UserSerialize()
     class Meta:
