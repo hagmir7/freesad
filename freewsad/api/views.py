@@ -454,25 +454,6 @@ def playListPosts(request, id):
     return Response(serializer.data)
 
 
-@api_view(["GET"])
-@permission_classes((permissions.AllowAny,))
-def bookListCategory(request, category):
-    books = Book.objects.filter(category__name=category.capitalize())
-    books_category = get_object_or_404(BookCategory, slug=category)
-    paginator = Paginator(books, 24)
-    page_number = request.GET.get("page")
-    book = paginator.get_page(page_number)
-    serializer = BooksSerializer(book, many=True)
-    category_serializer = BookCategorySerializer(books_category, many=False)
-    return Response(
-        {
-            "category": category_serializer.data,
-            "data": serializer.data,
-            "has_next": book.has_next(),
-        }
-    )
-
-
 # ----------------------------- Books -----------
 
 @api_view(['GET'])
@@ -515,15 +496,28 @@ def trending_books(request):
     serializer = BooksSerializer(books, many=True)
     return Response({'data': serializer.data, 'has_next': books.has_next()})
 
-# Books By Category
+# List of Books By Category
+
+
 @api_view(['GET', ])
 @permission_classes((permissions.AllowAny,))
-def bookByCategory(request, slug):
-    books = Book.objects.annotate(  views_count=Count('bookview'),).filter(
-        category__slug=slug
-    ).order_by('-views_count')
-    serializer = BooksSerializer(books, many=True)
-    return Response({'data': serializer.data})
+def bookListCategory(request, slug):
+    list = Book.objects.annotate(views_count=Count('bookview'),).filter(category__slug=slug).order_by('-views_count')
+    paginator = Paginator(list, 24)
+    page_number = request.GET.get("page")
+    books = paginator.get_page(page_number)
+    books_serializer = BooksSerializer(books, many=True)
+    # Get Books Category
+    category = get_object_or_404(BookCategory, slug=slug)
+    category_serializer = BookCategorySerializer(category, many=False)
+    return Response(
+        {
+            "category": category_serializer.data,
+            "data": books_serializer.data,
+            "has_next": books.has_next(),
+        }
+    )
+
 
 # Book Category
 @api_view(['GET', ])
