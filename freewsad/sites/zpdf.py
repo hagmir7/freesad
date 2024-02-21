@@ -136,7 +136,7 @@ def zpdf(request):
             body = soup.find("div", {"class": "book-description"})
             author = soup.find("a", {"itemprop": "author"}).text
             language = remove_spaces_and_lines(soup.find_all("tr")[6].find_all("td")[1].text)
-            category = delete_word(soup.find_all("tr")[1].find_all("td")[1].find("a").text, "Books")
+            category = remove_extra_spaces(delete_word(soup.find_all("tr")[1].find_all("td")[1].find("a").text, "Books"))
             pdf = "https://www.z-pdf.com" + soup.find('a', {'class': "download-link"})['href']
             tags = remove_extra_spaces(soup.find_all("tr")[5].find_all("td")[1].text)
             print(tags)
