@@ -157,7 +157,7 @@ def getPoas(request):
 @permission_classes((permissions.AllowAny,))
 def user(request, username):
     profile = get_object_or_404(Profile, slug=username)
-    user = User.objects.get(username=username)
+    user = get_object_or_404(User, username=username)
     serializer1 = UserSerialize(user, many=False)
     serializer2 = ProfileSerialize(profile, many=False)
 
