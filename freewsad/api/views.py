@@ -34,7 +34,9 @@ def home(request):
     paginator = Paginator(list, 6)
     try:
         posts = paginator.page(request.GET.get("page"))
-    except (PageNotAnInteger, EmptyPage):
+    except (PageNotAnInteger):
+        posts = paginator.page(1)
+    except (EmptyPage):
         return Response({"data": [], "has_next": False})
 
     return Response({"data": PostSerializer(posts, many=True).data, "has_next": posts.has_next()})
@@ -467,7 +469,9 @@ def booklist(request):
     paginator = Paginator(book_list, 24)
     try:
         books = paginator.page(request.GET.get("page"))
-    except (PageNotAnInteger, EmptyPage):
+    except PageNotAnInteger:
+        books = paginator.page(1)
+    except (EmptyPage):
         return Response({"data": [], "has_next": False})
     
     serializer = BooksSerializer(books, many=True)
@@ -477,10 +481,15 @@ def booklist(request):
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny, ))
 def new_books(request):
-    book_list = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')
-    paginator = Paginator(book_list, 24)
-    page_number = request.GET.get('page')
-    books = paginator.get_page(page_number)
+    lsit = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')
+    page_number = request.GET.get("page")
+    paginator = Paginator(lsit, 24)
+    try:
+        books = paginator.get_page(page_number)
+    except (PageNotAnInteger):
+        books = paginator.get_page(page_number)
+    except (EmptyPage):
+        return Response({'data':[], 'has_next': False})
     serializer = BooksSerializer(books, many=True)
     return Response({'data': serializer.data, 'has_next': books.has_next()})
 
@@ -499,24 +508,56 @@ def trending_books(request):
     ).order_by('-views_count')
     paginator = Paginator(book_list, 24)
     page_number = request.GET.get('page')
-    books = paginator.get_page(page_number)
+    try:
+        books = paginator.get_page(page_number)
+    except PageNotAnInteger:
+        books = paginator.get_page(page_number)
+    except EmptyPage:
+        return Response({"data": [], "has_next": False})
     serializer = BooksSerializer(books, many=True)
-    return Response({'data': serializer.data, 'has_next': books.has_next()})
+    return Response({"data": serializer.data, "has_next": books.has_next()})
 
 # List of Books By Category
 
 
-@api_view(['GET', ])
+@api_view(["GET",])
 @permission_classes((permissions.AllowAny,))
 def bookListCategory(request, slug):
-    list = Book.objects.annotate(views_count=Count('bookview'),).filter(category__slug=slug).order_by('-views_count')
-    paginator = Paginator(list, 24)
+    book_list = (
+        Book.objects.annotate(views_count=Count("bookview"))
+        .filter(category__slug=slug)
+        .order_by("-views_count")
+    )
+    paginator = Paginator(book_list, 24)
     page_number = request.GET.get("page")
-    books = paginator.get_page(page_number)
-    books_serializer = BooksSerializer(books, many=True)
+
     # Get Books Category
     category = get_object_or_404(BookCategory, slug=slug)
     category_serializer = BookCategorySerializer(category, many=False)
+
+    try:
+        books = paginator.page(page_number)
+    except PageNotAnInteger:
+        # If page is not an integer, return the first page.
+        books = paginator.page(1)
+        books_serializer = BooksSerializer(books, many=True)
+        return Response(
+            {
+                "category": category_serializer.data,
+                "data": books_serializer.data,
+                "has_next": books.has_next(),
+            }
+        )
+    except EmptyPage:
+        return Response(
+            {
+                "category": category_serializer.data,
+                "data": [],
+                "has_next": False,
+            }
+        )
+
+    books_serializer = BooksSerializer(books, many=True)
     return Response(
         {
             "category": category_serializer.data,
