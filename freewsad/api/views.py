@@ -30,18 +30,14 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 @api_view(["GET"])
 @permission_classes((permissions.AllowAny,))
 def home(request):
-    post_list = Post.objects.filter(language__code=request.LANGUAGE_CODE, is_public=True).order_by("-created")
-    paginator = Paginator(post_list, 6)
-    page_number = request.GET.get("page")
+    list = Post.objects.filter(language__code=request.LANGUAGE_CODE, is_public=True).order_by("-created")
+    paginator = Paginator(list, 6)
     try:
-        posts = paginator.page(page_number)
-    except PageNotAnInteger:
-        posts = paginator.page(1)
-    except EmptyPage:
+        posts = paginator.page(request.GET.get("page"))
+    except (PageNotAnInteger, EmptyPage):
         return Response({"data": [], "has_next": False})
 
-    serializer = PostSerializer(posts, many=True)
-    return Response({"data": serializer.data, "has_next": posts.has_next()})
+    return Response({"data": PostSerializer(posts, many=True).data, "has_next": posts.has_next()})
 
 
 @api_view(['POST'])
@@ -469,8 +465,11 @@ def playListPosts(request, id):
 def booklist(request):
     book_list = Book.objects.annotate(views_count=Count('views')).filter(language__code=request.LANGUAGE_CODE).order_by('-views_count')
     paginator = Paginator(book_list, 24)
-    page_number = request.GET.get('page')
-    books = paginator.get_page(page_number)
+    try:
+        books = paginator.page(request.GET.get("page"))
+    except (PageNotAnInteger, EmptyPage):
+        return Response({"data": [], "has_next": False})
+    
     serializer = BooksSerializer(books, many=True)
     return Response({'data': serializer.data, 'has_next': books.has_next()})
 
