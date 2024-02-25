@@ -1,7 +1,6 @@
 from django_user_agents.utils import get_user_agent
 from datetime import timedelta
 from django.db.models import Count
-from django.core.paginator import Paginator
 from rest_framework import status
 from django.views.generic import View
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -25,15 +24,24 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated
 
 
-@api_view(['GET'])
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+
+@api_view(["GET"])
 @permission_classes((permissions.AllowAny,))
 def home(request):
-    list = Post.objects.filter(language__code=request.LANGUAGE_CODE, is_public=True).order_by('-created')
-    paginator = Paginator(list, 6)
-    page_number = request.GET.get('page')
-    posts = paginator.get_page(page_number)
+    post_list = Post.objects.filter(language__code=request.LANGUAGE_CODE, is_public=True).order_by("-created")
+    paginator = Paginator(post_list, 6)
+    page_number = request.GET.get("page")
+    try:
+        posts = paginator.page(page_number)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        return Response({"data": [], "has_next": False})
+
     serializer = PostSerializer(posts, many=True)
-    return Response({'data': serializer.data, 'has_next': posts.has_next()})
+    return Response({"data": serializer.data, "has_next": posts.has_next()})
 
 
 @api_view(['POST'])
