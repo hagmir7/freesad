@@ -139,7 +139,6 @@ def zpdf(request):
             category = remove_extra_spaces(delete_word(soup.find_all("tr")[1].find_all("td")[1].find("a").text, "Books"))
             pdf = "https://www.z-pdf.com" + soup.find('a', {'class': "download-link"})['href']
             tags = remove_extra_spaces(soup.find_all("tr")[5].find_all("td")[1].text)
-            print(tags)
 
             data = {
                 "image": image,
@@ -152,9 +151,8 @@ def zpdf(request):
                 "tags": tags
             }
             page_download(data)
-        except:
-            pass
+            print("Book Create successfully ==>", name)
+        except Exception as e:
+            print("An error occurred ==> ", e)
 
     return JsonResponse({"message": "Scraped Successfully..."})
-
-

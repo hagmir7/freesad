@@ -575,7 +575,7 @@ def bookCategory(request):
     serializer = BookCategorySerializer(language, many=True)
     return Response(serializer.data)
 
-
+from bs4 import BeautifulSoup
 class BookView(APIView):
 
     def get_permissions(self):
@@ -583,7 +583,7 @@ class BookView(APIView):
             return [permissions.AllowAny()]
         else:
             return [permissions.IsAuthenticated()]
-        
+
     def post(self, request):
         serializer = BookSerializer(data=request.data)
         if serializer.is_valid():
@@ -598,8 +598,9 @@ class BookView(APIView):
 
     def get(self, request, slug):
         book = get_object_or_404(Book, slug=slug)
+        soup = BeautifulSoup(book.description, "html.parser")
+        book.meta_description = str(soup.text).replace("\n", '')
 
-        
         agent = get_user_agent(request)
         x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
         if x_forwarded_for:
