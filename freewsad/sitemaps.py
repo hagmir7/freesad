@@ -4,6 +4,8 @@ from .models import Book, Language, Post, Video
 from users.models import Profile
 import math
 from django.conf import settings
+from django.db.models import CharField, Value, IntegerField
+from django.db.models.functions import Length
 
 class StaticViewSitemap(Sitemap):
 
@@ -44,23 +46,20 @@ class PostsSitemap(Sitemap):
         info = super().get_url_info(obj)
         info['priority'] = 0.5  # Set the priority for the URL
         return info
-    
-
-
 
 
 class BookSitemap(Sitemap):
     def items(self):
         return Book.objects.all()
 
-    
+
 class ProfileSitemap(Sitemap):
     def items(self):
-        return Profile.objects.all()
+        return Profile.objects.annotate(
+            slug_length=Length("slug", output_field=IntegerField())
+        ).filter(slug_length__gt=5)
 
 
 class VideoSitemap(Sitemap):
     def items(self):
         return Video.objects.all()
-    
- 
