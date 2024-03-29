@@ -3,7 +3,7 @@ from rest_framework import serializers
 from freewsad.models import *
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
-
+from bs4 import BeautifulSoup
 
 # post language view
 class LanguageSerializer(serializers.ModelSerializer):
@@ -24,20 +24,25 @@ class LanguageSerializer(serializers.ModelSerializer):
         return lang.save()
 
 
-
 # Book Category
 class BookCategorySerializer(serializers.ModelSerializer):
     language = LanguageSerializer()
     class Meta:
         model = Book
-        fields =  'name', 'language', 'id', 'slug'
+        fields =  'name', 'language', 'id', 'slug', 'description'
 
 
 # List of books
 class BooksSerializer(serializers.ModelSerializer):
+
+    def to_representation(self, instance):
+        soup = BeautifulSoup(instance.description, "html.parser")
+        instance.description = str(soup.text).replace("\n", "")[0:88] + "..."
+        return super().to_representation(instance)
+
     class Meta:
         model= Book
-        fields = ("id", 'slug', 'name', 'image')
+        fields = ("id", "slug", "name", "image", "description")
 
 
 # Single book (Book Detail)
@@ -56,7 +61,6 @@ class BookCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = ('name', 'image', 'description', 'tags', 'file', 'language', 'list', 'author_id', 'category')
-
 
 
 # Post Category
