@@ -599,7 +599,8 @@ class BookView(APIView):
     def get(self, request, slug):
         book = get_object_or_404(Book, slug=slug)
         soup = BeautifulSoup(book.description, "html.parser")
-        book.description = str(soup.text).replace("\n", '')
+        book.body = book.description
+        book.description = str(soup.text).replace("\n", '')[0:160]
 
         agent = get_user_agent(request)
         x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')

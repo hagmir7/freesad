@@ -53,7 +53,7 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = Book
         fields = ('id', 'name', 'title', 'pages', 'image', 'description', 'tags', 'created_at', 'pages',
-                  'file', 'language', 'book_type', 'list', 'author', 'category', 'slug',
+                  'file', 'language', 'book_type', 'list', 'author', 'category', 'slug', 'body',
                   'views', "size" )
 
 # Create book
