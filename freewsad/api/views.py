@@ -598,7 +598,8 @@ class BookView(APIView):
 
     def get(self, request, slug):
         book = get_object_or_404(Book, slug=slug)
-        book.body = book.description
+        if(not book.body):
+            book.body = book.description
         soup = BeautifulSoup(book.description, "html.parser")
         book.description = str(soup.text).replace("\n", '')[0:160]
 

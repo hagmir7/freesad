@@ -102,8 +102,9 @@ def page_download(data):
                 user=User.objects.get(id=1),
                 author=str(data.get("author")),
                 language=Language.objects.get(code=data.get("language")),
-                description=str(data.get("body")),
-                tags=str(data.get('tags')),
+                description=remove_spaces_and_lines(str(BeautifulSoup(data.get("body"), "html.parser").text)),
+                body=str(data.get("body")),
+                tags=str(data.get("tags")),
                 category=category,
                 is_public=True,
             )
