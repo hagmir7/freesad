@@ -107,6 +107,8 @@
       <nav class="blog-pagination mt-3" aria-label="Pagination">
         <a class="btn btn-outline-danger btn-sm m-2" href="book/delete/{{book.id}}" onclick="return confirm('Are you sur you wante to delete Book')">{% trans "Delete" %}</a>
         <a class="btn btn-outline-success btn-sm m-2" href="{% url 'update_book' book.id %}">{% trans "Update" %}</a>
+        <a class="btn btn-outline-warning btn-sm m-2" href="{% url 'remove_book' book.slug %}" onclick="return confirm('Are you sur you wante to remove Book')">{% trans "Remove" %}</a>
+
       </nav>
       {% endif %}
     <div class="row">

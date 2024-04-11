@@ -8,10 +8,7 @@
                 <div class="p-2 px-3 d-flex justify-content-between">
                     <span>{% trans "Books" %} (<strong>{{count}}</strong>)</span>
                     <span><a href="/book/create" class="btn btn-sm btn-success">+ {% trans "Create book" %}</a></span>
-
-
                     <span><a href="/book/create/ai" class="btn btn-sm btn-success"><i class="bi bi-robot"></i> {% trans "AI Book" %}</a></span>
-
                     <span><a href="/book/create/category" class="btn btn-sm btn-success">+ {% trans "Create category" %}</a></span>
                     <form method="GET">
                         <input type="search" value="{{ query }}" placeholder="{% trans "Title, id, description..." %}" name="query" class="form-control form-control-sm">
@@ -43,6 +40,8 @@
                                 <a class="btn btn-sm btn-success" href="/book/update/{{book.id}}"><i class="ri-edit-fill"></i></a>
                                 <a class="btn btn-sm btn-danger" href="/book/delete/{{book.id}}" onclick="return confirm('Are you sur you wnat to delete book')"><i class="ri-delete-bin-5-fill"></i></a>
                                 <a class="btn btn-sm btn-primary" href="{% url 'book_rapport' book.slug %}"><i class="ri-bar-chart-2-fill"></i></a>
+                                <a class="btn btn-sm btn-warning text-white" onclick="return confirm('Are you sur you wnat to remove book')" {% if book.removed %}disabled{% endif %} href="{% url 'remove_book' book.slug %}"><i class="bi bi-eye-slash-fill"></i></a>
+
                             </td>
                         </tr>
                         {% empty %}

@@ -9,7 +9,6 @@ from django.utils.translation import gettext_lazy as _
 from PIL import Image
 
 
-
 def is_image(file_path):
     try:
         with Image.open(file_path) as img:
@@ -17,7 +16,7 @@ def is_image(file_path):
         return True
     except (IOError, SyntaxError):
         return False
-    
+
 
 # Generate file name
 def filename(instance, filename):
@@ -63,9 +62,6 @@ class Language(models.Model):
         return self.name
 
 
-
-
-
 class PostCategory(models.Model):
     name = models.CharField(max_length=200)
     language = models.ForeignKey(Language, on_delete=models.CASCADE ,blank=True, null=True)
@@ -79,8 +75,6 @@ class PostCategory(models.Model):
 
     def __str__(self):
         return self.name
-
-
 
 
 class PostList(models.Model):
@@ -104,7 +98,7 @@ class PostList(models.Model):
         else:
             self.slug = slugify(str(self.name) +"-"+ str(random))
         super(PostList, self).save(*args, **kwargs)
-       
+
 
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=1, related_name='posts')
@@ -160,8 +154,6 @@ class Post(models.Model):
         return str(self.title)
 
 
-
-
 class PostComment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_comment')
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post_comment')
@@ -177,7 +169,6 @@ class PostComment(models.Model):
         return f"{self.user} Comment at {self.post.user.username}'s Post"
 
 
-
 class Subscribe(models.Model):
     email = models.EmailField(max_length=100)
     date = models.DateTimeField(auto_now_add=True)
@@ -186,8 +177,6 @@ class Subscribe(models.Model):
 
     def __str__(self):
         return self.email
-
-    
 
 
 class BookList(models.Model):
@@ -235,7 +224,7 @@ class Author(models.Model):
 
     def __str__(self):
         return self.full_name
-    
+
 
 class Type(models.Model):
     name = models.CharField(max_length=50)
@@ -243,7 +232,6 @@ class Type(models.Model):
     slug = models.SlugField(blank=True, null=True, editable=False, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
 
     def save(self, *args, **kwargs):
         if self.name == None:
@@ -253,6 +241,10 @@ class Type(models.Model):
     def __str__(self):
         return self.name
 
+
+class BookManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(removed=None)
 
 
 class Book(models.Model):
@@ -282,12 +274,19 @@ class Book(models.Model):
     is_deleted = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    removed = models.DateField(null=True, blank=True)
 
     # Rest of your model fields and methods
 
     # def delete(self):
     #     self.is_deleted = True
     #     self.save()
+
+
+
+
+    objects = models.Manager()  # Default manager
+    books = BookManager() 
 
     def get_absolute_url(self, *args, **kwargs):
         return f'/{self.language.code}/book/{self.slug}'
@@ -296,12 +295,16 @@ class Book(models.Model):
         ordering = ['-created_at']
 
 
+    def remove(self):
+        self.removed = timezone.now()
+        self.save()
+
     def __str__(self):
         return self.name
 
     
     def filler(self):
-        return Book.objects.filter(image__isnull=False, is_public=True, file__isnull=False)
+        return Book.books.filter(image__isnull=False, is_public=True, file__isnull=False)
 
 
 
@@ -357,8 +360,6 @@ class Book(models.Model):
         return self.get_previous_by_created_at()
 
 
-
-
 class BookView(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE)
     view = models.ForeignKey(Location, on_delete=models.CASCADE)
@@ -385,8 +386,6 @@ class CommentBook(models.Model):
         ordering = ('-date',)
 
 
-
-
 # Contact
 class Contact(models.Model):
     name = models.CharField(max_length=100)
@@ -397,8 +396,6 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.name
-
-
 
 
 class Page(models.Model):
@@ -444,7 +441,7 @@ class VideoList(models.Model):
         else:
             self.slug = slugify(str(self.name) + "-" + str(random))
         super(VideoList, self).save(*args, **kwargs)
-    
+
 class Video(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255, verbose_name=_("Title"))
@@ -475,9 +472,7 @@ class Video(models.Model):
             return f'/{self.language.code}/video/{self.slug}'
         else:
             return f'/video/{self.slug}'
-    
 
-    
 
 class VideoView(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
@@ -511,7 +506,6 @@ class Quality(models.Model):
         if not self.slug:
             self.slug = uuid.uuid4().hex
         return super(Quality, self).save(*args, **kwargs)
-    
 
 
 class VideoComment(models.Model):

@@ -168,7 +168,7 @@ def settings(request):
 
 def books(request, slug):
     page = get_object_or_404(Profile, slug=slug)
-    books_list = Book.objects.filter(user=page.user).order_by('-created_at')
+    books_list = Book.books.filter(user=page.user).order_by('-created_at')
     paginator = Paginator(books_list, 12)
     page_number = request.GET.get('page')
     books = paginator.get_page(page_number)

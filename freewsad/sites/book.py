@@ -55,7 +55,7 @@ def download_file(url, id, model, file=None):
             if model == 'author':
                 instance = Author.objects.get(id=id)  # Instantiate your model object
             else:
-                instance = Book.objects.get(id=id)  # Instantiate your model object
+                instance = Book.books.get(id=id)  # Instantiate your model object
 
             with open(file_temp.name, 'rb') as file:
                 instance.image.save("image.png", File(file))
@@ -76,7 +76,7 @@ def download_book(url, id):
         file_temp.write(response.content)
         file_temp.flush()
 
-        instance = Book.objects.get(id=id)
+        instance = Book.books.get(id=id)
 
         with open(file_temp.name, 'rb') as file:
             instance.file.save("file.pdf", File(file))
@@ -145,8 +145,8 @@ def getItem(url, image, name):
         language = Language.objects.get(code='en')
 
 
-    if not Book.objects.filter(name=str(name)).exists():
-        book = Book.objects.create(
+    if not Book.books.filter(name=str(name)).exists():
+        book = Book.books.create(
             user= User.objects.get(id=1),
             name=str(name),
             title=str(title),

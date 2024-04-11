@@ -1,31 +1,21 @@
 from .models import BookView
 from django.db.models.functions import TruncDate
-from django.http import Http404
-from django.forms.models import model_to_dict
-from django.http import JsonResponse
+from django.http import Http404, HttpResponseRedirect,JsonResponse, HttpResponse, HttpResponseBadRequest
 from django_user_agents.utils import get_user_agent
-from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
-from django.core.paginator import Paginator
-from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
-from agmir.settings import LANGUAGE_CODE
+from django.contrib.auth.decorators import login_required,user_passes_test
 from . forms import *
-from django.http import HttpResponse
 from django.views import View
-import random
-from users.models import Profile
 from .export import PostResource
-from django.http import HttpResponseBadRequest
 import os
+from django.db.models import Count
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib.auth.decorators import user_passes_test
 from bs4 import BeautifulSoup
+from django.core.paginator import Paginator
 from django.core.exceptions import PermissionDenied
 from django.utils.translation import gettext as _
-from django.utils import translation
-from django.utils import timezone
+from django.utils import translation, timezone
 from datetime import timedelta
 
 
@@ -40,7 +30,6 @@ def change_language(request, language_code):
         translation.activate(language_code)
         request.session["django_language"] = language_code
     return redirect(request.META.get('HTTP_REFERER'))
-
 
 
 class AdsView(View):
@@ -143,10 +132,6 @@ def post(request, slug):
     return render(request, 'post/post.html', context)
 
 
-
-
-
-
 def bodyParser(body, title):
     soup = BeautifulSoup(body, 'html.parser')
 
@@ -183,7 +168,6 @@ def createPost(request):
         'title': 'Create Post'
     }
     return render(request, 'post/create.html', context)
-
 
 
 @login_required
@@ -256,7 +240,7 @@ def postCategoryList(request):
         return render(request, 'post/category/auth-list.html', context)
     else:
         return redirect('home')
-    
+
 # Category list
 def category(request, category):
     current_category = get_object_or_404(PostCategory, slug=category)
@@ -286,7 +270,7 @@ def createPostCategory(request):
         'title': 'Create category'
     }
     return render(request, 'post/category/create.html', context)
-        
+
 
 @login_required
 def updatePostCategory(request, id):
@@ -322,35 +306,32 @@ def deletePostCategory(request, id):
 # ------------------------ Book Views ----------------------
 
 
-
-
-
 def books(request):
     list = Book().filler().annotate(views_count=Count('views')).filter(language__code=request.LANGUAGE_CODE).order_by('-views_count')
     paginator = Paginator(list, 30) 
     page_number = request.GET.get('page')
     books = paginator.get_page(page_number)
-    count = Book.objects.all().count()
+    count = Book.books.all().count()
     context = {'books': books, 'count': count, 'title': _("Download free books PDF - Freesad")}
     return render(request, 'book/list.html', context)
 
 
 def new_books(request):
-    list = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')
+    list = Book.books.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')
     paginator = Paginator(list, 30)
     page_number = request.GET.get('page')
     books = paginator.get_page(page_number)
-    count = Book.objects.all().count()
+    count = Book.books.all().count()
     context = {'books': books, 'count': count, 'title': _("Download free and new books PDF - Freesad")}
     return render(request, 'book/list.html', context)
 
 
 def trending_books(request):
-    list = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('?')
+    list = Book.books.filter(language__code=request.LANGUAGE_CODE).order_by('?')
     paginator = Paginator(list, 30)
     page_number = request.GET.get('page')
     books = paginator.get_page(page_number)
-    count = Book.objects.all().count()
+    count = Book.books.all().count()
     context = {'books': books, 'count': count, 'title': _("Download free and popular books PDF - Freesad")}
     return render(request, 'book/list.html', context)
 
@@ -358,7 +339,7 @@ def trending_books(request):
 # def trending_books(request):
 #     seven_days_ago = timezone.now() - timedelta(days=7)
 
-#     books = Book.objects.filter(
+#     books = Book.books.filter(
 #         language__code=request.LANGUAGE_CODE,
 #         bookview__created_at__gte=seven_days_ago
 #     ).annotate(views_count=Count('bookview')).order_by('-views_count')
@@ -375,6 +356,8 @@ def trending_books(request):
 
 def bookDetail(request, slug):
     book = get_object_or_404(Book , slug=slug)
+    if book.removed:
+        raise Http404("The requested resource was not found.")
     books = Book().filler().filter(category=book.category).order_by('?')[0:12]
 
 
@@ -467,7 +450,6 @@ def createBook(request):
 from .sites.robo import bot
 
 
-
 def getBookTitle(name: str, lang: str, book_type: str):
     if lang == 'ar':
         title = f"تحميل {book_type} {name} PDF مجانا"
@@ -476,7 +458,6 @@ def getBookTitle(name: str, lang: str, book_type: str):
     else:
         title = f"Télécharger {name} gratuitement en PDF {book_type}"
     return title
-
 
 
 @login_required
@@ -532,7 +513,6 @@ def updateBook(request, id):
     return render(request, 'book/update.html', context)
 
 
-
 @login_required
 def deleteBook(request, id):
     book = get_object_or_404(Book, id=id)
@@ -542,7 +522,6 @@ def deleteBook(request, id):
     except Exception as e:
         messages.error(request, _("An error occurred: ") + str(e))
     return redirect('books_list')
-
 
 
 def bookCategoryList(request):
@@ -607,10 +586,6 @@ def deleteBookCategory(request, id):
         return redirect('home')
 
 
-
-
-
-
 # ------------------------ Page Views ----------------------
 
 def page(request, slug):
@@ -669,10 +644,6 @@ def menu(request):
     return render(request, 'menu.html', context)
 
 
-
-
-
-
 def contact(request):
     form = CreateContact()
     if request.method == "POST":
@@ -683,7 +654,6 @@ def contact(request):
             return redirect('contact')
     context = {'form':form,'title': _('Freesad - Contace')}
     return render(request, 'contact/contact.html', context)
-
 
 
 def contactList(request):
@@ -699,7 +669,7 @@ def contactList(request):
 def dashboard(request):
     users = User.objects.all().count()
     posts = Post.objects.all().count()
-    books = Book.objects.all().count()
+    books = Book.books.all().count()
     views = Location.objects.all().count()
     context = {
         "users" : users,
@@ -724,7 +694,6 @@ def clearTokns(request):
     return redirect('/')
 
 
-
 def languagUpdate(request):
     # Language.objects.create(id=1, name='English', code='en')
     # Language.objects.create(id=2, name='Français', code='fr')
@@ -734,7 +703,6 @@ def languagUpdate(request):
     PostCategory.objects.create(id=2, name='Programmation')
     PostCategory.objects.create(id=3, name='برمجة')
     return redirect('/')
-
 
 
 # Export view
@@ -753,7 +721,7 @@ def export_post(request):
 
 
 def addBooksSlug(request):
-    books = Book.objects.all()
+    books = Book.books.all()
     for book in books:
         book.views = book.views + 1
         book.save()
@@ -765,7 +733,7 @@ from django.conf import settings
 
 
 def bookFileExists(request):
-    books = Book.objects.all()
+    books = Book.books.all()
     for book in books:
         file_path = os.path.join(settings.MEDIA_ROOT, str(book.file))
         if os.path.exists(file_path):
@@ -773,9 +741,6 @@ def bookFileExists(request):
         else:
             print(f"File does not exist for book: {book.id}")
     return redirect('/')
-
-
-
 
 
 # --------------------- Post Play List  ----------------------
@@ -806,15 +771,12 @@ def deletePostPlayList(request, id):
     return redirect('/post/play-lists/list')
 
 
-
 def updateBody(request):
     posts = Post.objects.all()
     for post in posts:
         post.body = bodyParser(post.body, post.title)
         post.save()
     return redirect('/')
-
-
 
 
 # Video
@@ -849,8 +811,6 @@ def delete_video(request, id):
     return redirect('/')
 
 
-
-
 def videos(request):
     videos_list = Video.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')
     paginator = Paginator(videos_list, 16)
@@ -859,8 +819,6 @@ def videos(request):
 
     context = {'videos': videos}
     return render(request, 'video/list.html', context)
-
-
 
 
 def video(request, slug):
@@ -948,7 +906,6 @@ def delete_quality(request, id):
     return redirect(request.META.get('HTTP_REFERER'))
 
 
-
 from freewsad.api.serializers import VideoCommentSerializer
 
 # Video Comment
@@ -966,9 +923,6 @@ def create_video_comment(request, slug):
         else:
             return JsonResponse({"message": _("Fail to create comment")}, status=403)
     return JsonResponse({"message": _("Method not allowd.")}, status=403)
-
-
-
 
 
 def video_comments(request, slug):
@@ -1007,7 +961,7 @@ def create_video_list(request):
 
 def book_rapport(request, slug):
     try:
-        book = Book.objects.get(slug=slug)
+        book = Book.books.get(slug=slug)
     except Book.DoesNotExist:
         return JsonResponse({'error': 'Book not found'}, status=404)
     
@@ -1039,13 +993,19 @@ def book_rapport(request, slug):
     return JsonResponse(book_report)
 
 
+def removeBook(request, slug):
+    book = get_object_or_404(Book, slug=slug)
+    book.remove()
+    messages.success(request, _("Book Removed successfully!"))
+    return redirect("/book/list")
+
 def rapport(request):
     today = timezone.now().date()
     seven_days_ago = today - timedelta(days=6)  # Last seven days including today
     
     dates = [seven_days_ago + timedelta(days=i) for i in range(7)]
     
-    book_counts = Book.objects.filter(created_at__date__range=(seven_days_ago, today)).values('created_at__date').annotate(book_count=models.Count('id'))
+    book_counts = Book.books.filter(created_at__date__range=(seven_days_ago, today)).values('created_at__date').annotate(book_count=models.Count('id'))
 
     user_counts = User.objects.filter(date_joined__date__range=(seven_days_ago, today)).values('date_joined__date').annotate(user_count=models.Count('id'))
 

@@ -50,7 +50,7 @@ class PostsSitemap(Sitemap):
 
 class BookSitemap(Sitemap):
     def items(self):
-        return Book.objects.all()
+        return Book.books.all()
 
 
 class ProfileSitemap(Sitemap):

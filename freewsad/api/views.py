@@ -1,29 +1,21 @@
 from django_user_agents.utils import get_user_agent
 from datetime import timedelta
 from django.db.models import Count
-from rest_framework import status
-from django.views.generic import View
+from rest_framework import status, permissions, viewsets
 from rest_framework.parsers import MultiPartParser, FormParser
-from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from freewsad.models import Post, Book, PostCategory, Subscribe, PostList, BookCategory, BookList
 from rest_framework.views import APIView
 from .serializers import *
-from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework import viewsets
 from users.models import Profile
 from django.utils.translation import gettext_lazy as _
-from django.forms.models import model_to_dict
-
-
+from bs4 import BeautifulSoup
+from django.http import Http404
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-
 from rest_framework.permissions import IsAuthenticated
-
-
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
@@ -343,7 +335,7 @@ def getPosts(request):
 @permission_classes((permissions.AllowAny,))
 def dashboardTools(request):
     return Response({
-        'books': Book.objects.all().count(),
+        'books': Book.books.all().count(),
         'posts': Post.objects.all().count(),
         'products': 0
     })
@@ -465,7 +457,7 @@ def playListPosts(request, id):
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny, ))
 def booklist(request):
-    book_list = Book.objects.annotate(views_count=Count('views')).filter(language__code=request.LANGUAGE_CODE).order_by('-views_count')
+    book_list = Book.books.annotate(views_count=Count('views')).filter(language__code=request.LANGUAGE_CODE).order_by('-views_count')
     paginator = Paginator(book_list, 24)
     try:
         books = paginator.page(request.GET.get("page"))
@@ -481,7 +473,7 @@ def booklist(request):
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny, ))
 def new_books(request):
-    lsit = Book.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')
+    lsit = Book.books.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')
     page_number = request.GET.get("page")
     paginator = Paginator(lsit, 24)
     try:
@@ -500,7 +492,7 @@ from django.utils import timezone
 @permission_classes((permissions.AllowAny, ))
 def trending_books(request):
     seven_days_ago = timezone.now() - timedelta(days=7)
-    book_list = Book.objects.annotate(
+    book_list = Book.books.annotate(
         views_count=Count('bookview'),
     ).filter(
         language__code=request.LANGUAGE_CODE,
@@ -524,7 +516,7 @@ def trending_books(request):
 @permission_classes((permissions.AllowAny,))
 def bookListCategory(request, slug):
     book_list = (
-        Book.objects.annotate(views_count=Count("bookview"))
+        Book.books.annotate(views_count=Count("bookview"))
         .filter(category__slug=slug)
         .order_by("-views_count")
     )
@@ -575,7 +567,8 @@ def bookCategory(request):
     serializer = BookCategorySerializer(language, many=True)
     return Response(serializer.data)
 
-from bs4 import BeautifulSoup
+
+
 class BookView(APIView):
 
     def get_permissions(self):
@@ -598,6 +591,8 @@ class BookView(APIView):
 
     def get(self, request, slug):
         book = get_object_or_404(Book, slug=slug)
+        if book.removed:
+            raise Http404("The requested resource was not found.")
         if(not book.body):
             book.body = book.description
         soup = BeautifulSoup(book.description, "html.parser")
@@ -787,7 +782,7 @@ def search(request):
 @permission_classes((permissions.AllowAny, ))
 def searchBook(request):
     query = request.GET.get('q')
-    books = Book.objects.annotate(views_count=Count('views')).filter(
+    books = Book.books.annotate(views_count=Count('views')).filter(
         language__code=request.LANGUAGE_CODE, name__icontains=query).order_by('-views_count')[0:10]
     serializer = BookSerializer(books, many=True)
     return Response(serializer.data)

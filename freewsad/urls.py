@@ -55,6 +55,7 @@ urlpatterns = [
     path("book/<str:slug>", bookDetail, name="book_detail"),
     path("books", books, name="books"),
     path("books/trending", trending_books, name="trending_books"),
+    path("book/remove/<str:slug>", removeBook, name="remove_book"),
     path("books/new", new_books, name="new_books"),
     path("book/update/<int:id>", updateBook, name="update_book"),
     path("book/create/ai", createBookAi, name="create_ai_book"),

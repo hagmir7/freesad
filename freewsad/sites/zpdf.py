@@ -52,7 +52,7 @@ def download_image(url, id):
         file_temp.write(response.content)
         file_temp.flush()
 
-        post = Book.objects.get(id=id)
+        post = Book.books.get(id=id)
         with open(file_temp.name, "rb") as file:
             post.image.save("image.png", File(file))
         print("File saved successfully.")
@@ -69,7 +69,7 @@ def download_file(url, id):
         file_temp.write(response.content)
         file_temp.flush()
 
-        post = Book.objects.get(id=id)
+        post = Book.books.get(id=id)
         with open(file_temp.name, "rb") as file:
             post.file.save("file.pdf", File(file))
         print("File saved successfully.")
@@ -95,8 +95,8 @@ def page_download(data):
                 language=Language.objects.get(code=data.get("language")),
             )
 
-        if not Book.objects.filter(name__icontains=data.get("name")):
-            book = Book.objects.create(
+        if not Book.books.filter(name__icontains=data.get("name")):
+            book = Book.books.create(
                 name=str(data.get("name")),
                 title=f"Download {data.get('name')} Free PDF Book",
                 user=User.objects.get(id=1),
