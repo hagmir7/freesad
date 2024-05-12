@@ -133,44 +133,44 @@ def zpdf(request):
         return JsonResponse({"message": "Please we need start page"})
 
     for i in range(start, 10471+1, 1):
-        # try:
-        url = f"https://www.z-pdf.com/book/{i}"
-        respons = requests.get(url, verify=True, headers=headers)
-        respons.raise_for_status()
-        soup = BeautifulSoup(respons.content, "html.parser")
+        try:
+            url = f"https://www.z-pdf.com/book/{i}"
+            respons = requests.get(url, verify=True, headers=headers)
+            respons.raise_for_status()
+            soup = BeautifulSoup(respons.content, "html.parser")
 
-        name = remove_hashtags(
-            delete_word(
-                delete_word(soup.find("h1").text, "Free PDF Download"),
-                "Free ePub Download",
+            name = remove_hashtags(
+                delete_word(
+                    delete_word(soup.find("h1").text, "Free PDF Download"),
+                    "Free ePub Download",
+                )
             )
-        )
-        image = "https://www.z-pdf.com" + str(soup.find("div", {"class": "book-cover"}).find("img")['src'])
-        body = soup.find("div", {"class": "book-description"})
-        author = soup.find("a", {"itemprop": "author"}).text
-        language = remove_spaces_and_lines(soup.find_all("tr")[6].find_all("td")[1].text)
-        category = remove_extra_spaces(delete_word(soup.find_all("tr")[1].find_all("td")[1].find("a").text, "Books"))
-        pdf = "https://www.z-pdf.com" + soup.find('a', {'class': "download-link"})['href']
-        tags = remove_extra_spaces(soup.find_all("tr")[5].find_all("td")[1].text)
+            image = "https://www.z-pdf.com" + str(soup.find("div", {"class": "book-cover"}).find("img")['src'])
+            body = soup.find("div", {"class": "book-description"})
+            author = soup.find("a", {"itemprop": "author"}).text
+            language = remove_spaces_and_lines(soup.find_all("tr")[6].find_all("td")[1].text)
+            category = remove_extra_spaces(delete_word(soup.find_all("tr")[1].find_all("td")[1].find("a").text, "Books"))
+            pdf = "https://www.z-pdf.com" + soup.find('a', {'class': "download-link"})['href']
+            tags = remove_extra_spaces(soup.find_all("tr")[5].find_all("td")[1].text)
 
-        data = {
-            "image": image,
-            "name": name,
-            "category": category,
-            "author": author,
-            "language": language,
-            "body": body,
-            "pdf": pdf,
-            "tags": tags
-        }
-        page_download(data)
-        print("Book Create successfully ==>", name)
-        # except Exception as e:
-        #     print("An error occurred ==> ", e)
-        #     exc_type, exc_obj, exc_tb = sys.exc_info()
-        #     filename = exc_tb.tb_frame.f_code.co_filename
-        #     line_num = exc_tb.tb_lineno
-        #     print("File:", filename)
-        #     print("Line:", line_num)
+            data = {
+                "image": image,
+                "name": name,
+                "category": category,
+                "author": author,
+                "language": language,
+                "body": body,
+                "pdf": pdf,
+                "tags": tags
+            }
+            page_download(data)
+            print("Book Create successfully ==>", name)
+        except Exception as e:
+            print("An error occurred ==> ", e)
+            exc_type, exc_obj, exc_tb = sys.exc_info()
+            filename = exc_tb.tb_frame.f_code.co_filename
+            line_num = exc_tb.tb_lineno
+            print("File:", filename)
+            print("Line:", line_num)
 
     return JsonResponse({"message": "Scraped Successfully..."})
