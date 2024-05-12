@@ -105,5 +105,5 @@ urlpatterns = [
     ),
     # Scraping
     path("scraping/kotobati", scraping_kotobati),
-    path("/extra/space", remove_extra_space_book_title_author),
+    path("extra/space", remove_extra_space_book_title_author),
 ]

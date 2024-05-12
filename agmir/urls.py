@@ -39,6 +39,7 @@ urlpatterns += i18n_patterns(
     path("api-all/", include(router.urls)),
     path("", include("users.urls")),
     path("tools/", include("tools.urls")),
+    
 )
 
 
