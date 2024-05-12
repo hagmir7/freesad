@@ -1052,3 +1052,15 @@ def rapport(request):
     }
     
     return JsonResponse(rapport)
+
+
+def remove_extra_spaces(string):
+    return " ".join(string.split())
+
+def remove_extra_space_book_title_author(request):
+    books = Book.objects.all()
+    for book in books:
+        books.title = remove_extra_spaces(book.title)
+        book.author = remove_extra_spaces(book.author)
+        book.save()
+    return JsonResponse({"message": "success"})

@@ -835,3 +835,9 @@ def trafiq(request):
     profile.trafiq = profile.trafiq + 1
     profile.save()
     return Response({'message': profile.slug})
+
+
+
+
+
+
