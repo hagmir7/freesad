@@ -17,6 +17,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import IsAuthenticated
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils import timezone
 
 
 @api_view(["GET"])
@@ -465,9 +466,50 @@ def booklist(request):
         books = paginator.page(1)
     except (EmptyPage):
         return Response({"data": [], "has_next": False})
-    
+
     serializer = BooksSerializer(books, many=True)
     return Response({'data': serializer.data, 'has_next': books.has_next()})
+
+
+class AuthorSerializer(serializers.Serializer):
+    author = serializers.CharField()
+    num_books = serializers.IntegerField()
+
+
+@api_view(["GET"])
+@permission_classes((permissions.AllowAny,))
+def books_authors(request):
+    books_by_author = (
+        Book.objects.filter(language__code=request.LANGUAGE_CODE)
+        .values("author")
+        .annotate(num_books=Count("id"))
+        .order_by("-num_books")
+    )
+
+    paginator = Paginator(books_by_author, 24)
+    try:
+        books_by_author = paginator.page(request.GET.get("page"))
+    except PageNotAnInteger:
+        books_by_author = paginator.page(1)
+    except (EmptyPage):
+        return Response({"data": [], "has_next": False})
+    serializer = AuthorSerializer(books_by_author, many=True)
+    return Response({"data": serializer.data, "has_next": books_by_author.has_next()})
+
+
+@api_view(["GET"])
+@permission_classes((permissions.AllowAny,))
+def author_books(request):
+    books_by_author = Book.objects.filter(author__icontains=request.GET.get('author'))
+    paginator = Paginator(books_by_author, 24)
+    try:
+        books_by_author = paginator.page(request.GET.get("page"))
+    except PageNotAnInteger:
+        books_by_author = paginator.page(1)
+    except (EmptyPage):
+        return Response({"data": [], "has_next": False})
+    serializer = BooksSerializer(books_by_author, many=True)
+    return Response({"data": serializer.data, "has_next": books_by_author.has_next()})
 
 
 @api_view(['GET'])
@@ -485,8 +527,6 @@ def new_books(request):
     serializer = BooksSerializer(books, many=True)
     return Response({'data': serializer.data, 'has_next': books.has_next()})
 
-
-from django.utils import timezone
 
 @api_view(['GET'])
 @permission_classes((permissions.AllowAny, ))
@@ -566,7 +606,6 @@ def bookCategory(request):
     language = BookCategory.objects.filter(language__code=request.LANGUAGE_CODE)
     serializer = BookCategorySerializer(language, many=True)
     return Response(serializer.data)
-
 
 
 class BookView(APIView):

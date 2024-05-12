@@ -1,16 +1,606 @@
-Facebook Group:
-    - name
-    - image
-    - url
-    - members
-    - status
-    - description
-    - language
+IndexError at /fr/book-scraping
+list index out of range
+Request Method:	GET
+Request URL:	https://freesad.com/fr/book-scraping
+Django Version:	4.1.9
+Exception Type:	IndexError
+Exception Value:	
+list index out of range
+Exception Location:	/home/agha6919/freesad.com/freewsad/sites/book.py, line 96, in getAuthor
+Raised during:	freewsad.sites.book.books
+Python Executable:	/home/agha6919/virtualenv/freesad.com/3.9/bin/python3.9_bin
+Python Version:	3.9.18
+Python Path:	
+['/home/agha6919/freesad.com',
+ '/opt/cpanel/ea-ruby27/root/usr/share/passenger/helper-scripts',
+ '/opt/alt/python39/lib64/python39.zip',
+ '/opt/alt/python39/lib64/python3.9',
+ '/opt/alt/python39/lib64/python3.9/lib-dynload',
+ '/home/agha6919/virtualenv/freesad.com/3.9/lib64/python3.9/site-packages',
+ '/home/agha6919/virtualenv/freesad.com/3.9/lib/python3.9/site-packages',
+ '/home/agha6919/virtualenv/freesad.com/3.9/lib/python3.9/site-packages/odf',
+ '/home/agha6919/virtualenv/freesad.com/3.9/lib/python3.9/site-packages/odf',
+ '/home/agha6919/virtualenv/freesad.com/3.9/lib/python3.9/site-packages/odf',
+ '/home/agha6919/virtualenv/freesad.com/3.9/lib/python3.9/site-packages/odf',
+ '/home/agha6919/virtualenv/freesad.com/3.9/lib/python3.9/site-packages/odf',
+ '/home/agha6919/virtualenv/freesad.com/3.9/lib/python3.9/site-packages/odf',
+ '/home/agha6919/virtualenv/freesad.com/3.9/lib/python3.9/site-packages/odf']
+Server time:	Sun, 21 Apr 2024 00:43:38 +0000
+Traceback Switch to copy-and-paste view
+/home/agha6919/virtualenv/freesad.com/3.9/lib/python3.9/site-packages/django/core/handlers/exception.py, line 56, in inner
+                response = get_response(request) …
+Local vars
+/home/agha6919/virtualenv/freesad.com/3.9/lib/python3.9/site-packages/django/core/handlers/base.py, line 197, in _get_response
+                response = wrapped_callback(request, *callback_args, **callback_kwargs) …
+Local vars
+/home/agha6919/freesad.com/freewsad/sites/book.py, line 179, in books
+                getItem(link, image, name) …
+Local vars
+/home/agha6919/freesad.com/freewsad/sites/book.py, line 130, in getItem
+    getAuthor(author_url, author) …
+Local vars
+/home/agha6919/freesad.com/freewsad/sites/book.py, line 96, in getAuthor
+    description = content.find('div', {'class': 'show-less-div'}).find_all('p')[1].text …
+Local vars
+Request information
+USER
+AnonymousUser
 
-Account:
-    - full_name 
-    - image
-    - identity
-    - password
-    - status
-    - gender
+GET
+No GET data
+
+POST
+No POST data
+
+FILES
+No FILES data
+
+COOKIES
+Variable	Value
+csrftoken	
+'zpHTc7pABCy9OB8deuqDSbNDt3lvfeIk'
+META
+Variable	Value
+CSRF_COOKIE	
+'zpHTc7pABCy9OB8deuqDSbNDt3lvfeIk'
+HTTPS	
+'on'
+HTTP_ACCEPT	
+'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,/;q=0.8,application/signed-exchange;v=b3;q=0.7'
+HTTP_ACCEPT_LANGUAGE	
+'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7'
+HTTP_CACHE_CONTROL	
+'max-age=0'
+HTTP_COOKIE	
+'csrftoken=zpHTc7pABCy9OB8deuqDSbNDt3lvfeIk'
+HTTP_HOST	
+'freesad.com'
+HTTP_PRIORITY	
+'u=0, i'
+HTTP_SEC_CH_UA	
+'"Chromium";v="124", "Google Chrome";v="124", "Not-A.Brand";v="99"'
+HTTP_SEC_CH_UA_MOBILE	
+'?0'
+HTTP_SEC_CH_UA_PLATFORM	
+'"Windows"'
+HTTP_SEC_FETCH_DEST	
+'document'
+HTTP_SEC_FETCH_MODE	
+'navigate'
+HTTP_SEC_FETCH_SITE	
+'none'
+HTTP_SEC_FETCH_USER	
+'?1'
+HTTP_UPGRADE_INSECURE_REQUESTS	
+'1'
+HTTP_USER_AGENT	
+('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like '
+ 'Gecko) Chrome/124.0.0.0 Safari/537.36')
+HTTP_X_AUTONOMOUS_SYSTEM	
+'36903'
+HTTP_X_COUNTRY_CODE	
+'MA'
+HTTP_X_FORWARDED_PORT	
+'443'
+HTTP_X_FORWARDED_PROTO	
+'https'
+HTTP_X_HTTPS	
+'1'
+HTTP_X_REAL_IP	
+'196.217.61.206'
+HTTP_X_SSL	
+'yes'
+PASSENGER_CONNECT_PASSWORD	
+'********'
+PATH_INFO	
+'/fr/book-scraping'
+QUERY_STRING	
+''
+REMOTE_ADDR	
+'196.217.61.206'
+REMOTE_PORT	
+'41796'
+REQUEST_METHOD	
+'GET'
+REQUEST_URI	
+'/fr/book-scraping'
+SCRIPT_NAME	
+''
+SCRIPT_URI	
+'https://freesad.com/fr/book-scraping'
+SCRIPT_URL	
+'/fr/book-scraping'
+SERVER_NAME	
+'freesad.com'
+SERVER_PORT	
+'443'
+SERVER_PROTOCOL	
+'HTTP/1.1'
+SERVER_SOFTWARE	
+('Apache/2.4.59 (cPanel) OpenSSL/1.1.1k mod_bwlimited/1.4 '
+ 'Phusion_Passenger/6.0.20')
+UNIQUE_ID	
+'ZiRhORpzFYTyvU5s7C9qHwAAAQk'
+passenger.hijack	
+'********'
+wsgi.errors	
+<colorama.ansitowin32.StreamWrapper object at 0x14fabf77bfa0>
+wsgi.input	
+<_io.BufferedReader name=5>
+wsgi.multiprocess	
+True
+wsgi.multithread	
+False
+wsgi.run_once	
+False
+wsgi.url_scheme	
+'https'
+wsgi.version	
+(1, 0)
+Settings
+Using settings module agmir.settings
+Setting	Value
+ABSOLUTE_URL_OVERRIDES	
+{}
+ADMINS	
+[]
+ALLOWED_HOSTS	
+['*']
+APPEND_SLASH	
+True
+AUTHENTICATION_BACKENDS	
+['django.contrib.auth.backends.ModelBackend']
+AUTH_PASSWORD_VALIDATORS	
+'********'
+AUTH_USER_MODEL	
+'auth.User'
+BASE_DIR	
+PosixPath('/home/agha6919/freesad.com')
+CACHES	
+{'default': {'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'}}
+CACHE_MIDDLEWARE_ALIAS	
+'default'
+CACHE_MIDDLEWARE_KEY_PREFIX	
+'********'
+CACHE_MIDDLEWARE_SECONDS	
+600
+CORS_ALLOWED_ORIGINS	
+['http://localhost:3000',
+ 'http://localhost:8000',
+ 'https://www.freewsad.com',
+ 'https://freewsad.com',
+ 'http://index.freesad.com',
+ 'http://next.freesad.com']
+CORS_ORIGIN_ALLOW_ALL	
+True
+CPANEL	
+True
+CRISPY_ALLOWED_TEMPLATE_PACKS	
+'bootstrap5'
+CRISPY_TEMPLATE_PACK	
+'bootstrap5'
+CSRF_COOKIE_AGE	
+31449600
+CSRF_COOKIE_DOMAIN	
+None
+CSRF_COOKIE_HTTPONLY	
+False
+CSRF_COOKIE_MASKED	
+False
+CSRF_COOKIE_NAME	
+'csrftoken'
+CSRF_COOKIE_PATH	
+'/'
+CSRF_COOKIE_SAMESITE	
+'Lax'
+CSRF_COOKIE_SECURE	
+False
+CSRF_FAILURE_VIEW	
+'django.views.csrf.csrf_failure'
+CSRF_HEADER_NAME	
+'HTTP_X_CSRFTOKEN'
+CSRF_TRUSTED_ORIGINS	
+[]
+CSRF_USE_SESSIONS	
+False
+DATABASES	
+{'default': {'ATOMIC_REQUESTS': False,
+             'AUTOCOMMIT': True,
+             'CONN_HEALTH_CHECKS': False,
+             'CONN_MAX_AGE': 0,
+             'ENGINE': 'django.db.backends.mysql',
+             'HOST': 'localhost',
+             'NAME': 'agha6919_freesad',
+             'OPTIONS': {'charset': 'utf8mb4',
+                         'sql_mode': 'STRICT_TRANS_TABLES',
+                         'use_unicode': True},
+             'PASSWORD': '********',
+             'PORT': '3306',
+             'TEST': {'CHARSET': None,
+                      'COLLATION': None,
+                      'MIGRATE': True,
+                      'MIRROR': None,
+                      'NAME': None},
+             'TIME_ZONE': None,
+             'USER': 'agha6919_freesad_admin'}}
+DATABASE_ROUTERS	
+[]
+DATA_UPLOAD_MAX_MEMORY_SIZE	
+2621440
+DATA_UPLOAD_MAX_NUMBER_FIELDS	
+1000
+DATA_UPLOAD_MAX_NUMBER_FILES	
+100
+DATETIME_FORMAT	
+'N j, Y, P'
+DATETIME_INPUT_FORMATS	
+['%Y-%m-%d %H:%M:%S',
+ '%Y-%m-%d %H:%M:%S.%f',
+ '%Y-%m-%d %H:%M',
+ '%m/%d/%Y %H:%M:%S',
+ '%m/%d/%Y %H:%M:%S.%f',
+ '%m/%d/%Y %H:%M',
+ '%m/%d/%y %H:%M:%S',
+ '%m/%d/%y %H:%M:%S.%f',
+ '%m/%d/%y %H:%M']
+DATE_FORMAT	
+'N j, Y'
+DATE_INPUT_FORMATS	
+['%Y-%m-%d',
+ '%m/%d/%Y',
+ '%m/%d/%y',
+ '%b %d %Y',
+ '%b %d, %Y',
+ '%d %b %Y',
+ '%d %b, %Y',
+ '%B %d %Y',
+ '%B %d, %Y',
+ '%d %B %Y',
+ '%d %B, %Y']
+DEBUG	
+True
+DEBUG_PROPAGATE_EXCEPTIONS	
+False
+DECIMAL_SEPARATOR	
+'.'
+DEFAULT_AUTO_FIELD	
+'django.db.models.BigAutoField'
+DEFAULT_CHARSET	
+'utf-8'
+DEFAULT_EXCEPTION_REPORTER	
+'django.views.debug.ExceptionReporter'
+DEFAULT_EXCEPTION_REPORTER_FILTER	
+'django.views.debug.SafeExceptionReporterFilter'
+DEFAULT_FILE_STORAGE	
+'django.core.files.storage.FileSystemStorage'
+DEFAULT_FROM_EMAIL	
+'webmaster@localhost'
+DEFAULT_INDEX_TABLESPACE	
+''
+DEFAULT_TABLESPACE	
+''
+DISALLOWED_USER_AGENTS	
+[]
+EMAIL_BACKEND	
+'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST	
+'localhost'
+EMAIL_HOST_PASSWORD	
+'********'
+EMAIL_HOST_USER	
+''
+EMAIL_PORT	
+25
+EMAIL_SSL_CERTFILE	
+None
+EMAIL_SSL_KEYFILE	
+'********'
+EMAIL_SUBJECT_PREFIX	
+'[Django] '
+EMAIL_TIMEOUT	
+None
+EMAIL_USE_LOCALTIME	
+False
+EMAIL_USE_SSL	
+False
+EMAIL_USE_TLS	
+False
+FILE_UPLOAD_DIRECTORY_PERMISSIONS	
+None
+FILE_UPLOAD_HANDLERS	
+['django.core.files.uploadhandler.MemoryFileUploadHandler',
+ 'django.core.files.uploadhandler.TemporaryFileUploadHandler']
+FILE_UPLOAD_MAX_MEMORY_SIZE	
+2621440
+FILE_UPLOAD_PERMISSIONS	
+420
+FILE_UPLOAD_TEMP_DIR	
+None
+FIRST_DAY_OF_WEEK	
+0
+FIXTURE_DIRS	
+[]
+FORCE_SCRIPT_NAME	
+None
+FORMAT_MODULE_PATH	
+None
+FORM_RENDERER	
+'django.forms.renderers.DjangoTemplates'
+IGNORABLE_404_URLS	
+[]
+INSTALLED_APPS	
+['django.contrib.admin',
+ 'django.contrib.auth',
+ 'django.contrib.contenttypes',
+ 'django.contrib.sessions',
+ 'django.contrib.messages',
+ 'django.contrib.staticfiles',
+ 'django.contrib.sites',
+ 'django.contrib.sitemaps',
+ 'robots',
+ 'corsheaders',
+ 'freewsad',
+ 'rest_framework',
+ 'django_summernote',
+ 'rest_framework_simplejwt',
+ 'rest_framework_simplejwt.token_blacklist',
+ 'import_export',
+ 'users',
+ 'crispy_forms',
+ 'crispy_bootstrap5',
+ 'tools']
+INTERNAL_IPS	
+[]
+LANGUAGES	
+[('ar', 'Arabic'), ('en', 'English'), ('fr', 'French'), ('es', 'Español ')]
+LANGUAGES_BIDI	
+['he', 'ar', 'ar-dz', 'fa', 'ur']
+LANGUAGE_CODE	
+'en'
+LANGUAGE_COOKIE_AGE	
+None
+LANGUAGE_COOKIE_DOMAIN	
+None
+LANGUAGE_COOKIE_HTTPONLY	
+False
+LANGUAGE_COOKIE_NAME	
+'django_language'
+LANGUAGE_COOKIE_PATH	
+'/'
+LANGUAGE_COOKIE_SAMESITE	
+None
+LANGUAGE_COOKIE_SECURE	
+False
+LOCALE_PATHS	
+['/home/agha6919/freesad.com/locale']
+LOGGING	
+{'disable_existing_loggers': False,
+ 'handlers': {'file': {'class': 'logging.FileHandler',
+                       'filename': '/home/agha6919/freesad.com/logse/passenger.log',
+                       'level': 'DEBUG'}},
+ 'loggers': {'': {'handlers': ['file'], 'level': 'DEBUG', 'propagate': True}},
+ 'version': 1}
+LOGGING_CONFIG	
+'logging.config.dictConfig'
+LOGIN_REDIRECT_URL	
+'home'
+LOGIN_URL	
+'/accounts/login/'
+LOGOUT_REDIRECT_URL	
+'home'
+MANAGERS	
+[]
+MEDIA_ROOT	
+'/home/agha6919/freesad.com/media'
+MEDIA_URL	
+'/media/'
+MESSAGE_STORAGE	
+'django.contrib.messages.storage.fallback.FallbackStorage'
+MIDDLEWARE	
+['django.middleware.security.SecurityMiddleware',
+ 'whitenoise.middleware.WhiteNoiseMiddleware',
+ 'django.contrib.sessions.middleware.SessionMiddleware',
+ 'django.middleware.locale.LocaleMiddleware',
+ 'corsheaders.middleware.CorsMiddleware',
+ 'django.middleware.common.CommonMiddleware',
+ 'django.middleware.csrf.CsrfViewMiddleware',
+ 'django.contrib.auth.middleware.AuthenticationMiddleware',
+ 'django.contrib.messages.middleware.MessageMiddleware']
+MIGRATION_MODULES	
+{}
+MONTH_DAY_FORMAT	
+'F j'
+NUMBER_GROUPING	
+3
+PASSWORD_HASHERS	
+'********'
+PASSWORD_RESET_TIMEOUT	
+'********'
+PREPEND_WWW	
+False
+REST_FRAMEWORK	
+{'DEFAULT_PERMISSION_CLASSES': ('rest_framework_simplejwt.authentication.JWTAuthentication',
+                                'rest_framework.permissions.DjangoModelPermissions')}
+ROOT_URLCONF	
+'agmir.urls'
+SECRET_KEY	
+'********'
+SECRET_KEY_FALLBACKS	
+'********'
+SECURE_CONTENT_TYPE_NOSNIFF	
+True
+SECURE_CROSS_ORIGIN_OPENER_POLICY	
+'same-origin'
+SECURE_HSTS_INCLUDE_SUBDOMAINS	
+False
+SECURE_HSTS_PRELOAD	
+False
+SECURE_HSTS_SECONDS	
+0
+SECURE_PROXY_SSL_HEADER	
+('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_REDIRECT_EXEMPT	
+[]
+SECURE_REFERRER_POLICY	
+'same-origin'
+SECURE_SSL_HOST	
+None
+SECURE_SSL_REDIRECT	
+True
+SERVER_EMAIL	
+'root@localhost'
+SESSION_CACHE_ALIAS	
+'default'
+SESSION_COOKIE_AGE	
+1209600
+SESSION_COOKIE_DOMAIN	
+None
+SESSION_COOKIE_HTTPONLY	
+True
+SESSION_COOKIE_NAME	
+'sessionid'
+SESSION_COOKIE_PATH	
+'/'
+SESSION_COOKIE_SAMESITE	
+'Lax'
+SESSION_COOKIE_SECURE	
+False
+SESSION_ENGINE	
+'django.contrib.sessions.backends.db'
+SESSION_EXPIRE_AT_BROWSER_CLOSE	
+False
+SESSION_FILE_PATH	
+None
+SESSION_SAVE_EVERY_REQUEST	
+False
+SESSION_SERIALIZER	
+'django.contrib.sessions.serializers.JSONSerializer'
+SETTINGS_MODULE	
+'agmir.settings'
+SHORT_DATETIME_FORMAT	
+'m/d/Y P'
+SHORT_DATE_FORMAT	
+'m/d/Y'
+SIGNING_BACKEND	
+'django.core.signing.TimestampSigner'
+SILENCED_SYSTEM_CHECKS	
+[]
+SIMPLE_JWT	
+{'ACCESS_TOKEN_LIFETIME': '********',
+ 'ALGORITHM': 'HS256',
+ 'AUDIENCE': None,
+ 'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+ 'AUTH_HEADER_TYPES': ('Bearer',),
+ 'AUTH_TOKEN_CLASSES': '********',
+ 'BLACKLIST_AFTER_ROTATION': True,
+ 'ISSUER': None,
+ 'JTI_CLAIM': 'jti',
+ 'JWK_URL': None,
+ 'LEEWAY': 0,
+ 'REFRESH_TOKEN_LIFETIME': '********',
+ 'ROTATE_REFRESH_TOKENS': '********',
+ 'SLIDING_TOKEN_LIFETIME': '********',
+ 'SLIDING_TOKEN_REFRESH_EXP_CLAIM': '********',
+ 'SLIDING_TOKEN_REFRESH_LIFETIME': '********',
+ 'TOKEN_TYPE_CLAIM': '********',
+ 'TOKEN_USER_CLASS': '********',
+ 'UPDATE_LAST_LOGIN': False,
+ 'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
+ 'USER_ID_CLAIM': 'user_id',
+ 'USER_ID_FIELD': 'id',
+ 'VERIFYING_KEY': '********'}
+SITE_ID	
+1
+SSL_DISABLE	
+True
+STATICFILES_DIRS	
+('/home/agha6919/freesad.com/static',)
+STATICFILES_FINDERS	
+['django.contrib.staticfiles.finders.FileSystemFinder',
+ 'django.contrib.staticfiles.finders.AppDirectoriesFinder']
+STATICFILES_STORAGE	
+'whitenoise.storage.CompressedManifestStaticFilesStorage'
+STATIC_ROOT	
+'/home/agha6919/freesad.com/staticfiles'
+STATIC_URL	
+'/static/'
+SUMMERNOTE_CONFIG	
+{'base_css': ('//stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css',),
+ 'base_js': ('//code.jquery.com/jquery-3.5.1.min.js',
+             '//stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js'),
+ 'default_css': ('summernote/summernote-bs4.min.css',
+                 'summernote/django_summernote.css'),
+ 'default_js': ('summernote/jquery.ui.widget.js',
+                'summernote/jquery.iframe-transport.js',
+                'summernote/jquery.fileupload.js',
+                'summernote/summernote-bs4.min.js',
+                'summernote/ResizeSensor.js'),
+ 'height': '400px',
+ 'width': '100%'}
+SUMMERNOTE_THEME	
+'bs4'
+TEMPLATES	
+[{'APP_DIRS': True,
+  'BACKEND': 'django.template.backends.django.DjangoTemplates',
+  'DIRS': ['/home/agha6919/freesad.com/templates'],
+  'OPTIONS': {'context_processors': ['django.template.context_processors.debug',
+                                     'django.template.context_processors.request',
+                                     'django.contrib.auth.context_processors.auth',
+                                     'django.template.context_processors.i18n',
+                                     'django.contrib.messages.context_processors.messages',
+                                     'freewsad.porcessors.context']}}]
+TEST_NON_SERIALIZED_APPS	
+[]
+TEST_RUNNER	
+'django.test.runner.DiscoverRunner'
+THOUSAND_SEPARATOR	
+','
+TIME_FORMAT	
+'P'
+TIME_INPUT_FORMATS	
+['%H:%M:%S', '%H:%M:%S.%f', '%H:%M']
+TIME_ZONE	
+'UTC'
+USE_DEPRECATED_PYTZ	
+False
+USE_I18N	
+True
+USE_L10N	
+True
+USE_THOUSAND_SEPARATOR	
+True
+USE_TZ	
+True
+USE_X_FORWARDED_HOST	
+False
+USE_X_FORWARDED_PORT	
+False
+WHITENOISE_MANIFEST_STRICT	
+False
+WSGI_APPLICATION	
+'agmir.wsgi.application'
+X_FRAME_OPTIONS	
+'SAMEORIGIN'
+YEAR_MONTH_FORMAT	
+'F Y'
+You’re seeing this error because you have DEBUG = True in your Django settings file. Change that to False, and Django will display a standard page generated by the handler for this status code.

@@ -35,11 +35,6 @@ class BookCategorySerializer(serializers.ModelSerializer):
 # List of books
 class BooksSerializer(serializers.ModelSerializer):
 
-    def to_representation(self, instance):
-        soup = BeautifulSoup(instance.description, "html.parser")
-        instance.description = str(soup.text).replace("\n", "")[0:88] + "..."
-        return super().to_representation(instance)
-
     class Meta:
         model= Book
         fields = ("id", "slug", "name", "image", "description", "created_at", "author")

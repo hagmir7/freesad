@@ -61,4 +61,6 @@ urlpatterns = [
     path("trafiq", trafiq),
     path("author/create", createAuthor),
     path("auther/list", listAuthers),
+    path("authors", books_authors),
+    path("author/books", author_books),
 ]
