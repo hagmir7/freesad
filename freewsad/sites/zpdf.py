@@ -149,6 +149,10 @@ def zpdf(request):
                 )
             )
             image = "https://www.z-pdf.com" + str(soup.find("div", {"class": "book-cover"}).find("img")['src'])
+            print(
+                "Image file => ",
+                str(soup.find("div", {"class": "book-cover"}).find("img")["src"]),
+            )
             body = soup.find("div", {"class": "book-description"})
             author = soup.find("a", {"itemprop": "author"}).text
             language = remove_spaces_and_lines(soup.find_all("tr")[6].find_all("td")[1].text)
