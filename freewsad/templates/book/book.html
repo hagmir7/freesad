@@ -105,7 +105,7 @@
     </div>
       {% if user == book.user or user.is_superuser %}
       <nav class="blog-pagination mt-3" aria-label="Pagination">
-        <a class="btn btn-outline-danger btn-sm m-2" href="book/delete/{{book.id}}" onclick="return confirm('Are you sur you wante to delete Book')">{% trans "Delete" %}</a>
+        <a class="btn btn-outline-danger btn-sm m-2" href="{% url "book_delete" book.id %}" onclick="return confirm('Are you sur you wante to delete Book')">{% trans "Delete" %}</a>
         <a class="btn btn-outline-success btn-sm m-2" href="{% url 'update_book' book.id %}">{% trans "Update" %}</a>
         <a class="btn btn-outline-warning btn-sm m-2" href="{% url 'remove_book' book.slug %}" onclick="return confirm('Are you sur you wante to remove Book')">{% trans "Remove" %}</a>
 
@@ -116,7 +116,11 @@
       <div class="book-card col-6 col-sm-6 col-md-5 col-lg-4 col-xl-3 mt-2 px-2">
           <div class="card card-book shadow-sm overflow-hidden h-100 m-0">
               <a href="/book/{{book.slug}}" class="h-100">
-                  <img class="book-image fill" height="100%" src="{{book.image.url}}" alt="{{book.name}}" width="100%">
+                  {% if book.image %}
+                 <img class="book-image fill" height="100%" src="{{book.image.url}}" alt="{{book.name}}" width="100%">
+                {% else %}
+                 <img class="book-image fill" height="100%" src="{% static "/img/book-placeholder.png" %}" alt="{{book.name}}" width="100%">
+                {% endif %}
               </a>
           </div>
       </div>
