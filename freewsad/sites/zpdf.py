@@ -104,7 +104,7 @@ def page_download(data):
         else:
             category = BookCategory.objects.create(
                 name=data.get("category"),
-                language=Language.objects.get(code=data.get("language")),
+                language=Language.objects.get(code="en"),
             )
 
         if not Book.books.filter(name__icontains=data.get("name")):
@@ -113,7 +113,7 @@ def page_download(data):
                 title=f"Download {remove_extra_spaces(str(data.get('name')))} Free PDF Book",
                 user=User.objects.get(id=1),
                 author=remove_extra_spaces(str(data.get("author"))),
-                language=Language.objects.get(code=data.get("language")),
+                language=Language.objects.get(code="en"),
                 description=remove_extra_spaces_and_lines(str(data.get("body").text)),
                 body=str(data.get("body")),
                 tags=str(data.get("tags")),
