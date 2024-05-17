@@ -136,8 +136,8 @@ def zpdf(request):
         return JsonResponse({"message": "Please we need start page"})
 
     for i in range(start, 10471+1, 1):
+        url = f"https://www.z-pdf.com/book/{i}"
         try:
-            url = f"https://www.z-pdf.com/book/{i}"
             respons = requests.get(url, verify=True, headers=headers)
             respons.raise_for_status()
             soup = BeautifulSoup(respons.content, "html.parser")
@@ -179,5 +179,6 @@ def zpdf(request):
             line_num = exc_tb.tb_lineno
             print("File:", filename)
             print("Line:", line_num)
+            print(url)
 
     return JsonResponse({"message": "Scraped Successfully..."})
