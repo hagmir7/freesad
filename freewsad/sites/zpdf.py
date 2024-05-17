@@ -58,35 +58,35 @@ headers = {
 def download_image(url, id):
     response = requests.get(url, headers=headers, verify=False)
     if response.status_code == 200:
-        # response.raise_for_status()
+        response.raise_for_status()
 
         file_temp = NamedTemporaryFile()
         file_temp.write(response.content)
         file_temp.flush()
 
-        post = Book.books.get(id=id)
+        book = Book.books.get(id=id)
         with open(file_temp.name, "rb") as file:
-            post.image.save("image.png", File(file))
-        print("File saved successfully.")
+            book.image.save("image.png", File(file))
+            print("File saved successfully.")
     else:
-        print("Failed to download the file.")
+        print("Failed to download the file. =>" , response.text)
 
 
 def download_file(url, id):
     response = requests.get(url, headers=headers, verify=False)
     if response.status_code == 200:
-        # response.raise_for_status()
+        response.raise_for_status()
 
         file_temp = NamedTemporaryFile()
         file_temp.write(response.content)
         file_temp.flush()
 
-        post = Book.books.get(id=id)
+        book = Book.books.get(id=id)
         with open(file_temp.name, "rb") as file:
-            post.file.save("file.pdf", File(file))
-        print("File saved successfully.")
+            book.file.save("file.pdf", File(file))
+            print("File saved successfully.")
     else:
-        print("Failed to download the file.")
+        print("Failed to download the file. =>", response.text)
 
 
 def page_download(data):
@@ -125,6 +125,7 @@ def page_download(data):
             time.sleep(5)
 
 
+# Max 12019 - 17 - 05 - 2024
 def zpdf(request):
 
     if request.GET.get("start"):
