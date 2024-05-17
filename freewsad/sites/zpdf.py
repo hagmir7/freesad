@@ -123,6 +123,8 @@ def page_download(data):
             download_image(data.get("image"), book.id)
             download_file(data.get("pdf"), book.id)
             time.sleep(5)
+        else:
+            print("Book already exists")
 
 
 # Max 12019 - 17 - 05 - 2024
