@@ -9,6 +9,7 @@ from .sites.book import books as book_scraping
 from .sites.airlet import airlet
 from .sites.kotobati import kotobati, scraping_kotobati
 from .sites.zpdf import zpdf
+from .sites.pdf import pdf
 
 
 urlpatterns = [
@@ -80,6 +81,7 @@ urlpatterns = [
     path("airlet", airlet),
     path("kotobati", kotobati),
     path("zpdf", zpdf),
+    path("pdf", pdf),
     # emport Export
     path("posts/export", export_post),
     path("add-books-slug", addBooksSlug),
