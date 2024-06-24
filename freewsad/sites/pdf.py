@@ -8,10 +8,10 @@ from django.http import JsonResponse
 
 # Db Config
 config = {
-    "user": "root",
-    "password": "",
+    "user": "agha6919_books_admin",
+    "password": "Guigou.1998@",
     "host": "localhost",
-    "database": "books",
+    "database": "agha6919_books",
     "raise_on_warnings": True,
 }
 
