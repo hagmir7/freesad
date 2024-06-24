@@ -167,7 +167,7 @@ def page_download(url):
         title = soup.find("h1").text
         body = soup.find("div", {"class": "book-description"})
         author = soup.find("a", {"itemprop": "author"}).text
-        tags = remove_extra_spaces(soup.find_all("tr")[5].find_all("td")[1].text)
+        tags = remove_extra_spaces(soup.find_all("tr")[6].find_all("td")[1].text)
         category = remove_extra_spaces(
             delete_word(
                 soup.find_all("tr")[1].find_all("td")[1].find("a").text, "Books"
@@ -196,13 +196,13 @@ def page_download(url):
                 "is_public": 1,
                 "user_id": 1,
                 "author": remove_extra_spaces(str(author)),
-                "category": str(category),
+                "category": remove_extra_spaces(str(category)),
                 "pages": int(pages),
                 "language": "en",
                 "size": str(size),
                 "type": "PDF",
                 "body": str(body),
-                "description": str(description),
+                "description": remove_extra_spaces_and_lines(str(description)),
                 "slug": book_slug,
                 "tags": str(tags),
                 "created_at": data_now,
@@ -215,7 +215,7 @@ def page_download(url):
 
 
 def pdf(request):
-    for i in range(402, 6010):
+    for i in range(600, 6010):
         url = f"https://yes-pdf.com/book/{i}"
         try:
             print(url)
