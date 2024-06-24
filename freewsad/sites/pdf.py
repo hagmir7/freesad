@@ -215,7 +215,7 @@ def page_download(url):
 
 
 def pdf(request):
-    for i in range(300, 400):
+    for i in range(1, 6010):
         url = f"https://yes-pdf.com/book/{i}"
         try:
             print(url)
