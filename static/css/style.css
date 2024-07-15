@@ -30,6 +30,12 @@
     height: auto;
 }
 
+.blog-post :where(iframe) {
+    width: 100%;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
 
 /*-- Google Fonts --*/
 @font-face {
