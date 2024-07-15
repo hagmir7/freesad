@@ -25,6 +25,11 @@
     white-space: pre-wrap;
 }
 
+.blog-post :where(img) {
+    max-width: 100%;
+    height: auto;
+}
+
 
 /*-- Google Fonts --*/
 @font-face {
