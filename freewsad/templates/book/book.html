@@ -86,7 +86,12 @@
         </div>
         <h2 class="h5">{{ book.name }}</h2>
         <article dir="auto" style="white-space:pre-wrap;">
+          {% if book.body %}
            {{book.body|safe}}
+          {% else %}
+           {{book.description|safe}}
+          {% endif %}
+          
         </article>
       </article>
 
