@@ -54,12 +54,12 @@ def index(request):
     query = request.GET.get('query')
 
 
-    if query is not None:
-        title = Post.objects.filter(title__icontains=query)
-        description = Post.objects.filter(description__icontains=query)
-        posts = title | description
-    else:
-        posts = Post.objects.filter(language__code=request.LANGUAGE_CODE, is_public=True).order_by('-created')[0:16]
+    # if query is not None:
+    #     title = Post.objects.filter(title__icontains=query)
+    #     description = Post.objects.filter(description__icontains=query)
+    #     posts = title | description
+    # else:
+    #     posts = Post.objects.filter(language__code=request.LANGUAGE_CODE, is_public=True).order_by('-created')[0:16]
 
     if query is not None:
         name = Book().filler().filter(name__icontains=query)
@@ -67,25 +67,46 @@ def index(request):
         tags = Book().filler().filter(tags__icontains=query)
         books = name | description | tags
     else:
-        books = Book().filler().filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')[0:18]
+        books = Book().filler().filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')[0:24]
 
-    if query is not None:
-        title = Video.objects.filter(title__icontains=query)
-        description = Video.objects.filter(description__icontains=query)
-        tags = Video.objects.filter(tags__icontains=query)
-        videos = title | description | tags
-    else:
-        videos = Video.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')[0:16]
+    # if query is not None:
+    #     title = Video.objects.filter(title__icontains=query)
+    #     description = Video.objects.filter(description__icontains=query)
+    #     tags = Video.objects.filter(tags__icontains=query)
+    #     videos = title | description | tags
+    # else:
+    #     videos = Video.objects.filter(language__code=request.LANGUAGE_CODE).order_by('-created_at')[0:16]
 
 
     context = {
-        'posts': posts,
-        'videos': videos,
+        # 'posts': posts,
+        # 'videos': videos,
         'query' : query if query else '',
         'books' : books,
         'title':  _('Freesad - Articles') if 'posts' in request.path else None
     }
     return render(request, 'index.html', context)
+
+def posts(request):
+    query = request.GET.get("query")
+
+    if query is not None:
+        title = Post.objects.filter(title__icontains=query)
+        description = Post.objects.filter(description__icontains=query)
+        posts = title | description
+    else:
+        posts = Post.objects.filter(
+            language__code=request.LANGUAGE_CODE, is_public=True
+        ).order_by("-created")[0:16]
+
+        context = {
+            'posts': posts,
+            # 'videos': videos,
+            "query": query if query else "",
+            # "books": books,
+            "title": _("Freesad - Articles") if "posts" in request.path else None,
+        }
+    return render(request, "post/list.html", context)
 
 
 # @user_passes_test(is_admin)

@@ -30,7 +30,7 @@ urlpatterns = [
     path("post/category/list", postCategoryList, name="category_post_list"),
     path("post/status/<int:id>", postStatus, name="post-status"),
     path("category/<str:category>", category, name="category"),
-    path("posts", index, name="post.list"),
+    path("posts", posts, name="post.list"),
     # Pages
     path("page/create", createPage, name="create_page"),
     path("pages", pages, name="pages"),

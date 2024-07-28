@@ -1,4 +1,7 @@
+
 {% extends 'profile/profile.html' %}
+{% load static %}
+
 {% load i18n %}
 
 {% block profile %}
@@ -23,7 +26,7 @@
             {% endfor %}
         </div>
         
-        <main aria-label="Page navigation mt-3">
+        <main aria-label="Page navigation" class="py-3">
             <ul class="pagination justify-content-center">
                 {% if books.has_previous %}
                     <li class="page-item">
