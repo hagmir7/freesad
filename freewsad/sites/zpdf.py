@@ -135,7 +135,7 @@ def zpdf(request):
     else:
         return JsonResponse({"message": "Please we need start page"})
 
-    for i in range(start, 10471+1, 1):
+    for i in range(start, 12230, 1):
         url = f"https://www.z-pdf.com/book/{i}"
         try:
             respons = requests.get(url, verify=True, headers=headers)
