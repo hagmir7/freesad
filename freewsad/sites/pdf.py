@@ -175,7 +175,7 @@ def page_download(url):
         title = soup.find("h1").text
         body = soup.find("div", {"class": "book-description"})
         author = soup.find("a", {"itemprop": "author"}).text
-        tags = remove_extra_spaces(soup.find_all("tr")[6].find_all("td")[1].text)
+        tags = remove_extra_spaces(soup.find_all("tr")[5].find_all("td")[1].text)
         category = remove_extra_spaces(
             delete_word(
                 soup.find_all("tr")[1].find_all("td")[1].find("a").text, "Books"
