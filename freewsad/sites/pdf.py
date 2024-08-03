@@ -15,6 +15,14 @@ config = {
     "raise_on_warnings": True,
 }
 
+# config = {
+#     "user": "root",
+#     "password": "",
+#     "host": "localhost",
+#     "database": "books",
+#     "raise_on_warnings": True,
+# }
+
 data_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
@@ -182,6 +190,7 @@ def page_download(url):
             title.replace(" Free PDF Download", "")
             .replace(" Free Download", "")
             .replace(" PDF Download", "")
+            .replace(" Fee Download", "")
         )
         size = format_size(get_file_size(file_url))
         book_slug = generate_slug(name)
@@ -218,9 +227,9 @@ def pdf(request):
     if(request.GET.get('start')):
         start = int(request.GET.get("start"))
     else:
-        start = 700
+        start = 1
     for i in range(start, 6010):
-        url = f"https://yes-pdf.com/book/{i}"
+        url = f"https://z-pdf.com/book/{i}"
         try:
             print(url)
             page_download(url)
