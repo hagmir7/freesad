@@ -113,7 +113,7 @@ def page_download(data):
         if not Book.books.filter(name__icontains=data.get("name")):
             book = Book.books.create(
                 name=remove_extra_spaces(
-                    str(data.get("name")).replace("Download ", "").replace(" PDF", "")
+                    str(data.get("name")).replace("Download ", "").replace(" PDF", "").replace(" )", ")")
                 ),
                 title=f"Download {remove_extra_spaces(str(data.get('name')))} Free PDF Book",
                 user=User.objects.get(id=1),
