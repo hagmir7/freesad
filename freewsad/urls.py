@@ -108,4 +108,8 @@ urlpatterns = [
     # Scraping
     path("scraping/kotobati", scraping_kotobati),
     # path("extra/space", remove_extra_space_book_title_author),
+
+
+    # Delete duplicated
+    path("delete/duplicated/books", duplicated_books, name="duplicated_books"),
 ]

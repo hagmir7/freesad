@@ -1085,3 +1085,18 @@ def remove_extra_space_book_title_author(request):
         book.author = remove_extra_spaces(book.author)
         book.save()
     return JsonResponse({"message": "success"})
+
+
+# Remove duplicated
+
+def duplicated_books(request):
+    duplicated_data = Book.objects.values('name').annotate(name_count=Count('name')).filter(name_count__gt=1)
+    for item in duplicated_data:
+            name = item['name']
+            duplicates = Book.objects.filter(name=name)
+            if duplicates.count() > 1:
+                duplicates = duplicates[:duplicates.count()-1] # Exclude the first occurrence
+            
+            for duplicate in duplicates:
+                duplicate.delete()
+    return redirect("home")
