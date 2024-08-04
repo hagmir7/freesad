@@ -10,6 +10,7 @@ from .sites.airlet import airlet
 from .sites.kotobati import kotobati, scraping_kotobati
 from .sites.zpdf import zpdf
 from .sites.pdf import pdf
+from .sites.dpdf import dpdf
 
 
 urlpatterns = [
@@ -81,6 +82,7 @@ urlpatterns = [
     path("airlet", airlet),
     path("kotobati", kotobati),
     path("zpdf", zpdf),
+    path("dpdf", dpdf),
     path("pdf", pdf),
     # emport Export
     path("posts/export", export_post),
@@ -108,8 +110,6 @@ urlpatterns = [
     # Scraping
     path("scraping/kotobati", scraping_kotobati),
     # path("extra/space", remove_extra_space_book_title_author),
-
-
     # Delete duplicated
     path("delete/duplicated/books", duplicated_books, name="duplicated_books"),
 ]
