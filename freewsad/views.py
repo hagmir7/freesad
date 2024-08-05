@@ -1101,3 +1101,15 @@ def duplicated_books(request):
             for duplicate in duplicates:
                 duplicate.delete()
     return redirect("home")
+
+
+def clean_book(request):
+    books = Book.objects.all()
+    for book in books:
+        book.name = book.name.replace(" Download", "")
+        book.name = book.name.replace(" PDF", "")
+        book.name = book.name.replace(" )", ")")
+        book.title = book.title.replace(" PDF Download", "")
+        book.title = book.title.replace(" )", ")")
+        book.save()
+    return redirect("home")
