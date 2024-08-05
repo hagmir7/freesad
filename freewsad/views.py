@@ -524,7 +524,7 @@ def updateBook(request, id):
             if form.is_valid():
                 form.save()
                 messages.success(request, _('Book updated successfully...'))
-                return redirect('books_list')
+                return redirect('update_book', id=book.id)
         context = {
             'form': form,
             'book' : book,
