@@ -12,6 +12,20 @@
                     <div class="alert p-2  m-0 alert-{{ message.tags }}">{{ message }}</div>
                 {% endfor %}
                 {% endif %}
+
+                      <div class="post-nav mb-3">
+                        {% if book.pre %}
+                        <a class="post-nav-newer-link" href="/book/{{book.pre.slug}}">
+                            {% trans "Next" %}
+                        </a>
+                        {% endif %}
+
+                        {% if book.next %}
+                        <a class="post-nav-older-link" href="/book/{{book.next.slug}}">
+                            {% trans "Previous" %}
+                        </a>
+                        {% endif %}
+                    </div>
                 <form method="POST" enctype="multipart/form-data" class="mb-3">
                     {% csrf_token %}
                     {{form|crispy}}    

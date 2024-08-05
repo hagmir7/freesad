@@ -36,12 +36,10 @@
                             <td>{{book.category.name}}</td>
                             <td>{{book.views.all.count }}</td>
                             <td>
-
-                                <a class="btn btn-sm btn-success" href="/book/update/{{book.id}}"><i class="ri-edit-fill"></i></a>
-                                <a class="btn btn-sm btn-danger" href="/book/delete/{{book.id}}" onclick="return confirm('Are you sur you wnat to delete book')"><i class="ri-delete-bin-5-fill"></i></a>
+                                <a class="btn btn-sm btn-success" href="{%  url "update_book" book.id %}"><i class="ri-edit-fill"></i></a>
+                                <a class="btn btn-sm btn-danger" href="{%  url "remove_book" book.id %}" onclick="return confirm('Are you sur you wnat to delete book')"><i class="ri-delete-bin-5-fill"></i></a>
                                 <a class="btn btn-sm btn-primary" href="{% url 'book_rapport' book.slug %}"><i class="ri-bar-chart-2-fill"></i></a>
                                 <a class="btn btn-sm btn-warning text-white" onclick="return confirm('Are you sur you wnat to remove book')" {% if book.removed %}disabled{% endif %} href="{% url 'remove_book' book.slug %}"><i class="bi bi-eye-slash-fill"></i></a>
-
                             </td>
                         </tr>
                         {% empty %}

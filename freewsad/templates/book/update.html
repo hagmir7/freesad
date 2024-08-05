@@ -12,10 +12,39 @@
             <div class="alert  m-0 p-2 mb-2 alert-{{ message.tags }}">{{ message }}</div>
             {% endfor %}
             {% endif %}
+            <div class="post-nav mb-3 d-flex justify-content-between">
+                {% if book.pre %}
+                <a class="post-nav-newer-link" href="{% url 'update_book' book.pre.id %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-left">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M12 21a9 9 0 1 0 0 -18a9 9 0 0 0 0 18" />
+                        <path d="M8 12l4 4" />
+                        <path d="M8 12h8" />
+                        <path d="M12 8l-4 4" />
+                    </svg>
+                </a>
+                {% endif %}
+
+                {% if book.next %}
+                <a class="post-nav-older-link" href="{% url 'update_book' book.next.id %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-right">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0 -18" />
+                        <path d="M16 12l-4 -4" />
+                        <path d="M16 12h-8" />
+                        <path d="M12 16l4 -4" />
+                    </svg>
+                </a>
+                {% endif %}
+            </div>
             <form method="POST" enctype="multipart/form-data" class="mb-3">
                 {% csrf_token %}
-                {{form|crispy}}    
-            <button class="mt-2 btn btn-success w-100">{% trans "Update book" %}</button>
+                {{form|crispy}}
+                <button class="mt-2 btn btn-success w-100">{% trans "Update book" %}</button>
             </form>
         </div>
     </div>

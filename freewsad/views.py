@@ -527,6 +527,7 @@ def updateBook(request, id):
                 return redirect('books_list')
         context = {
             'form': form,
+            'book' : book,
             'title': 'Create Book',
         }
     else:
