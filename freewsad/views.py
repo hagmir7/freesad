@@ -1091,25 +1091,93 @@ def remove_extra_space_book_title_author(request):
 # Remove duplicated
 
 def duplicated_books(request):
-    duplicated_data = Book.objects.values('name').annotate(name_count=Count('name')).filter(name_count__gt=1)
-    for item in duplicated_data:
-            name = item['name']
-            duplicates = Book.objects.filter(name=name)
-            if duplicates.count() > 1:
-                duplicates = duplicates[:duplicates.count()-1] # Exclude the first occurrence
+    # duplicated_data = Book.objects.values('name').annotate(name_count=Count('name')).filter(name_count__gt=1)
+    # for item in duplicated_data:
+    #         name = item['name']
+    #         duplicates = Book.objects.filter(name=name)
+    #         if duplicates.count() > 1:
+    #             duplicates = duplicates[:duplicates.count()-1] # Exclude the first occurrence
             
-            for duplicate in duplicates:
-                duplicate.delete()
+    #         for duplicate in duplicates:
+    #             duplicate.delete()
     return redirect("home")
 
 
-def clean_book(request):
-    books = Book.objects.all()
-    for book in books:
-        book.name = book.name.replace(" Download", "")
-        book.name = book.name.replace(" PDF", "")
-        book.name = book.name.replace(" )", ")")
-        book.title = book.title.replace(" PDF Download", "")
-        book.title = book.title.replace(" )", ")")
-        book.save()
-    return redirect("home")
+# def clean_book(request):
+#     books = Book.objects.all()
+#     for book in books:
+#         book.name = book.name.replace(" Download", "")
+#         book.name = book.name.replace(" PDF", "")
+#         book.name = book.name.replace(" )", ")")
+#         book.title = book.title.replace(" PDF Download", "")
+#         book.title = book.title.replace(" )", ")")
+#         book.save()
+#     return redirect("home")
+
+
+from django.core.files.storage import FileSystemStorage
+from .config.save import  *
+
+import mimetypes
+
+def upload_file(request):
+    file_url = None
+
+    if request.method == "POST":
+        uploaded_file = request.FILES['file']
+        file_name = uploaded_file.name
+        file_extension = os.path.splitext(file_name)[1].lower()
+
+        if file_extension == '.pdf':
+
+            # Further check the MIME type
+            mime_type, _ = mimetypes.guess_type(file_name)
+
+            if mime_type == 'application/pdf':
+                # Save the file
+                fs = FileSystemStorage()
+                new_file_name = f"{random_slug(10).upper()}-freesad.com.pdf"
+                filename = fs.save(F"PDF/{new_file_name}", uploaded_file)
+                file_url = fs.url(filename)
+                file_path = fs.path(filename)  
+                file_data = get_pdf_info(file_path)
+
+                # Add file path to file data
+                file_data["file"] = file_url
+                file_data["size"] = get_file_size(file_path)
+
+                Book.objects.create(
+                    name=file_data["name"],
+                    author=file_data["author"],
+                    description=file_data["description"],
+                    tags=file_data["keywords"],
+                    image=str(file_data["image"]).replace('media\\', ''),
+                    book_type=file_data["extantion"],
+                    pages=file_data["pages"],
+                    file=file_data["file"].replace('media/', ''),
+                    size=file_data['size'],
+                    status=True,
+                    slug= file_data['slug'],
+                    title= file_data['title'],
+                    language=Language.objects.get(id=1),
+                    user=User.objects.get(id=1),  # corrected this line
+                    category=BookCategory.objects.get(id=1),  # and this line
+                )
+                return JsonResponse(file_data)
+
+                # if file_data:
+                #     return JsonResponse(file_data)
+                # else:
+                #     remove_file(file_path)
+
+            else:
+                return JsonResponse({"message" : 'Error to find Book'})
+        else:
+            return JsonResponse({"message": "Error to find Book"})
+        
+
+    return JsonResponse({"message": "Get method is not allowd"})
+
+
+def upload_page(request):
+    return render(request, "upload.html")

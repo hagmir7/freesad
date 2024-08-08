@@ -21,6 +21,8 @@ DEBUG = str(os.environ.get("DEBUG")) == "1"
 CPANEL = str(os.environ.get("CPANEL")) == "1"
 
 
+AI_KEY = str(os.environ.get("AI_KEY"))
+
 ALLOWED_HOSTS = ["*"]
 
 # Application definition

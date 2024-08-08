@@ -112,6 +112,7 @@ urlpatterns = [
     # path("extra/space", remove_extra_space_book_title_author),
     # Delete duplicated
     path("delete/duplicated/books", duplicated_books, name="duplicated_books"),
-    path("clean", clean_book),
+    # path("clean", clean_book),
+    path("upload", upload_file, name="upload_file"),
+    path("upload_page", upload_page),
 ]
-
