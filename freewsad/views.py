@@ -1120,64 +1120,60 @@ from .config.save import  *
 
 import mimetypes
 
+
 def upload_file(request):
     file_url = None
 
-    if request.method == "POST":
-        uploaded_file = request.FILES['file']
+    if request.method == "POST" and request.FILES.get("file"):
+        uploaded_file = request.FILES["file"]
         file_name = uploaded_file.name
         file_extension = os.path.splitext(file_name)[1].lower()
 
-        if file_extension == '.pdf':
-
+        if file_extension == ".pdf":
             # Further check the MIME type
             mime_type, _ = mimetypes.guess_type(file_name)
 
-            if mime_type == 'application/pdf':
+            if mime_type == "application/pdf":
                 # Save the file
                 fs = FileSystemStorage()
                 new_file_name = f"{random_slug(10).upper()}-freesad.com.pdf"
-                filename = fs.save(F"PDF/{new_file_name}", uploaded_file)
+                filename = fs.save(f"PDF/{new_file_name}", uploaded_file)
                 file_url = fs.url(filename)
-                file_path = fs.path(filename)  
+                file_path = fs.path(filename)
                 file_data = get_pdf_info(file_path)
 
                 # Add file path to file data
                 file_data["file"] = file_url
                 file_data["size"] = get_file_size(file_path)
 
-                Book.objects.create(
-                    name=file_data["name"],
-                    author=file_data["author"],
-                    description=file_data["description"],
-                    tags=file_data["keywords"],
-                    image=str(file_data["image"]).replace('media\\', ''),
-                    book_type=file_data["extantion"],
-                    pages=file_data["pages"],
-                    file=file_data["file"].replace('media/', ''),
-                    size=file_data['size'],
-                    status=True,
-                    slug= file_data['slug'],
-                    title= file_data['title'],
-                    language=Language.objects.get(id=1),
-                    user=User.objects.get(id=1),  # corrected this line
-                    category=BookCategory.objects.get(id=1),  # and this line
-                )
-                return JsonResponse(file_data)
-
-                # if file_data:
-                #     return JsonResponse(file_data)
-                # else:
-                #     remove_file(file_path)
-
+                if not Book.objects.filter(name=file_data["name"]).exists():
+                    Book.objects.create(
+                        name=file_data["name"],
+                        author=file_data["author"],
+                        description=file_data["description"],
+                        tags=file_data["keywords"],
+                        image=str(file_data["image"]).replace("media\\", ""),
+                        book_type=file_data["extantion"],
+                        pages=file_data["pages"],
+                        file=file_data["file"].replace("media/", ""),
+                        size=file_data["size"],
+                        status=True,
+                        slug=file_data["slug"],
+                        title=file_data["title"],
+                        language=Language.objects.get(id=1),
+                        user=User.objects.get(id=1),
+                        category=BookCategory.objects.get(id=1),
+                    )
+                    messages.success(
+                        request, _("File created successfully."), "success"
+                    )
+                    return redirect("/upload")
+                else:
+                    messages.warning(request, "File is alredy", extra_tags='info')
+                    return redirect("/upload")
             else:
-                return JsonResponse({"message" : 'Error to find Book'})
-        else:
-            return JsonResponse({"message": "Error to find Book"})
-        
-
-    return JsonResponse({"message": "Get method is not allowd"})
-
-
-def upload_page(request):
-    return render(request, "upload.html")
+                messages.error(
+                    request, _("The uploaded file is not a valid PDF."), "danger"
+                )
+                return redirect("/upload")
+    return render(request, "upload.html", {"file_url": file_url})

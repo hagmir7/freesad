@@ -4,169 +4,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>File Upload</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .upload-container {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .upload-container h2 {
-            margin-bottom: 20px;
-            color: #555;
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        #drop-area {
-            border: 2px dashed #bbb;
-            border-radius: 4px;
-            padding: 20px;
-            margin-bottom: 20px;
-            transition: background-color 0.3s;
-        }
-
-        #drop-area.highlight {
-            background-color: #f0f8ff;
-            border-color: #00aaff;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            font-size: 16px;
-            color: #fff;
-            background-color: #00aaff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            text-decoration: none;
-        }
-
-        .button:hover {
-            background-color: #0077cc;
-        }
-
-        input[type="file"] {
-            display: none;
-        }
-    </style>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            let dropArea = $('#drop-area');
-
-            // Prevent default drag behaviors
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                dropArea.on(eventName, preventDefaults);
-            });
-
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-
-            // Highlight drop area when item is dragged over it
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropArea.on(eventName, () => {
-                    dropArea.addClass('highlight');
-                });
-            });
-
-            ['dragleave', 'drop'].forEach(eventName => {
-                dropArea.on(eventName, () => {
-                    dropArea.removeClass('highlight');
-                });
-            });
-
-            // Handle dropped files
-            dropArea.on('drop', handleDrop);
-
-            function handleDrop(e) {
-                let dt = e.originalEvent.dataTransfer;
-                let files = dt.files;
-                handleFiles(files);
-            }
-
-            $('#fileElem').on('change', function (e) {
-                let files = e.target.files;
-                handleFiles(files);
-            });
-
-            function handleFiles(files) {
-                [...files].forEach(uploadFile);
-            }
-
-            function uploadFile(file) {
-                let name = $('#file-name').val();
-                if (!name) {
-                    alert('Please enter a name for the file.');
-                    return;
-                }
-
-                let url = '/upload';
-                let formData = new FormData();
-                formData.append('file', file);
-                formData.append('name', name);
-
-                fetch(url, {
-                    method: 'POST',
-                    type: "POST",
-                    body: formData
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                    
-                        console.log(data)
-                    })
-                    .catch(() => {
-                        alert('Error uploading file.');
-                    });
-            }
-
-            $('#upload-button').on('click', function () {
-                $('#fileElem').click();
-            });
-        });
-    </script>
+    <title>File Upload Form</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
-
 <body>
-    <div class="upload-container">
-        <h2>Upload Your File</h2>
-        <input type="text" id="file-name" class="input-field" placeholder="Enter file name" />
-        <div id="drop-area">
-            <p>Drag and drop files here</p>
-            <p>or</p>
-            <button id="upload-button" class="button">Select Files</button>
-            <input type="file" id="fileElem" name="file" multiple />
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                {% if messages %}
+                    {% for message in messages %}
+                    <div {% if message.tags %} class="alert-{{ message.tags }} p-2 my-3" {% endif %}>{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h4>Upload Your File</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="fileInput" class="form-label">Choose File</label>
+                                <input type="file" class="form-control-file" id="fileInput" name="file">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Upload</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
-</html>
