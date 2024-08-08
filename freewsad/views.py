@@ -1165,7 +1165,7 @@ def upload_file(request):
                         category=BookCategory.objects.get(id=1),
                     )
                     messages.success(
-                        request, _("File created successfully."), "success"
+                        request, _("File created successfully."), extra_tags="success"
                     )
                     return redirect("/upload")
                 else:
@@ -1173,7 +1173,7 @@ def upload_file(request):
                     return redirect("/upload")
             else:
                 messages.error(
-                    request, _("The uploaded file is not a valid PDF."), "danger"
+                    request, _("The uploaded file is not a valid PDF."), extra_tags="danger"
                 )
                 return redirect("/upload")
     return render(request, "upload.html", {"file_url": file_url})
