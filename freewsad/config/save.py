@@ -112,7 +112,7 @@ def get_pdf_info(pdf_path):
         # Save PDF Image
         if settings.CPANEL:
             image_path = get_pdf_image(
-                pdf_path, f"/home/agha6919/freesad.com/media/PDF-images/{image_filename}"
+                pdf_path, f"PDF-images/{image_filename}"
             )
         else:
             image_path = get_pdf_image(
