@@ -1156,7 +1156,7 @@ def upload_file(request):
                         author=file_data["author"],
                         description=file_data["description"],
                         tags=file_data["keywords"],
-                        image=str(file_data["image"]).replace("media\\", ""),
+                        image=str(file_data["image"]).replace("/home/agha6919/freesad.com/media/", ""),
                         book_type=file_data["extantion"],
                         pages=file_data["pages"],
                         file=file_data["file"].replace("media/", ""),
