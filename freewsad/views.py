@@ -1168,16 +1168,12 @@ def upload_file(request):
                         user=User.objects.get(id=1),
                         category=BookCategory.objects.get(id=1),
                     )
-                    messages.success(
-                        request, _("File created successfully."), extra_tags="success"
-                    )
+                    messages.success(request, message="File created successfully.", extra_tags="success")
                     return redirect("/upload")
                 else:
-                    messages.warning(request, "File is alredy exitst", extra_tags='info')
+                    messages.warning(request, message="File is alredy exitst", extra_tags='info')
                     return redirect("/upload")
             else:
-                messages.error(
-                    request, _("The uploaded file is not a valid PDF."), extra_tags="danger"
-                )
+                messages.error(request, message="The uploaded file is not a valid PDF.", extra_tags="danger")
                 return redirect("/upload")
     return render(request, "upload.html", {"file_url": file_url})
