@@ -11,6 +11,7 @@ from .sites.kotobati import kotobati, scraping_kotobati
 from .sites.zpdf import zpdf
 from .sites.pdf import pdf
 from .sites.dpdf import dpdf
+from .sites.bdebooks import bdebooks
 
 
 urlpatterns = [
@@ -114,5 +115,6 @@ urlpatterns = [
     path("delete/duplicated/books", duplicated_books, name="duplicated_books"),
     # path("clean", clean_book),
     path("upload", upload_file, name="upload_file"),
+    path("bdebooks", bdebooks),
     # path("upload_page", upload_page),
 ]
