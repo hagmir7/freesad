@@ -1125,7 +1125,15 @@ def upload_file(request):
     file_url = None
 
     if request.method == "POST" and request.FILES.get("file"):
+        
+        book_name = request.POST.get("name")
+        if Book.objects.filter(name=book_name):
+            messages.warning(request, message="File is alredy exitst", extra_tags='info')
+            return redirect("/upload")
+        
         uploaded_file = request.FILES["file"]
+
+        
         file_name = uploaded_file.name
         file_extension = os.path.splitext(file_name)[1].lower()
 
@@ -1144,35 +1152,33 @@ def upload_file(request):
 
                 file_url = fs.url(filename)
                 file_path = fs.path(filename)
-                file_data = get_pdf_info(file_path)
+                file_data = get_pdf_info(file_path, book_name)
 
                 # Add file path to file data
                 file_data["file"] = file_url
                 file_data["size"] = get_file_size(file_path)
 
-                if not Book.objects.filter(name=file_data["name"]).exists():
-                    Book.objects.create(
-                        name=file_data["name"],
-                        author=file_data["author"],
-                        description=file_data["description"],
-                        tags=file_data["keywords"],
-                        image=str(file_data["image"]).replace("/home/agha6919/freesad.com/media/", ""),
-                        book_type=file_data["extantion"],
-                        pages=file_data["pages"],
-                        file=file_data["file"].replace("media/", ""),
-                        size=file_data["size"],
-                        status=True,
-                        slug=file_data["slug"],
-                        title=file_data["title"],
-                        language=Language.objects.get(id=1),
-                        user=User.objects.get(id=1),
-                        category=BookCategory.objects.get(id=1),
-                    )
-                    messages.success(request, message="File created successfully.", extra_tags="success")
-                    return redirect("/upload")
-                else:
-                    messages.warning(request, message="File is alredy exitst", extra_tags='info')
-                    return redirect("/upload")
+                # Save file
+                Book.objects.create(
+                    name=book_name,
+                    author=file_data["author"],
+                    description=file_data["description"],
+                    tags=file_data["keywords"],
+                    image=str(file_data["image"]).replace("/home/agha6919/freesad.com/media/", ""),
+                    book_type=file_data["extantion"],
+                    pages=file_data["pages"],
+                    file=file_data["file"].replace("media/", ""),
+                    size=file_data["size"],
+                    status=True,
+                    slug=file_data["slug"],
+                    title=file_data["title"],
+                    language=Language.objects.get(id=1),
+                    user=User.objects.get(id=1),
+                    category=BookCategory.objects.get(id=1),
+                )
+                messages.success(request, message="File created successfully.", extra_tags="success")
+                return redirect("/upload")
+            
             else:
                 messages.error(request, message="The uploaded file is not a valid PDF.", extra_tags="danger")
                 return redirect("/upload")

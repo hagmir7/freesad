@@ -24,6 +24,8 @@
                         <form method="POST" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="form-group">
+                                <label for="nameInput">Name</label>
+                                <input type="text" required class="form-control" id="nameInput" name="name">
                                 <label for="fileInput" class="form-label">Choose File</label>
                                 <input type="file" class="form-control-file" id="fileInput" name="file">
                             </div>
@@ -34,6 +36,21 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // Get references to the input elements
+        const fileInput = document.getElementById('fileInput');
+        const fileNameInput = document.getElementById('nameInput');
+
+        // Add event listener to the file input
+        fileInput.addEventListener('change', function () {
+            // Get the selected file's name
+            const fileName = fileInput.files[0].name;
+            const result = fileName.replaceAll("_", " ").replaceAll(".", "").replaceAll("pdf", "");
+            // Set the file name in the text input
+            fileNameInput.value = result;
+        });
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>

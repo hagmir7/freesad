@@ -90,7 +90,7 @@ def rename_file(old_name, new_name):
         print(f"Error renaming file: {e}")
 
 
-def get_pdf_info(pdf_path):
+def get_pdf_info(pdf_path, book_name):
     """Extract information from a PDF file."""
     pdf_document = fitz.open(BASE_DIR / pdf_path)
 
@@ -100,10 +100,12 @@ def get_pdf_info(pdf_path):
     # Get metadata
     metadata = pdf_document.metadata
 
+    metadata["title"] = book_name
+
     if metadata.get("title"):
-        metadata["author"] = get_author(metadata["title"])
-        metadata["keywords"] = get_metakeyword(metadata["title"])
-        metadata["subject"] = get_metadescription(metadata["title"])
+        metadata["author"] = get_author(book_name)
+        metadata["keywords"] = get_metakeyword(book_name)
+        metadata["subject"] = get_metadescription(book_name)
         metadata["creator"] = "Freesad (https://freesad.com)"
         metadata["producer"] = "Freesad (https://freesad.com)"
 
