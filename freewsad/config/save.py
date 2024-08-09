@@ -110,7 +110,14 @@ def get_pdf_info(pdf_path):
         image_filename = f"{slug(metadata['title'])}.png"
 
         # Save PDF Image
-        image_path = get_pdf_image(pdf_path, f"PDF-images/{image_filename}")
+        if settings.CPANEL:
+            image_path = get_pdf_image(
+                pdf_path, f"/home/agha6919/freesad.com/media/PDF-images/{image_filename}"
+            )
+        else:
+            image_path = get_pdf_image(
+                pdf_path, f"PDF-images/{image_filename}"
+            )
 
         # Save PDF
         pdf_document.set_metadata(metadata)

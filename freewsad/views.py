@@ -1117,7 +1117,7 @@ def duplicated_books(request):
 
 from django.core.files.storage import FileSystemStorage
 from .config.save import  *
-
+from django.conf import settings
 import mimetypes
 
 
@@ -1137,7 +1137,11 @@ def upload_file(request):
                 # Save the file
                 fs = FileSystemStorage()
                 new_file_name = f"{random_slug(10).upper()}-freesad.com.pdf"
-                filename = fs.save(f"PDF/{new_file_name}", uploaded_file)
+                if settings.CPANEL:
+                    filename = fs.save(f"/home/agha6919/freesad.com/media/PDF/{new_file_name}", uploaded_file)
+                else:
+                    filename = fs.save(f"PDF/{new_file_name}", uploaded_file)
+
                 file_url = fs.url(filename)
                 file_path = fs.path(filename)
                 file_data = get_pdf_info(file_path)
@@ -1169,7 +1173,7 @@ def upload_file(request):
                     )
                     return redirect("/upload")
                 else:
-                    messages.warning(request, "File is alredy", extra_tags='info')
+                    messages.warning(request, "File is alredy exitst", extra_tags='info')
                     return redirect("/upload")
             else:
                 messages.error(
