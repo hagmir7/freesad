@@ -193,7 +193,7 @@ def get_item(url):
                 "language": "en",
                 "description": description,
                 "pdf": file_url,
-                "tags": tags,
+                "tags": tags_string,
                 "body": content,
                 "isbn": isbn,
             }
