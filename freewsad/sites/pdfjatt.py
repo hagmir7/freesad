@@ -138,7 +138,7 @@ def page_download(data):
                 language=Language.objects.get(code="en"),
             )
 
-        if not Book.objects.get(name=str(data.get("name"))):
+        if not Book.objects.filter(name__icontains=str(data.get("name"))).exists():
             book = Book.books.create(
                 name=remove_extra_spaces(str(data.get("name"))),
                 title=f"{remove_extra_spaces(str(data.get('name')))} Free PDF Book",

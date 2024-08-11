@@ -284,6 +284,18 @@ SIMPLE_JWT = {
 
 # Logs
 
+import datetime
+
+# Get today's date to create a daily log file
+today = datetime.datetime.now().strftime("%Y-%m-%d")
+
+# Define the log directory
+LOG_DIR = os.path.join(BASE_DIR, "logs")
+
+if not os.path.exists(LOG_DIR):
+    os.makedirs(LOG_DIR)
+
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -291,7 +303,7 @@ LOGGING = {
         "file": {
             "level": "DEBUG",
             "class": "logging.FileHandler",
-            "filename": os.path.join(BASE_DIR, "logse/passenger.log"),
+            "filename": os.path.join(LOG_DIR, f"django_{today}.log"),
         },
     },
     "loggers": {
