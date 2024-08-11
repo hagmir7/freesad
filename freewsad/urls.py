@@ -12,6 +12,7 @@ from .sites.zpdf import zpdf
 from .sites.pdf import pdf
 from .sites.dpdf import dpdf
 from .sites.bdebooks import bdebooks
+from .sites.pdfjatt import pdfjatt
 
 
 urlpatterns = [
@@ -116,5 +117,6 @@ urlpatterns = [
     # path("clean", clean_book),
     path("upload", upload_file, name="upload_file"),
     path("bdebooks", bdebooks),
+    path("pdfjatt", pdfjatt),
     # path("upload_page", upload_page),
 ]

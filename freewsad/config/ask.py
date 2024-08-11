@@ -26,6 +26,32 @@ def get_author(book_name):
     return list(list(completion.choices[0].message)[0])[1]
 
 
+def descripiton_generate(description):
+    completion = client.chat.completions.create(
+        model="gpt-4o",
+        messages=[
+            {
+                "role": "system",
+                "content": """ 
+                You are an SEO assistant, 
+                And you know evrything about books 
+                I will give complecate description
+                - rewrit it better one and clean it inside HTML, (Just html tags needed without head and body)
+                - do not return it in html block code, return it as string html
+                - make descriptin more long thane 500 charactor
+                - if there is h1 tags remove it
+                 and return only HTML""",
+            },
+            {
+                "role": "user",
+                "content": description,
+            },
+        ],
+    )
+
+    return list(list(completion.choices[0].message)[0])[1]
+
+
 def get_metakeyword(book_name):
     completion = client.chat.completions.create(
         model="gpt-4o",
