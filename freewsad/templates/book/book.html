@@ -1,11 +1,4 @@
-
-
-
-{% extends 'base.html' %}
-{% load static %}
-{% load i18n %}
-
-
+{% extends 'base.html' %}{% load static %}{% load i18n %}
 {% block content %}
 
 <div class="container">
@@ -23,6 +16,9 @@
           <div class="card shadow-sm overflow-hidden col-8 col-md-6 col-lg-5 col-xl-4 p-0">
             {% if book.image %}
             <img class="book-detail-image" src="{{book.image.url}}" height="auto" width="auto" alt="{{book.name}}">
+            {% else %}
+            <img class="book-detail-image" src="{% static "/img/book-placeholder.png" %}" height="auto" width="auto" alt="{{book.name}}">
+            
             {% endif %}
           </div>
         </div>
