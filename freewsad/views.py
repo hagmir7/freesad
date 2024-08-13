@@ -17,6 +17,10 @@ from django.core.exceptions import PermissionDenied
 from django.utils.translation import gettext as _
 from django.utils import translation, timezone
 from datetime import timedelta
+from django.core.files.storage import FileSystemStorage
+from .config.save import  *
+from django.conf import settings
+import mimetypes
 
 
 def superuser_required(user):
@@ -166,7 +170,7 @@ def bodyParser(body, title):
     return str(soup)
 
 
-@login_required
+@user_passes_test(is_admin)
 def createPost(request):
     form = CreatePostForm()
     playList = PostList.objects.filter(user=request.user)
@@ -191,7 +195,7 @@ def createPost(request):
     return render(request, 'post/create.html', context)
 
 
-@login_required
+@user_passes_test(is_admin)
 def updatePost(request, id):
     post = get_object_or_404(Post, id=id)
     form = CreatePostForm(instance=post)
@@ -220,7 +224,7 @@ def updatePost(request, id):
     }
     return render(request, 'post/update.html', context)
 
-@login_required
+@user_passes_test(is_admin)
 def deletePost(request, id):
     post = get_object_or_404(Post, id=id)
     if post.user == request.user:
@@ -230,7 +234,8 @@ def deletePost(request, id):
     else:
         return redirect('posts_list')
 
-@login_required
+
+@user_passes_test(is_admin)
 def postList(request):
     if request.user.is_superuser:
         query = request.GET.get('query')
@@ -249,7 +254,9 @@ def postList(request):
         return render(request, 'post/auth-list.html', context)
     else:
         return redirect('home')
-@login_required
+
+
+@user_passes_test(is_admin)
 def postCategoryList(request):
     if request.user.is_superuser:
         list = PostCategory.objects.all().order_by('-id')
@@ -277,7 +284,7 @@ def category(request, category):
     return render(request, 'index.html', context)
 
 
-@login_required
+@user_passes_test(is_admin)
 def createPostCategory(request):
     form = FromPostCategory()
     if request.method == 'POST':
@@ -293,9 +300,9 @@ def createPostCategory(request):
     return render(request, 'post/category/create.html', context)
 
 
-@login_required
+@user_passes_test(is_admin)
 def updatePostCategory(request, id):
-   if request.user.is_superuser:
+    if request.user.is_superuser:
         category = get_object_or_404(PostCategory, id=id)
         form = FromPostCategory(instance=category)
         if request.method == 'POST':
@@ -310,7 +317,8 @@ def updatePostCategory(request, id):
         }
         return render(request, 'post/category/update.html', context)
 
-@login_required
+
+@user_passes_test(is_admin)
 def deletePostCategory(request, id):
     category = get_object_or_404(PostCategory, id=id)
     if request.user.is_superuser:
@@ -381,7 +389,6 @@ def bookDetail(request, slug):
         raise Http404("The requested resource was not found.")
     books = Book().filler().filter(category=book.category).order_by('?')[0:12]
 
-
     agent = get_user_agent(request)
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -401,8 +408,6 @@ def bookDetail(request, slug):
         book.views.add(location)
         book.save()
 
-
-
     videos = Video.objects.all()[0:14]
 
     context = {
@@ -419,28 +424,25 @@ def bookDetail(request, slug):
 
 
 # -------------------------  Book list
-@login_required
+@user_passes_test(is_admin)
 def bookList(request):
-    if request.user.is_superuser:
-        query = request.GET.get('query')
-        if query:
-            name = Book.objects.filter(name__icontains=query)
-            id = Book.objects.filter(id__icontains=query)
-            description = Book.objects.filter(description__icontains=query)
-            list = name | id | description
-        else:
-            list = Book.objects.all()
-        paginator = Paginator(list, 50) 
-        page_number = request.GET.get('page')
-        books = paginator.get_page(page_number)
-        count = Book.objects.all().count()
-        context = {'books': books, 'count': count, 'query': query if query else ''}
-        return render(request, 'book/auth-list.html', context)
+    query = request.GET.get('query')
+    if query:
+        name = Book.objects.filter(name__icontains=query)
+        id = Book.objects.filter(id__icontains=query)
+        description = Book.objects.filter(description__icontains=query)
+        list = name | id | description
     else:
-        return redirect('home')
+        list = Book.objects.all()
+    paginator = Paginator(list, 50) 
+    page_number = request.GET.get('page')
+    books = paginator.get_page(page_number)
+    count = Book.objects.all().count()
+    context = {'books': books, 'count': count, 'query': query if query else ''}
+    return render(request, 'book/auth-list.html', context)
 
 
-@login_required
+@user_passes_test(is_admin)
 def createBook(request):
     form = BookForm()
     if request.method == 'POST' and request.FILES.get('file'):
@@ -481,7 +483,7 @@ def getBookTitle(name: str, lang: str, book_type: str):
     return title
 
 
-@login_required
+@user_passes_test(is_admin)
 def createBookAi(request):
     form = BookAiForm()
     if request.method == 'POST' and request.FILES.get('file'):
@@ -495,7 +497,7 @@ def createBookAi(request):
             if form.is_valid():
                 obj = form.save(commit=False)
                 obj.user = request.user
-                
+
                 obj.language = obj.category.language
                 obj.title = getBookTitle(obj.name, obj.category.language.code, obj.type.name)
                 obj.tags = bot(f"return to me meta keyword for ({obj.title}) in on line by comma")
@@ -514,7 +516,7 @@ def createBookAi(request):
     return render(request, 'book/create.html', context)
 
 
-@login_required
+@user_passes_test(is_admin)
 def updateBook(request, id):
     book = get_object_or_404(Book, id=id)
     if request.user.is_superuser or request.user == book.user:
@@ -535,7 +537,7 @@ def updateBook(request, id):
     return render(request, 'book/update.html', context)
 
 
-@login_required
+@user_passes_test(is_admin)
 def deleteBook(request, id):
     book = get_object_or_404(Book, id=id)
     try:
@@ -559,7 +561,7 @@ def bookCategoryList(request):
         return redirect('home')
 
 
-@login_required
+@user_passes_test(is_admin)
 def createBookCategory(request):
     if request.user.is_superuser:
         form = FormBookCategory()
@@ -578,8 +580,9 @@ def createBookCategory(request):
         return render(request, 'book/category/create.html', context)
 
 
+@user_passes_test(is_admin)
 def updateBookCategory(request, id):
-   if request.user.is_superuser:
+    if request.user.is_superuser:
         category = get_object_or_404(BookCategory, id=id)
         form = FormBookCategory(instance=category)
         if request.method == 'POST':
@@ -595,6 +598,7 @@ def updateBookCategory(request, id):
         return render(request, 'book/category/create.html', context)
 
 
+@user_passes_test(is_admin)
 def deleteBookCategory(request, id):
     category = get_object_or_404(BookCategory, id=id)
     if request.user.is_superuser:
@@ -641,19 +645,18 @@ def updatePage(request, id):
     context = {"form": form}
     return render(request, 'page/update.html', context)
 
+
+@user_passes_test(is_admin)
 def deletePage(request, id):
     page = get_object_or_404(Page, id=id)
-    if request.user.is_superuser:
-        operation = page.delete()
-        if operation:
-            messages.success(request, _('Page deleted successfully.'))
-            return redirect('pages')
+    operation = page.delete()
+    if operation:
+        messages.success(request, _('Page deleted successfully.'))
+        return redirect('pages')
 
-        else:
-            messages.warning(request, _('Fail to delete page.'))
-            return redirect('pages')
-
-    return redirect('home')
+    else:
+        messages.warning(request, _('Fail to delete page.'))
+        return redirect('pages')
 
 
 def lable(request, lable):
@@ -678,6 +681,7 @@ def contact(request):
     return render(request, 'contact/contact.html', context)
 
 
+@user_passes_test(is_admin)
 def contactList(request):
     list = Contact.objects.all().order_by('created')
     paginator = Paginator(list, 20)
@@ -687,7 +691,7 @@ def contactList(request):
     return render(request, 'contact/list.html', context)
 
 
-@login_required
+@user_passes_test(is_admin)
 def dashboard(request):
     users = User.objects.all().count()
     posts = Post.objects.all().count()
@@ -712,11 +716,13 @@ from rest_framework_simplejwt.tokens import BlacklistedToken, OutstandingToken
 
 
 def clearTokns(request):
+    return True
     OutstandingToken.objects.all().delete()
     return redirect('/')
 
 
 def languagUpdate(request):
+    return True
     # Language.objects.create(id=1, name='English', code='en')
     # Language.objects.create(id=2, name='Français', code='fr')
     # Language.objects.create(id=3, name='العربية', code='ar')
@@ -767,7 +773,7 @@ def bookFileExists(request):
 
 # --------------------- Post Play List  ----------------------
 
-@login_required
+@user_passes_test(is_admin)
 def postPlayList(request):
     query = request.GET.get('query')
     if query:
@@ -785,7 +791,7 @@ def postPlayList(request):
     return render(request, 'list/auth-list.html', context)
 
 
-@login_required
+@user_passes_test(is_admin)
 def deletePostPlayList(request, id):
     list = get_object_or_404(PostList, id=id)
     list.delete()
@@ -794,6 +800,7 @@ def deletePostPlayList(request, id):
 
 
 def updateBody(request):
+    return False
     posts = Post.objects.all()
     for post in posts:
         post.body = bodyParser(post.body, post.title)
@@ -816,6 +823,7 @@ def create_video(request):
     return render(request, 'video/create.html', {'form': form})
 
 
+@user_passes_test(is_admin)
 def update_video(request, slug):
     video = Video.objects.get(slug=slug)
     form = VideoForm(request.POST, request.FILES, instance=video)
@@ -909,7 +917,7 @@ def quality_upload(request, slug):
     }
     return render(request, 'video/quality/upload.html', context)
 
-
+@user_passes_test(is_admin)
 def update_quality(request, slug):
     quality = Quality.objects.get(slug=slug)
     form = QualityForm(request.POST, request.FILES, instance=quality)
@@ -956,7 +964,7 @@ def video_comments(request, slug):
     serializer = VideoCommentSerializer(comments, many=True)
     return JsonResponse({"data": serializer.data, "has_next": comments.has_next()}, safe=False)
 
-
+@user_passes_test(is_admin)
 def delete_video_comment(request, id):
     video = get_object_or_404(VideoComment, id=id)
     if video.user == request.user or request.user.is_superuser:
@@ -965,7 +973,7 @@ def delete_video_comment(request, id):
     else:
         raise Http404("Page not found")
 
-
+@user_passes_test(is_admin)
 def create_video_list(request):
     form = VideoListForm()
     if request.method == 'POST':
@@ -986,19 +994,19 @@ def book_rapport(request, slug):
         book = Book.books.get(slug=slug)
     except Book.DoesNotExist:
         return JsonResponse({'error': 'Book not found'}, status=404)
-    
+
     today = timezone.now().date()
     seven_days_ago = today - timedelta(days=6)  # Last seven days including today
-    
+
     dates = [seven_days_ago + timedelta(days=i) for i in range(7)]
-    
+
     book_views = BookView.objects.filter(
         book=book,
         created_at__date__range=(seven_days_ago, today)
     ).annotate(date=TruncDate('created_at')).values('date').annotate(views_count=Count('id')).order_by('date')
-    
+
     date_to_views = {entry['date']: entry['views_count'] for entry in book_views}
-    
+
     report_data = [
         {
             'date': date.strftime('%Y-%m-%d'),
@@ -1006,15 +1014,16 @@ def book_rapport(request, slug):
         }
         for date in dates
     ]
-    
+
     book_report = {
         'book_name': book.name,  # Replace with the actual attribute representing the book's name
         'book_report': report_data,
     }
-    
+
     return JsonResponse(book_report)
 
 
+@user_passes_test(is_admin)
 def removeBook(request, slug):
     book = get_object_or_404(Book, slug=slug)
     book.remove()
@@ -1077,9 +1086,11 @@ def rapport(request):
 
 
 def remove_extra_spaces(string):
+    return False
     return " ".join(string.split())
 
 def remove_extra_space_book_title_author(request):
+    return False
     books = Book.objects.all()
     for book in books:
         books.title = remove_extra_spaces(book.title)
@@ -1114,11 +1125,6 @@ def duplicated_books(request):
 #         book.save()
 #     return redirect("home")
 
-
-from django.core.files.storage import FileSystemStorage
-from .config.save import  *
-from django.conf import settings
-import mimetypes
 
 
 def upload_file(request):
