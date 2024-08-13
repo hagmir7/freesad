@@ -5,36 +5,7 @@
   <div class="row py-5">
     <div class="col-md-8 mb-3">
       {% include "ads.html" %}
-       <div class="post-nav mb-3 d-flex justify-content-between">
-        {% if user.is_superuser %}
-          {% if book.pre %}
-          <a class="" href="{% url 'book_detail' book.pre.slug %}">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-left">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M12 21a9 9 0 1 0 0 -18a9 9 0 0 0 0 18" />
-                  <path d="M8 12l4 4" />
-                  <path d="M8 12h8" />
-                  <path d="M12 8l-4 4" />
-              </svg>
-          </a>
-          {% endif %}
-          {% if book.next %}
-          <a class="" href="{% url 'book_detail' book.next.slug %}">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-right">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0 -18" />
-                  <path d="M16 12l-4 -4" />
-                  <path d="M16 12h-8" />
-                  <path d="M12 16l4 -4" />
-              </svg>
-          </a>
-          {% endif %}
-      </div>
-      {% endif %}
+      <article class="blog-post">
         {% if book.title %}
           <h1 dir="auto" class="blog-post-title h3 lang">{{book.title}}</h1>
         {% else %}
@@ -47,6 +18,7 @@
             <img class="book-detail-image" src="{{book.image.url}}" height="auto" width="auto" alt="{{book.name}}">
             {% else %}
             <img class="book-detail-image" src="{% static "/img/book-placeholder.png" %}" height="auto" width="auto" alt="{{book.name}}">
+            
             {% endif %}
           </div>
         </div>
@@ -87,13 +59,6 @@
                 <td>{{book.size}}</td>
               </tr>
             {% endif %}
-
-             {% if user.is_superuser %}
-              <tr>
-                <th scope="row">{% trans 'Date' %}</th>
-                <td>{{book.created_at|date:"D d - m - Y"}}</td>
-              </tr>
-            {% endif %}
               <tr>
                 <th scope="row">{% trans 'Downloads' %}</th>
                <td>{{ book.bookview_set.all.count }}</td>
@@ -116,16 +81,16 @@
           {% include "ads.html" %}
         </div>
         <h2 class="h5">{{ book.name }}</h2>
-        
+        <article dir="auto" style="white-space:pre-wrap;">
           {% if book.body %}
-          <article dir="auto">
            {{book.body|safe}}
-           </article>
           {% else %}
-          <article dir="auto" style="white-space:pre-wrap;">
-            {{book.description}}
-           </article>
+           {{book.description|safe}}
           {% endif %}
+          
+        </article>
+      </article>
+
             <div class="post-nav mb-3 d-flex justify-content-between">
                 {% if book.pre %}
                 <a class="" href="{% url 'book_detail' book.pre.slug %}">
@@ -218,6 +183,3 @@
         {{ intermediary_model.created_at }}
         new item
     {% endfor %}  {% endcomment %}
-
-
-    
