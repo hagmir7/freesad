@@ -219,6 +219,9 @@ def pdfjatt(request):
         for card in cards:
             url = "https://pdfjatt.com" + card.find('a')["href"]
             print(url)
-            get_item(url)
+            try:
+                get_item(url)
+            except Exception as e:
+                print(e)
 
     return JsonResponse({"message": "Scraped Successfully..."})
