@@ -80,15 +80,8 @@ def delete_book_image_file(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Book)
 def update_page_count(sender, instance, **kwargs):
-    # Get the old file path
-    try:
-        old_instance = Book.objects.get(pk=instance.pk)
-        old_file_path = old_instance.file.path
-    except Book.DoesNotExist:
-        old_file_path = None
 
-    # Check if the file has changed
-    if old_file_path and old_file_path != instance.file.path:
+    if instance.file and not instance.pages:
         if instance.book_type == "PDF":
             doc = fitz.open(instance.file.path)
             instance.pages = doc.page_count
@@ -103,8 +96,7 @@ def update_page_count(sender, instance, **kwargs):
             instance.size = str(round(instance.file.size * 1e-6, 2)) + " MB"
         else:
             instance.size = str(round(instance.file.size * 0.001, 2)) + " KB"
-
-        instance.save(update_fields=["pages", "size"])
+        instance.save()
 
 
 @receiver(pre_delete, sender=Video)
