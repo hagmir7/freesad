@@ -173,12 +173,12 @@ def get_item(url):
             tags_string = ""
             image_url = soup.find("img", {"itemprop": "image"})["src"]
             file_url = soup.find("a", {"rel": "nofollow"})["href"]
-            try:
-                content = descripiton_generate(soup.find("div", {"class": "content"}).text)
-                description = get_description(name)
-            except:
-                content = soup.find("div", {"class": "content"}).text
-                description = soup.find("div", {"class": "content"}).text
+            # try:
+            #     content = descripiton_generate(soup.find("div", {"class": "content"}).text)
+            #     description = get_description(name)
+            # except:
+            content = soup.find("div", {"class": "content"}).text
+            description = soup.find("div", {"class": "content"}).text
 
             for tag in tags:
                 tags_string += tag.text + ","
@@ -218,6 +218,7 @@ def pdfjatt(request):
         cards = soup.find_all("h5", {"class": "mb-1"})
         for card in cards:
             url = "https://pdfjatt.com" + card.find('a')["href"]
+            print(url)
             get_item(url)
 
     return JsonResponse({"message": "Scraped Successfully..."})
