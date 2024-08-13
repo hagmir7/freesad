@@ -78,27 +78,33 @@ def delete_book_image_file(sender, instance, **kwargs):
     instance.file.delete(save=False)
 
 
-
-
 @receiver(post_save, sender=Book)
 def update_page_count(sender, instance, **kwargs):
+    # Get the old file path
+    try:
+        old_instance = Book.objects.get(pk=instance.pk)
+        old_file_path = old_instance.file.path
+    except Book.DoesNotExist:
+        old_file_path = None
 
-    if instance.file and not instance.pages:
-        if instance.book_type == 'PDF':
+    # Check if the file has changed
+    if old_file_path and old_file_path != instance.file.path:
+        if instance.book_type == "PDF":
             doc = fitz.open(instance.file.path)
             instance.pages = doc.page_count
             doc.close()
 
-        elif instance.book_type == 'EPUB':
+        elif instance.book_type == "EPUB":
             instance.pages = epub_count_pages(instance.file.path)
         else:
             instance.pages = 1
-            
+
         if round(instance.file.size * 1e-6, 3) >= 1:
-            instance.size = str(round(instance.file.size * 1e-6, 2)) + ' MB'
+            instance.size = str(round(instance.file.size * 1e-6, 2)) + " MB"
         else:
-            instance.size = str(round(instance.file.size * 0.001, 2)) + ' KB'
-        instance.save()
+            instance.size = str(round(instance.file.size * 0.001, 2)) + " KB"
+
+        instance.save(update_fields=["pages", "size"])
 
 
 @receiver(pre_delete, sender=Video)
@@ -172,7 +178,6 @@ def delete_quality_file(sender, instance, **kwargs):
         instance.file.delete(save=False)
 
 
-
 @receiver(pre_save, sender=Quality)
 def delete_quality_old_image(sender, instance, **kwargs):
     if instance.pk:
@@ -192,7 +197,7 @@ from io import BytesIO
 #     # Check if the instance has an image field (adjust 'image' accordingly)
 #     if hasattr(instance, 'image') and instance.image:
 #         # Open the image using Pillow as specified
-#         image_data = os.path.normpath(f'{os.path.join(instance.image)}') 
+#         image_data = os.path.normpath(f'{os.path.join(instance.image)}')
 #         img = Image.open(BytesIO(instance.image.read()))
 
 #         if img.width > 400 or img.height > 300:
