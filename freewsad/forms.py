@@ -1,6 +1,8 @@
 from django.contrib.auth.forms import forms
 from . models import *
-from django_summernote.widgets import SummernoteWidget
+from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
+
+# from django_summernote.widgets import SummernoteWidget,
 
 class CreatePostForm(forms.ModelForm):
     body = forms.CharField(widget=SummernoteWidget()) 
@@ -9,13 +11,12 @@ class CreatePostForm(forms.ModelForm):
         fields = ('title', 'image', 'category', 'language', 'tags','list', 'description', 'body', 'is_public',)
 
 
-
 class BookForm(forms.ModelForm):
+    body = forms.CharField(widget=SummernoteWidget())
     file = forms.FileField(widget=forms.FileInput(attrs={'accept': '.pdf,.epub'}))
     class Meta:
         model = Book
-        fields = ('name','title', 'author', 'tags', 'language', 'category', 'type', 'file', 'image', 'description')
-
+        fields = ('name','title', 'author', 'tags', 'language', 'category', 'type', 'file', 'image', 'description', 'body')
 
 
 class BookAiForm(forms.ModelForm):
@@ -23,8 +24,6 @@ class BookAiForm(forms.ModelForm):
     class Meta:
         model = Book
         fields = ('name','author', 'category', 'type', 'file', 'image')
-
-
 
 
 class CreateContact(forms.ModelForm):
@@ -63,9 +62,6 @@ class PostSearchForm(forms.Form):
         self.fields['q'].label = 'Search For'
         self.fields['q'].widget.attrs.update(
             {'class': 'form-control'})
-       
-
-
 
 
 # Video
@@ -84,7 +80,6 @@ class QualityForm(forms.ModelForm):
     class Meta:
         model = Quality
         fields = ['quality','file']
-
 
 
 class VideoCommentForm(forms.ModelForm):
