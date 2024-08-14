@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="p-2">
-                    <pre>{{ contact.body }}</pre>
+                    <pre style="white-space: break-spaces;font-family: 'Poppins';">{{ contact.body }}</pre>
                     <div class="mt-2">
                         {% if contact.saved %}
                         <a class="btn btn-sm btn-warning rounded-pill" href="{% url 'contact_save' contact.id %}">{% trans "Unsave" %}</a>
