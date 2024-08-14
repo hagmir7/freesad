@@ -44,7 +44,6 @@ urlpatterns = [
     path("rapport", rapport),
     # Search post
     path("search", search, name="search"),
-    path("contact", contact, name="contact"),
     path("lable/<str:lable>", lable, name="lable"),
     path("menu", menu, name="menu"),
     path(
@@ -52,6 +51,14 @@ urlpatterns = [
     ),
     # Dashboard
     path("dashboard", dashboard, name="dashboard"),
+    # Contacts
+    path("contact", contact, name="contact"),
+    path("contact/show/<int:id>", contactShow, name="contact_show"),
+    path("contact/list", contactList, name="contact_list"),
+    path("contact/delete/<int:id>", contactDelete, name="contact_delete"),
+    path("contact/save/<int:id>", contactSave, name="contact_save"),
+    path("contact/saved", contactSavedList, name="contact_saved"),
+    # Logs
     path("logs/", logs, name="logs"),
     # Books
     path("book/create", createBook, name="create_book"),

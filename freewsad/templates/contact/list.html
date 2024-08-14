@@ -1,20 +1,20 @@
 {% extends "dash.html" %}
+{% load i18n %}
 
 {% block content %}
-<main class="main" id="main">
-    <div class="container">
+<div class="container">
         <div class="row">
             <div class="d-flex justify-content-center card p-0 shadow-sm">
                 <div class="p-2 px-3 d-flex justify-content-between">
-                    <span>Posts (<strong>{{contacts.count}}</strong>)</span>
+                    <span>Contacts (<strong>{{contact_count.count}}</strong>)</span>
                 </div>
                 <table class="table p-3 mt-2">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Is Public</th>
+                            <th scope="col">Full name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Readed</th>
                             <th scope="col">Created</th>
                             <th scope="col">Actions</th>
                         </tr>
@@ -23,18 +23,26 @@
                         {% for contact in contacts %}
                         <tr>
                             <th scope="row">{{contact.id}}</th>
-                            <td><a href="/contact/{{contact.id}}">{{contact.full_name|truncatechars:40}}</a></td>
-                            <td>{{post.email}}</td>
-                            <td>{{post.is_public}}</td>
-                            <td>{{post.created|date:"D d M Y"}}</td>
+                            <td><a href="{% url "contact_show" contact.id %}">{{contact.name|truncatechars:40}}</a></td>
+                            <td>{{contact.email}}</td>
+                            {% if contact.readed %}
+                            <td><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-circle-dashed-check"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M8.56 3.69a9 9 0 0 0 -2.92 1.95" /><path d="M3.69 8.56a9 9 0 0 0 -.69 3.44" /><path d="M3.69 15.44a9 9 0 0 0 1.95 2.92" /><path d="M8.56 20.31a9 9 0 0 0 3.44 .69" /><path d="M15.44 20.31a9 9 0 0 0 2.92 -1.95" /><path d="M20.31 15.44a9 9 0 0 0 .69 -3.44" /><path d="M20.31 8.56a9 9 0 0 0 -1.95 -2.92" /><path d="M15.44 3.69a9 9 0 0 0 -3.44 -.69" /><path d="M9 12l2 2l4 -4" /></svg></td>
+                            {% else %}
+                            <td><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-clock"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M12 7v5l3 3" /></svg></td>
+                            {% endif %}
+                            <td>{{contact.date|date:"D d / m / Y"}}</td>
                             <td>
-                                <a class="btn btn-sm btn-success" href="/post/update/{{post.id}}">Update</a>
-                                <a class="btn btn-sm btn-danger" href="/post/delete/{{post.id}}" onclick="return confirm('Are you sur you wnat to delete Post')">Delete</a>
+                                {% if contact.saved %}
+                                <a class="btn btn-sm btn-warning rounded-pill" href="{% url "contact_save" contact.id %}">{% trans "Unsave" %}</a>
+                                {% else %}
+                                <a class="btn btn-sm btn-success rounded-pill" href="{% url "contact_save" contact.id %}">{% trans "Save" %}</a>
+                                 {% endif %}
+                                <a class="btn btn-sm btn-danger rounded-pill" href="{% url "contact_delete" contact.id %}" onclick="return confirm('Are you sur you wnat to delete Message')">{% trans "Delete" %}</a>
                             </td>
                         </tr>
                         {% empty %}
                         <div class="h3 py-5 my-5 text-center">
-                            OOPS! No Post
+                            OOPS! No Contacts
                         </div>
                         {% endfor %}
                     </tbody>
@@ -59,5 +67,4 @@
     
         </div>
     </div>
-</main>
 {% endblock %}

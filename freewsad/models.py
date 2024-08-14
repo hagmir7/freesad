@@ -393,7 +393,15 @@ class Contact(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
     body = models.TextField()
+    readed = models.BooleanField(default=False)
+    saved = models.BooleanField(default=False)
     date = models.DateTimeField(auto_now_add=True)
+
+    def next(self):
+        return self.get_next_by_date()
+
+    def pre(self):
+        return self.get_previous_by_date()
 
 
     def __str__(self):

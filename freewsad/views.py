@@ -675,7 +675,7 @@ def contact(request):
         form = CreateContact(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, -('The message has been sent successfully'))
+            messages.success(request, _('The message has been sent successfully'))
             return redirect('contact')
     context = {'form':form,'title': _('Freesad - Contace')}
     return render(request, 'contact/contact.html', context)
@@ -683,12 +683,57 @@ def contact(request):
 
 @user_passes_test(is_admin)
 def contactList(request):
-    list = Contact.objects.all().order_by('created')
+    list = Contact.objects.all().order_by('-date')
     paginator = Paginator(list, 20)
     page_number = request.GET.get('page')
     contacts = paginator.get_page(page_number)
-    context = {'contacts':contacts,'title': _('Freesad - Contaces list')}
+    context = {
+        "contacts": contacts,
+        "title": _("Contaces list - Freesad"),
+        "contact_count": Contact.objects.filter(readed=False),
+    }
     return render(request, 'contact/list.html', context)
+
+@user_passes_test(is_admin)
+def contactSavedList(request):
+    list = Contact.objects.filter(saved=True).order_by('-date')
+    paginator = Paginator(list, 20)
+    page_number = request.GET.get('page')
+    contacts = paginator.get_page(page_number)
+    context = {
+        "contacts": contacts,
+        "title": _("Saved Contaces list - Freesad"),
+        "contact_count": list.count(),
+    }
+    return render(request, 'contact/list.html', context)
+
+
+@user_passes_test(is_admin)
+def contactShow(request, id):
+    contact = get_object_or_404(Contact, id=id)
+    contact.readed = True
+    contact.save()
+    context = {'contact':contact,'title': contact.name}
+    return render(request, 'contact/show.html', context)
+
+@user_passes_test(is_admin)
+def contactSave(request, id):
+    contact = get_object_or_404(Contact, id=id)
+    if contact.saved:
+        contact.saved = False
+        messages.success(request, message=_("Message unsaved successfully!"))
+    else:
+        contact.saved = True
+        messages.success(request, message=_("Message unsaved successfully!"))
+    contact.save()
+    return redirect('/contact/list')
+
+@user_passes_test(is_admin)
+def contactDelete(request, id):
+    contact = get_object_or_404(Contact, id=id)
+    contact.delete()
+    messages.success(request, message=_("Message deleted successfully!"))
+    return redirect('/contact/list')
 
 
 @user_passes_test(is_admin)
@@ -1124,7 +1169,6 @@ def duplicated_books(request):
 #         book.title = book.title.replace(" )", ")")
 #         book.save()
 #     return redirect("home")
-
 
 
 def upload_file(request):

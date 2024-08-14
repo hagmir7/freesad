@@ -1,0 +1,67 @@
+{% extends "dash.html" %}
+{% load i18n %}
+{% block content %}
+<div class="container">
+        <div class="row">
+            <div class="d-flex justify-content-center card p-0 shadow-sm">
+                <div class="p-2 px-3 d-flex justify-content-between">
+                    <strong>{{ contact.name }}</strong>
+                    <div>
+                        <p class="d-flex justify-content-between align-items-center gap-1">
+                            <span><svg  xmlns="http://www.w3.org/2000/svg"  width="24"  height="24"  viewBox="0 0 24 24"  fill="none"  stroke="currentColor"  stroke-width="2"  stroke-linecap="round"  stroke-linejoin="round"  class="icon icon-tabler icons-tabler-outline icon-tabler-clock"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" /><path d="M12 7v5l3 3" /></svg></span>
+                            <strong>{{ contact.date|date:"D d - d - Y" }} | {{ contact.date|timesince }}</strong>
+                        </p>
+                    </div>
+                </div>
+                <div class="p-2">
+                    <pre>{{ contact.body }}</pre>
+                    <div class="mt-2">
+                        {% if contact.saved %}
+                        <a class="btn btn-sm btn-warning rounded-pill" href="{% url 'contact_save' contact.id %}">{% trans "Unsave" %}</a>
+                        {% else %}
+                        <a class="btn btn-sm btn-success rounded-pill" href="{% url 'contact_save' contact.id %}">{% trans "Save" %}</a>
+                        {% endif %}
+                        <a class="btn btn-sm btn-danger rounded-pill" href="{% url 'contact_delete' contact.id %}"
+                            onclick="return confirm('Are you sur you wnat to delete Message')">{% trans "Delete" %}
+                        </a>
+                    </div>
+                    <div class="post-nav my-3 d-flex justify-content-between">
+                        {% if contact.pre %}
+                        <a class="" href="{% url 'contact_show' contact.pre.id %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-left">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M12 21a9 9 0 1 0 0 -18a9 9 0 0 0 0 18" />
+                                <path d="M8 12l4 4" />
+                                <path d="M8 12h8" />
+                                <path d="M12 8l-4 4" />
+                            </svg>
+                        </a>
+                        {% else %}
+                        <div></div>
+                        {% endif %}
+                    
+                        {% if contact.next %}
+                        <a class="" href="{% url 'contact_show' contact.next.id %}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-right">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0 -18" />
+                                <path d="M16 12l-4 -4" />
+                                <path d="M16 12h-8" />
+                                <path d="M12 16l4 -4" />
+                            </svg>
+                        </a>
+                        {% else %}
+                        <div></div>
+                        {% endif %}
+                    </div>
+
+                </div>
+                
+            </div>
+        </div>
+    </div>
+{% endblock %}
