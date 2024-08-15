@@ -57,6 +57,9 @@ headers = {
 
 
 def download_image(url, id):
+    if("scholastic" not in url):
+        url = "https://kids.scholastic.com" + url
+    print(url)
     response = requests.get(url, headers=headers, verify=False)
     if response.status_code == 200:
         response.raise_for_status()
