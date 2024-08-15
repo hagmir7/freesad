@@ -13,6 +13,7 @@ from .sites.pdf import pdf
 from .sites.dpdf import dpdf
 from .sites.bdebooks import bdebooks
 from .sites.pdfjatt import pdfjatt
+from .sites.kids import kids
 
 
 urlpatterns = [
@@ -118,6 +119,7 @@ urlpatterns = [
     ),
     # Scraping
     path("scraping/kotobati", scraping_kotobati),
+    path('kids', kids),
     # path("extra/space", remove_extra_space_book_title_author),
     # Delete duplicated
     path("delete/duplicated/books", duplicated_books, name="duplicated_books"),
