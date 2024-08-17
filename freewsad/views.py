@@ -1167,7 +1167,10 @@ def clean_book(request):
         book.name = book.name.replace(" )", ")")
         book.title = book.title.replace("( DOWNLOAD) ", "")
         book.title = book.title.replace(" )", ")")
-        book.save()
+        try:
+            book.save()
+        except:
+            print(book.title)
     return redirect("home")
 
 
