@@ -120,7 +120,7 @@ def page_download(data):
             name=remove_extra_spaces(
                 str(data.get("name")).replace("Download ", "").replace(" PDF", "").replace(" )", ")")
             ),
-            title=f"Download {remove_extra_spaces(str(data.get('name')))} Free PDF Book",
+            title=f"{remove_extra_spaces(str(data.get('name')))} (Free PDF Book)",
             user=User.objects.get(id=1),
             author=remove_extra_spaces(str(data.get("author"))),
             language=Language.objects.get(code="en"),
@@ -151,10 +151,13 @@ def dpdf(request):
         respons.raise_for_status()
         soup = BeautifulSoup(respons.content, "html.parser")
 
-        books = soup.find_all("div", {"class": "book-cover"})
+        books = soup.find_all("div", {"class": "book"})
 
         for book in books:
+
             url = f"https://www.d-pdf.com{book.find('a')['href']}"
+            name = book.find("div", {"class": "book-info"}).find("a").text
+
             try:
                 respons = requests.get(url, verify=True, headers=headers)
                 respons.raise_for_status()
@@ -162,16 +165,16 @@ def dpdf(request):
 
                 name = remove_hashtags(
                     delete_word(
-                        delete_word(soup.find("h1").text, "Free PDF Download"),
+                        delete_word(name, "Free PDF Download"),
                         "Free ePub Download",
                     )
-                    .replace(" )", ")")
-                    .replace("PDF", "")
-                    .replace("Download", "")
-                    .replace("(PDF DOWNLOAD)", '')
+                    .replace("(PDF DOWNLOAD)", "")
                     .replace("(PDF DOWNLOAD) ", "")
                     .replace("PDF Download", "")
                     .replace(" )", ")")
+                    .replace("PDF", "")
+                    .replace("Download", "")
+                    .replace("( DOWNLOAD)", "")
                 )
                 image = "https://www.d-pdf.com" + str(
                     soup.find("div", {"class": "book-cover"}).find("img")["src"]
