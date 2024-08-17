@@ -197,7 +197,7 @@ def dpdf(request):
                     )
                 except:
                     pdf = None
-                tags = remove_extra_spaces(soup.find_all("tr")[5].find_all("td")[1].text)
+                tags = remove_extra_spaces(soup.find_all("tr")[6].find_all("td")[1].text)
 
                 data = {
                     "image": image,
