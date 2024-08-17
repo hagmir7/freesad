@@ -163,7 +163,14 @@ def dpdf(request):
                     delete_word(
                         delete_word(soup.find("h1").text, "Free PDF Download"),
                         "Free ePub Download",
-                    ).replace(" )", ")")
+                    )
+                    .replace(" )", ")")
+                    .replace("PDF", "")
+                    .replace("Download", "")
+                    .replace("(PDF DOWNLOAD)", '')
+                    .replace("(PDF DOWNLOAD) ", "")
+                    .replace("PDF Download", "")
+                    .replace(" )", ")")
                 )
                 image = "https://www.d-pdf.com" + str(
                     soup.find("div", {"class": "book-cover"}).find("img")["src"]
@@ -193,7 +200,8 @@ def dpdf(request):
 
                 data = {
                     "image": image,
-                    "name": str(name).replace(" )", ")"),
+                    "name": str(name),
+                    
                     "category": category,
                     "author": author,
                     "language": language,
