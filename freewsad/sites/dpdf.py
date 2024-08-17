@@ -91,45 +91,49 @@ def download_file(url, id):
 
 
 def page_download(data):
+    if not data.get("pdf"):
+        print("There is not PDF 📕❌")
+    else:
+        print("There is a PDF ✅")
+        response = requests.get(data.get("pdf"), verify=True, headers=headers)
+        if response.status_code == 200:
+            response.raise_for_status()
 
-    response = requests.get(data.get("pdf"), verify=True, headers=headers)
-    if response.status_code == 200:
-        response.raise_for_status()
-
-        file_temp = NamedTemporaryFile()
-        file_temp.write(response.content)
-        file_temp.flush()
-
-        if BookCategory.objects.filter(name__icontains=data.get("category")).exists():
-            category = BookCategory.objects.filter(
-                name__icontains=data.get("category")
-            )[0]
+            file_temp = NamedTemporaryFile()
+            file_temp.write(response.content)
+            file_temp.flush()
         else:
-            category = BookCategory.objects.create(
-                name=data.get("category"),
-                language=Language.objects.get(code="en"),
-            )
+            print("Error To download File => ", response.status_code)
 
-        if not Book.books.filter(name__icontains=data.get("name")):
-            book = Book.books.create(
-                name=remove_extra_spaces(
-                    str(data.get("name")).replace("Download ", "").replace(" PDF", "").replace(" )", ")")
-                ),
-                title=f"Download {remove_extra_spaces(str(data.get('name')))} Free PDF Book",
-                user=User.objects.get(id=1),
-                author=remove_extra_spaces(str(data.get("author"))),
-                language=Language.objects.get(code="en"),
-                description=remove_extra_spaces_and_lines(str(data.get("body").text)),
-                body=str(data.get("body")),
-                tags=str(data.get("tags")),
-                category=category,
-                is_public=True,
-            )
-            download_image(data.get("image"), book.id)
+    if BookCategory.objects.filter(name__icontains=data.get("category")).exists():
+        category = BookCategory.objects.filter(
+            name__icontains=data.get("category")
+        )[0]
+    else:
+        category = BookCategory.objects.create(
+            name=data.get("category"),
+            language=Language.objects.get(code="en"),
+        )
+
+    if not Book.books.filter(name__icontains=data.get("name")):
+        book = Book.books.create(
+            name=remove_extra_spaces(
+                str(data.get("name")).replace("Download ", "").replace(" PDF", "").replace(" )", ")")
+            ),
+            title=f"Download {remove_extra_spaces(str(data.get('name')))} Free PDF Book",
+            user=User.objects.get(id=1),
+            author=remove_extra_spaces(str(data.get("author"))),
+            language=Language.objects.get(code="en"),
+            description=remove_extra_spaces_and_lines(str(data.get("body"))),
+            body=str(data.get("body")),
+            tags=str(data.get("tags")),
+            category=category,
+            is_public=True,
+        )
+        download_image(data.get("image"), book.id)
+        print(data.get("pdf"))
+        if data.get("pdf"):
             download_file(data.get("pdf"), book.id)
-            time.sleep(5)
-        else:
-            print("Book already exists")
 
 
 # Max 12019 - 17 - 05 - 2024
@@ -140,14 +144,14 @@ def dpdf(request):
     else:
         return JsonResponse({"message": "Please we need start page"})
 
-    for i in range(start, 260, 1):
+    for i in range(start, 0, -1):
         url = f"https://d-pdf.com/books/page/{i}"
         respons = requests.get(url, verify=True, headers=headers)
         respons.raise_for_status()
         soup = BeautifulSoup(respons.content, "html.parser")
 
         books = soup.find_all("div", {"class": "book-cover"})
-        
+
         for book in books:
             url = f"https://www.d-pdf.com{book.find('a')['href']}"
             try:
@@ -159,7 +163,7 @@ def dpdf(request):
                     delete_word(
                         delete_word(soup.find("h1").text, "Free PDF Download"),
                         "Free ePub Download",
-                    )
+                    ).replace(" )", ")")
                 )
                 image = "https://www.d-pdf.com" + str(
                     soup.find("div", {"class": "book-cover"}).find("img")["src"]
@@ -178,15 +182,18 @@ def dpdf(request):
                         soup.find_all("tr")[1].find_all("td")[1].find("a").text, "Books"
                     )
                 )
-                pdf = (
-                    "https://www.d-pdf.com"
-                    + soup.find("a", {"class": "download-link"})["href"]
-                )
+                try:
+                    pdf = (
+                        "https://www.d-pdf.com"
+                        + soup.find("a", {"class": "download-link"})["href"]
+                    )
+                except:
+                    pdf = None
                 tags = remove_extra_spaces(soup.find_all("tr")[5].find_all("td")[1].text)
 
                 data = {
                     "image": image,
-                    "name": name,
+                    "name": str(name).replace(" )", ")"),
                     "category": category,
                     "author": author,
                     "language": language,
