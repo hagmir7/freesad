@@ -1160,7 +1160,7 @@ def duplicated_books(request):
 
 
 def clean_book(request):
-    books = Book.objects.filter(name__icontain="DOWNLOAD")
+    books = Book.objects.filter(name__icontains="DOWNLOAD")
     for book in books:
         book.name = book.name.replace("( DOWNLOAD) ", "")
         book.name = book.name.replace(" PDF", "")
