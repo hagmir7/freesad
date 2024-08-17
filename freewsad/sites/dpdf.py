@@ -146,6 +146,7 @@ def dpdf(request):
 
     for i in range(start, 0, -1):
         url = f"https://d-pdf.com/books/page/{i}"
+        print("Page ===> ", i)
         respons = requests.get(url, verify=True, headers=headers)
         respons.raise_for_status()
         soup = BeautifulSoup(respons.content, "html.parser")
