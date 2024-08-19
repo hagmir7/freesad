@@ -406,7 +406,10 @@ def bookDetail(request, slug):
         location = Location.objects.get(ip=ip)
     if not location in book.views.all():
         book.views.add(location)
-        book.save()
+        try:
+            book.save()
+        except:
+            pass
 
     videos = Video.objects.all()[0:14]
 
