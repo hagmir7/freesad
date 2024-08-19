@@ -7,9 +7,9 @@
       {% include "ads.html" %}
       <article class="blog-post">
         {% if book.title %}
-          <h1 dir="auto" class="blog-post-title h3 lang">{{book.title}}</h1>
+        <h1 dir="auto" class="blog-post-title h3 lang">{{book.title}}</h1>
         {% else %}
-          <h1 dir="auto" class="blog-post-title h3 lang">{{book.name}}</h1>
+        <h1 dir="auto" class="blog-post-title h3 lang">{{book.name}}</h1>
         {% endif %}
         <hr>
         <div class="d-flex justify-content-center mb-3">
@@ -17,8 +17,7 @@
             {% if book.image %}
             <img class="book-detail-image" src="{{book.image.url}}" height="auto" width="auto" alt="{{book.name}}">
             {% else %}
-            <img class="book-detail-image" src="{% static "/img/book-placeholder.png" %}" height="auto" width="auto" alt="{{book.name}}">
-            
+            <img class="book-detail-image" src="{% static '/img/book-placeholder.png' %}" height="auto" width="auto" alt="{{book.name}}">
             {% endif %}
           </div>
         </div>
@@ -31,138 +30,140 @@
             </tr>
             <tr>
               <th scope="row">{% trans 'Publisher' %}</th>
-              <td> 
+              <td>
                 <a href="/user/{{ book.user.profile.slug}}" class="text-">
                   {{book.user.first_name}} {{book.user.last_name}}
                 </a>
               </td>
             </tr>
             {% if book.book_type %}
-              <tr>
-                <th scope="row">{% trans 'File type' %}</th>
-                <td>{{book.book_type}}</td>
-              </tr>
+            <tr>
+              <th scope="row">{% trans 'File type' %}</th>
+              <td>{{book.book_type}}</td>
+            </tr>
             {% endif %}
-              <tr>
-                <th scope="row">{% trans 'Language' %}</th>
-                <td>{{book.language}}</td>
-              </tr>
+            <tr>
+              <th scope="row">{% trans 'Language' %}</th>
+              <td>{{book.language}}</td>
+            </tr>
             {% if book.pages %}
-              <tr>
-                <th scope="row">{% trans 'Pages' %}</th>
-                <td>{{book.pages}}</td>
-              </tr>
+            <tr>
+              <th scope="row">{% trans 'Pages' %}</th>
+              <td>{{book.pages}}</td>
+            </tr>
             {% endif %}
             {% if book.size %}
-              <tr>
-                <th scope="row">{% trans 'Size' %}</th>
-                <td>{{book.size}}</td>
-              </tr>
+            <tr>
+              <th scope="row">{% trans 'Size' %}</th>
+              <td>{{book.size}}</td>
+            </tr>
             {% endif %}
-              <tr>
-                <th scope="row">{% trans 'Downloads' %}</th>
-               <td>{{ book.bookview_set.all.count }}</td>
-              </tr>
+            <tr>
+              <th scope="row">{% trans 'Downloads' %}</th>
+              <td>{{ book.bookview_set.all.count }}</td>
+            </tr>
           </tbody>
         </table>
         <h2 class="h5">{% trans 'Download Book' %}</h2>
         <div class="w-100 my-5">
           {% include "ads.html" %}
           <div class="row d-flex justify-content-center">
-              <div class="col-md-6">
-                {% if book.file %}
-                <a class="btn btn-success w-100" href="{{book.file.url}}" target="_blanck">{% trans "DOWNLOAD" %}</a><br>
-                <a class="btn btn-primary w-100 mt-2" href="{{book.file.url}}" target="_blanck">{% trans "Read" %}</a>
-                {% else %}
-                <div class="alert alert-danger">{% trans "Sorry😢 There is no file." %}</div>
-                {% endif %}
-              </div>
+            <div class="col-md-6">
+              {% if book.file %}
+              <a class="btn btn-success w-100" href="{{book.file.url}}" target="_blanck">{% trans "DOWNLOAD" %}</a><br>
+              <a class="btn btn-primary w-100 mt-2" href="{{book.file.url}}" target="_blanck">{% trans "Read" %}</a>
+              {% else %}
+              <div class="alert alert-danger">{% trans "Sorry😢 There is no file." %}</div>
+              {% endif %}
+            </div>
           </div>
           {% include "ads.html" %}
         </div>
         <h2 class="h5">{{ book.name }}</h2>
-        <article dir="auto" style="white-space:pre-wrap;">
+        <div dir="auto">
           {% if book.body %}
-           {{book.body|safe}}
+          <div style="white-space:pre-wrap;">{{book.body|safe}}</div>
           {% else %}
-           {{book.description|safe}}
+          <div>{{book.description|safe}}</div>
           {% endif %}
-          
-        </article>
+        </div>
       </article>
+      <div class="post-nav mb-3 d-flex justify-content-between">
+        {% if book.pre %}
+        <a class="" href="{% url 'book_detail' book.pre.slug %}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-left">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M12 21a9 9 0 1 0 0 -18a9 9 0 0 0 0 18" />
+            <path d="M8 12l4 4" />
+            <path d="M8 12h8" />
+            <path d="M12 8l-4 4" />
+          </svg>
+        </a>
+        {% endif %}
 
-            <div class="post-nav mb-3 d-flex justify-content-between">
-                {% if book.pre %}
-                <a class="" href="{% url 'book_detail' book.pre.slug %}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-left">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M12 21a9 9 0 1 0 0 -18a9 9 0 0 0 0 18" />
-                        <path d="M8 12l4 4" />
-                        <path d="M8 12h8" />
-                        <path d="M12 8l-4 4" />
-                    </svg>
-                </a>
-                {% endif %}
-
-                {% if book.next %}
-                <a class="" href="{% url 'book_detail' book.next.slug %}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-right">
-                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                        <path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0 -18" />
-                        <path d="M16 12l-4 -4" />
-                        <path d="M16 12h-8" />
-                        <path d="M12 16l4 -4" />
-                    </svg>
-                </a>
-                {% endif %}
-            </div>
+        {% if book.next %}
+        <a class="" href="{% url 'book_detail' book.next.slug %}">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+            class="icon icon-tabler icons-tabler-outline icon-tabler-circle-arrow-right">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M12 3a9 9 0 1 0 0 18a9 9 0 0 0 0 -18" />
+            <path d="M16 12l-4 -4" />
+            <path d="M16 12h-8" />
+            <path d="M12 16l4 -4" />
+          </svg>
+        </a>
+        {% endif %}
+      </div>
       {% if user == book.user or user.is_superuser %}
       <nav class="blog-pagination mt-3" aria-label="Pagination">
-        <a class="btn btn-outline-danger btn-sm m-2" href="{% url "book_delete" book.id %}" onclick="return confirm('Are you sur you wante to delete Book')">{% trans "Delete" %}</a>
+        <a class="btn btn-outline-danger btn-sm m-2" href="{% url 'book_delete' book.id %}"
+          onclick="return confirm('Are you sur you wante to delete Book')">{% trans "Delete" %}</a>
         <a class="btn btn-outline-success btn-sm m-2" href="{% url 'update_book' book.id %}">{% trans "Update" %}</a>
-        <a class="btn btn-outline-warning btn-sm m-2" href="{% url 'remove_book' book.slug %}" onclick="return confirm('Are you sur you wante to remove Book')">{% trans "Remove" %}</a>
+        <a class="btn btn-outline-warning btn-sm m-2" href="{% url 'remove_book' book.slug %}"
+          onclick="return confirm('Are you sur you wante to remove Book')">{% trans "Remove" %}</a>
 
       </nav>
       {% endif %}
-    <div class="row">
-      {% for book in books %}
-      <div class="book-card col-6 col-sm-6 col-md-5 col-lg-4 col-xl-3 mt-2 px-2">
+      <div class="row">
+        {% for book in books %}
+        <div class="book-card col-6 col-sm-6 col-md-5 col-lg-4 col-xl-3 mt-2 px-2">
           <div class="card card-book shadow-sm overflow-hidden h-100 m-0">
-              <a href="/book/{{book.slug}}" class="h-100">
-                  {% if book.image %}
-                 <img class="book-image fill" height="100%" src="{{book.image.url}}" alt="{{book.name}}" width="100%">
-                {% else %}
-                 <img class="book-image fill" height="100%" src="{% static "/img/book-placeholder.png" %}" alt="{{book.name}}" width="100%">
-                {% endif %}
-              </a>
+            <a href="/book/{{book.slug}}" class="h-100">
+              {% if book.image %}
+              <img class="book-image fill" height="100%" src="{{book.image.url}}" alt="{{book.name}}" width="100%">
+              {% else %}
+              <img class="book-image fill" height="100%" src="{% static '/img/book-placeholder.png' %}"
+                alt="{{book.name}}" width="100%">
+              {% endif %}
+            </a>
           </div>
+        </div>
+        {% empty %}
+        <div class="py-5 text-center">{% trans "No Books" %}</div>
+        {% endfor %}
       </div>
-      {% empty %}
-      <div class="py-5 text-center">{% trans "No Books" %}</div>
-      {% endfor %}
-  </div>
-    <div class="blog-pager container" id="blog-pager">
-      <a class="blog-pager-older-link load-more"  href="/books"> {% trans "Load More" %} </a>
-    </div>
+      <div class="blog-pager container" id="blog-pager">
+        <a class="blog-pager-older-link load-more" href="/books"> {% trans "Load More" %} </a>
+      </div>
     </div>
     <div class="col-12 col-md-5 col-lg-4 col-xl-4 position-relative mb-3">
       <div class="position-sticky" style="top: 55px;">
         <div class="p-2 mt-3 bg-light border">
           <span class="h4 p-1">{% trans "Copyrights" %}</span>
-          <div>{% trans "We respect the property rights of others, and are always careful not to infringe on their rights, so authors and publishing houses have the right to demand that the link to download an article or book be removed from the site. If you find an article or book of your own and do not agree to publish the download link, or have a suggestion or complaint, write to us through" %} <a href="/contact"> {% trans "Contact us" %}</a>
+          <div>{% trans "We respect the property rights of others, and are always careful not to infringe on their rights, so authors and publishing houses have the right to demand that the link to download an article or book be removed from the site. If you find an article or book of your own and do not agree to publish the download link, or have a suggestion or complaint, write to us through" %} <a href="/contact"> 
+          {% trans "Contact us" %}</a>
             , {% trans "or by email at" %}: <a href="mailto:support@freewsad.com"> support@freewsad.com.</a>
           </div>
         </div>
       </div>
-        <div class="mt-3">
-          {% include "ads.html" %}
-          {% include 'components/telegram.html' %}
-          {% include "ads.html" %}
-        </div>
+      <div class="mt-3">
+        {% include "ads.html" %}
+        {% include 'components/telegram.html' %}
+        {% include "ads.html" %}
+      </div>
     </div>
 
   </div>
@@ -175,11 +176,11 @@
 {% endblock %}
 
 
-    {% comment %} {% for view in book.views.all %}
-    {{ view.created_at }}
-        new
-    {% endfor %}
-    {% for intermediary_model in book.bookview_set.all %}
-        {{ intermediary_model.created_at }}
-        new item
-    {% endfor %}  {% endcomment %}
+{% comment %} {% for view in book.views.all %}
+{{ view.created_at }}
+new
+{% endfor %}
+{% for intermediary_model in book.bookview_set.all %}
+{{ intermediary_model.created_at }}
+new item
+{% endfor %} {% endcomment %}
