@@ -7,24 +7,26 @@ import datetime
 from django.http import JsonResponse
 
 # Db Config
-config = {
-    "user": "agha6919_books_admin",
-    "password": "Guigou.1998@",
-    "host": "localhost",
-    "database": "agha6919_books",
-    "raise_on_warnings": True,
-}
 
-# config = {
-#     "user": "root",
-#     "password": "",
-#     "host": "localhost",
-#     "database": "books",
-#     "raise_on_warnings": True,
-# }
+if os.environ.get("CPANEL") == "1":
+    config = {
+        "user": "agha6919_books_admin",
+        "password": "Guigou.1998@",
+        "host": "localhost",
+        "database": "agha6919_books",
+        "raise_on_warnings": True,
+    }
+else:
+
+    config = {
+        "user": "root",
+        "password": "",
+        "host": "localhost",
+        "database": "books",
+        "raise_on_warnings": True,
+    }
 
 data_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
 
 def get_category(category):
 
@@ -101,8 +103,8 @@ def send_data(data):
             INSERT INTO books
             (name, title, file, image, user_id, author_id, book_category_id,
             pages, language_id, size, type, body, description, is_public,
-            slug, tags, created_at, updated_at)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            slug, tags, created_at, updated_at, isbn)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
         data_book = (
             data.get("name"),
@@ -123,21 +125,11 @@ def send_data(data):
             data.get("tags"),
             data.get("created_at"),
             data.get("updated_at"),
+            data.get("isbn"),
         )
 
         cursor.execute(add_book, data_book)
         cnx.commit()
-
-        # Executing a query
-        # query = ("SELECT * FROM books")
-        # cursor.execute(query)
-
-        # Fetching the results
-        # for row in cursor:
-        #     print(row)
-
-        # Closing the cursor and connection
-        print("DB Connected")
         cursor.close()
         cnx.close()
 
@@ -147,6 +139,18 @@ def send_data(data):
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
             print("Database does not exist")
         else:
+            # import os
+            # os.remove("demofile.txt")
+            """
+                book_files/BNNTXFMNCI.pdf
+                book_images/DAUCLMNCUS.png
+
+
+                D:/Dev/filament/books/storage/app/public/book_images/
+                D:/Dev/filament/books/storage/app/public/book_files/
+            """
+            os.remove(data.get("files_folder") + str(data.get("file")).replace("book_files/", "") )
+            os.remove(data.get("images_folder") + str(data.get("image")).replace("book_images/", ""))
             print(err)
 
 
@@ -160,8 +164,12 @@ def page_download(url):
         image = soup.find("div", {"class": "book-cover"}).find("img")["src"]
         file = soup.find("div", {"class": "book-links"}).find("a")["href"]
 
-        images_folder = "/home/agha6919/books/storage/app/public/book_images/"
-        files_folder = "/home/agha6919/books/storage/app/public/book_files/"
+        if os.environ.get("CPANEL") == "1":
+            images_folder = "/home/agha6919/books/storage/app/public/book_images/"
+            files_folder = "/home/agha6919/books/storage/app/public/book_files/"
+        else:
+            images_folder = "D:/Dev/filament/books/storage/app/public/book_images/"
+            files_folder = "D:/Dev/filament/books/storage/app/public/book_files/"
 
         image_name = f"{slug(10).upper()}.png"
 
@@ -176,6 +184,7 @@ def page_download(url):
         body = soup.find("div", {"class": "book-description"})
         author = soup.find("a", {"itemprop": "author"}).text
         tags = remove_extra_spaces(soup.find_all("tr")[5].find_all("td")[1].text)
+        isbn = remove_extra_spaces(soup.find_all("tr")[4].find_all("td")[1].text)
         category = remove_extra_spaces(
             delete_word(
                 soup.find_all("tr")[1].find_all("td")[1].find("a").text, "Books"
@@ -216,6 +225,9 @@ def page_download(url):
                 "tags": str(tags),
                 "created_at": data_now,
                 "updated_at": data_now,
+                "images_folder": images_folder,
+                "files_folder": files_folder,
+                "isbn": isbn,
             }
         )
 
@@ -233,6 +245,7 @@ def pdf(request):
         try:
             print(url)
             page_download(url)
-        except:
+        except Exception as error:
+            print(error)
             print("There is an error in url : " + url)
     return JsonResponse({"message": "Scraped Successfully..."})
