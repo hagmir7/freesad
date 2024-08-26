@@ -225,3 +225,6 @@ def dpdf(request):
                 print(url)
 
     return JsonResponse({"message": "Scraped Successfully..."})
+
+
+

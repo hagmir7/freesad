@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import login_required,user_passes_test
 from . forms import *
 from django.views import View
 from .export import PostResource
-import os
 from django.db.models import Count
 from django.contrib.admin.views.decorators import staff_member_required
 from bs4 import BeautifulSoup
@@ -19,7 +18,6 @@ from django.utils import translation, timezone
 from datetime import timedelta
 from django.core.files.storage import FileSystemStorage
 from .config.save import  *
-from django.conf import settings
 import mimetypes
 
 
@@ -804,10 +802,6 @@ def addBooksSlug(request):
     return redirect('/')
 
 
-import os
-from django.conf import settings
-
-
 def bookFileExists(request):
     books = Book.books.all()
     for book in books:
@@ -1239,3 +1233,39 @@ def upload_file(request):
                 messages.error(request, message="The uploaded file is not a valid PDF.", extra_tags="danger")
                 return redirect("/upload")
     return render(request, "upload.html", {"file_url": file_url})
+
+
+from openai import OpenAI
+
+
+OPENAI_API_KEY = settings.AI_KEY
+
+client = OpenAI(api_key=OPENAI_API_KEY)
+
+
+content = """
+You are an SEO assistant with extensive knowledge about books. 
+When I provide you with the name of a author, please return a detailed description in HTML and put eche paragraph in p tag.
+"""
+def get_author(book_name):
+    completion = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "system",
+                "content": "",
+            },
+            {
+                "role": "user",
+                "content": book_name,
+            },
+        ],
+    )
+
+    return list(list(completion.choices[0].message)[0])[1]
+
+
+def ai(request):
+    if request.GET.get("author"):
+        return JsonResponse({"message": get_author(request.GET.get("author"))})
+    return HttpResponse("No author name")

@@ -139,8 +139,6 @@ def send_data(data):
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
             print("Database does not exist")
         else:
-            # import os
-            # os.remove("demofile.txt")
             """
                 book_files/BNNTXFMNCI.pdf
                 book_images/DAUCLMNCUS.png
@@ -149,8 +147,9 @@ def send_data(data):
                 D:/Dev/filament/books/storage/app/public/book_images/
                 D:/Dev/filament/books/storage/app/public/book_files/
             """
-            os.remove(data.get("files_folder") + str(data.get("file")).replace("book_files/", "") )
-            os.remove(data.get("images_folder") + str(data.get("image")).replace("book_images/", ""))
+            if int(err.sqlstate) == 23000:
+                os.remove(data.get("files_folder") + str(data.get("file")).replace("book_files/", "") )
+                os.remove(data.get("images_folder") + str(data.get("image")).replace("book_images/", ""))
             print(err)
 
 

@@ -128,4 +128,7 @@ urlpatterns = [
     path("bdebooks", bdebooks),
     path("pdfjatt", pdfjatt),
     # path("upload_page", upload_page),
+
+
+    path("ai", ai, name='ai'),
 ]
