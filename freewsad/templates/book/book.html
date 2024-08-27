@@ -67,7 +67,7 @@
         <h2 class="h5">{% trans 'Download Book' %}</h2>
         <div class="w-100 my-5">
           {% include "ads.html" %}
-          <div class="row d-flex justify-content-center">
+          {% comment %} <div class="row d-flex justify-content-center">
             <div class="col-md-6">
               {% if book.file %}
               <a class="btn btn-success w-100" href="{{book.file.url}}" target="_blanck">{% trans "DOWNLOAD" %}</a><br>
@@ -77,7 +77,7 @@
               {% endif %}
             </div>
           </div>
-          {% include "ads.html" %}
+          {% include "ads.html" %} {% endcomment %}
         </div>
         <h2 class="h5">{{ book.name }}</h2>
         <div dir="auto">
