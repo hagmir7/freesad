@@ -333,14 +333,35 @@ def deletePostCategory(request, id):
 # ------------------------ Book Views ----------------------
 
 
+# def books(request):
+#     list = Book().filler().annotate(views_count=Count('views')).filter(language__code=request.LANGUAGE_CODE).order_by('-views_count')
+#     paginator = Paginator(list, 30)
+#     page_number = request.GET.get('page')
+#     books = paginator.get_page(page_number)
+#     count = Book.books.all().count()
+#     context = {'books': books, 'count': count, 'title': _("Download free books PDF - Freesad")}
+#     return render(request, 'book/list.html', context)
+
+
+
 def books(request):
-    list = Book().filler().annotate(views_count=Count('views')).filter(language__code=request.LANGUAGE_CODE).order_by('-views_count')
-    paginator = Paginator(list, 30) 
-    page_number = request.GET.get('page')
+    books_query = Book.objects.filter(language__code=request.LANGUAGE_CODE)
+    books_count = books_query.count()
+
+    books_list = books_query.annotate(views_count=Count("views")).order_by(
+        "-views_count"
+    )
+
+    paginator = Paginator(books_list, 30)
+    page_number = request.GET.get("page")
     books = paginator.get_page(page_number)
-    count = Book.books.all().count()
-    context = {'books': books, 'count': count, 'title': _("Download free books PDF - Freesad")}
-    return render(request, 'book/list.html', context)
+
+    context = {
+        "books": books,
+        "count": books_count,
+        "title": _("Download free books PDF - Freesad"),
+    }
+    return render(request, "book/list.html", context)
 
 
 def new_books(request):
