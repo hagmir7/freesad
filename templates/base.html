@@ -2,24 +2,24 @@
 <html {% if LANGUAGE_CODE == 'ar' %} class="rtl" lang="ar" dir="rtl" {% else %} class="ltr" lang="{{ LANGUAGE_CODE }}" dir="ltr" {% endif %}>
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% if title %} {{title|slice:'60'}} {% else %} {% trans "Freesad - Professional Education Platform" %} {% endif %}</title>
+  <title>{% if title %}{{title|slice:'60'}}{% else %}{% trans "Freesad - Professional Education Platform" %}{% endif %}</title>
   <!--  Social Tags-->
 
   <meta name="keywords" content="{{tags}}, books, course, articles, news, programming, python, javascript, c##, django,css, learn, education">
   <meta name="description" content="{% if description %}{{description|slice:'160'}}{% else %}{% trans 'You can enjoy Books and Bopics, Courses you love and download the original content, and share it all with your friends, and the whole world on freesad.' %} {% endif %}">
   <!-- Schema.org markup for Google+ -->
-  <meta itemprop="name" content="{% if title %} {{title|slice:'60'}} {% else %} {% trans 'Freesad - Professional Education Platform' %} {% endif %}">
+  <meta itemprop="name" content="{% if title %}{{title|slice:'60'}}{% else %}{% trans 'Freesad - Professional Education Platform' %}{% endif %}">
   <meta itemprop="description" content="{% if description %}{{description|slice:'160'}}{% else %}{% trans 'You can enjoy Books and Bopics, Courses you love and download the original content, and share it all with your friends, and the whole world on freesad.' %} {% endif %}">
   <meta itemprop="image" content="{% if image %}{{image.url}}{% else %}{% static 'img/favicon-512x512.png' %}{% endif %}">
   <!-- Twitter Card data -->
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="{% if title %} {{title|slice:'60'}} {% else %} {% trans 'Freesad - Professional Education Platform' %} {% endif %}">
+  <meta name="twitter:title" content="{% if title %}{{title|slice:'60'}}{% else %}{% trans 'Freesad - Professional Education Platform' %}{% endif %}">
   <meta name="twitter:description" content="{% if description %}{{description|slice:'160'}}{% else %}{% trans 'You can enjoy Books and Bopics, Courses you love and download the original content, and share it all with your friends, and the whole world on freesad.' %} {% endif %}">
   <meta name="twitter:creator" content="@freesad">
   <meta name="twitter:site" content="@freesad">
   <meta name="twitter:image" content="{% if image %}{{image.url}}{% else %}{% static 'img/favicon-512x512.png' %}{% endif %}">
   <!-- Open Graph data -->
-  <meta property="og:title" content="{% if title %} {{title|slice:'60'}} {% else %} {% trans 'Freesad - Professional Education Platform' %} {% endif %}" />
+  <meta property="og:title" content="{% if title %}{{title|slice:'60'}}{% else %}{% trans 'Freesad - Professional Education Platform' %}{% endif %}" />
   <meta property="og:type" content="webiste" />
   <meta property="og:url" content="https://www.freesad.com{{ request.path }}" />
   <meta property="og:image" content="{% if image %}{{image.url}}{% else %}{% static 'img/favicon-512x512.png' %}{% endif %}" />
