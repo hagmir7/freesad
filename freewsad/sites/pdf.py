@@ -147,10 +147,15 @@ def send_data(data):
                 D:/Dev/filament/books/storage/app/public/book_images/
                 D:/Dev/filament/books/storage/app/public/book_files/
             """
-            if int(err.sqlstate) == 23000:
-                os.remove(data.get("files_folder") + str(data.get("file")).replace("book_files/", "") )
-                os.remove(data.get("images_folder") + str(data.get("image")).replace("book_images/", ""))
-            print(err)
+            if err.errno == 1062:  # MySQL error number for duplicate entry
+                print("Duplicate entry detected. Removing downloaded files.")
+                try:
+                    os.remove(data.get("files_folder") + str(data.get("file")).replace("book_files/", ""))
+                    os.remove(data.get("images_folder") + str(data.get("image")).replace("book_images/", ""))
+                except OSError as e:
+                    print(f"Error removing files: {e}")
+            else:
+                print(f"Unhandled database error: {err}")
 
 
 def page_download(url):
@@ -214,7 +219,7 @@ def page_download(url):
                 "user_id": 1,
                 "author": remove_extra_spaces(str(author)),
                 "category": remove_extra_spaces(str(category)),
-                "pages": int(pages),
+                "pages": pages,
                 "language": "en",
                 "size": str(size),
                 "type": "PDF",
@@ -235,16 +240,22 @@ def page_download(url):
 
 
 def pdf(request):
-    if(request.GET.get('start')):
-        start = int(request.GET.get("start"))
-    else:
-        start = 1
-    for i in range(start, 6010):
+    start_param = request.GET.get("start", "1") 
+    print("Start", start_param)
+    try:
+        start = int(start_param)
+    except ValueError:
+        return JsonResponse(
+            {"error": f"Invalid start value: {start_param}"}, status=400
+        )
+
+    for i in range(start, 12230):
         url = f"https://z-pdf.com/book/{i}"
         try:
             print(url)
             page_download(url)
         except Exception as error:
-            print(error)
-            print("There is an error in url : " + url)
+            print(f"Error: {error}")
+            print(f"There is an error in url: {url}")
+
     return JsonResponse({"message": "Scraped Successfully..."})

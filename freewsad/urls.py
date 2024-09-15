@@ -18,6 +18,7 @@ from .sites.kids import kids
 
 urlpatterns = [
     path("", index, name="home"),
+    path("pdf", pdf),
     # Post
     path("p/<slug:slug>", post, name="post"),
     path("post/create", createPost, name="create_post"),
@@ -93,7 +94,6 @@ urlpatterns = [
     path("kotobati", kotobati),
     path("zpdf", zpdf),
     path("dpdf", dpdf),
-    path("pdf", pdf),
     # emport Export
     path("posts/export", export_post),
     path("add-books-slug", addBooksSlug),
@@ -119,7 +119,7 @@ urlpatterns = [
     ),
     # Scraping
     path("scraping/kotobati", scraping_kotobati),
-    path('kids', kids),
+    path("kids", kids),
     # path("extra/space", remove_extra_space_book_title_author),
     # Delete duplicated
     path("delete/duplicated/books", duplicated_books, name="duplicated_books"),
@@ -128,7 +128,5 @@ urlpatterns = [
     path("bdebooks", bdebooks),
     path("pdfjatt", pdfjatt),
     # path("upload_page", upload_page),
-
-
-    path("ai", ai, name='ai'),
+    path("ai", ai, name="ai"),
 ]
