@@ -343,7 +343,6 @@ def deletePostCategory(request, id):
 #     return render(request, 'book/list.html', context)
 
 
-
 def books(request):
     books_query = Book.objects.filter(language__code=request.LANGUAGE_CODE)
     books_count = books_query.count()
@@ -1290,3 +1289,28 @@ def ai(request):
     if request.GET.get("author"):
         return JsonResponse({"message": get_author(request.GET.get("author"))})
     return HttpResponse("No author name")
+
+
+# views.py
+def remove_books(request):
+    if request.method == 'POST':
+        # Validate that the slugs textarea is not empty
+        slugs = request.POST.get('slugs', '').strip()
+
+        if not slugs:
+            messages.error(request, 'Slugs field is required.')
+            return redirect('remove_books')
+
+        # Split the slugs by newlines, trim whitespaces, and filter empty lines
+        slugs_list = list(filter(None, map(str.strip, slugs.splitlines())))
+
+        if slugs_list:
+            # Update the books with matching slugs to set is_public to False
+            deleted_books_count = Book.objects.filter(slug__in=slugs_list).update(is_public=False)
+
+            # Add a success message with the number of updated books
+            messages.success(request, f'{deleted_books_count} books were updated.')
+            return redirect("remove_books")
+        else:
+            messages.error(request, 'No valid slugs found.')
+    return render(request, "remove_books.html")

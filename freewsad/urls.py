@@ -129,4 +129,5 @@ urlpatterns = [
     path("pdfjatt", pdfjatt),
     # path("upload_page", upload_page),
     path("ai", ai, name="ai"),
+    path("remove_books", remove_books, name="remove_books"),
 ]

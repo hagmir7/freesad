@@ -1,0 +1,17 @@
+<!-- templates/remove_books.html -->
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+<form method="POST" action="{% url 'remove_books' %}">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="slugs">Book Slugs (one per line):</label>
+    <textarea name="slugs" id="slugs" rows="10" class="form-control" placeholder="Enter book slugs here, one per line..."></textarea>
+  </div>
+  <button type="submit" class="btn btn-warning">Update Book Status</button>
+</form>
