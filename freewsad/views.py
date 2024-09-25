@@ -339,7 +339,7 @@ def deletePostCategory(request, id):
 #     page_number = request.GET.get('page')
 #     books = paginator.get_page(page_number)
 #     count = Book.books.all().count()
-#     context = {'books': books, 'count': count, 'title': _("Download free books PDF - Freesad")}
+#     context = {'books': books, 'count': count, 'title': _("Most popular books - Freesad")}
 #     return render(request, 'book/list.html', context)
 
 
@@ -358,7 +358,7 @@ def books(request):
     context = {
         "books": books,
         "count": books_count,
-        "title": _("Download free books PDF - Freesad"),
+        "title": _("Most popular books - Freesad"),
     }
     return render(request, "book/list.html", context)
 
@@ -369,7 +369,11 @@ def new_books(request):
     page_number = request.GET.get('page')
     books = paginator.get_page(page_number)
     count = Book.books.all().count()
-    context = {'books': books, 'count': count, 'title': _("Download free and new books PDF - Freesad")}
+    context = {
+        "books": books,
+        "count": count,
+        "title": _("Most popular books - Freesad"),
+    }
     return render(request, 'book/list.html', context)
 
 
@@ -379,7 +383,7 @@ def trending_books(request):
     page_number = request.GET.get('page')
     books = paginator.get_page(page_number)
     count = Book.books.all().count()
-    context = {'books': books, 'count': count, 'title': _("Download free and popular books PDF - Freesad")}
+    context = {'books': books, 'count': count, 'title': _("Most popular books - Freesad")}
     return render(request, 'book/list.html', context)
 
 
@@ -397,7 +401,7 @@ def trending_books(request):
 
 #     context = {
 #         'books': books_page,
-#         'title': _("Download free and popular books PDF - Freesad")
+#         'title': _("Most popular books - Freesad")
 #     }
 #     return render(request, 'book/list.html', context)
 
@@ -432,7 +436,7 @@ def bookDetail(request, slug):
     videos = Video.objects.all()[0:14]
 
     context = {
-        'title' : book.title if book.title else book.name,
+        'title' : book.name if book.name else book.title,
         'description' : book.description,
         'image': book.image,
         'book': book,
