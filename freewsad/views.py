@@ -1294,23 +1294,20 @@ def ai(request):
 # views.py
 def remove_books(request):
     if request.method == 'POST':
-        # Validate that the slugs textarea is not empty
         slugs = request.POST.get('slugs', '').strip()
 
         if not slugs:
             messages.error(request, 'Slugs field is required.')
             return redirect('remove_books')
-
-        # Split the slugs by newlines, trim whitespaces, and filter empty lines
+        
         slugs_list = list(filter(None, map(str.strip, slugs.splitlines())))
 
         if slugs_list:
-            # Update the books with matching slugs to set is_public to False
-            deleted_books_count = Book.objects.filter(slug__in=slugs_list).update(is_public=False)
-
-            # Add a success message with the number of updated books
-            messages.success(request, f'{deleted_books_count} books were updated.')
+            # Change this line to delete books instead of updating
+            deleted_books_count = Book.objects.filter(slug__in=slugs_list).delete()[0]
+            messages.success(request, f'{deleted_books_count} books were removed.')
             return redirect("remove_books")
         else:
             messages.error(request, 'No valid slugs found.')
+    
     return render(request, "remove_books.html")
