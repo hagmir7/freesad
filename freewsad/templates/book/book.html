@@ -6,10 +6,10 @@
     <div class="col-md-8 mb-3">
       {% include "ads.html" %}
       <article class="blog-post">
-        {% if book.title %}
-        <h1 dir="auto" class="blog-post-title h3 lang">{{book.title}}</h1>
-        {% else %}
+        {% if book.name %}
         <h1 dir="auto" class="blog-post-title h3 lang">{{book.name}}</h1>
+        {% else %}
+        <h1 dir="auto" class="blog-post-title h3 lang">{{book.title}}</h1>
         {% endif %}
         <hr>
         <div class="d-flex justify-content-center mb-3">
@@ -36,12 +36,12 @@
                 </a>
               </td>
             </tr>
-            {% if book.book_type %}
+            {% comment %} {% if book.book_type %}
             <tr>
               <th scope="row">{% trans 'File type' %}</th>
               <td>{{book.book_type}}</td>
             </tr>
-            {% endif %}
+            {% endif %} {% endcomment %}
             <tr>
               <th scope="row">{% trans 'Language' %}</th>
               <td>{{book.language}}</td>
@@ -52,19 +52,19 @@
               <td>{{book.pages}}</td>
             </tr>
             {% endif %}
-            {% if book.size %}
+            {% comment %} {% if book.size %}
             <tr>
               <th scope="row">{% trans 'Size' %}</th>
               <td>{{book.size}}</td>
             </tr>
-            {% endif %}
-            <tr>
+            {% endif %} {% endcomment %}
+            {% comment %} <tr>
               <th scope="row">{% trans 'Downloads' %}</th>
               <td>{{ book.bookview_set.all.count }}</td>
-            </tr>
+            </tr> {% endcomment %}
           </tbody>
         </table>
-        <h2 class="h5">{% trans 'Download Book' %}</h2>
+        {% comment %} <h2 class="h5">{% trans 'Download Book' %}</h2> {% endcomment %}
         <div class="w-100 my-5">
           {% comment %} {% include "ads.html" %}
           <div class="row d-flex justify-content-center">
@@ -80,12 +80,12 @@
           {% include "ads.html" %} {% endcomment %}
 
            {% include "ads.html" %}
-          <div class="row d-flex justify-content-center">
+          {% comment %} <div class="row d-flex justify-content-center">
             <div class="col-md-6">
               <a class="btn btn-success w-100" href="https://www.freewsad.com/book/{{ book.slug }}" target="_blanck">{% trans "DOWNLOAD" %}</a><br>
               <a class="btn btn-primary w-100 mt-2" href="https://www.freewsad.com/book/{{ book.slug }}" target="_blanck">{% trans "Read" %}</a>
             </div>
-          </div>
+          </div> {% endcomment %}
           {% include "ads.html" %}
         </div>
         <h2 class="h5">{{ book.name }}</h2>
