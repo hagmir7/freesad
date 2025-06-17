@@ -14,6 +14,7 @@ from .sites.dpdf import dpdf
 from .sites.bdebooks import bdebooks
 from .sites.pdfjatt import pdfjatt
 from .sites.kids import kids
+from .sites.nourkitab import scrap
 
 
 urlpatterns = [
@@ -130,4 +131,5 @@ urlpatterns = [
     # path("upload_page", upload_page),
     path("ai", ai, name="ai"),
     path("remove_books", remove_books, name="remove_books"),
+    path("nourkitab", scrap, name="scrap"),
 ]
