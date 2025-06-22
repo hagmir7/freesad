@@ -329,6 +329,7 @@ def prepare_book_data(book_info):
         "created_at": data_now,
         "updated_at": data_now,
         "isbn": None,
+        "language_id" : 2,
         'verified': False
     }
 
