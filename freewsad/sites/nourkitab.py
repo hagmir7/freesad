@@ -77,8 +77,8 @@ if os.environ.get("CPANEL") == "1":
         "database": "agha6919_books",
         "raise_on_warnings": True,
     }
-    FILES_FOLDER = "/path/to/your/cpanel/files/"
-    IMAGES_FOLDER = "/path/to/your/cpanel/images/"
+    FILES_FOLDER = "/home/agha6919/books/storage/app/public/book_files/"
+    IMAGES_FOLDER = "/home/agha6919/books/storage/app/public/book_images/"
 else:
     config = {
         "user": "root",
@@ -87,8 +87,8 @@ else:
         "database": "books",
         "raise_on_warnings": True,
     }
-    FILES_FOLDER = "D:/Dev/filament/books/storage/app/public/book_files/"
-    IMAGES_FOLDER = "D:/Dev/filament/books/storage/app/public/book_images/"
+    FILES_FOLDER = "D:/Dev/laravel/books/storage/app/public/book_files/"
+    IMAGES_FOLDER = "D:/Dev/laravel/books/storage/app/public/book_images/"
 
 data_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
