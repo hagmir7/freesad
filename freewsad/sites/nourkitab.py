@@ -185,7 +185,7 @@ def send_data(data):
             get_author(data.get("author")),
             get_category(data.get("category")),
             data.get("pages"),
-            1,  # Default language_id
+            2,  # Default language_id
             data.get("size"),
             data.get("type", "pdf"),
             data.get("body"),
@@ -338,8 +338,11 @@ def scrap(request):
     saved_count = 0
     error_count = 0
 
+    start_page = request.GET.get("start") or 1
+    end_page = request.GET.get("end") or 3
+
     try:
-        for page in range(1, 3):  # Scrape first 2 pages
+        for page in range(start_page, end_page):  # Scrape first 2 pages
             print(f"Scraping page {page}...")
             url = f"https://mktbtypdf.com/library/page/{page}/"
             response = requests.get(url, headers=HEADERS)
