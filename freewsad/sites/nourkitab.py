@@ -329,6 +329,7 @@ def prepare_book_data(book_info):
         "created_at": data_now,
         "updated_at": data_now,
         "isbn": None,
+        'verified': False
     }
 
 
@@ -338,8 +339,8 @@ def scrap(request):
     saved_count = 0
     error_count = 0
 
-    start_page = request.GET.get("start") or 1
-    end_page = request.GET.get("end") or 3
+    start_page = int(request.GET.get("start") or 1)
+    end_page = int(request.GET.get("end") or 3)
 
     try:
         for page in range(start_page, end_page):  # Scrape first 2 pages
