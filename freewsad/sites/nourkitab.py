@@ -10,6 +10,7 @@ import os
 import uuid
 from urllib.parse import urlparse
 from .config import *
+from unidecode import unidecode
 
 
 def extract_image_url(style):
@@ -25,12 +26,15 @@ def get_year(text):
 
 
 def generate_slug(text):
-    """Generate a URL-friendly slug from text"""
+    """Generate a URL-friendly slug from Arabic or English text."""
     if not text:
         return str(uuid.uuid4())[:10]
 
-    # Convert to lowercase and replace spaces with hyphens
-    slug = re.sub(r"[^\w\s-]", "", text.lower())
+    # Convert Arabic to approximate Latin letters
+    latin_text = unidecode(text)
+
+    # Clean and format
+    slug = re.sub(r"[^\w\s-]", "", latin_text.lower())
     slug = re.sub(r"[-\s]+", "-", slug)
     return slug.strip("-")
 
@@ -323,7 +327,7 @@ def prepare_book_data(book_info):
         "type": "pdf",
         "body": book_info.get("description", ""),
         "description": book_info.get("description", ""),
-        "is_public": 1,
+        "is_public": 0,
         "slug": generate_slug(book_info.get("name", "")),
         "tags": book_info.get("category", ""),
         "created_at": data_now,
@@ -359,8 +363,6 @@ def scrap(request):
                     image = extract_image_url(
                         book.find("div", class_="book-img")["style"]
                     )
-
-                    print(f"Processing book: {name}")
 
                     # Get detailed book information
                     book_info = getBook(href, name, author, image)
