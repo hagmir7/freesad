@@ -1273,7 +1273,7 @@ When I provide you with the name of a author, please return a detailed descripti
 """
 def get_author(book_name):
     completion = client.chat.completions.create(
-        model="gpt-4o-mini",
+        model="gpt-5",
         messages=[
             {
                 "role": "system",

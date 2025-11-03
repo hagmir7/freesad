@@ -10,7 +10,7 @@ client = OpenAI(api_key=OPENAI_API_KEY)
 
 def get_author(book_name):
     completion = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-5",
         messages=[
             {
                 "role": "system",
@@ -28,7 +28,7 @@ def get_author(book_name):
 
 def descripiton_generate(description):
     completion = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-5",
         messages=[
             {
                 "role": "system",
@@ -54,7 +54,7 @@ def descripiton_generate(description):
 
 def get_metakeyword(book_name):
     completion = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-5",
         messages=[
             {
                 "role": "system",
@@ -72,7 +72,7 @@ def get_metakeyword(book_name):
 
 def get_metadescription(book_name):
     completion = client.chat.completions.create(
-        model="gpt-4o",
+        model="gpt-5",
         messages=[
             {
                 "role": "system",
