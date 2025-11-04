@@ -347,7 +347,7 @@ def prepare_book_data(book_info):
         "type": "PDF",
         "body": book_info.get("description", ""),
         "description": book_info.get("description", ""),
-        "is_public": True,
+        "is_public": False,
         "slug": generate_slug(book_info.get("name", "")),
         "tags": book_info.get("category", ""),
         "created_at": data_now,
