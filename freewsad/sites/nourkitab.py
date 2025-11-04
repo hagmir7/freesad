@@ -190,7 +190,7 @@ def send_data(data):
             get_category(data.get("category")),
             data.get("pages"),
             2,  # Default language_id
-            size_in_bytes(data.get("size")),
+            data.get("size"),
             data.get("type", "pdf"),
             data.get("body"),
             data.get("description"),
@@ -245,10 +245,23 @@ def send_data(data):
             cnx.close()
 
 
-def size_in_bytes(size):
+def size_format(size):
     """
-    Convert a file size in bytes to a human-readable string (KB, MB, GB, TB).
+    Convert a file size in bytes (int/float) to a human-readable string (KB, MB, GB, TB).
+    If input is already a formatted string or None, return it unchanged (or None).
     """
+    if size is None:
+        return None
+
+    # If it's already a string, assume it's formatted and return as-is
+    if isinstance(size, str):
+        return size
+
+    try:
+        size = float(size)
+    except (ValueError, TypeError):
+        return None
+
     units = ["B", "KB", "MB", "GB", "TB"]
     unit_index = 0
 
@@ -324,7 +337,7 @@ def prepare_book_data(book_info):
                 FILES_FOLDER, file_filename.replace("book_files/", "")
             )
             if os.path.exists(file_path):
-                file_size = size_in_bytes(os.path.getsize(file_path))
+                file_size = size_format(os.path.getsize(file_path))
         except Exception as e:
             print(f"Error getting file size: {e}")
 
