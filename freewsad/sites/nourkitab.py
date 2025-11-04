@@ -190,11 +190,11 @@ def send_data(data):
             get_category(data.get("category")),
             data.get("pages"),
             2,  # Default language_id
-            data.get("size"),
+            size_in_bytes(data.get("size")),
             data.get("type", "pdf"),
             data.get("body"),
             data.get("description"),
-            data.get("is_public", 1),
+            0,
             data.get("slug"),
             data.get("tags"),
             data.get("created_at"),
@@ -245,24 +245,18 @@ def send_data(data):
             cnx.close()
 
 
-def convert_bytes(size_in_bytes, to_unit="MB"):
+def size_in_bytes(size):
     """
-    Convert bytes to KB, MB, GB, or TB.
-
-    Parameters:
-        size_in_bytes (int or float): Size in bytes.
-        to_unit (str): Target unit: "KB", "MB", "GB", "TB".
-
-    Returns:
-        float: Converted size.
+    Convert a file size in bytes to a human-readable string (KB, MB, GB, TB).
     """
-    units = {"KB": 1024, "MB": 1024**2, "GB": 1024**3, "TB": 1024**4}
+    units = ["B", "KB", "MB", "GB", "TB"]
+    unit_index = 0
 
-    to_unit = to_unit.upper()
-    if to_unit not in units:
-        raise ValueError("Invalid unit. Choose from KB, MB, GB, TB.")
+    while size >= 1024 and unit_index < len(units) - 1:
+        size /= 1024
+        unit_index += 1
 
-    return size_in_bytes / units[to_unit]
+    return f"{round(size, 2)} {units[unit_index]}"
 
 
 def getBook(url, name, author, image):
@@ -330,7 +324,7 @@ def prepare_book_data(book_info):
                 FILES_FOLDER, file_filename.replace("book_files/", "")
             )
             if os.path.exists(file_path):
-                file_size = convert_bytes(os.path.getsize(file_path))
+                file_size = size_in_bytes(os.path.getsize(file_path))
         except Exception as e:
             print(f"Error getting file size: {e}")
 
@@ -347,14 +341,14 @@ def prepare_book_data(book_info):
         "type": "PDF",
         "body": book_info.get("description", ""),
         "description": book_info.get("description", ""),
-        "is_public": False,
+        "is_public": 0,
         "slug": generate_slug(book_info.get("name", "")),
         "tags": book_info.get("category", ""),
         "created_at": data_now,
         "updated_at": data_now,
         "isbn": None,
         "language_id" : 2,
-        'verified': False
+        'verified': 0
     }
 
 
