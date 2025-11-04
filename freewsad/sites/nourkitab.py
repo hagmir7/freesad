@@ -245,6 +245,26 @@ def send_data(data):
             cnx.close()
 
 
+def convert_bytes(size_in_bytes, to_unit="MB"):
+    """
+    Convert bytes to KB, MB, GB, or TB.
+
+    Parameters:
+        size_in_bytes (int or float): Size in bytes.
+        to_unit (str): Target unit: "KB", "MB", "GB", "TB".
+
+    Returns:
+        float: Converted size.
+    """
+    units = {"KB": 1024, "MB": 1024**2, "GB": 1024**3, "TB": 1024**4}
+
+    to_unit = to_unit.upper()
+    if to_unit not in units:
+        raise ValueError("Invalid unit. Choose from KB, MB, GB, TB.")
+
+    return size_in_bytes / units[to_unit]
+
+
 def getBook(url, name, author, image):
     try:
         response = requests.get(url, headers=HEADERS)
@@ -310,7 +330,7 @@ def prepare_book_data(book_info):
                 FILES_FOLDER, file_filename.replace("book_files/", "")
             )
             if os.path.exists(file_path):
-                file_size = os.path.getsize(file_path)
+                file_size = convert_bytes(os.path.getsize(file_path))
         except Exception as e:
             print(f"Error getting file size: {e}")
 
@@ -324,10 +344,10 @@ def prepare_book_data(book_info):
         "category": book_info.get("category", "Uncategorized"),
         "pages": int(book_info.get("pages", 0)) if book_info.get("pages") else None,
         "size": file_size,
-        "type": "pdf",
+        "type": "PDF",
         "body": book_info.get("description", ""),
         "description": book_info.get("description", ""),
-        "is_public": 0,
+        "is_public": True,
         "slug": generate_slug(book_info.get("name", "")),
         "tags": book_info.get("category", ""),
         "created_at": data_now,
