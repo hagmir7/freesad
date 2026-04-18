@@ -39,7 +39,7 @@ def generate_slug(text):
 
 # ---------- Duplicate-detection helpers ----------
 
-# Common filler words (Arabic + English) that shouldn't count when comparing titles.
+# Common filler/category words (Arabic + English) that shouldn't count when comparing titles.
 STOP_WORDS = {
     # English
     "book",
@@ -61,7 +61,14 @@ STOP_WORDS = {
     "part",
     "full",
     "complete",
-    # Arabic
+    "novel",
+    "story",
+    "stories",
+    "series",
+    "collection",
+    "tales",
+    "guide",
+    # Arabic - articles, prepositions, conjunctions
     "كتاب",
     "كتب",
     "في",
@@ -81,6 +88,45 @@ STOP_WORDS = {
     "كامل",
     "كاملة",
     "نسخة",
+    # Arabic - category/genre words commonly prefixing titles
+    "رواية",
+    "روايه",
+    "الرواية",
+    "الروايه",
+    "روايات",
+    "قصة",
+    "قصه",
+    "القصة",
+    "القصه",
+    "قصص",
+    "ديوان",
+    "الديوان",
+    "دواوين",
+    "مجموعة",
+    "مجموعه",
+    "المجموعة",
+    "المجموعه",
+    "مسرحية",
+    "مسرحيه",
+    "المسرحية",
+    "المسرحيه",
+    "سلسلة",
+    "سلسله",
+    "السلسلة",
+    "السلسله",
+    "دراسة",
+    "دراسه",
+    "الدراسة",
+    "الدراسه",
+    "دراسات",
+    "موسوعة",
+    "موسوعه",
+    "الموسوعة",
+    "الموسوعه",
+    "معجم",
+    "المعجم",
+    "قاموس",
+    "القاموس",
 }
 
 
@@ -133,12 +179,16 @@ def is_duplicate_title(new_title, existing_title, threshold=0.85):
     Decide whether two titles refer to the same book.
     Works symmetrically: order of arguments doesn't matter.
 
-    Rules (in order):
+    Rules (checked in order):
       1. Exact match after normalization -> duplicate
-      2. Token containment: all tokens of the shorter title appear in the longer,
-         AND shorter is >=60% of longer (avoids matching 'Harry Potter' with
-         'Harry Potter and the Philosopher's Stone') -> duplicate
-      3. SequenceMatcher similarity >= threshold -> duplicate
+      2. Full-containment: all tokens of the shorter title appear in the longer,
+         AND shorter covers >=60% of longer  (handles 'Rich Dad Poor Dad' vs
+         'Rich Dad Poor Dad book')
+      3. Single distinctive token: shorter has exactly 1 token, it's contained
+         in the longer, AND the token is >=6 characters long  (handles
+         'السيلماريلين' vs 'رواية السيلماريلين' when stopwords don't cover
+         the prefix word)
+      4. SequenceMatcher similarity >= threshold (final fuzzy check)
     """
     a = normalize_name(new_title)
     b = normalize_name(existing_title)
@@ -151,22 +201,31 @@ def is_duplicate_title(new_title, existing_title, threshold=0.85):
 
     tokens_a = set(a.split())
     tokens_b = set(b.split())
-    if tokens_a and tokens_b:
-        shorter, longer = (
-            (tokens_a, tokens_b)
-            if len(tokens_a) <= len(tokens_b)
-            else (tokens_b, tokens_a)
-        )
-        # Need: >=2 tokens, fully contained, AND shorter is >=60% of longer
-        # so "Rich Dad Poor Dad" (4) vs "Rich Dad Poor Dad book" (4 after stopwords) matches,
-        # but "Harry Potter" (2) vs "Harry Potter and the Philosopher's Stone" (4) doesn't.
-        if (
-            len(shorter) >= 2
-            and shorter.issubset(longer)
-            and len(shorter) / len(longer) >= 0.6
-        ):
+    if not tokens_a or not tokens_b:
+        return False
+
+    shorter, longer = (
+        (tokens_a, tokens_b) if len(tokens_a) <= len(tokens_b) else (tokens_b, tokens_a)
+    )
+
+    # Rule 2: full containment with enough coverage
+    if (
+        len(shorter) >= 2
+        and shorter.issubset(longer)
+        and len(shorter) / len(longer) >= 0.6
+    ):
+        return True
+
+    # Rule 3: single distinctive token contained in the other.
+    # A long unique word (e.g. 'السيلماريلين', 'Silmarillion') contained in
+    # the longer title is a strong duplicate signal on its own. The 6-char
+    # minimum prevents short words like 'love', 'dune', '1984' from triggering.
+    if len(shorter) == 1 and shorter.issubset(longer):
+        only_token = next(iter(shorter))
+        if len(only_token) >= 6:
             return True
 
+    # Rule 4: final fuzzy similarity
     return similarity(a, b) >= threshold
 
 
