@@ -287,6 +287,24 @@ def normalize_name(text):
     return " ".join(tokens)
 
 
+# Matches subtitle separators: colon, em/en-dash, pipe -- with whitespace around
+# (or a colon/full-width colon by itself). Used to split "Main Title : Subtitle"
+# so we can compare main-title-to-main-title.
+SUBTITLE_SEPARATOR_RE = re.compile(r"\s*[:：\-–—|]\s+")
+
+
+def main_title_only(text):
+    """
+    Return the part of a title before any subtitle separator.
+    'استرداد عمر : من السيرة...' -> 'استرداد عمر'
+    'Rich Dad Poor Dad: The Classic' -> 'Rich Dad Poor Dad'
+    """
+    if not text:
+        return ""
+    parts = SUBTITLE_SEPARATOR_RE.split(text, maxsplit=1)
+    return parts[0] if parts else text
+
+
 def similarity(a, b):
     if not a or not b:
         return 0.0
@@ -300,6 +318,19 @@ def is_duplicate_title(new_title, existing_title, threshold=0.85):
         return False
     if a == b:
         return True
+
+    # Rule: subtitle-stripping. If either title has ':', '-', '—', '|' followed
+    # by a subtitle, compare the main-title parts. Handles:
+    #   'استرداد عمر' vs 'استرداد عمر : من السيرة إلى المسيرة'
+    #   'Rich Dad Poor Dad' vs 'Rich Dad Poor Dad: The Classic'
+    a_main = normalize_name(main_title_only(new_title))
+    b_main = normalize_name(main_title_only(existing_title))
+    if a_main and b_main:
+        if a_main == b_main:
+            return True
+        if a_main == b or b_main == a:
+            return True
+
     tokens_a = set(a.split())
     tokens_b = set(b.split())
     if not tokens_a or not tokens_b:
