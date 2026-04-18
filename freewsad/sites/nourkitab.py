@@ -8,6 +8,7 @@ import requests
 import re
 import os
 import uuid
+from difflib import SequenceMatcher
 from urllib.parse import urlparse
 from .config import *
 from unidecode import unidecode
@@ -30,59 +31,171 @@ def generate_slug(text):
     if not text:
         return str(uuid.uuid4())[:10]
 
-    # Convert Arabic to approximate Latin letters
     latin_text = unidecode(text)
-
-    # Clean and format
     slug = re.sub(r"[^\w\s-]", "", latin_text.lower())
     slug = re.sub(r"[-\s]+", "-", slug)
     return slug.strip("-")
 
 
+# ---------- Duplicate-detection helpers ----------
+
+# Common filler words (Arabic + English) that shouldn't count when comparing titles.
+STOP_WORDS = {
+    # English
+    "book",
+    "books",
+    "the",
+    "a",
+    "an",
+    "of",
+    "and",
+    "in",
+    "on",
+    "to",
+    "for",
+    "pdf",
+    "edition",
+    "ed",
+    "vol",
+    "volume",
+    "part",
+    "full",
+    "complete",
+    # Arabic
+    "كتاب",
+    "كتب",
+    "في",
+    "من",
+    "الى",
+    "على",
+    "و",
+    "أو",
+    "الـ",
+    "ال",
+    "جزء",
+    "الجزء",
+    "طبعة",
+    "الطبعة",
+    "مجلد",
+    "المجلد",
+    "كامل",
+    "كاملة",
+    "نسخة",
+}
+
+
 def normalize_name(text):
-    """Normalize a book name for comparison: strip, collapse internal whitespace."""
+    """
+    Aggressive normalization for comparison only (not for storage):
+    - remove Arabic diacritics/tatweel
+    - unify Arabic letter variants
+    - lowercase
+    - strip punctuation
+    - collapse whitespace
+    - remove stop words (book, كتاب, pdf, etc.)
+    """
     if not text:
         return ""
-    # Collapse all whitespace (spaces, tabs, newlines) into a single space and strip
-    return re.sub(r"\s+", " ", text).strip()
+
+    s = text
+
+    # Remove Arabic tashkeel (diacritics) and tatweel
+    s = re.sub(r"[\u064B-\u0652\u0670\u0640]", "", s)
+
+    # Normalize Arabic letter variants
+    s = s.replace("أ", "ا").replace("إ", "ا").replace("آ", "ا")
+    s = s.replace("ى", "ي").replace("ة", "ه")
+
+    # Lowercase latin chars
+    s = s.lower()
+
+    # Replace any non-alphanumeric/non-arabic char with space
+    s = re.sub(r"[^\w\u0600-\u06FF]+", " ", s, flags=re.UNICODE)
+
+    # Collapse whitespace
+    s = re.sub(r"\s+", " ", s).strip()
+
+    # Remove stop words
+    tokens = [t for t in s.split(" ") if t and t not in STOP_WORDS]
+
+    return " ".join(tokens)
 
 
-def book_exists(name):
-    """Check if a book with the same normalized name already exists in DB."""
-    normalized = normalize_name(name)
-    if not normalized:
+def similarity(a, b):
+    """Return similarity ratio between two strings (0.0 - 1.0)."""
+    if not a or not b:
+        return 0.0
+    return SequenceMatcher(None, a, b).ratio()
+
+
+def is_duplicate_title(new_title, existing_title, threshold=0.85):
+    """
+    Decide whether two titles refer to the same book.
+    Works symmetrically: order of arguments doesn't matter.
+
+    Rules (in order):
+      1. Exact match after normalization -> duplicate
+      2. Token containment: all tokens of the shorter title appear in the longer,
+         AND shorter is >=60% of longer (avoids matching 'Harry Potter' with
+         'Harry Potter and the Philosopher's Stone') -> duplicate
+      3. SequenceMatcher similarity >= threshold -> duplicate
+    """
+    a = normalize_name(new_title)
+    b = normalize_name(existing_title)
+
+    if not a or not b:
         return False
+
+    if a == b:
+        return True
+
+    tokens_a = set(a.split())
+    tokens_b = set(b.split())
+    if tokens_a and tokens_b:
+        shorter, longer = (
+            (tokens_a, tokens_b)
+            if len(tokens_a) <= len(tokens_b)
+            else (tokens_b, tokens_a)
+        )
+        # Need: >=2 tokens, fully contained, AND shorter is >=60% of longer
+        # so "Rich Dad Poor Dad" (4) vs "Rich Dad Poor Dad book" (4 after stopwords) matches,
+        # but "Harry Potter" (2) vs "Harry Potter and the Philosopher's Stone" (4) doesn't.
+        if (
+            len(shorter) >= 2
+            and shorter.issubset(longer)
+            and len(shorter) / len(longer) >= 0.6
+        ):
+            return True
+
+    return similarity(a, b) >= threshold
+
+
+def find_duplicate_book(name):
+    """
+    Scan all existing book names in the DB and return the first one that
+    matches `name` according to is_duplicate_title(). Returns (id, name) or None.
+    """
+    if not name:
+        return None
 
     cnx = mysql.connector.connect(**config)
     cursor = cnx.cursor()
     try:
-        # Compare after collapsing spaces on the DB side as well, case-insensitively.
-        # REGEXP_REPLACE collapses any run of whitespace into a single space,
-        # TRIM removes leading/trailing whitespace, LOWER makes it case-insensitive.
-        query = """
-            SELECT id FROM books
-            WHERE LOWER(TRIM(REGEXP_REPLACE(name, '[[:space:]]+', ' '))) = LOWER(%s)
-            LIMIT 1
-        """
-        cursor.execute(query, (normalized.lower(),))
-        result = cursor.fetchone()
-        return result is not None
+        cursor.execute("SELECT id, name FROM books")
+        rows = cursor.fetchall()
+        for book_id, existing_name in rows:
+            if is_duplicate_title(name, existing_name):
+                return (book_id, existing_name)
+        return None
     except mysql.connector.Error as err:
         print(f"Error checking duplicate book: {err}")
-        # Fallback: simpler query if REGEXP_REPLACE is not supported by the MySQL version
-        try:
-            cursor.execute(
-                "SELECT id FROM books WHERE LOWER(TRIM(name)) = LOWER(%s) LIMIT 1",
-                (normalized.lower(),),
-            )
-            result = cursor.fetchone()
-            return result is not None
-        except mysql.connector.Error as err2:
-            print(f"Fallback duplicate check also failed: {err2}")
-            return False
+        return None
     finally:
         cursor.close()
         cnx.close()
+
+
+# -------------------------------------------------
 
 
 def download_file(url, folder_path, file_prefix):
@@ -91,15 +204,12 @@ def download_file(url, folder_path, file_prefix):
         response = requests.get(url, headers=HEADERS, stream=True)
         response.raise_for_status()
 
-        # Generate unique filename
         file_extension = os.path.splitext(urlparse(url).path)[1] or ".pdf"
         filename = f"{file_prefix}_{uuid.uuid4().hex[:10]}{file_extension}"
         file_path = os.path.join(folder_path, filename)
 
-        # Create directory if it doesn't exist
         os.makedirs(folder_path, exist_ok=True)
 
-        # Save the file
         with open(file_path, "wb") as f:
             for chunk in response.iter_content(chunk_size=8192):
                 f.write(chunk)
@@ -343,10 +453,9 @@ def getBook(url, name, author, image):
 def prepare_book_data(book_info):
     """Prepare book data for database insertion"""
 
-    # Normalize the name so we store a clean version
-    clean_name = (
-        normalize_name(book_info.get("name", "Unknown Title")) or "Unknown Title"
-    )
+    # Clean display name: strip + collapse whitespace only (keep original language/casing)
+    raw_name = book_info.get("name", "Unknown Title") or "Unknown Title"
+    clean_name = re.sub(r"\s+", " ", raw_name).strip() or "Unknown Title"
 
     image_filename = None
     if book_info.get("image"):
@@ -407,6 +516,9 @@ def scrap(request):
     start_page = int(request.GET.get("start") or 1)
     end_page = int(request.GET.get("end") or 3)
 
+    # Track titles saved in THIS run (prevents duplicates within the same scrape session)
+    session_titles = []
+
     try:
         for page in range(start_page, end_page):
             print(f"Scraping page {page}...")
@@ -424,43 +536,53 @@ def scrap(request):
                         book.find("div", class_="book-img")["style"]
                     )
 
-                    # --- Duplicate check BEFORE downloading anything ---
-                    if book_exists(name):
+                    # --- Fuzzy duplicate check against the DB ---
+                    existing = find_duplicate_book(name)
+                    if existing:
                         skipped_count += 1
-                        print(f"Skipping duplicate book: {name}")
+                        print(
+                            f"Skipping duplicate: '{name}'  ==  '{existing[1]}' "
+                            f"(existing id={existing[0]})"
+                        )
                         result.append(
                             {
                                 "status": "skipped",
                                 "book": name,
-                                "reason": "Already exists in database",
+                                "matched_existing": existing[1],
+                                "reason": "Already exists in database (fuzzy match)",
                             }
                         )
                         continue
-                    # ---------------------------------------------------
+
+                    # --- Also check against titles saved earlier in this same run ---
+                    dup_in_session = next(
+                        (t for t in session_titles if is_duplicate_title(name, t)),
+                        None,
+                    )
+                    if dup_in_session:
+                        skipped_count += 1
+                        print(
+                            f"Skipping duplicate in same run: '{name}'  ==  '{dup_in_session}'"
+                        )
+                        result.append(
+                            {
+                                "status": "skipped",
+                                "book": name,
+                                "matched_existing": dup_in_session,
+                                "reason": "Already scraped in this run",
+                            }
+                        )
+                        continue
+                    # -------------------------------------------
 
                     book_info = getBook(href, name, author, image)
 
                     if "error" not in book_info:
-                        # Re-check using the normalized name right before inserting,
-                        # in case the same book appeared twice on the same page.
-                        if book_exists(book_info["name"]):
-                            skipped_count += 1
-                            print(
-                                f"Skipping duplicate book (re-check): {book_info['name']}"
-                            )
-                            result.append(
-                                {
-                                    "status": "skipped",
-                                    "book": book_info["name"],
-                                    "reason": "Already exists in database",
-                                }
-                            )
-                            continue
-
                         book_data = prepare_book_data(book_info)
 
                         if send_data(book_data):
                             saved_count += 1
+                            session_titles.append(book_data["name"])
                             result.append(
                                 {
                                     "status": "success",
@@ -498,7 +620,10 @@ def scrap(request):
 
     return JsonResponse(
         {
-            "message": f"Scraping completed. Saved: {saved_count}, Skipped: {skipped_count}, Errors: {error_count}",
+            "message": (
+                f"Scraping completed. Saved: {saved_count}, "
+                f"Skipped: {skipped_count}, Errors: {error_count}"
+            ),
             "saved_count": saved_count,
             "skipped_count": skipped_count,
             "error_count": error_count,
