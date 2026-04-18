@@ -39,6 +39,52 @@ def generate_slug(text):
     return slug.strip("-")
 
 
+def normalize_name(text):
+    """Normalize a book name for comparison: strip, collapse internal whitespace."""
+    if not text:
+        return ""
+    # Collapse all whitespace (spaces, tabs, newlines) into a single space and strip
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def book_exists(name):
+    """Check if a book with the same normalized name already exists in DB."""
+    normalized = normalize_name(name)
+    if not normalized:
+        return False
+
+    cnx = mysql.connector.connect(**config)
+    cursor = cnx.cursor()
+    try:
+        # Compare after collapsing spaces on the DB side as well, case-insensitively.
+        # REGEXP_REPLACE collapses any run of whitespace into a single space,
+        # TRIM removes leading/trailing whitespace, LOWER makes it case-insensitive.
+        query = """
+            SELECT id FROM books
+            WHERE LOWER(TRIM(REGEXP_REPLACE(name, '[[:space:]]+', ' '))) = LOWER(%s)
+            LIMIT 1
+        """
+        cursor.execute(query, (normalized.lower(),))
+        result = cursor.fetchone()
+        return result is not None
+    except mysql.connector.Error as err:
+        print(f"Error checking duplicate book: {err}")
+        # Fallback: simpler query if REGEXP_REPLACE is not supported by the MySQL version
+        try:
+            cursor.execute(
+                "SELECT id FROM books WHERE LOWER(TRIM(name)) = LOWER(%s) LIMIT 1",
+                (normalized.lower(),),
+            )
+            result = cursor.fetchone()
+            return result is not None
+        except mysql.connector.Error as err2:
+            print(f"Fallback duplicate check also failed: {err2}")
+            return False
+    finally:
+        cursor.close()
+        cnx.close()
+
+
 def download_file(url, folder_path, file_prefix):
     """Download a file and save it locally"""
     try:
@@ -101,17 +147,14 @@ def get_category(category):
     if not category:
         category = "Uncategorized"
 
-    # Establish database connection
     cnx = mysql.connector.connect(**config)
     cursor = cnx.cursor()
 
     try:
-        # Check if the category exists
         query = "SELECT * FROM book_categories WHERE name = %s"
         cursor.execute(query, (category,))
         result = cursor.fetchone()
 
-        # If the category does not exist, create it
         if result is None:
             insert_query = """
                 INSERT INTO book_categories (name, slug, created_at, updated_at)
@@ -119,9 +162,8 @@ def get_category(category):
             """
             insert_data = (category, generate_slug(category), data_now, data_now)
             cursor.execute(insert_query, insert_data)
-            cnx.commit()  # Commit the transaction
+            cnx.commit()
 
-            # Retrieve the new category record
             cursor.execute(query, (category,))
             new_result = cursor.fetchone()
             return new_result[0]
@@ -136,17 +178,14 @@ def get_author(author):
     if not author:
         author = "Unknown Author"
 
-    # Establish database connection
     cnx = mysql.connector.connect(**config)
     cursor = cnx.cursor()
 
     try:
-        # Check if the author exists
         query = "SELECT * FROM authors WHERE full_name = %s"
         cursor.execute(query, (author,))
         result = cursor.fetchone()
 
-        # If the author does not exist, create it
         if result is None:
             insert_query = """
                 INSERT INTO authors (full_name, slug, created_at, updated_at)
@@ -154,9 +193,8 @@ def get_author(author):
             """
             insert_data = (author, generate_slug(author), data_now, data_now)
             cursor.execute(insert_query, insert_data)
-            cnx.commit()  # Commit the transaction
+            cnx.commit()
 
-            # Retrieve the new author record
             cursor.execute(query, (author,))
             new_result = cursor.fetchone()
             return new_result[0]
@@ -169,7 +207,6 @@ def get_author(author):
 
 def send_data(data):
     try:
-        # Establishing the connection
         cnx = mysql.connector.connect(**config)
         cursor = cnx.cursor()
 
@@ -185,11 +222,11 @@ def send_data(data):
             data.get("title"),
             data.get("file"),
             data.get("image"),
-            data.get("user_id", 1),  # Default user_id
+            data.get("user_id", 1),
             get_author(data.get("author")),
             get_category(data.get("category")),
             data.get("pages"),
-            2,  # Default language_id
+            2,
             data.get("size"),
             data.get("type", "pdf"),
             data.get("body"),
@@ -213,9 +250,8 @@ def send_data(data):
             print("Something is wrong with your user name or password")
         elif err.errno == errorcode.ER_BAD_DB_ERROR:
             print("Database does not exist")
-        elif err.errno == 1062:  # MySQL error number for duplicate entry
+        elif err.errno == 1062:
             print(f"Duplicate entry detected for book: {data.get('name')}")
-            # Remove downloaded files if they exist
             try:
                 if data.get("file"):
                     file_path = os.path.join(
@@ -246,14 +282,9 @@ def send_data(data):
 
 
 def size_format(size):
-    """
-    Convert a file size in bytes (int/float) to a human-readable string (KB, MB, GB, TB).
-    If input is already a formatted string or None, return it unchanged (or None).
-    """
     if size is None:
         return None
 
-    # If it's already a string, assume it's formatted and return as-is
     if isinstance(size, str):
         return size
 
@@ -277,7 +308,6 @@ def getBook(url, name, author, image):
         response = requests.get(url, headers=HEADERS)
         soup = BeautifulSoup(response.text, "html.parser")
 
-        # Safe extraction helpers
         def safe_text(selector):
             el = soup.select_one(selector)
             return el.text.strip() if el else None
@@ -313,14 +343,17 @@ def getBook(url, name, author, image):
 def prepare_book_data(book_info):
     """Prepare book data for database insertion"""
 
-    # Download image if available
+    # Normalize the name so we store a clean version
+    clean_name = (
+        normalize_name(book_info.get("name", "Unknown Title")) or "Unknown Title"
+    )
+
     image_filename = None
     if book_info.get("image"):
         image_filename = download_file(book_info["image"], IMAGES_FOLDER, "book_img")
         if image_filename:
             image_filename = f"book_images/{image_filename}"
 
-    # Download first available book file
     file_filename = None
     if book_info.get("download_links"):
         for link in book_info["download_links"]:
@@ -329,7 +362,6 @@ def prepare_book_data(book_info):
                 file_filename = f"book_files/{file_filename}"
                 break
 
-    # Calculate file size if file was downloaded
     file_size = None
     if file_filename:
         try:
@@ -342,11 +374,11 @@ def prepare_book_data(book_info):
             print(f"Error getting file size: {e}")
 
     return {
-        "name": book_info.get("name", "Unknown Title"),
-        "title": book_info.get("name", "Unknown Title"),
+        "name": clean_name,
+        "title": clean_name,
         "file": file_filename,
         "image": image_filename,
-        "user_id": 1,  # Default user
+        "user_id": 1,
         "author": book_info.get("author", "Unknown Author"),
         "category": book_info.get("category", "Uncategorized"),
         "pages": int(book_info.get("pages", 0)) if book_info.get("pages") else None,
@@ -355,13 +387,13 @@ def prepare_book_data(book_info):
         "body": book_info.get("description", ""),
         "description": book_info.get("description", ""),
         "is_public": 0,
-        "slug": generate_slug(book_info.get("name", "")),
+        "slug": generate_slug(clean_name),
         "tags": book_info.get("category", ""),
         "created_at": data_now,
         "updated_at": data_now,
         "isbn": None,
-        "language_id" : 2,
-        'verified': 0
+        "language_id": 2,
+        "verified": 0,
     }
 
 
@@ -370,12 +402,13 @@ def scrap(request):
     result = []
     saved_count = 0
     error_count = 0
+    skipped_count = 0
 
     start_page = int(request.GET.get("start") or 1)
     end_page = int(request.GET.get("end") or 3)
 
     try:
-        for page in range(start_page, end_page):  # Scrape first 2 pages
+        for page in range(start_page, end_page):
             print(f"Scraping page {page}...")
             url = f"https://mktbtypdf.com/library/page/{page}/"
             response = requests.get(url, headers=HEADERS)
@@ -391,20 +424,47 @@ def scrap(request):
                         book.find("div", class_="book-img")["style"]
                     )
 
-                    # Get detailed book information
+                    # --- Duplicate check BEFORE downloading anything ---
+                    if book_exists(name):
+                        skipped_count += 1
+                        print(f"Skipping duplicate book: {name}")
+                        result.append(
+                            {
+                                "status": "skipped",
+                                "book": name,
+                                "reason": "Already exists in database",
+                            }
+                        )
+                        continue
+                    # ---------------------------------------------------
+
                     book_info = getBook(href, name, author, image)
 
                     if "error" not in book_info:
-                        # Prepare data for database
+                        # Re-check using the normalized name right before inserting,
+                        # in case the same book appeared twice on the same page.
+                        if book_exists(book_info["name"]):
+                            skipped_count += 1
+                            print(
+                                f"Skipping duplicate book (re-check): {book_info['name']}"
+                            )
+                            result.append(
+                                {
+                                    "status": "skipped",
+                                    "book": book_info["name"],
+                                    "reason": "Already exists in database",
+                                }
+                            )
+                            continue
+
                         book_data = prepare_book_data(book_info)
 
-                        # Save to database
                         if send_data(book_data):
                             saved_count += 1
                             result.append(
                                 {
                                     "status": "success",
-                                    "book": book_info["name"],
+                                    "book": book_data["name"],
                                     "author": book_info["author"],
                                 }
                             )
@@ -438,8 +498,9 @@ def scrap(request):
 
     return JsonResponse(
         {
-            "message": f"Scraping completed. Saved: {saved_count}, Errors: {error_count}",
+            "message": f"Scraping completed. Saved: {saved_count}, Skipped: {skipped_count}, Errors: {error_count}",
             "saved_count": saved_count,
+            "skipped_count": skipped_count,
             "error_count": error_count,
             "results": result,
         },
