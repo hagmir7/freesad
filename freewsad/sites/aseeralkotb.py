@@ -311,44 +311,60 @@ def similarity(a, b):
     return SequenceMatcher(None, a, b).ratio()
 
 
-def is_duplicate_title(new_title, existing_title, threshold=0.85):
+def is_duplicate_title(new_title, existing_title, threshold=0.92):
+    """
+    STRICT duplicate detection. Returns True only when the two titles
+    almost certainly refer to the same book.
+
+    Duplicates (will skip):
+      - Exact match after normalization (which strips stopwords like
+        'book', 'كتاب', 'PDF', 'the', 'رواية'):
+          'Rich Dad Poor Dad book' == 'Rich Dad Poor Dad'
+          'كتاب الأب الغني' == 'الأب الغني'
+          'رواية السيلماريلين' == 'السيلماريلين'
+      - Same main title, one has a subtitle after ':' / '-' / '—' / '|':
+          'استرداد عمر' == 'استرداد عمر : من السيرة إلى المسيرة'
+      - Very high fuzzy similarity (>= 0.92) -- only catches typos.
+
+    Treated as NEW (will save):
+      - Structurally different titles that happen to share words:
+          'الأعمال الكاملة لمجيد طوبيا' vs 'المجموعة الكاملة' -> NEW
+      - Series entries and extended titles without subtitle punctuation:
+          'Dune' vs 'Dune Messiah' -> NEW
+          '1984' vs '1984 and Animal Farm' -> NEW
+          'Harry Potter' vs 'Harry Potter and the Philosopher's Stone' -> NEW
+    """
     a = normalize_name(new_title)
     b = normalize_name(existing_title)
     if not a or not b:
         return False
+
+    # 1. Exact match after normalization (stopwords removed)
     if a == b:
         return True
 
-    # Rule: subtitle-stripping. If either title has ':', '-', '—', '|' followed
-    # by a subtitle, compare the main-title parts. Handles:
-    #   'استرداد عمر' vs 'استرداد عمر : من السيرة إلى المسيرة'
-    #   'Rich Dad Poor Dad' vs 'Rich Dad Poor Dad: The Classic'
+    # 2. Subtitle rule: compare main-title parts (before ':', '-', '—', '|').
+    #    Only triggers when there's an EXPLICIT subtitle separator.
     a_main = normalize_name(main_title_only(new_title))
     b_main = normalize_name(main_title_only(existing_title))
-    if a_main and b_main:
-        if a_main == b_main:
-            return True
-        if a_main == b or b_main == a:
-            return True
 
-    tokens_a = set(a.split())
-    tokens_b = set(b.split())
-    if not tokens_a or not tokens_b:
-        return False
-    shorter, longer = (
-        (tokens_a, tokens_b) if len(tokens_a) <= len(tokens_b) else (tokens_b, tokens_a)
-    )
-    if (
-        len(shorter) >= 2
-        and shorter.issubset(longer)
-        and len(shorter) / len(longer) >= 0.6
-    ):
+    # Both sides have the same main title (both titles have a subtitle, or
+    # their normalized main-title portions coincide)
+    if a_main and b_main and a_main == b_main:
         return True
-    if len(shorter) == 1 and shorter.issubset(longer):
-        only_token = next(iter(shorter))
-        if len(only_token) >= 6:
-            return True
-    return similarity(a, b) >= threshold
+
+    # One side is exactly the other's main title (requires the other side
+    # to actually have had a subtitle, i.e. main != full)
+    if a == a_main and b_main and b != b_main and a_main == b_main:
+        return True
+    if b == b_main and a_main and a != a_main and b_main == a_main:
+        return True
+
+    # 3. Very high fuzzy similarity -- catches typos and minor punctuation
+    if similarity(a, b) >= threshold:
+        return True
+
+    return False
 
 
 def find_duplicate_book(name):
@@ -867,7 +883,7 @@ def prepare_and_save_book(book_info):
         "file": None,
         "is_public": 0,
         "slug": generate_slug(clean_name),
-        "site_id": 6,
+        "site_id": book_info.get("source_id"),
         "copyright_date": copyright_date,
         "verified": 0,
         "isbn": book_info.get("isbn"),
